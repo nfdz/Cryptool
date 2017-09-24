@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin">
+
+            <!-- Dummy item to prevent et_passphrase from receiving focus -->
+            <LinearLayout
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_width="0px"
+                android:layout_height="0px"/>
+
+            <!-- Passphrase -->
+            <ImageView
+                android:id="@+id/iv_passphrase_icon"
+                android:layout_width="@dimen/passphrase_icon_size"
+                android:layout_height="@dimen/passphrase_icon_size"
+                android:adjustViewBounds="true"
+                app:layout_constraintTop_toBottomOf="@+id/et_passphrase"
+                app:layout_constraintBottom_toTopOf="@+id/et_passphrase"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/ic_key"/>
+
+            <EditText
+                android:id="@+id/et_passphrase"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Passphrase"
+                android:padding="@dimen/passphrase_padding"
+                android:textAlignment="center"
+                android:background="@drawable/rounded_box_selector"
+                app:layout_constraintLeft_toRightOf="@+id/iv_passphrase_icon"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Original Text -->
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/colorOriginalTextBg"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_original_label"
+                app:layout_constraintBottom_toBottomOf="@+id/et_original_text"/>
+
+            <ImageView
+                android:id="@+id/iv_original_icon"
+                android:layout_width="@dimen/text_title_icon_size"
+                android:layout_height="@dimen/text_title_icon_size"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_original_label"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginLeft="@dimen/text_title_icon_horizontal_margin"
+                app:srcCompat="@drawable/ic_no_encryption"/>
+
+            <TextView
+                android:id="@+id/tv_original_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toRightOf="@+id/iv_original_icon"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_passphrase"
+                android:layout_marginTop="@dimen/text_original_top_margin"
+                android:paddingLeft="@dimen/text_title_horizontal_padding"
+                android:paddingRight="@dimen/text_title_horizontal_padding"
+                android:paddingTop="@dimen/text_title_top_padding"
+                android:textColor="@color/colorOriginalText"
+                android:text="Original text:"/>
+
+            <EditText
+                android:id="@+id/et_original_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_original_label"
+                android:textColor="@color/colorOriginalText"
+                android:textSize="@dimen/text_content_size"
+                android:paddingTop="@dimen/text_content_padding"
+                android:paddingBottom="@dimen/text_content_padding"
+                android:layout_marginLeft="@dimen/text_content_padding"
+                android:layout_marginRight="@dimen/text_content_padding"/>
+
+            <ImageButton
+                android:id="@+id/ib_original_copy"
+                android:layout_width="@dimen/copypaste_icon_size"
+                android:layout_height="@dimen/copypaste_icon_size"
+                app:srcCompat="@drawable/ic_content_copy"
+                android:background="@drawable/original_copypaste_ripple"
+                android:adjustViewBounds="true"
+                app:layout_constraintTop_toBottomOf="@+id/et_original_text"
+                android:scaleType="centerInside"
+                android:padding="@dimen/copypaste_icon_padding" />
+
+            <ImageButton
+                android:id="@+id/ib_original_paste"
+                android:layout_width="@dimen/copypaste_icon_size"
+                android:layout_height="@dimen/copypaste_icon_size"
+                app:srcCompat="@drawable/ic_content_paste"
+                android:background="@drawable/original_copypaste_ripple"
+                android:adjustViewBounds="true"
+                app:layout_constraintTop_toBottomOf="@+id/et_original_text"
+                app:layout_constraintRight_toRightOf="parent"
+                android:scaleType="centerInside"
+                android:padding="@dimen/copypaste_icon_padding" />
+
+            <!-- Processed Text -->
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/colorProcessedTextBg"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_processed_label"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_processed_text"/>
+
+            <ImageView
+                android:id="@+id/iv_processed_icon"
+                android:layout_width="@dimen/text_title_icon_size"
+                android:layout_height="@dimen/text_title_icon_size"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_processed_label"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginLeft="@dimen/text_title_icon_horizontal_margin"
+                app:srcCompat="@drawable/ic_encryption_light"/>
+
+            <TextView
+                android:id="@+id/tv_processed_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toRightOf="@+id/iv_processed_icon"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ib_original_paste"
+                android:layout_marginTop="@dimen/text_processed_top_margin"
+                android:paddingLeft="@dimen/text_title_horizontal_padding"
+                android:paddingRight="@dimen/text_title_horizontal_padding"
+                android:paddingTop="@dimen/text_title_top_padding"
+                android:textColor="@color/colorProcessedText"
+                android:text="Processed text:"/>
+
+            <TextView
+                android:id="@+id/tv_processed_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_processed_label"
+                android:textColor="@color/colorProcessedText"
+                android:text="Hola mundo"
+                android:textSize="@dimen/text_content_size"
+                android:padding="@dimen/text_content_padding" />
+
+            <ImageButton
+                android:id="@+id/ib_processed_copy"
+                android:layout_width="@dimen/copypaste_icon_size"
+                android:layout_height="@dimen/copypaste_icon_size"
+                app:srcCompat="@drawable/ic_content_copy_light"
+                android:background="@drawable/processed_copypaste_ripple"
+                android:adjustViewBounds="true"
+                app:layout_constraintTop_toBottomOf="@+id/tv_processed_text"
+                android:scaleType="centerInside"
+                android:padding="@dimen/copypaste_icon_padding" />
+
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@drawable/ic_reverse" />
+
+</android.support.design.widget.CoordinatorLayout>
