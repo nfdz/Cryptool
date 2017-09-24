@@ -165,6 +165,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_processed_label"
                 android:textColor="@color/colorProcessedText"
+                android:textIsSelectable="true"
                 android:text="Hola mundo"
                 android:textSize="@dimen/text_content_size"
                 android:padding="@dimen/text_content_padding" />
@@ -185,7 +186,7 @@
     </ScrollView>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/fab_reverse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
