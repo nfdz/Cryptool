@@ -31,7 +31,7 @@
                 android:text="@string/app_name"
                 android:textAllCaps="true"
                 android:textStyle="bold"
-                android:textSize="26dp"
+                android:textSize="@dimen/toolbar_title_size"
                 android:textColor="@android:color/white"/>
 
         </android.support.v7.widget.Toolbar>
@@ -159,8 +159,8 @@
 
             <ProgressBar
                 android:id="@+id/pb_processed_loading"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="@dimen/processed_loading"
+                android:layout_height="@dimen/processed_loading"
                 android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="@+id/tv_processed_text"
                 app:layout_constraintRight_toRightOf="@+id/tv_processed_text"

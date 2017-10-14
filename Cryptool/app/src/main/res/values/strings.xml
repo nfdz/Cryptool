@@ -8,4 +8,6 @@
     <string name="copy_clipboard_empty">There is no text to copy</string>
 
     <string name="paste_clipboard_empty">There is no text to paste</string>
+
+    <string name="open_tool_ball_title">Open tool ball mode</string>
 </resources>

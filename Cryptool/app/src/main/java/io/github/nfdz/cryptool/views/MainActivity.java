@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -13,12 +14,16 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,8 +31,14 @@ import butterknife.OnClick;
 import io.github.nfdz.cryptool.R;
 import io.github.nfdz.cryptool.presenters.CryptoolPresenter;
 import io.github.nfdz.cryptool.presenters.CryptoolPresenterImpl;
+import io.github.nfdz.cryptool.services.ToolBallService;
+import io.github.nfdz.cryptool.utils.OverlayPermissionHelper;
 
-public class MainActivity extends AppCompatActivity implements CryptoolView {
+public class MainActivity extends AppCompatActivity implements CryptoolView, OverlayPermissionHelper.Callback {
+
+    public static void start(Context context) {
+        context.startActivity(new Intent(context, MainActivity.class));
+    }
 
     @BindView(R.id.root) View rootView;
     @BindView(R.id.toolbar) Toolbar toolbar;
@@ -48,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements CryptoolView {
 
     private CryptoolPresenter presenter;
     private @Mode int mode;
+    private OverlayPermissionHelper permissionHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements CryptoolView {
         hideHintWhenFocus(passPhrase);
         setTextListeners();
         setEncryptMode();
+        permissionHelper = new OverlayPermissionHelper(this, this);
         presenter = new CryptoolPresenterImpl(this);
         presenter.onCreate(savedInstanceState);
     }
@@ -113,6 +126,31 @@ public class MainActivity extends AppCompatActivity implements CryptoolView {
     protected void onDestroy() {
         super.onDestroy();
         presenter.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        permissionHelper.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.open_tool_ball:
+                // ensure that it has permission and handle this action in its callback
+                permissionHelper.request();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @OnClick(R.id.fab_toggle_mode)
@@ -283,5 +321,18 @@ public class MainActivity extends AppCompatActivity implements CryptoolView {
         processedTextLabel.setTextColor(ContextCompat.getColor(this, R.color.colorPlainText));
         processedTextLabel.setText(R.string.plain_text_label);
         processedIcon.setImageResource(R.drawable.ic_no_encryption);
+    }
+
+    @Override
+    public void onPermissionGranted() {
+        ToolBallService.start(this);
+        finish();
+    }
+
+    @Override
+    public void onPermissionDenied() {
+        Toast.makeText(this,
+                "Draw over other app permission not available.",
+                Toast.LENGTH_SHORT).show();
     }
 }

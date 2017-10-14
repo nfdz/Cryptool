@@ -25,5 +25,8 @@
     <dimen name="copypaste_icon_size">42dp</dimen>
     <dimen name="copypaste_icon_padding">12dp</dimen>
 
+    <dimen name="processed_loading">35dp</dimen>
+
+    <dimen name="toolbar_title_size">24dp</dimen>
 
 </resources>
