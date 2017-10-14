@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Cryptool</string>
+
+
+
+    <string name="plain_text_label">Plain text:</string>
+    <string name="encrypted_text_label">Encrypted text:</string>
+
 </resources>

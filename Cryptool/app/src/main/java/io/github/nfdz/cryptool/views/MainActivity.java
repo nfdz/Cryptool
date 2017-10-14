@@ -1,11 +1,17 @@
 package io.github.nfdz.cryptool.views;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -17,20 +23,42 @@ import io.github.nfdz.cryptool.presenters.CryptoolPresenterImpl;
 
 public class MainActivity extends AppCompatActivity implements CryptoolView {
 
+    @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.et_passphrase) EditText passPhrase;
     @BindView(R.id.et_original_text) EditText originalText;
     @BindView(R.id.tv_processed_text) TextView processedText;
 
-    private CryptoolPresenter presenter = new CryptoolPresenterImpl();
+    @BindView(R.id.v_original_bg) View originalBg;
+    @BindView(R.id.ib_original_copy) ImageButton originalCopy;
+    @BindView(R.id.ib_original_paste) ImageButton originalPaste;
+    @BindView(R.id.iv_original_icon) ImageView originalIcon;
+    @BindView(R.id.tv_original_label) TextView originalTextLabel;
+    @BindView(R.id.v_processed_bg) View processedBg;
+    @BindView(R.id.ib_processed_copy) ImageButton processedCopy;
+    @BindView(R.id.iv_processed_icon) ImageView processedIcon;
+    @BindView(R.id.tv_processed_label) TextView processedTextLabel;
+    @BindView(R.id.pb_processed_loading) ProgressBar loading;
+
+    private CryptoolPresenter presenter;
+    private @Mode int mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        setToolbar();
         hideHintWhenFocus(passPhrase);
         setTextListeners();
+        setEncryptMode();
+        presenter = new CryptoolPresenterImpl(this);
         presenter.onCreate(savedInstanceState);
+    }
+
+    private void setToolbar() {
+        setSupportActionBar(toolbar);
+        ActionBar ab = getSupportActionBar();
+        if (ab != null) ab.setTitle("");
     }
 
     private void hideHintWhenFocus(final EditText editText) {
@@ -122,5 +150,87 @@ public class MainActivity extends AppCompatActivity implements CryptoolView {
     @Override
     public String getPassphrase() {
         return passPhrase.getText().toString();
+    }
+
+    @Override
+    public void showLoading() {
+        loading.setVisibility(View.VISIBLE);
+        loading.bringToFront();
+    }
+
+    @Override
+    public void hideLoading() {
+        loading.setVisibility(View.GONE);
+    }
+
+    @Override
+    public int getMode() {
+        return mode;
+    }
+
+    @Override
+    public void setMode(@Mode int mode) {
+        if (mode == ENCRYIPT_MODE) {
+            setEncryptMode();
+        } else {
+            setDecryptMode();
+        }
+    }
+
+    @Override
+    public void toggleMode() {
+        if (mode == ENCRYIPT_MODE) {
+            setDecryptMode();
+        } else {
+            setEncryptMode();
+        }
+    }
+
+    private void setEncryptMode() {
+        mode = ENCRYIPT_MODE;
+
+        // Set plain text style in original text views
+        originalBg.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPlainTextBg));
+        originalCopy.setBackground(ContextCompat.getDrawable(this, R.drawable.plain_text_copypaste_ripple));
+        originalCopy.setImageResource(R.drawable.ic_content_copy);
+        originalPaste.setBackground(ContextCompat.getDrawable(this, R.drawable.plain_text_copypaste_ripple));
+        originalPaste.setImageResource(R.drawable.ic_content_paste);
+        originalText.setTextColor(ContextCompat.getColor(this, R.color.colorPlainText));
+        originalTextLabel.setTextColor(ContextCompat.getColor(this, R.color.colorPlainText));
+        originalTextLabel.setText(R.string.plain_text_label);
+        originalIcon.setImageResource(R.drawable.ic_no_encryption);
+
+        // Set encrypted text style in processed text views
+        processedBg.setBackgroundColor(ContextCompat.getColor(this, R.color.colorEncryptedTextBg));
+        processedCopy.setBackground(ContextCompat.getDrawable(this, R.drawable.encrypted_text_copypaste_ripple));
+        processedCopy.setImageResource(R.drawable.ic_content_copy_light);
+        processedText.setTextColor(ContextCompat.getColor(this, R.color.colorEncryptedText));
+        processedTextLabel.setTextColor(ContextCompat.getColor(this, R.color.colorEncryptedText));
+        processedTextLabel.setText(R.string.encrypted_text_label);
+        processedIcon.setImageResource(R.drawable.ic_encryption_light);
+    }
+
+    private void setDecryptMode() {
+        mode = DECRYIPT_MODE;
+
+        // Set encrypted text style in original text views
+        originalBg.setBackgroundColor(ContextCompat.getColor(this, R.color.colorEncryptedTextBg));
+        originalCopy.setBackground(ContextCompat.getDrawable(this, R.drawable.encrypted_text_copypaste_ripple));
+        originalCopy.setImageResource(R.drawable.ic_content_copy_light);
+        originalPaste.setBackground(ContextCompat.getDrawable(this, R.drawable.encrypted_text_copypaste_ripple));
+        originalPaste.setImageResource(R.drawable.ic_content_paste_light);
+        originalText.setTextColor(ContextCompat.getColor(this, R.color.colorEncryptedText));
+        originalTextLabel.setTextColor(ContextCompat.getColor(this, R.color.colorEncryptedText));
+        originalTextLabel.setText(R.string.encrypted_text_label);
+        originalIcon.setImageResource(R.drawable.ic_encryption_light);
+
+        // Set plain text style in processed text views
+        processedBg.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPlainTextBg));
+        processedCopy.setBackground(ContextCompat.getDrawable(this, R.drawable.plain_text_copypaste_ripple));
+        processedCopy.setImageResource(R.drawable.ic_content_copy);
+        processedText.setTextColor(ContextCompat.getColor(this, R.color.colorPlainText));
+        processedTextLabel.setTextColor(ContextCompat.getColor(this, R.color.colorPlainText));
+        processedTextLabel.setText(R.string.plain_text_label);
+        processedIcon.setImageResource(R.drawable.ic_no_encryption);
     }
 }

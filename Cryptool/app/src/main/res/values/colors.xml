@@ -5,8 +5,8 @@
     <color name="colorPrimaryLight">#6d6d6d</color>
     <color name="colorAccent">#006064</color>
 
-    <color name="colorOriginalTextBg">#FFFFFF</color>
-    <color name="colorOriginalText">#000000</color>
-    <color name="colorProcessedTextBg">@color/colorPrimary</color>
-    <color name="colorProcessedText">#FFFFFF</color>
+    <color name="colorPlainTextBg">#FFFFFF</color>
+    <color name="colorPlainText">#000000</color>
+    <color name="colorEncryptedTextBg">@color/colorPrimary</color>
+    <color name="colorEncryptedText">#FFFFFF</color>
 </resources>

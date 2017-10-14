@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,9 +6,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <ScrollView
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/app_name"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textSize="26dp"
+                android:textColor="@android:color/white"/>
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -34,6 +65,7 @@
                 android:adjustViewBounds="true"
                 app:layout_constraintTop_toBottomOf="@+id/et_passphrase"
                 app:layout_constraintBottom_toTopOf="@+id/et_passphrase"
+                app:layout_constraintLeft_toLeftOf="parent"
                 android:scaleType="centerInside"
                 app:srcCompat="@drawable/ic_key"/>
 
@@ -51,9 +83,10 @@
 
             <!-- Original Text -->
             <View
+                android:id="@+id/v_original_bg"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@color/colorOriginalTextBg"
+                android:background="@color/colorPlainTextBg"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_original_label"
@@ -81,8 +114,8 @@
                 android:paddingLeft="@dimen/text_title_horizontal_padding"
                 android:paddingRight="@dimen/text_title_horizontal_padding"
                 android:paddingTop="@dimen/text_title_top_padding"
-                android:textColor="@color/colorOriginalText"
-                android:text="Original text:"/>
+                android:textColor="@color/colorPlainText"
+                tools:text="Original text:"/>
 
             <EditText
                 android:id="@+id/et_original_text"
@@ -91,7 +124,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_original_label"
-                android:textColor="@color/colorOriginalText"
+                android:textColor="@color/colorPlainText"
                 android:textSize="@dimen/text_content_size"
                 android:paddingTop="@dimen/text_content_padding"
                 android:paddingBottom="@dimen/text_content_padding"
@@ -103,7 +136,7 @@
                 android:layout_width="@dimen/copypaste_icon_size"
                 android:layout_height="@dimen/copypaste_icon_size"
                 app:srcCompat="@drawable/ic_content_copy"
-                android:background="@drawable/original_copypaste_ripple"
+                android:background="@drawable/plain_text_copypaste_ripple"
                 android:adjustViewBounds="true"
                 app:layout_constraintTop_toBottomOf="@+id/et_original_text"
                 android:scaleType="centerInside"
@@ -114,7 +147,7 @@
                 android:layout_width="@dimen/copypaste_icon_size"
                 android:layout_height="@dimen/copypaste_icon_size"
                 app:srcCompat="@drawable/ic_content_paste"
-                android:background="@drawable/original_copypaste_ripple"
+                android:background="@drawable/plain_text_copypaste_ripple"
                 android:adjustViewBounds="true"
                 app:layout_constraintTop_toBottomOf="@+id/et_original_text"
                 app:layout_constraintRight_toRightOf="parent"
@@ -123,10 +156,21 @@
 
             <!-- Processed Text -->
 
+            <ProgressBar
+                android:id="@+id/pb_processed_loading"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="@+id/tv_processed_text"
+                app:layout_constraintRight_toRightOf="@+id/tv_processed_text"
+                app:layout_constraintTop_toTopOf="@+id/tv_processed_text"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_processed_text"/>
+
             <View
+                android:id="@+id/v_processed_bg"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@color/colorProcessedTextBg"
+                android:background="@color/colorEncryptedTextBg"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_processed_label"
@@ -154,8 +198,8 @@
                 android:paddingLeft="@dimen/text_title_horizontal_padding"
                 android:paddingRight="@dimen/text_title_horizontal_padding"
                 android:paddingTop="@dimen/text_title_top_padding"
-                android:textColor="@color/colorProcessedText"
-                android:text="Processed text:"/>
+                android:textColor="@color/colorEncryptedText"
+                tools:text="Processed text:"/>
 
             <TextView
                 android:id="@+id/tv_processed_text"
@@ -164,9 +208,9 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_processed_label"
-                android:textColor="@color/colorProcessedText"
+                android:textColor="@color/colorEncryptedText"
                 android:textIsSelectable="true"
-                android:text="Hola mundo"
+                tools:text="wqefio25s24s5sabui43asd28"
                 android:textSize="@dimen/text_content_size"
                 android:padding="@dimen/text_content_padding" />
 
@@ -175,7 +219,7 @@
                 android:layout_width="@dimen/copypaste_icon_size"
                 android:layout_height="@dimen/copypaste_icon_size"
                 app:srcCompat="@drawable/ic_content_copy_light"
-                android:background="@drawable/processed_copypaste_ripple"
+                android:background="@drawable/encrypted_text_copypaste_ripple"
                 android:adjustViewBounds="true"
                 app:layout_constraintTop_toBottomOf="@+id/tv_processed_text"
                 android:scaleType="centerInside"
@@ -183,7 +227,7 @@
 
 
         </android.support.constraint.ConstraintLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_reverse"

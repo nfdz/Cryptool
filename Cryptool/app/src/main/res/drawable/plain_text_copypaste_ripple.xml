@@ -10,5 +10,5 @@
     </item>
     <item
         android:id="@android:id/background"
-        android:drawable="@color/colorOriginalTextBg" />
+        android:drawable="@color/colorPlainTextBg" />
 </ripple>
