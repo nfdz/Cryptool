@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name">Cryptool</string>
 
+    <string name="plain_text_label">Plain text</string>
+    <string name="encrypted_text_label">Encrypted text</string>
 
+    <string name="copy_clipboard_success">Successfully copied to clipboard</string>
+    <string name="copy_clipboard_empty">There is no text to copy</string>
 
-    <string name="plain_text_label">Plain text:</string>
-    <string name="encrypted_text_label">Encrypted text:</string>
-
+    <string name="paste_clipboard_empty">There is no text to paste</string>
 </resources>

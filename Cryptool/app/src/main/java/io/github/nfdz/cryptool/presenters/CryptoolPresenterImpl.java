@@ -56,22 +56,7 @@ public class CryptoolPresenterImpl implements CryptoolPresenter {
     }
 
     @Override
-    public void onCopyOriginalTextClick() {
-
-    }
-
-    @Override
-    public void onPasteOriginalTextClick() {
-
-    }
-
-    @Override
-    public void onCopyProcessedTextClick() {
-
-    }
-
-    @Override
-    public void onReverseClick() {
+    public void onToggleModeClick() {
         view.toggleMode();
     }
 }

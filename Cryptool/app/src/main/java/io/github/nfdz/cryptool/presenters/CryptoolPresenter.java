@@ -9,10 +9,6 @@ public interface CryptoolPresenter {
 
     void onPassphraseTextChanged();
     void onOriginalTextChanged();
-
-    void onCopyOriginalTextClick();
-    void onPasteOriginalTextClick();
-    void onCopyProcessedTextClick();
-    void onReverseClick();
+    void onToggleModeClick();
 
 }

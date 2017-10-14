@@ -1,11 +1,17 @@
 package io.github.nfdz.cryptool.views;
 
+import android.content.ClipData;
+import android.content.ClipDescription;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -23,6 +29,7 @@ import io.github.nfdz.cryptool.presenters.CryptoolPresenterImpl;
 
 public class MainActivity extends AppCompatActivity implements CryptoolView {
 
+    @BindView(R.id.root) View rootView;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.et_passphrase) EditText passPhrase;
     @BindView(R.id.et_original_text) EditText originalText;
@@ -102,24 +109,62 @@ public class MainActivity extends AppCompatActivity implements CryptoolView {
         presenter.onSaveInstanceState(outState);
     }
 
-    @OnClick(R.id.fab_reverse)
-    public void onReverseClick() {
-        presenter.onReverseClick();
+    @OnClick(R.id.fab_toggle_mode)
+    public void onToggleModeClick() {
+        presenter.onToggleModeClick();
     }
 
     @OnClick(R.id.ib_original_copy)
     public void onCopyOriginalTextClick() {
-        presenter.onCopyOriginalTextClick();
+        String text = getOriginalText();
+        if (TextUtils.isEmpty(text)) {
+            showMessage(getString(R.string.copy_clipboard_empty));
+        } else {
+            ClipboardManager clipboard = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+            String label = getString(mode == ENCRYIPT_MODE ? R.string.plain_text_label : R.string.encrypted_text_label);
+            ClipData clip = ClipData.newPlainText(label, text);
+            clipboard.setPrimaryClip(clip);
+            showMessage(getString(R.string.copy_clipboard_success));
+        }
     }
 
     @OnClick(R.id.ib_original_paste)
     public void onPasteOriginalTextClick() {
-        presenter.onPasteOriginalTextClick();
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        if (!(clipboard.hasPrimaryClip())) {
+            showMessage(getString(R.string.paste_clipboard_empty));
+        } else if (!(clipboard.getPrimaryClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN))) {
+            showMessage(getString(R.string.paste_clipboard_empty));
+        } else {
+            ClipData.Item item = clipboard.getPrimaryClip().getItemAt(0);
+            CharSequence pasteData = item.getText();
+            if (TextUtils.isEmpty(pasteData)) {
+                showMessage(getString(R.string.paste_clipboard_empty));
+            } else {
+                originalText.append(pasteData.toString());
+            }
+        }
     }
 
     @OnClick(R.id.ib_processed_copy)
     public void onCopyProcessedTextClick() {
-        presenter.onCopyProcessedTextClick();
+        String text = getProcessedText();
+        if (TextUtils.isEmpty(text)) {
+            showMessage(getString(R.string.copy_clipboard_empty));
+        } else {
+            ClipboardManager clipboard = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+            String label = getString(mode == ENCRYIPT_MODE ? R.string.encrypted_text_label : R.string.plain_text_label);
+            ClipData clip = ClipData.newPlainText(label, text);
+            clipboard.setPrimaryClip(clip);
+            showMessage(getString(R.string.copy_clipboard_success));
+        }
+    }
+
+    private void showMessage(String message) {
+        Snackbar snackbar = Snackbar.make(rootView, message, Snackbar.LENGTH_LONG);
+        View snackBarView = snackbar.getView();
+        snackBarView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        snackbar.show();
     }
 
     @Override
