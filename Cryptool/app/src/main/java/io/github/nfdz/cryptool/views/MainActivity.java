@@ -109,6 +109,12 @@ public class MainActivity extends AppCompatActivity implements CryptoolView {
         presenter.onSaveInstanceState(outState);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.onDestroy();
+    }
+
     @OnClick(R.id.fab_toggle_mode)
     public void onToggleModeClick() {
         presenter.onToggleModeClick();

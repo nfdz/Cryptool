@@ -6,6 +6,7 @@ public interface CryptoolPresenter {
 
     void onCreate(Bundle savedInstanceState);
     void onSaveInstanceState(Bundle outState);
+    void onDestroy();
 
     void onPassphraseTextChanged();
     void onOriginalTextChanged();
