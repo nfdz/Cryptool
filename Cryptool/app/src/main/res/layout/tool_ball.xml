@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/iv_tool_ball"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="@dimen/toolball_size"
+        android:layout_height="@dimen/toolball_size"
+        android:layout_marginTop="@dimen/toolball_margin_top"
         android:src="@mipmap/ic_launcher"
         tools:ignore="ContentDescription"/>
 
     <!--Close button-->
     <ImageView
         android:id="@+id/iv_close"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
-        android:layout_marginLeft="40dp"
-        android:src="@drawable/ic_close_light"
+        android:layout_width="@dimen/toolball_close_size"
+        android:layout_height="@dimen/toolball_close_size"
+        android:layout_marginLeft="@dimen/toolball_close_margin_left"
+        android:src="@drawable/ic_close"
         android:background="@drawable/circle_light"
         tools:ignore="ContentDescription"/>
 

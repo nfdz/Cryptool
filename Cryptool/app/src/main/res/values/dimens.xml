@@ -29,4 +29,9 @@
 
     <dimen name="toolbar_title_size">24dp</dimen>
 
+    <dimen name="toolball_size">60dp</dimen>
+    <dimen name="toolball_margin_top">8dp</dimen>
+    <dimen name="toolball_close_size">26dp</dimen>
+    <dimen name="toolball_close_margin_left">40dp</dimen>
+
 </resources>

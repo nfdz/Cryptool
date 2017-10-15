@@ -53,9 +53,7 @@ public class ToolBallService extends Service {
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT);
 
-        params.gravity = Gravity.TOP | Gravity.LEFT;
-        params.x = 0;
-        params.y = 100;
+        params.gravity = Gravity.CENTER_VERTICAL | Gravity.RIGHT;
 
         return params;
     }
@@ -93,10 +91,7 @@ public class ToolBallService extends Service {
                         return true;
                     case MotionEvent.ACTION_UP:
                         if (lastAction == MotionEvent.ACTION_DOWN) {
-                            // TODO
-                            Intent intent = new Intent(ToolBallService.this, MainActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
+                            FloatingToolService.start(ToolBallService.this);
                             stopSelf();
                         }
                         lastAction = event.getAction();
