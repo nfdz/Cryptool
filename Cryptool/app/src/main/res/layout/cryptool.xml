@@ -18,7 +18,7 @@
         android:layout_height="0px"/>
 
     <!-- Passphrase -->
-    <ImageView
+    <android.support.v7.widget.AppCompatImageView
         android:id="@+id/iv_passphrase_icon"
         android:layout_width="@dimen/passphrase_icon_size"
         android:layout_height="@dimen/passphrase_icon_size"
@@ -62,7 +62,7 @@
         app:layout_constraintTop_toTopOf="@+id/tv_original_label"
         app:layout_constraintBottom_toBottomOf="@+id/et_original_text"/>
 
-    <ImageView
+    <android.support.v7.widget.AppCompatImageView
         android:id="@+id/iv_original_icon"
         android:layout_width="@dimen/text_title_icon_size"
         android:layout_height="@dimen/text_title_icon_size"
@@ -101,7 +101,7 @@
         android:layout_marginLeft="@dimen/text_content_padding"
         android:layout_marginRight="@dimen/text_content_padding"/>
 
-    <ImageButton
+    <android.support.v7.widget.AppCompatImageButton
         android:id="@+id/ib_original_copy"
         android:layout_width="@dimen/copypaste_icon_size"
         android:layout_height="@dimen/copypaste_icon_size"
@@ -112,7 +112,7 @@
         android:scaleType="centerInside"
         android:padding="@dimen/copypaste_icon_padding" />
 
-    <ImageButton
+    <android.support.v7.widget.AppCompatImageButton
         android:id="@+id/ib_original_paste"
         android:layout_width="@dimen/copypaste_icon_size"
         android:layout_height="@dimen/copypaste_icon_size"
@@ -146,7 +146,7 @@
         app:layout_constraintTop_toTopOf="@+id/tv_processed_label"
         app:layout_constraintBottom_toBottomOf="@+id/tv_processed_text"/>
 
-    <ImageView
+    <android.support.v7.widget.AppCompatImageView
         android:id="@+id/iv_processed_icon"
         android:layout_width="@dimen/text_title_icon_size"
         android:layout_height="@dimen/text_title_icon_size"
@@ -184,7 +184,7 @@
         android:textSize="@dimen/text_content_size"
         android:padding="@dimen/text_content_padding" />
 
-    <ImageButton
+    <android.support.v7.widget.AppCompatImageButton
         android:id="@+id/ib_processed_copy"
         android:layout_width="@dimen/copypaste_icon_size"
         android:layout_height="@dimen/copypaste_icon_size"

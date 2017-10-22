@@ -11,6 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.github.nfdz.cryptool.R;
 
 public class FloatingToolService extends Service {
@@ -39,6 +42,7 @@ public class FloatingToolService extends Service {
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         params = setupParams();
         windowManager.addView(toolView, params);
+        ButterKnife.bind(this, toolView);
     }
 
     private WindowManager.LayoutParams setupParams() {
@@ -52,6 +56,12 @@ public class FloatingToolService extends Service {
         params.gravity = Gravity.CENTER;
 
         return params;
+    }
+
+    @OnClick(R.id.iv_collapse_view)
+    void onCollapseButtonClick() {
+        ToolBallService.start(this);
+        stopSelf();
     }
 
     @Override

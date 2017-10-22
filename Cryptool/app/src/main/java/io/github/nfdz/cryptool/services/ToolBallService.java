@@ -12,8 +12,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.github.nfdz.cryptool.R;
-import io.github.nfdz.cryptool.views.MainActivity;
 
 public class ToolBallService extends Service {
 
@@ -24,6 +26,8 @@ public class ToolBallService extends Service {
     private WindowManager windowManager;
     private View toolBallView;
     private WindowManager.LayoutParams params;
+
+    @BindView(R.id.iv_tool_ball) View toolBallImage;
 
     public ToolBallService() {
     }
@@ -41,8 +45,8 @@ public class ToolBallService extends Service {
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         params = setupParams();
         windowManager.addView(toolBallView, params);
-        setCloseButtonListener();
-        setToolBallListener();
+        ButterKnife.bind(this, toolBallView);
+        toolBallImage.setOnTouchListener(new TouchListener());
     }
 
     private WindowManager.LayoutParams setupParams() {
@@ -58,59 +62,47 @@ public class ToolBallService extends Service {
         return params;
     }
 
-    private void setCloseButtonListener() {
-        View closeButton = toolBallView.findViewById(R.id.iv_close);
-        closeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                stopSelf();
-            }
-        });
-    }
-
-    private void setToolBallListener() {
-        final View toolBallImage = toolBallView.findViewById(R.id.iv_tool_ball);
-        toolBallImage.setOnTouchListener(new View.OnTouchListener() {
-            private int lastAction;
-            private int initialX;
-            private int initialY;
-            private float initialTouchX;
-            private float initialTouchY;
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        // initial position.
-                        initialX = params.x;
-                        initialY = params.y;
-                        // touch location
-                        initialTouchX = event.getRawX();
-                        initialTouchY = event.getRawY();
-                        lastAction = event.getAction();
-                        return true;
-                    case MotionEvent.ACTION_UP:
-                        if (lastAction == MotionEvent.ACTION_DOWN) {
-                            FloatingToolService.start(ToolBallService.this);
-                            stopSelf();
-                        }
-                        lastAction = event.getAction();
-                        return true;
-                    case MotionEvent.ACTION_MOVE:
-                        params.x = initialX + (int) (event.getRawX() - initialTouchX);
-                        params.y = initialY + (int) (event.getRawY() - initialTouchY);
-                        windowManager.updateViewLayout(toolBallView, params);
-                        lastAction = event.getAction();
-                        return true;
-                }
-                return false;
-            }
-        });
+    @OnClick(R.id.iv_close)
+    void onCloseClick() {
+        stopSelf();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         if (toolBallView != null) windowManager.removeView(toolBallView);
+    }
+
+    private class TouchListener implements View.OnTouchListener {
+
+        private int lastAction;
+        private int initialY;
+        private float initialTouchY;
+
+        @Override
+        public boolean onTouch(View view, MotionEvent event) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    // initial position.
+                    initialY = params.y;
+                    // touch location
+                    initialTouchY = event.getRawY();
+                    lastAction = event.getAction();
+                    return true;
+                case MotionEvent.ACTION_UP:
+                    if (lastAction == MotionEvent.ACTION_DOWN) {
+                        FloatingToolService.start(ToolBallService.this);
+                        stopSelf();
+                    }
+                    lastAction = event.getAction();
+                    return true;
+                case MotionEvent.ACTION_MOVE:
+                    params.y = initialY + (int) (event.getRawY() - initialTouchY);
+                    windowManager.updateViewLayout(toolBallView, params);
+                    lastAction = event.getAction();
+                    return true;
+            }
+            return false;
+        }
     }
 }
