@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/open_tool_ball"
-        android:icon="@drawable/ic_arrow_right"
+        android:icon="@drawable/ic_arrow_down"
         android:title="@string/open_tool_ball_title"
         app:showAsAction="always"/>
 </menu>

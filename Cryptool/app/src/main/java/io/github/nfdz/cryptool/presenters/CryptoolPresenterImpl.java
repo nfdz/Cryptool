@@ -1,44 +1,37 @@
 package io.github.nfdz.cryptool.presenters;
 
-import android.os.Bundle;
+import android.content.Context;
 import android.text.TextUtils;
 
 import io.github.nfdz.cryptool.interactors.CryptoolInteractor;
-import io.github.nfdz.cryptool.interactors.DummyInteractor;
+import io.github.nfdz.cryptool.interactors.CryptoolInteractorImpl;
 import io.github.nfdz.cryptool.views.CryptoolView;
 
 public class CryptoolPresenterImpl implements CryptoolPresenter {
 
-    private final static String MODE_KEY = "mode";
-
     private CryptoolView view;
     private CryptoolInteractor interactor;
 
-    public CryptoolPresenterImpl(CryptoolView view) {
+    public CryptoolPresenterImpl(Context context, CryptoolView view) {
         this.view = view;
-        interactor = new DummyInteractor();
+        interactor = new CryptoolInteractorImpl(context);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            int rawMode = savedInstanceState.getInt(MODE_KEY, CryptoolView.ENCRYIPT_MODE);
-            @CryptoolView.Mode int mode = rawMode == CryptoolView.ENCRYIPT_MODE ?
-                    CryptoolView.ENCRYIPT_MODE : CryptoolView.DECRYIPT_MODE;
-            view.setMode(mode);
-        }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putInt(MODE_KEY, view.getMode());
+    public void onCreate() {
+        view.setMode(interactor.getLastMode());
+        view.setPassphraseText(interactor.getLastPassphrase());
+        view.setOriginalText(interactor.getLastOriginalText());
     }
 
     @Override
     public void onDestroy() {
-        view = null;
-        interactor.onDestroy();
+        interactor.onDestroy(view.getMode(), view.getPassphrase(), view.getOriginalText());
         interactor = null;
+        view.setOriginalText("");
+        view.setProcessedText("");
+        view.setPassphraseText("");
+        view = null;
     }
 
     @Override
@@ -52,11 +45,15 @@ public class CryptoolPresenterImpl implements CryptoolPresenter {
     }
 
     private void processText() {
+        if (view == null) return;
+        if (interactor == null) return;
+
         String pass = view.getPassphrase();
         String originalText = view.getOriginalText();
 
         if (TextUtils.isEmpty(pass) || TextUtils.isEmpty(originalText)) {
             view.hideLoading();
+            view.hideError();
             view.setProcessedText("");
         } else {
             view.showLoading();
@@ -67,7 +64,15 @@ public class CryptoolPresenterImpl implements CryptoolPresenter {
                 public void onResult(String processedText) {
                     if (view != null) {
                         view.hideLoading();
+                        view.hideError();
                         view.setProcessedText(processedText);
+                    }
+                }
+                @Override
+                public void onError() {
+                    if (view != null) {
+                        view.hideLoading();
+                        view.showError();
                     }
                 }
             };
@@ -83,5 +88,11 @@ public class CryptoolPresenterImpl implements CryptoolPresenter {
     @Override
     public void onToggleModeClick() {
         view.toggleMode();
+        processText();
+    }
+
+    @Override
+    public void onOriginalClearClick() {
+        view.setOriginalText("");
     }
 }

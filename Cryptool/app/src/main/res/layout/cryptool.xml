@@ -34,6 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="10dp"
+        android:textColor="@color/colorPlainText"
         app:layout_constraintBottom_toBottomOf="@+id/iv_passphrase_icon"
         app:layout_constraintLeft_toLeftOf="@+id/iv_passphrase_icon"
         app:layout_constraintRight_toRightOf="@+id/iv_passphrase_icon"
@@ -44,7 +45,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Passphrase"
+        android:gravity="center"
+        android:inputType="textPassword"
         android:padding="@dimen/passphrase_padding"
+        android:textColor="@color/colorPlainText"
         android:textAlignment="center"
         android:background="@drawable/rounded_box_selector"
         app:layout_constraintLeft_toRightOf="@+id/iv_passphrase_icon"
@@ -67,7 +71,7 @@
         android:layout_width="@dimen/text_title_icon_size"
         android:layout_height="@dimen/text_title_icon_size"
         android:adjustViewBounds="true"
-        android:scaleType="centerInside"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="@+id/tv_original_label"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="@dimen/text_title_icon_horizontal_margin"
@@ -109,7 +113,7 @@
         android:background="@drawable/plain_text_copypaste_ripple"
         android:adjustViewBounds="true"
         app:layout_constraintTop_toBottomOf="@+id/et_original_text"
-        android:scaleType="centerInside"
+        android:scaleType="fitCenter"
         android:padding="@dimen/copypaste_icon_padding" />
 
     <android.support.v7.widget.AppCompatImageButton
@@ -120,8 +124,20 @@
         android:background="@drawable/plain_text_copypaste_ripple"
         android:adjustViewBounds="true"
         app:layout_constraintTop_toBottomOf="@+id/et_original_text"
-        app:layout_constraintRight_toRightOf="parent"
-        android:scaleType="centerInside"
+        app:layout_constraintLeft_toRightOf="@+id/ib_original_copy"
+        android:scaleType="fitCenter"
+        android:padding="@dimen/copypaste_icon_padding" />
+
+    <android.support.v7.widget.AppCompatImageButton
+        android:id="@+id/ib_original_clear"
+        android:layout_width="@dimen/copypaste_icon_size"
+        android:layout_height="@dimen/copypaste_icon_size"
+        app:srcCompat="@drawable/ic_clear"
+        android:background="@drawable/plain_text_copypaste_ripple"
+        android:adjustViewBounds="true"
+        app:layout_constraintTop_toBottomOf="@+id/et_original_text"
+        app:layout_constraintLeft_toRightOf="@+id/ib_original_paste"
+        android:scaleType="fitCenter"
         android:padding="@dimen/copypaste_icon_padding" />
 
     <!-- Processed Text -->
@@ -151,7 +167,7 @@
         android:layout_width="@dimen/text_title_icon_size"
         android:layout_height="@dimen/text_title_icon_size"
         android:adjustViewBounds="true"
-        android:scaleType="centerInside"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="@+id/tv_processed_label"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="@dimen/text_title_icon_horizontal_margin"
@@ -192,8 +208,20 @@
         android:background="@drawable/encrypted_text_copypaste_ripple"
         android:adjustViewBounds="true"
         app:layout_constraintTop_toBottomOf="@+id/tv_processed_text"
-        android:scaleType="centerInside"
+        android:scaleType="fitCenter"
         android:padding="@dimen/copypaste_icon_padding" />
 
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/iv_processed_error"
+        android:visibility="invisible"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/ic_broken"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_processed_text"
+        app:layout_constraintRight_toRightOf="@+id/tv_processed_text"
+        app:layout_constraintTop_toTopOf="@+id/tv_processed_text"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_processed_text"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -7,6 +7,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
+        android:visibility="invisible"
         android:id="@+id/iv_tool_ball"
         android:layout_width="@dimen/toolball_size"
         android:layout_height="@dimen/toolball_size"
@@ -16,6 +17,7 @@
 
     <!--Close button-->
     <android.support.v7.widget.AppCompatImageView
+        android:visibility="invisible"
         android:id="@+id/iv_close"
         android:layout_width="@dimen/toolball_close_size"
         android:layout_height="@dimen/toolball_close_size"

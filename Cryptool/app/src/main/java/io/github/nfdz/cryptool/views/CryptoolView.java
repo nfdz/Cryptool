@@ -1,6 +1,7 @@
 package io.github.nfdz.cryptool.views;
 
 import android.support.annotation.IntDef;
+import android.support.annotation.Nullable;
 
 import java.lang.annotation.Retention;
 
@@ -19,11 +20,13 @@ public interface CryptoolView {
     String getOriginalText();
     void setProcessedText(String text);
     String getProcessedText();
-    void setPassphraseText(String pass);
+    void setPassphraseText(@Nullable String pass);
     String getPassphrase();
     void toggleMode();
     @CryptoolView.Mode int getMode();
     void setMode(@CryptoolView.Mode int mode);
     void showLoading();
     void hideLoading();
+    void showError();
+    void hideError();
 }
