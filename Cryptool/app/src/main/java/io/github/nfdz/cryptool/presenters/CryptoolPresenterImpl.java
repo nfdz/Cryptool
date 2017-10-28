@@ -28,9 +28,6 @@ public class CryptoolPresenterImpl implements CryptoolPresenter {
     public void onDestroy() {
         interactor.onDestroy(view.getMode(), view.getPassphrase(), view.getOriginalText());
         interactor = null;
-        view.setOriginalText("");
-        view.setProcessedText("");
-        view.setPassphraseText("");
         view = null;
     }
 

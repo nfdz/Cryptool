@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements CryptoolView, Ove
     public static final String OPEN_TOOL_BALL_ACTION = "io.github.nfdz.cryptool.OPEN_TOOL_BALL";
 
     public static void start(Context context) {
-        context.startActivity(new Intent(context, MainActivity.class));
+        context.startActivity(new Intent(context, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 
     @BindView(R.id.root) View rootView;
@@ -154,13 +154,15 @@ public class MainActivity extends AppCompatActivity implements CryptoolView, Ove
     @OnClick(R.id.ib_original_clear)
     public void onOriginalClearClick() {
         presenter.onOriginalClearClick();
-        // this is a workaround because app bar does not refresh correctly when original text is cleared
+        // this is a workaround because app bar does not refresh correctly
         appbar.setExpanded(true, true);
     }
 
     @OnClick(R.id.fab_toggle_mode)
     public void onToggleModeClick() {
         presenter.onToggleModeClick();
+        // this is a workaround because app bar does not refresh correctly
+        appbar.setExpanded(true, true);
     }
 
     @OnClick(R.id.ib_original_copy)

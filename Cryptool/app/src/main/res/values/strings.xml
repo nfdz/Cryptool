@@ -1,8 +1,11 @@
 <resources>
-    <string name="app_name">Cryptool</string>
+
+    <string name="app_name" translatable="false">Cryptool</string>
 
     <string name="plain_text_label">Plain text</string>
     <string name="encrypted_text_label">Encrypted text</string>
+
+    <string name="passphrase_hint">Passphrase</string>
 
     <string name="copy_clipboard_success">Successfully copied to clipboard</string>
     <string name="copy_clipboard_empty">There is no text to copy</string>
@@ -11,7 +14,7 @@
 
     <string name="open_tool_ball_title">Open tool ball mode</string>
 
-    <string name="shortcut_short_label">Cryptoolball</string>
+    <string name="shortcut_short_label" translatable="false">Cryptoolball</string>
     <string name="shortcut_long_label">Open tool ball mode</string>
     <string name="shortcut_disabled_message">Tool ball mode is not enabled</string>
 

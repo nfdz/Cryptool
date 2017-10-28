@@ -44,7 +44,7 @@
         android:id="@+id/et_passphrase"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Passphrase"
+        android:hint="@string/passphrase_hint"
         android:gravity="center"
         android:inputType="textPassword"
         android:padding="@dimen/passphrase_padding"

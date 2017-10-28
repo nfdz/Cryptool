@@ -87,9 +87,13 @@ public class FloatingToolService extends Service implements CryptoolView {
         ButterKnife.bind(this, toolView);
         setListeners();
         presenter = new CryptoolPresenterImpl(this, this);
-        presenter.onCreate();
         setBroadcastReceiver();
-        playEnterAnimation();
+        playEnterAnimation(new Runnable() {
+            @Override
+            public void run() {
+                presenter.onCreate();
+            }
+        });
     }
 
     @Override
@@ -158,7 +162,7 @@ public class FloatingToolService extends Service implements CryptoolView {
         });
     }
 
-    private void playEnterAnimation() {
+    private void playEnterAnimation(final Runnable callback) {
 
         final int fromXscale = 0;
         final int toXscale = 1;
@@ -181,6 +185,7 @@ public class FloatingToolService extends Service implements CryptoolView {
             @Override
             public void onAnimationEnd(Animation animation) {
                 container.setVisibility(View.VISIBLE);
+                callback.run();
             }
             @Override
             public void onAnimationRepeat(Animation animation) {
@@ -190,6 +195,10 @@ public class FloatingToolService extends Service implements CryptoolView {
     }
 
     private void playExitAnimation(final Runnable runnable) {
+
+        originalText.setVisibility(View.GONE);
+        processedText.setVisibility(View.GONE);
+        passPhrase.setVisibility(View.GONE);
 
         final int fromXscale = 1;
         final int toXscale = 0;
