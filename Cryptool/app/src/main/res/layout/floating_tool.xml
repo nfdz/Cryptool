@@ -1,70 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+
+<FrameLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:scrollbars="vertical">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/colorFloatingToolBackground">
 
-    <FrameLayout
-        android:layout_width="300dp"
-        android:layout_height="100dp">
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:scrollbars="vertical">
 
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/iv_background"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorBackground" />
+        <FrameLayout
+            android:layout_width="300dp"
+            android:layout_height="100dp">
 
-        <LinearLayout
-            android:id="@+id/container"
-            android:visibility="invisible"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <FrameLayout
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iv_background"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:background="@color/colorPrimary">
+                android:layout_height="match_parent"
+                android:background="@color/colorBackground" />
 
-                <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/iv_toggle_mode"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    app:srcCompat="@drawable/ic_reverse"
-                    android:scaleType="centerInside"
-                    android:adjustViewBounds="true"
-                    android:layout_gravity="left"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="@string/app_name"
-                    android:textAllCaps="true"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/toolbar_title_size"
-                    android:textColor="@android:color/white"/>
-
-                <android.support.v7.widget.AppCompatImageView
-                    android:id="@+id/iv_collapse_view"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    app:srcCompat="@drawable/ic_arrow_down"
-                    android:scaleType="centerInside"
-                    android:adjustViewBounds="true"
-                    android:layout_gravity="right"/>
-
-            </FrameLayout>
-
-            <include layout="@layout/cryptool"
+            <LinearLayout
+                android:id="@+id/container"
+                android:visibility="invisible"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@color/colorPrimary">
 
-    </FrameLayout>
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/iv_toggle_mode"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        app:srcCompat="@drawable/ic_reverse"
+                        android:scaleType="centerInside"
+                        android:adjustViewBounds="true"
+                        android:layout_gravity="left"/>
 
-</android.support.v4.widget.NestedScrollView>
+                    <TextView
+                        android:id="@+id/tv_logo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="@string/app_name"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/toolbar_title_size"
+                        android:textColor="@android:color/white"/>
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/iv_collapse_view"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        app:srcCompat="@drawable/ic_arrow_down"
+                        android:scaleType="centerInside"
+                        android:adjustViewBounds="true"
+                        android:layout_gravity="right"/>
+
+                </FrameLayout>
+
+                <include layout="@layout/cryptool"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</FrameLayout>

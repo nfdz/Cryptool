@@ -3,6 +3,7 @@ package io.github.nfdz.cryptool.views;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements CryptoolView, Ove
     }
 
     @BindView(R.id.root) View rootView;
+    @BindView(R.id.appbar) AppBarLayout appbar;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.et_passphrase) EditText passPhrase;
     @BindView(R.id.et_original_text) EditText originalText;
@@ -152,6 +154,8 @@ public class MainActivity extends AppCompatActivity implements CryptoolView, Ove
     @OnClick(R.id.ib_original_clear)
     public void onOriginalClearClick() {
         presenter.onOriginalClearClick();
+        // this is a workaround because app bar does not refresh correctly when original text is cleared
+        appbar.setExpanded(true, true);
     }
 
     @OnClick(R.id.fab_toggle_mode)

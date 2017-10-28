@@ -32,6 +32,7 @@ import io.github.nfdz.cryptool.utils.BroadcastUtils;
 import io.github.nfdz.cryptool.utils.ClipboardUtils;
 import io.github.nfdz.cryptool.utils.ViewUtils;
 import io.github.nfdz.cryptool.views.CryptoolView;
+import io.github.nfdz.cryptool.views.MainActivity;
 
 public class FloatingToolService extends Service implements CryptoolView {
 
@@ -84,7 +85,7 @@ public class FloatingToolService extends Service implements CryptoolView {
         params = setupParams();
         windowManager.addView(toolView, params);
         ButterKnife.bind(this, toolView);
-        setTextListeners();
+        setListeners();
         presenter = new CryptoolPresenterImpl(this, this);
         presenter.onCreate();
         setBroadcastReceiver();
@@ -109,8 +110,8 @@ public class FloatingToolService extends Service implements CryptoolView {
 
     private WindowManager.LayoutParams setupParams() {
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.TYPE_PHONE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
                 PixelFormat.TRANSLUCENT);
@@ -121,7 +122,7 @@ public class FloatingToolService extends Service implements CryptoolView {
     }
 
 
-    private void setTextListeners() {
+    private void setListeners() {
         ViewUtils.hideHintWhenFocus(passPhrase);
         passPhrase.addTextChangedListener(new TextWatcher() {
             @Override
@@ -142,6 +143,18 @@ public class FloatingToolService extends Service implements CryptoolView {
             }
             @Override
             public void afterTextChanged(Editable s) { /* swallow */ }
+        });
+        toolView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playExitAnimation(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToolBallService.start(FloatingToolService.this);
+                        stopSelf();
+                    }
+                });
+            }
         });
     }
 
@@ -207,6 +220,17 @@ public class FloatingToolService extends Service implements CryptoolView {
             }
         });
         toolBackground.startAnimation(scale);
+    }
+
+    @OnClick(R.id.tv_logo)
+    void onLogoClick() {
+        playExitAnimation(new Runnable() {
+            @Override
+            public void run() {
+                stopSelf();
+                MainActivity.start(FloatingToolService.this);
+            }
+        });
     }
 
     @OnClick(R.id.ib_original_clear)

@@ -11,7 +11,7 @@
 
     <string name="open_tool_ball_title">Open tool ball mode</string>
 
-    <string name="shortcut_short_label">Tool ball mode</string>
+    <string name="shortcut_short_label">Cryptoolball</string>
     <string name="shortcut_long_label">Open tool ball mode</string>
     <string name="shortcut_disabled_message">Tool ball mode is not enabled</string>
 

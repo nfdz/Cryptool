@@ -10,4 +10,6 @@
     <color name="colorPlainText">#000000</color>
     <color name="colorEncryptedTextBg">@color/colorPrimary</color>
     <color name="colorEncryptedText">#FFFFFF</color>
+
+    <color name="colorFloatingToolBackground">#77000000</color>
 </resources>
