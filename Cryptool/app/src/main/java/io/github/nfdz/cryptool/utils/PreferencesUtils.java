@@ -15,7 +15,7 @@ public class PreferencesUtils {
     private static final String PREFS_KEY = "cryptool_preferences";
 
     private static final String LAST_MODE_KEY = "last_mode";
-    private static final @CryptoolView.Mode int LAST_MODE_DEFAULT = CryptoolView.ENCRYIPT_MODE;
+    private static final @CryptoolView.Mode int LAST_MODE_DEFAULT = CryptoolView.Mode.ENCRYIPT_MODE;
 
     private static final String TOOLBALL_LAST_POSITION_Y_KEY = "tool_ball_last_position_y";
     private static final int TOOLBALL_LAST_POSITION_Y_DEFAULT = 0;
@@ -32,7 +32,7 @@ public class PreferencesUtils {
     public static @CryptoolView.Mode int getLastMode(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_KEY, MODE_PRIVATE);
         int lastModeRaw = prefs.getInt(LAST_MODE_KEY, LAST_MODE_DEFAULT);
-        return lastModeRaw == CryptoolView.DECRYIPT_MODE ? CryptoolView.DECRYIPT_MODE : CryptoolView.ENCRYIPT_MODE;
+        return lastModeRaw == CryptoolView.Mode.DECRYIPT_MODE ? CryptoolView.Mode.DECRYIPT_MODE : CryptoolView.Mode.ENCRYIPT_MODE;
     }
 
     public static void setLastMode(Context context, @CryptoolView.Mode int mode) {

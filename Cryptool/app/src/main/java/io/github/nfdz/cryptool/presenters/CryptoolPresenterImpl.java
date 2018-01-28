@@ -74,7 +74,7 @@ public class CryptoolPresenterImpl implements CryptoolPresenter {
                 }
             };
 
-            if (view.getMode() == CryptoolView.ENCRYIPT_MODE) {
+            if (view.getMode() == CryptoolView.Mode.ENCRYIPT_MODE) {
                 interactor.encrypt(pass, originalText, callback);
             } else {
                 interactor.decrypt(pass, originalText, callback);

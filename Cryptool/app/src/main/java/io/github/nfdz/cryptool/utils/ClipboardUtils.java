@@ -27,7 +27,7 @@ public class ClipboardUtils {
             }
         } else {
             ClipboardManager clipboard = (ClipboardManager)context.getSystemService(Context.CLIPBOARD_SERVICE);
-            String label = context.getString(mode == CryptoolView.ENCRYIPT_MODE ? R.string.plain_text_label : R.string.encrypted_text_label);
+            String label = context.getString(mode == CryptoolView.Mode.ENCRYIPT_MODE ? R.string.plain_text_label : R.string.encrypted_text_label);
             ClipData clip = ClipData.newPlainText(label, text);
             clipboard.setPrimaryClip(clip);
             String msg = context.getString(R.string.copy_clipboard_success);
