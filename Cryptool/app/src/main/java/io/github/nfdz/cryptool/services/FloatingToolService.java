@@ -321,7 +321,7 @@ public class FloatingToolService extends Service implements CryptoolView {
 
     @Override
     public void toggleMode() {
-        if (mode == ENCRYIPT_MODE) {
+        if (mode == Mode.ENCRYIPT_MODE) {
             setDecryptMode();
         } else {
             setEncryptMode();
@@ -335,7 +335,7 @@ public class FloatingToolService extends Service implements CryptoolView {
 
     @Override
     public void setMode(@Mode int mode) {
-        if (mode == ENCRYIPT_MODE) {
+        if (mode == Mode.ENCRYIPT_MODE) {
             setEncryptMode();
         } else {
             setDecryptMode();
@@ -364,7 +364,7 @@ public class FloatingToolService extends Service implements CryptoolView {
     }
 
     private void setEncryptMode() {
-        mode = ENCRYIPT_MODE;
+        mode = Mode.ENCRYIPT_MODE;
         ViewUtils.setEncryptMode(this,
                 originalBg,
                 originalCopy,
@@ -381,7 +381,7 @@ public class FloatingToolService extends Service implements CryptoolView {
     }
 
     private void setDecryptMode() {
-        mode = DECRYIPT_MODE;
+        mode = Mode.DECRYIPT_MODE;
         ViewUtils.setDecryptMode(this,
                 originalBg,
                 originalCopy,

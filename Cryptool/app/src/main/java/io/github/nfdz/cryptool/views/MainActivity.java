@@ -243,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements CryptoolView, Ove
 
     @Override
     public void setMode(@Mode int mode) {
-        if (mode == ENCRYIPT_MODE) {
+        if (mode == Mode.ENCRYIPT_MODE) {
             setEncryptMode();
         } else {
             setDecryptMode();
@@ -252,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements CryptoolView, Ove
 
     @Override
     public void toggleMode() {
-        if (mode == ENCRYIPT_MODE) {
+        if (mode == Mode.ENCRYIPT_MODE) {
             setDecryptMode();
         } else {
             setEncryptMode();
@@ -260,7 +260,7 @@ public class MainActivity extends AppCompatActivity implements CryptoolView, Ove
     }
 
     private void setEncryptMode() {
-        mode = ENCRYIPT_MODE;
+        mode = Mode.ENCRYIPT_MODE;
         ViewUtils.setEncryptMode(this,
                 originalBg,
                 originalCopy,
@@ -277,7 +277,7 @@ public class MainActivity extends AppCompatActivity implements CryptoolView, Ove
     }
 
     private void setDecryptMode() {
-        mode = DECRYIPT_MODE;
+        mode = Mode.DECRYIPT_MODE;
         ViewUtils.setDecryptMode(this,
                 originalBg,
                 originalCopy,
