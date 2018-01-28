@@ -5,7 +5,11 @@ import android.support.v7.app.AppCompatDelegate;
 
 import timber.log.Timber;
 
+/**
+ * Application class where all required initialization operations are performed.
+ */
 public class CryptoolApp extends Application {
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -22,4 +26,5 @@ public class CryptoolApp extends Application {
             Timber.plant(new Timber.DebugTree());
         }
     }
+
 }

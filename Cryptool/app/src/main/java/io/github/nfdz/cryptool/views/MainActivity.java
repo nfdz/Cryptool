@@ -33,6 +33,9 @@ import io.github.nfdz.cryptool.utils.ClipboardUtils;
 import io.github.nfdz.cryptool.utils.OverlayPermissionHelper;
 import io.github.nfdz.cryptool.utils.ViewUtils;
 
+/**
+ * Main activity class (this project has one activity only). This is a Cryptool view implementation.
+ */
 public class MainActivity extends AppCompatActivity implements CryptoolView, OverlayPermissionHelper.Callback {
 
     public static final String OPEN_TOOL_BALL_ACTION = "io.github.nfdz.cryptool.OPEN_TOOL_BALL";

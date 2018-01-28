@@ -11,6 +11,10 @@ import android.widget.TextView;
 
 import io.github.nfdz.cryptool.R;
 
+/**
+ * Utils class for CryptoolView.
+ * TODO Move this logic to a base class.
+ */
 public class ViewUtils {
 
     public static void hideHintWhenFocus(final EditText editText) {

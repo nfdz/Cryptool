@@ -7,14 +7,18 @@ import java.lang.annotation.Retention;
 
 import static java.lang.annotation.RetentionPolicy.SOURCE;
 
+/**
+ * This interface defines all methods of Cryptool UX.
+ */
 public interface CryptoolView {
 
+    // Encrypt mode flag
     @Retention(SOURCE)
-    @IntDef({ENCRYIPT_MODE, DECRYIPT_MODE})
-    public @interface Mode {}
-    public static final int ENCRYIPT_MODE = 0;
-    public static final int DECRYIPT_MODE = 1;
-
+    @IntDef({Mode.ENCRYIPT_MODE, Mode.DECRYIPT_MODE})
+    @interface Mode {
+        int ENCRYIPT_MODE = 0;
+        int DECRYIPT_MODE = 1;
+    }
 
     void setOriginalText(String text);
     String getOriginalText();
