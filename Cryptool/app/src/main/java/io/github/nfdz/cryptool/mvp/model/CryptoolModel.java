@@ -1,10 +1,10 @@
-package io.github.nfdz.cryptool.interactors;
+package io.github.nfdz.cryptool.mvp.model;
 
 import android.support.annotation.Nullable;
 
-import io.github.nfdz.cryptool.views.CryptoolView;
+import io.github.nfdz.cryptool.mvp.view.CryptoolView;
 
-public interface CryptoolInteractor {
+public interface CryptoolModel {
 
     interface Callback {
         void onResult(String processedText);

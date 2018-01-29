@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import io.github.nfdz.cryptool.services.ToolBallService;
-import io.github.nfdz.cryptool.views.CryptoolView;
+import io.github.nfdz.cryptool.mvp.view.CryptoolView;
 
 import static android.content.Context.MODE_PRIVATE;
 

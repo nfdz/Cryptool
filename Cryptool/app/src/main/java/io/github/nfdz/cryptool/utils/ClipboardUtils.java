@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import io.github.nfdz.cryptool.R;
-import io.github.nfdz.cryptool.views.CryptoolView;
+import io.github.nfdz.cryptool.mvp.view.CryptoolView;
 
 public class ClipboardUtils {
 

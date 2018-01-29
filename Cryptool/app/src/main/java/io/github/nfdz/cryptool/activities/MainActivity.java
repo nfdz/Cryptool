@@ -1,4 +1,4 @@
-package io.github.nfdz.cryptool.views;
+package io.github.nfdz.cryptool.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,8 +25,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.nfdz.cryptool.R;
-import io.github.nfdz.cryptool.presenters.CryptoolPresenter;
-import io.github.nfdz.cryptool.presenters.CryptoolPresenterImpl;
+import io.github.nfdz.cryptool.mvp.presenter.CryptoolPresenter;
+import io.github.nfdz.cryptool.mvp.presenter.CryptoolPresenterImpl;
+import io.github.nfdz.cryptool.mvp.view.CryptoolView;
 import io.github.nfdz.cryptool.services.ToolBallService;
 import io.github.nfdz.cryptool.utils.BroadcastUtils;
 import io.github.nfdz.cryptool.utils.ClipboardUtils;

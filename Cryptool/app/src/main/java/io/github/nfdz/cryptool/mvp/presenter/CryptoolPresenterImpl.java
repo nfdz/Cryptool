@@ -1,33 +1,33 @@
-package io.github.nfdz.cryptool.presenters;
+package io.github.nfdz.cryptool.mvp.presenter;
 
 import android.content.Context;
 import android.text.TextUtils;
 
-import io.github.nfdz.cryptool.interactors.CryptoolInteractor;
-import io.github.nfdz.cryptool.interactors.CryptoolInteractorImpl;
-import io.github.nfdz.cryptool.views.CryptoolView;
+import io.github.nfdz.cryptool.mvp.model.CryptoolModel;
+import io.github.nfdz.cryptool.mvp.model.CryptoolModelImpl;
+import io.github.nfdz.cryptool.mvp.view.CryptoolView;
 
 public class CryptoolPresenterImpl implements CryptoolPresenter {
 
     private CryptoolView view;
-    private CryptoolInteractor interactor;
+    private CryptoolModel model;
 
     public CryptoolPresenterImpl(Context context, CryptoolView view) {
         this.view = view;
-        interactor = new CryptoolInteractorImpl(context);
+        model = new CryptoolModelImpl(context);
     }
 
     @Override
     public void onCreate() {
-        view.setMode(interactor.getLastMode());
-        view.setPassphraseText(interactor.getLastPassphrase());
-        view.setOriginalText(interactor.getLastOriginalText());
+        view.setMode(model.getLastMode());
+        view.setPassphraseText(model.getLastPassphrase());
+        view.setOriginalText(model.getLastOriginalText());
     }
 
     @Override
     public void onDestroy() {
-        interactor.onDestroy(view.getMode(), view.getPassphrase(), view.getOriginalText());
-        interactor = null;
+        model.onDestroy(view.getMode(), view.getPassphrase(), view.getOriginalText());
+        model = null;
         view = null;
     }
 
@@ -43,7 +43,7 @@ public class CryptoolPresenterImpl implements CryptoolPresenter {
 
     private void processText() {
         if (view == null) return;
-        if (interactor == null) return;
+        if (model == null) return;
 
         String pass = view.getPassphrase();
         String originalText = view.getOriginalText();
@@ -56,7 +56,7 @@ public class CryptoolPresenterImpl implements CryptoolPresenter {
             view.showLoading();
             view.setProcessedText("");
 
-            CryptoolInteractor.Callback callback = new CryptoolInteractor.Callback() {
+            CryptoolModel.Callback callback = new CryptoolModel.Callback() {
                 @Override
                 public void onResult(String processedText) {
                     if (view != null) {
@@ -75,9 +75,9 @@ public class CryptoolPresenterImpl implements CryptoolPresenter {
             };
 
             if (view.getMode() == CryptoolView.Mode.ENCRYIPT_MODE) {
-                interactor.encrypt(pass, originalText, callback);
+                model.encrypt(pass, originalText, callback);
             } else {
-                interactor.decrypt(pass, originalText, callback);
+                model.decrypt(pass, originalText, callback);
             }
         }
     }

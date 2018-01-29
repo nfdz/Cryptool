@@ -10,6 +10,6 @@
         <intent
             android:action="io.github.nfdz.cryptool.OPEN_TOOL_BALL"
             android:targetPackage="io.github.nfdz.cryptool"
-            android:targetClass="io.github.nfdz.cryptool.views.MainActivity" />
+            android:targetClass="io.github.nfdz.cryptool.activities.MainActivity" />
     </shortcut>
 </shortcuts>

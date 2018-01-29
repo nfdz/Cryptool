@@ -1,4 +1,4 @@
-package io.github.nfdz.cryptool.presenters;
+package io.github.nfdz.cryptool.mvp.presenter;
 
 public interface CryptoolPresenter {
 

@@ -27,14 +27,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.github.nfdz.cryptool.R;
-import io.github.nfdz.cryptool.presenters.CryptoolPresenter;
-import io.github.nfdz.cryptool.presenters.CryptoolPresenterImpl;
+import io.github.nfdz.cryptool.mvp.presenter.CryptoolPresenter;
+import io.github.nfdz.cryptool.mvp.presenter.CryptoolPresenterImpl;
 import io.github.nfdz.cryptool.utils.BroadcastUtils;
 import io.github.nfdz.cryptool.utils.ClipboardUtils;
 import io.github.nfdz.cryptool.utils.ViewUtils;
-import io.github.nfdz.cryptool.views.CryptoolView;
-import io.github.nfdz.cryptool.views.MainActivity;
+import io.github.nfdz.cryptool.mvp.view.CryptoolView;
+import io.github.nfdz.cryptool.activities.MainActivity;
 
+/**
+ * This foreground service is an implementation of main CryptoolView because has the same functionality
+ * but in another way (floating tool). It uses the same presenter.
+ */
 public class FloatingToolService extends Service implements CryptoolView {
 
     public static void start(Context context) {

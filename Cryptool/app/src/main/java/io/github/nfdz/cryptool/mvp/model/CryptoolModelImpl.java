@@ -1,4 +1,4 @@
-package io.github.nfdz.cryptool.interactors;
+package io.github.nfdz.cryptool.mvp.model;
 
 import android.content.Context;
 import android.os.Handler;
@@ -8,9 +8,9 @@ import android.support.annotation.Nullable;
 import com.scottyab.aescrypt.AESCrypt;
 
 import io.github.nfdz.cryptool.utils.PreferencesUtils;
-import io.github.nfdz.cryptool.views.CryptoolView;
+import io.github.nfdz.cryptool.mvp.view.CryptoolView;
 
-public class CryptoolInteractorImpl implements CryptoolInteractor {
+public class CryptoolModelImpl implements CryptoolModel {
 
     private final static String ENCRYPTION_THREAD_NAME = "io.github.nfdz.cryptool.thread.encryption";
 
@@ -19,7 +19,7 @@ public class CryptoolInteractorImpl implements CryptoolInteractor {
     private Handler handler;
     private Handler uiHandler;
 
-    public CryptoolInteractorImpl(Context context) {
+    public CryptoolModelImpl(Context context) {
         this.context = context;
         handlerThread = new HandlerThread(ENCRYPTION_THREAD_NAME);
         handlerThread.start();

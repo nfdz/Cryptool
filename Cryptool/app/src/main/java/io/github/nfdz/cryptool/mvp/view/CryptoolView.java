@@ -1,4 +1,4 @@
-package io.github.nfdz.cryptool.views;
+package io.github.nfdz.cryptool.mvp.view;
 
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
