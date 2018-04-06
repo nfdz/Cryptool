@@ -12,6 +12,9 @@ public class CryptoolPresenterImpl implements CryptoolPresenter {
     private CryptoolView view;
     private CryptoolModel model;
 
+    private boolean isPassphraseSaved;
+    private boolean isPassphraseVisible;
+
     public CryptoolPresenterImpl(Context context, CryptoolView view) {
         this.view = view;
         model = new CryptoolModelImpl(context);
@@ -22,11 +25,30 @@ public class CryptoolPresenterImpl implements CryptoolPresenter {
         view.setMode(model.getLastMode());
         view.setPassphraseText(model.getLastPassphrase());
         view.setOriginalText(model.getLastOriginalText());
+
+        isPassphraseSaved = model.isLastPassphraseSaved();
+        isPassphraseVisible = model.isLastPassphraseVisible();
+        if (isPassphraseSaved) {
+            isPassphraseVisible = false;
+            view.setPassphraseInvisible();
+            view.disablePassphraseActions();
+        } else {
+            view.enablePassphraseActions();
+            if (isPassphraseVisible) {
+                view.setPassphraseVisible();
+            } else {
+                view.setPassphraseInvisible();
+            }
+        }
     }
 
     @Override
     public void onDestroy() {
-        model.onDestroy(view.getMode(), view.getPassphrase(), view.getOriginalText());
+        model.onDestroy(view.getMode(),
+                view.getPassphrase(),
+                isPassphraseSaved,
+                isPassphraseVisible,
+                view.getOriginalText());
         model = null;
         view = null;
     }
@@ -92,4 +114,37 @@ public class CryptoolPresenterImpl implements CryptoolPresenter {
     public void onOriginalClearClick() {
         view.setOriginalText("");
     }
+
+    @Override
+    public void onClearPassphraseClick() {
+        isPassphraseSaved = false;
+        isPassphraseVisible = false;
+        view.setPassphraseInvisible();
+        view.setPassphraseText("");
+        view.enablePassphraseActions();
+    }
+
+    @Override
+    public void onViewPassphraseClick() {
+        if (!isPassphraseSaved) {
+            if (isPassphraseVisible) {
+                isPassphraseVisible = false;
+                view.setPassphraseInvisible();
+            } else {
+                isPassphraseVisible = true;
+                view.setPassphraseVisible();
+            }
+        }
+    }
+
+    @Override
+    public void onSavePassphraseClick() {
+        if (!TextUtils.isEmpty(view.getPassphrase())) {
+            isPassphraseSaved = true;
+            isPassphraseVisible = false;
+            view.setPassphraseInvisible();
+            view.disablePassphraseActions();
+        }
+    }
+
 }

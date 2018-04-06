@@ -52,8 +52,44 @@
         android:textAlignment="center"
         android:background="@drawable/rounded_box_selector"
         app:layout_constraintLeft_toRightOf="@+id/iv_passphrase_icon"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/iv_passphrase_view"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/iv_passphrase_view"
+        android:layout_width="@dimen/passphrase_icon_size"
+        android:layout_height="@dimen/passphrase_icon_size"
+        android:adjustViewBounds="true"
+        app:layout_constraintTop_toBottomOf="@+id/et_passphrase"
+        app:layout_constraintBottom_toTopOf="@+id/et_passphrase"
+        app:layout_constraintRight_toLeftOf="@+id/iv_passphrase_save"
+        android:background="?android:attr/selectableItemBackground"
+        android:scaleType="centerInside"
+        app:srcCompat="@drawable/ic_eye"/>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/iv_passphrase_save"
+        android:layout_width="@dimen/passphrase_icon_size"
+        android:layout_height="@dimen/passphrase_icon_size"
+        android:adjustViewBounds="true"
+        app:layout_constraintTop_toBottomOf="@+id/et_passphrase"
+        app:layout_constraintBottom_toTopOf="@+id/et_passphrase"
+        app:layout_constraintRight_toLeftOf="@+id/iv_passphrase_clear"
+        android:background="?android:attr/selectableItemBackground"
+        android:scaleType="centerInside"
+        app:srcCompat="@drawable/ic_save"/>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/iv_passphrase_clear"
+        android:layout_width="@dimen/passphrase_icon_size"
+        android:layout_height="@dimen/passphrase_icon_size"
+        android:adjustViewBounds="true"
+        app:layout_constraintTop_toBottomOf="@+id/et_passphrase"
+        app:layout_constraintBottom_toTopOf="@+id/et_passphrase"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="?android:attr/selectableItemBackground"
+        android:scaleType="centerInside"
+        app:srcCompat="@drawable/ic_clear"/>
 
     <!-- Original Text -->
     <View

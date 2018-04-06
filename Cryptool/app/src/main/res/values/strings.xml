@@ -18,4 +18,6 @@
     <string name="shortcut_long_label">Open tool ball mode</string>
     <string name="shortcut_disabled_message">Tool ball mode is not enabled</string>
 
+    <string name="encryption_algorithm">Advanced Encryption Standard 256-bit</string>
+
 </resources>

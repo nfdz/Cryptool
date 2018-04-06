@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,10 +23,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 import io.github.nfdz.cryptool.R;
 import io.github.nfdz.cryptool.mvp.presenter.CryptoolPresenter;
 import io.github.nfdz.cryptool.mvp.presenter.CryptoolPresenterImpl;
@@ -52,6 +55,7 @@ public class FloatingToolService extends Service implements CryptoolView {
 
     private CryptoolPresenter presenter;
     private @CryptoolView.Mode int mode;
+    private TextWatcher passPhrasseListener;
 
     @BindView(R.id.iv_background) ImageView toolBackground;
     @BindView(R.id.container) View container;
@@ -59,6 +63,9 @@ public class FloatingToolService extends Service implements CryptoolView {
     @BindView(R.id.et_passphrase) EditText passPhrase;
     @BindView(R.id.et_original_text) EditText originalText;
     @BindView(R.id.tv_processed_text) TextView processedText;
+
+    @BindView(R.id.iv_passphrase_view) ImageView passPhraseView;
+    @BindView(R.id.iv_passphrase_save) ImageView passPhraseSave;
 
     @BindView(R.id.v_original_bg) View originalBg;
     @BindView(R.id.ib_original_copy) ImageButton originalCopy;
@@ -141,7 +148,7 @@ public class FloatingToolService extends Service implements CryptoolView {
 
     private void setListeners() {
         ViewUtils.hideHintWhenFocus(passPhrase);
-        passPhrase.addTextChangedListener(new TextWatcher() {
+        passPhrasseListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { /* swallow */ }
             @Override
@@ -150,7 +157,8 @@ public class FloatingToolService extends Service implements CryptoolView {
             }
             @Override
             public void afterTextChanged(Editable s) { /* swallow */ }
-        });
+        };
+        passPhrase.addTextChangedListener(passPhrasseListener);
         originalText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { /* swallow */ }
@@ -293,6 +301,32 @@ public class FloatingToolService extends Service implements CryptoolView {
         });
     }
 
+    @OnClick(R.id.iv_passphrase_view)
+    public void onViewPassphraseClick() {
+        presenter.onViewPassphraseClick();
+    }
+
+    @OnClick(R.id.iv_passphrase_save)
+    public void onSavePassphraseClick() {
+        presenter.onSavePassphraseClick();
+    }
+
+    @OnClick(R.id.iv_passphrase_clear)
+    public void onClearPassphraseClick() {
+        presenter.onClearPassphraseClick();
+    }
+
+    @OnClick(R.id.iv_passphrase_icon)
+    public void onPassphraseIconClick() {
+        Toast.makeText(this, getString(R.string.encryption_algorithm), Toast.LENGTH_LONG).show();
+    }
+
+    @OnLongClick(R.id.iv_passphrase_icon)
+    public boolean onPassphraseIconLongClick() {
+        onPassphraseIconClick();
+        return true;
+    }
+
     @Override
     public void setOriginalText(String text) {
         originalText.setText(text);
@@ -365,6 +399,41 @@ public class FloatingToolService extends Service implements CryptoolView {
     @Override
     public void hideError() {
         processedError.setVisibility(View.INVISIBLE);
+    }
+
+
+    @Override
+    public void setPassphraseInvisible() {
+        passPhrase.removeTextChangedListener(passPhrasseListener);
+        passPhraseView.setImageResource(R.drawable.ic_eye);
+        passPhrase.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        passPhrase.addTextChangedListener(passPhrasseListener);
+    }
+
+    @Override
+    public void setPassphraseVisible() {
+        passPhrase.removeTextChangedListener(passPhrasseListener);
+        passPhraseView.setImageResource(R.drawable.ic_transparent_eye);
+        passPhrase.setInputType(InputType.TYPE_CLASS_TEXT |InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        passPhrase.addTextChangedListener(passPhrasseListener);
+    }
+
+    @Override
+    public void disablePassphraseActions() {
+        passPhrase.setEnabled(false);
+        passPhraseView.setImageResource(R.drawable.ic_eye_gray);
+        passPhraseSave.setImageResource(R.drawable.ic_save_gray);
+        passPhraseView.setEnabled(false);
+        passPhraseSave.setEnabled(false);
+    }
+
+    @Override
+    public void enablePassphraseActions() {
+        passPhrase.setEnabled(true);
+        passPhraseView.setImageResource(R.drawable.ic_eye);
+        passPhraseSave.setImageResource(R.drawable.ic_save);
+        passPhraseView.setEnabled(true);
+        passPhraseSave.setEnabled(true);
     }
 
     private void setEncryptMode() {

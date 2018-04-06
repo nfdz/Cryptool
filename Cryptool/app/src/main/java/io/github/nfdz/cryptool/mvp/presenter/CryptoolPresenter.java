@@ -9,4 +9,8 @@ public interface CryptoolPresenter {
     void onOriginalTextChanged();
     void onToggleModeClick();
     void onOriginalClearClick();
+    void onClearPassphraseClick();
+    void onViewPassphraseClick();
+    void onSavePassphraseClick();
+
 }

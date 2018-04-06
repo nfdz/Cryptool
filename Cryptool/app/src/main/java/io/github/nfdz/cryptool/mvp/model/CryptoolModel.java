@@ -11,12 +11,19 @@ public interface CryptoolModel {
         void onError();
     }
 
-    void onDestroy(@CryptoolView.Mode int lastMode, @Nullable String lastPassphrase, @Nullable String lastOriginalText);
+    void onDestroy(@CryptoolView.Mode int lastMode,
+                   @Nullable String lastPassphrase,
+                   boolean isLastPassphraseSaved,
+                   boolean isLastPassphraseVisible,
+                   @Nullable String lastOriginalText);
 
     @CryptoolView.Mode int getLastMode();
     @Nullable String getLastPassphrase();
+    boolean isLastPassphraseSaved();
+    boolean isLastPassphraseVisible();
     @Nullable String getLastOriginalText();
 
     void encrypt(String passphrase, String plainText, Callback callback);
     void decrypt(String passphrase, String encryptedText, Callback callback);
+
 }

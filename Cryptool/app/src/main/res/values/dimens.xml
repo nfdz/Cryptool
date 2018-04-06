@@ -8,7 +8,7 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="passphrase_icon_size">40dp</dimen>
-    <dimen name="passphrase_padding">8dp</dimen>
+    <dimen name="passphrase_padding">6dp</dimen>
 
     <dimen name="text_title_icon_size">16dp</dimen>
     <dimen name="text_title_icon_horizontal_margin">8dp</dimen>

@@ -7,8 +7,8 @@ import android.support.annotation.Nullable;
 
 import com.scottyab.aescrypt.AESCrypt;
 
-import io.github.nfdz.cryptool.utils.PreferencesUtils;
 import io.github.nfdz.cryptool.mvp.view.CryptoolView;
+import io.github.nfdz.cryptool.utils.PreferencesUtils;
 
 public class CryptoolModelImpl implements CryptoolModel {
 
@@ -28,10 +28,16 @@ public class CryptoolModelImpl implements CryptoolModel {
     }
 
     @Override
-    public void onDestroy(@CryptoolView.Mode int lastMode, @Nullable String lastPassphrase, @Nullable String lastOriginalText) {
+    public void onDestroy(@CryptoolView.Mode int lastMode,
+                          @Nullable String lastPassphrase,
+                          boolean isLastPassphraseSaved,
+                          boolean isLastPassphraseVisible,
+                          @Nullable String lastOriginalText) {
         if (context != null) {
             PreferencesUtils.setLastMode(context, lastMode);
             PreferencesUtils.setLastPassphrase(context, lastPassphrase);
+            PreferencesUtils.setLastPassphraseSaved(context, isLastPassphraseSaved);
+            PreferencesUtils.setLastPassphraseVisible(context, isLastPassphraseVisible);
             PreferencesUtils.setLastOriginalText(context, lastOriginalText);
             context = null;
         }
@@ -54,6 +60,16 @@ public class CryptoolModelImpl implements CryptoolModel {
     @Override
     public String getLastPassphrase() {
         return PreferencesUtils.getLastPassphrase(context);
+    }
+
+    @Override
+    public boolean isLastPassphraseSaved() {
+        return PreferencesUtils.isLastPassphraseSaved(context);
+    }
+
+    @Override
+    public boolean isLastPassphraseVisible() {
+        return PreferencesUtils.isLastPassphraseVisible(context);
     }
 
     @Nullable

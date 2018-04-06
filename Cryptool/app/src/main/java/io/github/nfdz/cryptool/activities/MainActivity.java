@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 import io.github.nfdz.cryptool.R;
 import io.github.nfdz.cryptool.mvp.presenter.CryptoolPresenter;
 import io.github.nfdz.cryptool.mvp.presenter.CryptoolPresenterImpl;
@@ -52,6 +54,9 @@ public class MainActivity extends AppCompatActivity implements CryptoolView, Ove
     @BindView(R.id.et_original_text) EditText originalText;
     @BindView(R.id.tv_processed_text) TextView processedText;
 
+    @BindView(R.id.iv_passphrase_view) ImageView passPhraseView;
+    @BindView(R.id.iv_passphrase_save) ImageView passPhraseSave;
+
     @BindView(R.id.v_original_bg) View originalBg;
     @BindView(R.id.ib_original_copy) ImageButton originalCopy;
     @BindView(R.id.ib_original_paste) ImageButton originalPaste;
@@ -68,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements CryptoolView, Ove
     private CryptoolPresenter presenter;
     private @Mode int mode;
     private OverlayPermissionHelper permissionHelper;
+    private TextWatcher passPhrasseListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements CryptoolView, Ove
     }
 
     private void setTextListeners() {
-        passPhrase.addTextChangedListener(new TextWatcher() {
+        passPhrasseListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { /* swallow */ }
             @Override
@@ -111,7 +117,8 @@ public class MainActivity extends AppCompatActivity implements CryptoolView, Ove
             }
             @Override
             public void afterTextChanged(Editable s) { /* swallow */ }
-        });
+        };
+        passPhrase.addTextChangedListener(passPhrasseListener);
         originalText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { /* swallow */ }
@@ -126,8 +133,8 @@ public class MainActivity extends AppCompatActivity implements CryptoolView, Ove
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         presenter.onDestroy();
+        super.onDestroy();
     }
 
     @Override
@@ -152,6 +159,17 @@ public class MainActivity extends AppCompatActivity implements CryptoolView, Ove
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        // this is a workaround because app bar does not refresh correctly
+        boolean fullyExpanded = (appbar.getHeight() - appbar.getBottom()) == 0;
+        if (fullyExpanded) {
+            super.onBackPressed();
+        } else {
+            appbar.setExpanded(true, true);
         }
     }
 
@@ -184,6 +202,34 @@ public class MainActivity extends AppCompatActivity implements CryptoolView, Ove
     public void onCopyProcessedTextClick() {
         String text = getProcessedText();
         ClipboardUtils.copyText(this, text, mode, rootView);
+    }
+
+    @OnClick(R.id.iv_passphrase_view)
+    public void onViewPassphraseClick() {
+        presenter.onViewPassphraseClick();
+    }
+
+    @OnClick(R.id.iv_passphrase_save)
+    public void onSavePassphraseClick() {
+        presenter.onSavePassphraseClick();
+    }
+
+    @OnClick(R.id.iv_passphrase_clear)
+    public void onClearPassphraseClick() {
+        presenter.onClearPassphraseClick();
+    }
+
+    @OnClick(R.id.iv_passphrase_icon)
+    public void onPassphraseIconClick() {
+        ViewUtils.showSnackbarMessage(this,
+                rootView,
+                getString(R.string.encryption_algorithm));
+    }
+
+    @OnLongClick(R.id.iv_passphrase_icon)
+    public boolean onPassphraseIconLongClick() {
+        onPassphraseIconClick();
+        return true;
     }
 
     @Override
@@ -235,6 +281,40 @@ public class MainActivity extends AppCompatActivity implements CryptoolView, Ove
     @Override
     public void hideError() {
         processedError.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void setPassphraseInvisible() {
+        passPhraseView.setImageResource(R.drawable.ic_eye);
+        passPhrase.removeTextChangedListener(passPhrasseListener);
+        passPhrase.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        passPhrase.addTextChangedListener(passPhrasseListener);
+    }
+
+    @Override
+    public void setPassphraseVisible() {
+        passPhraseView.setImageResource(R.drawable.ic_transparent_eye);
+        passPhrase.removeTextChangedListener(passPhrasseListener);
+        passPhrase.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        passPhrase.addTextChangedListener(passPhrasseListener);
+    }
+
+    @Override
+    public void disablePassphraseActions() {
+        passPhrase.setEnabled(false);
+        passPhraseView.setImageResource(R.drawable.ic_eye_gray);
+        passPhraseSave.setImageResource(R.drawable.ic_save_gray);
+        passPhraseView.setEnabled(false);
+        passPhraseSave.setEnabled(false);
+    }
+
+    @Override
+    public void enablePassphraseActions() {
+        passPhrase.setEnabled(true);
+        passPhraseView.setImageResource(R.drawable.ic_eye);
+        passPhraseSave.setImageResource(R.drawable.ic_save);
+        passPhraseView.setEnabled(true);
+        passPhraseSave.setEnabled(true);
     }
 
     @Override

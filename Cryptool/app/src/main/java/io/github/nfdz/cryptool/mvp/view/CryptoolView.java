@@ -33,4 +33,9 @@ public interface CryptoolView {
     void hideLoading();
     void showError();
     void hideError();
+    void setPassphraseInvisible();
+    void setPassphraseVisible();
+    void disablePassphraseActions();
+    void enablePassphraseActions();
+
 }

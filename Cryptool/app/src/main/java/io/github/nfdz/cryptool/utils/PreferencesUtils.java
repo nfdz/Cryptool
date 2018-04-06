@@ -5,8 +5,8 @@ import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import io.github.nfdz.cryptool.services.ToolBallService;
 import io.github.nfdz.cryptool.mvp.view.CryptoolView;
+import io.github.nfdz.cryptool.services.ToolBallService;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -25,6 +25,12 @@ public class PreferencesUtils {
 
     private static final String LAST_PASSPHRASE_KEY = "last_passphrase";
     private static final String LAST_PASSPHRASE_DEFAULT = "";
+
+    private static final String LAST_PASSPHRASE_SAVED_FLAG_KEY = "last_passphrase_saved_flag";
+    private static final boolean LAST_PASSPHRASE_SAVED_FLAG_DEFAULT = false;
+
+    private static final String LAST_PASSPHRASE_VISIBLE_FLAG_KEY = "last_passphrase_visible_flag";
+    private static final boolean LAST_PASSPHRASE_VISIBLE_FLAG_DEFAULT = false;
 
     private static final String LAST_ORIGINAL_TEXT_KEY = "last_original_text";
     private static final String LAST_ORIGINAL_TEXT_DEFAULT = "";
@@ -80,6 +86,30 @@ public class PreferencesUtils {
         } else {
             editor.putString(LAST_PASSPHRASE_KEY, passphrase);
         }
+        editor.apply();
+    }
+
+    public static boolean isLastPassphraseSaved(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_KEY, MODE_PRIVATE);
+        return prefs.getBoolean(LAST_PASSPHRASE_SAVED_FLAG_KEY, LAST_PASSPHRASE_SAVED_FLAG_DEFAULT);
+    }
+
+    public static void setLastPassphraseSaved(Context context, boolean isSaved) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_KEY, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(LAST_PASSPHRASE_SAVED_FLAG_KEY, isSaved);
+        editor.apply();
+    }
+
+    public static boolean isLastPassphraseVisible(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_KEY, MODE_PRIVATE);
+        return prefs.getBoolean(LAST_PASSPHRASE_VISIBLE_FLAG_KEY, LAST_PASSPHRASE_VISIBLE_FLAG_DEFAULT);
+    }
+
+    public static void setLastPassphraseVisible(Context context, boolean isVisible) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_KEY, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(LAST_PASSPHRASE_VISIBLE_FLAG_KEY, isVisible);
         editor.apply();
     }
 
