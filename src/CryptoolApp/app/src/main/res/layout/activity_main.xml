@@ -24,7 +24,11 @@
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/main_nav"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/main_bottom_nav_height"
+            android:background="@color/colorAccent"
+            app:itemIconTint="@android:color/white"
+            app:itemTextColor="@android:color/white"
+            app:labelVisibilityMode="selected"
             app:menu="@menu/main_bottom_nav"/>
 
     </LinearLayout>
@@ -33,9 +37,10 @@
         android:id="@+id/main_fab_ball"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_anchor="@+id/main_view_pager"
-        app:layout_anchorGravity="bottom|right"
-        android:layout_margin="@dimen/fab_margin"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="@dimen/main_fab_margin_bottom"
+        android:layout_marginRight="@dimen/main_fab_margin_right"
+        android:layout_marginEnd="@dimen/main_fab_margin_right"
         app:srcCompat="@drawable/ic_ball_mode" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
