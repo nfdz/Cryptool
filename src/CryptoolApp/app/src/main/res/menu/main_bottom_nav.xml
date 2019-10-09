@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/main_nav_cipher"
+        android:icon="@drawable/ic_file_cypher"
+        android:title="@string/main_tab_cipher"/>
+    <item
+        android:id="@+id/main_nav_hash"
+        android:icon="@drawable/ic_file_check"
+        android:title="@string/main_tab_hash"/>
+    <item
+        android:id="@+id/main_nav_keys"
+        android:icon="@drawable/ic_keys"
+        android:title="@string/main_tab_keys"/>
+</menu>

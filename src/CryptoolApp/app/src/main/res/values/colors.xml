@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1b1b1b</color>
+    <color name="colorAccent">#006064</color>
+    <color name="colorBackground">#FAFAFA</color>
+
+    <color name="ic_launcher_background">@color/colorPrimary</color>
+    <color name="colorPrimaryDark">@color/colorPrimary</color>
+    <color name="colorPlainTextBg">@android:color/white</color>
+    <color name="colorPlainText">@color/colorPrimary</color>
+    <color name="colorEncryptedTextBg">@color/colorPrimary</color>
+    <color name="colorEncryptedText">@android:color/white</color>
+</resources>
