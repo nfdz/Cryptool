@@ -6,4 +6,14 @@
     <string name="main_menu_settings">Settings</string>
     <string name="main_menu_rate_suggestions">Rate &amp; Suggestions</string>
     <string name="main_menu_about">About</string>
+
+    <!-- Clipboard -->
+    <string name="cb_copy_success">Successfully copied to clipboard</string>
+    <string name="cb_copy_empty">There is no text to copy</string>
+    <string name="cb_paste_empty">There is no text to paste</string>
+
+    <!-- Cypher -->
+    <string name="cypher_plain_label">Original text:</string>
+    <string name="cypher_encrypted_label">Encrypted text:</string>
+    <string name="cypher_passphrase_label">Passphrase:</string>
 </resources>

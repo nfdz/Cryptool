@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import io.github.nfdz.cryptool.R
+import kotlinx.android.synthetic.main.fragment_cypher.*
 
 
 class CypherFragment : Fragment(), CypherView {
@@ -37,7 +38,51 @@ class CypherFragment : Fragment(), CypherView {
     }
 
     private fun setupView() {
-
+        cypher_itb_pass.setupView(
+            R.color.colorLight,
+            R.drawable.selector_action_light,
+            R.color.colorDark,
+            R.drawable.ic_passphrase,
+            R.string.cypher_passphrase_label
+        )
+        cypher_itb_pass.setupAction1(R.drawable.ic_eye) {
+            // TODO
+        }
+        cypher_itb_pass.setupAction2(R.drawable.ic_save) {
+            // TODO
+        }
+        cypher_itb_pass.setupAction3(R.drawable.ic_clear) {
+            // TODO
+        }
+        cypher_itb_plain.setupView(
+            R.color.colorLight,
+            R.drawable.selector_action_light,
+            R.color.colorDark,
+            R.drawable.ic_no_encryption,
+            R.string.cypher_plain_label
+        )
+        cypher_itb_plain.setupAction1(R.drawable.ic_copy) {
+            // TODO
+        }
+        cypher_itb_plain.setupAction2(R.drawable.ic_paste) {
+            // TODO
+        }
+        cypher_itb_plain.setupAction3(R.drawable.ic_clear) {
+            // TODO
+        }
+        cypher_otb_crypt.setupView(
+            R.color.colorDark,
+            R.drawable.selector_action_dark,
+            R.color.colorLight,
+            R.drawable.ic_encryption,
+            R.string.cypher_encrypted_label
+        )
+        cypher_otb_crypt.setupAction1(R.drawable.ic_copy) {
+            // TODO
+        }
+        cypher_btn_reverse.setOnClickListener {
+            // TODO
+        }
     }
 
 }

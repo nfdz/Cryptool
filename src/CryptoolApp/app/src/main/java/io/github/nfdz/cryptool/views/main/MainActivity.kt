@@ -9,13 +9,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import io.github.nfdz.cryptool.R
+import io.github.nfdz.cryptool.common.utils.BroadcastHelper
+import io.github.nfdz.cryptool.common.utils.OverlayPermissionHelper
 import io.github.nfdz.cryptool.views.cypher.CypherFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.*
 
-class MainActivity : AppCompatActivity() {
+
+class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
 
     companion object {
+        const val OPEN_CYPHER_BALL_ACTION = "io.github.nfdz.cryptool.OPEN_TOOL_BALL"
+        const val OPEN_HASH_BALL_ACTION = "io.github.nfdz.cryptool.OPEN_HASH_BALL"
+        const val OPEN_KEYS_BALL_ACTION = "io.github.nfdz.cryptool.OPEN_KEYS_BALL"
+
         @JvmStatic
         fun startActivity(context: Context) {
             context.startActivity(
@@ -27,10 +34,34 @@ class MainActivity : AppCompatActivity() {
     }
 
     private var pagerAdapter: MainPagerAdapter? = null
+    private val permissionHelper: OverlayPermissionHelper by lazy {
+        OverlayPermissionHelper(this, this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupView()
+        BroadcastHelper.sendCloseFloatingWindowsBroadcast(this)
+        handleIntent()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        permissionHelper.onActivityResult(requestCode, resultCode, data!!)
+    }
+
+    private fun handleIntent(): Boolean {
+        val action = intent?.action
+        return if (action?.isNotEmpty() == true && permissionHelper.hasPermission()) {
+            return when (action) {
+                OPEN_CYPHER_BALL_ACTION -> true
+                OPEN_HASH_BALL_ACTION -> true
+                OPEN_KEYS_BALL_ACTION -> true
+                else -> false
+            }
+        } else {
+            false
+        }
     }
 
     private fun setupView() {
@@ -63,7 +94,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-//            R.id.main_menu_settings -> { navigateToChat(); true }
+            R.id.main_menu_settings -> {
+                permissionHelper.navigateToSettings(); true
+            }
 //            R.id.main_menu_rate_suggestions -> { navigateToClub(); true }
 //            R.id.main_menu_about -> { navigateToPlaylist(); true }
             else -> super.onOptionsItemSelected(item)
@@ -82,5 +115,16 @@ class MainActivity : AppCompatActivity() {
 
         override fun getCount() = 3
 
+    }
+
+    override fun onPermissionGranted() {
+//        ToolBallService.start(this);
+//        finish();
+    }
+
+    override fun onPermissionDenied() {
+//        Toast.makeText(this,
+//            "Draw over other app permission not available.",
+//            Toast.LENGTH_SHORT).show();
     }
 }

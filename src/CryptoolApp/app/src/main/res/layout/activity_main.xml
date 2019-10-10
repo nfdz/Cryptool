@@ -13,6 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:orientation="vertical">
 
         <io.github.nfdz.cryptool.common.widgets.NonSwipeableViewPager
@@ -26,8 +27,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/main_bottom_nav_height"
             android:background="@color/colorAccent"
-            app:itemIconTint="@android:color/white"
-            app:itemTextColor="@android:color/white"
+            app:itemIconTint="@color/colorLight"
+            app:itemTextColor="@color/colorLight"
             app:labelVisibilityMode="selected"
             app:menu="@menu/main_bottom_nav"/>
 
