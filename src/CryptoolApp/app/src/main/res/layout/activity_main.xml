@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/root"
+    android:background="@color/colorBackground">
+
+
+    <include layout="@layout/app_bar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:orientation="vertical">
+
+        <io.github.nfdz.cryptool.common.widgets.NonSwipeableViewPager
+            android:id="@+id/main_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/main_nav"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_bottom_nav_height"
+            android:background="@color/colorAccent"
+            app:itemIconTint="@color/colorLight"
+            app:itemTextColor="@color/colorLight"
+            app:labelVisibilityMode="selected"
+            app:menu="@menu/main_bottom_nav"/>
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/main_fab_ball"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="@dimen/main_fab_margin_bottom"
+        android:layout_marginRight="@dimen/main_fab_margin_right"
+        android:layout_marginEnd="@dimen/main_fab_margin_right"
+        app:srcCompat="@drawable/ic_ball_mode" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
