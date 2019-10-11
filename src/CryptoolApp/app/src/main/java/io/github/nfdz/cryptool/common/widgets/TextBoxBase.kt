@@ -30,13 +30,15 @@ abstract class TextBoxBase : FrameLayout {
         initView()
     }
 
-    protected open fun initView() {
+    private fun initView() {
         val view = View.inflate(context, getLayout(), null)
         addView(view)
         getActionView1().visibility = View.GONE
         getActionView2().visibility = View.GONE
         getActionView3().visibility = View.GONE
     }
+
+    protected open fun afterViewSetup() {}
 
     protected abstract fun getLayout(): Int
     protected abstract fun getActionView1(): AppCompatImageButton
@@ -70,6 +72,7 @@ abstract class TextBoxBase : FrameLayout {
         getActionView1().setBackgroundResource(actionBgRes)
         getActionView2().setBackgroundResource(actionBgRes)
         getActionView3().setBackgroundResource(actionBgRes)
+        afterViewSetup()
     }
 
     fun setupAction1Icon(@DrawableRes iconRes: Int) {

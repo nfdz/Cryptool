@@ -15,8 +15,8 @@ interface CypherContract {
     interface View {
         var mode: ModeFlag
         var originText: String
+        var processedText: String
         var passphrase: String
-        fun setProcessedText(text: String)
         fun setPassphraseMode(visible: Boolean, enabled: Boolean)
     }
 

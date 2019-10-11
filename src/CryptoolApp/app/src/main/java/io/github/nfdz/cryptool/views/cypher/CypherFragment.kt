@@ -160,9 +160,11 @@ class CypherFragment : Fragment(), CypherContract.View {
             setupTextBoxesWithMode()
         }
 
-    override fun setProcessedText(text: String) {
-        cypher_otb_processed.setText(text)
-    }
+    override var processedText: String
+        get() = cypher_otb_processed.getText()
+        set(value) {
+            cypher_otb_processed.setText(value)
+        }
 
     override fun setPassphraseMode(visible: Boolean, enabled: Boolean) {
         cypher_itb_pass.setInputEnabled(enabled)

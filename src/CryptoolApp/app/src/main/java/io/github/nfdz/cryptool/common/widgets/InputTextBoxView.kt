@@ -22,16 +22,17 @@ class InputTextBoxView : TextBoxBase {
     constructor(context: Context) : super(context)
 
     private val inputWatcher: TextWatcher = object : TextWatcher {
-        override fun afterTextChanged(s: Editable?) = Unit
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) =
+        override fun afterTextChanged(s: Editable?) {}
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int)  {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             inputChangeListener()
+        }
     }
 
     private var inputChangeListener: () -> (Unit) = {}
 
-    override fun initView() {
-        super.initView()
+    override fun afterViewSetup() {
+        itb_et.removeTextChangedListener(inputWatcher)
         itb_et.addTextChangedListener(inputWatcher)
     }
 

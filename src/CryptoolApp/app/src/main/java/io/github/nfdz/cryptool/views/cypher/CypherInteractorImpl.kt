@@ -5,6 +5,7 @@ import io.github.nfdz.cryptool.common.utils.CryptographyHelper
 import io.github.nfdz.cryptool.common.utils.PreferencesHelper
 import io.github.nfdz.cryptool.common.utils.doAsync
 import io.github.nfdz.cryptool.common.utils.doMainThread
+import timber.log.Timber
 import java.security.GeneralSecurityException
 
 class CypherInteractorImpl(context: Context) : CypherContract.Interactor {
@@ -45,6 +46,7 @@ class CypherInteractorImpl(context: Context) : CypherContract.Interactor {
                     success(processedText)
                 }
             } catch (e: GeneralSecurityException) {
+                Timber.e(e)
                 error()
             }
         }
@@ -63,6 +65,7 @@ class CypherInteractorImpl(context: Context) : CypherContract.Interactor {
                     success(processedText)
                 }
             } catch (e: GeneralSecurityException) {
+                Timber.e(e)
                 error()
             }
         }

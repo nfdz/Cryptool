@@ -63,6 +63,11 @@ class CypherPresenterImpl(
             CypherContract.ModeFlag.DECRYIPT_MODE -> CypherContract.ModeFlag.ENCRYIPT_MODE
             null -> CypherContract.DEFAULT_MODE
         }
+        var processedText = view?.processedText ?: ""
+        if (processedText == PROCESSING_TEXT || processedText == ERROR_TEXT) {
+            processedText = ""
+        }
+        view?.originText = processedText
         processOriginText()
     }
 
@@ -70,14 +75,14 @@ class CypherPresenterImpl(
         val passphrase = view?.passphrase ?: ""
         val originText = view?.originText ?: ""
         if (passphrase == "" || originText == "") {
-            view?.setProcessedText("")
+            view?.processedText = ""
         } else {
-            view?.setProcessedText(PROCESSING_TEXT)
+            view?.processedText = PROCESSING_TEXT
             val success: (String) -> (Unit) = { processedText ->
-                view?.setProcessedText(processedText)
+                view?.processedText = processedText
             }
             val error: () -> (Unit) = {
-                view?.setProcessedText(ERROR_TEXT)
+                view?.processedText = ERROR_TEXT
             }
             when (view?.mode) {
                 CypherContract.ModeFlag.ENCRYIPT_MODE -> {
