@@ -1,9 +1,11 @@
 package io.github.nfdz.cryptool.views.cypher
 
-import androidx.annotation.IntDef
-
 
 interface CypherContract {
+
+    companion object {
+        val DEFAULT_MODE = ModeFlag.ENCRYIPT_MODE
+    }
 
     enum class ModeFlag {
         ENCRYIPT_MODE,
@@ -13,7 +15,7 @@ interface CypherContract {
     interface View {
         var mode: ModeFlag
         var originText: String
-        val passphrase: String
+        var passphrase: String
         fun setProcessedText(text: String)
         fun setPassphraseMode(visible: Boolean, enabled: Boolean)
     }
@@ -25,32 +27,33 @@ interface CypherContract {
         fun onOriginTextChanged()
         fun onToggleModeClick()
         fun onViewPassphraseClick()
-        fun onSavePassphraseClick()
+        fun onLockPassphraseClick()
     }
 
     interface Interactor {
-        val lastMode: ModeFlag
-        val lastPassphrase: String
-        val isLastPassphraseSaved: Boolean
-        val lastOriginText: String
-        fun onDestroy(
+        fun getLastMode(): ModeFlag
+        fun getLastPassphrase(): String
+        fun wasLastPassphraseLocked(): Boolean
+        fun getLastOriginText(): String
+
+        fun destroy(
             lastMode: ModeFlag,
             lastPassphrase: String,
-            isLastPassphraseSaved: Boolean,
+            isLastPassphraseLocked: Boolean,
             lastOriginText: String
         )
 
         fun encrypt(
             passphrase: String,
             plainText: String,
-            success: () -> (Unit),
+            success: (String) -> (Unit),
             error: () -> (Unit)
         )
 
         fun decrypt(
             passphrase: String,
             encryptedText: String,
-            success: () -> (Unit),
+            success: (String) -> (Unit),
             error: () -> (Unit)
         )
     }

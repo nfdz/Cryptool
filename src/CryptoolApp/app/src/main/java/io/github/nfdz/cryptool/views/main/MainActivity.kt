@@ -1,5 +1,6 @@
 package io.github.nfdz.cryptool.views.main
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -48,7 +49,7 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        permissionHelper.onActivityResult(requestCode, resultCode, data!!)
+        permissionHelper.onActivityResult(requestCode)
     }
 
     private fun handleIntent(): Boolean {
@@ -96,7 +97,12 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.main_menu_settings -> {
-                permissionHelper.navigateToSettings(); true
+                try {
+                    permissionHelper.navigateToSettings()
+                } catch (e: ActivityNotFoundException) {
+                    toast(R.string.error_no_settings)
+                }
+                true
             }
 //            R.id.main_menu_rate_suggestions -> { navigateToClub(); true }
 //            R.id.main_menu_about -> { navigateToPlaylist(); true }

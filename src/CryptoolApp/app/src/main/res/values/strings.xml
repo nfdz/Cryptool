@@ -18,4 +18,7 @@
     <string name="cypher_plain_label">Original text:</string>
     <string name="cypher_encrypted_label">Encrypted text:</string>
     <string name="cypher_passphrase_label">Passphrase:</string>
+
+    <!-- Errors -->
+    <string name="error_no_settings">It is not possible open your System Settings</string>
 </resources>

@@ -2,7 +2,6 @@ package io.github.nfdz.cryptool.common.utils
 
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -31,7 +30,7 @@ class OverlayPermissionHelper(private val activity: Activity, private val callba
         }
     }
 
-    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    fun onActivityResult(requestCode: Int) {
         if (requestCode == CODE_PERMISSION_REQUEST) {
             if (hasPermission()) {
                 callback?.onPermissionGranted()
@@ -48,7 +47,10 @@ class OverlayPermissionHelper(private val activity: Activity, private val callba
                 Uri.parse("package:" + activity.packageName)
             )
         } else {
-            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            Intent(
+                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                Uri.parse("package:" + activity.packageName)
+            )
         }
         activity.startActivity(intent)
     }

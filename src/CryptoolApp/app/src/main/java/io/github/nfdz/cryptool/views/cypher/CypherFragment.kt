@@ -20,7 +20,7 @@ class CypherFragment : Fragment(), CypherContract.View {
     private val presenter: CypherContract.Presenter by lazy {
         CypherPresenterImpl(
             this,
-            activity?.let { HomeInteractorImpl(it) })
+            activity?.let { CypherInteractorImpl(it) })
     }
 
     override fun onCreateView(
@@ -95,7 +95,7 @@ class CypherFragment : Fragment(), CypherContract.View {
     private fun setupActions() {
         cypher_itb_pass.setupAction1 { presenter.onViewPassphraseClick() }
         cypher_itb_pass.setupAction2Icon(R.drawable.ic_save)
-        cypher_itb_pass.setupAction2 { presenter.onSavePassphraseClick() }
+        cypher_itb_pass.setupAction2 { presenter.onLockPassphraseClick() }
         cypher_itb_pass.setupAction3Icon(R.drawable.ic_clear)
         cypher_itb_pass.setupAction3 { cypher_itb_pass.setText("") }
         cypher_itb_origin.setupAction1Icon(R.drawable.ic_copy)
