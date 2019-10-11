@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import io.github.nfdz.cryptool.R
 import io.github.nfdz.cryptool.common.utils.BroadcastHelper
 import io.github.nfdz.cryptool.common.utils.OverlayPermissionHelper
+import io.github.nfdz.cryptool.common.utils.toast
 import io.github.nfdz.cryptool.views.cypher.CypherFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.*
@@ -123,8 +124,6 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
     }
 
     override fun onPermissionDenied() {
-//        Toast.makeText(this,
-//            "Draw over other app permission not available.",
-//            Toast.LENGTH_SHORT).show();
+        toast(R.string.permission_denied)
     }
 }

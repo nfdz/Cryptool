@@ -28,7 +28,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@drawable/ic_no_encryption" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/itb_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
         tools:text="@string/cypher_plain_label"
         tools:textColor="@color/colorDark" />
 
-    <EditText
+    <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/itb_et"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

@@ -30,7 +30,7 @@ abstract class TextBoxBase : FrameLayout {
         initView()
     }
 
-    private fun initView() {
+    protected open fun initView() {
         val view = View.inflate(context, getLayout(), null)
         addView(view)
         getActionView1().visibility = View.GONE
@@ -72,25 +72,22 @@ abstract class TextBoxBase : FrameLayout {
         getActionView3().setBackgroundResource(actionBgRes)
     }
 
-    fun setupAction1(
-        @DrawableRes iconRes: Int,
-        onAction: () -> (Unit)
-    ) {
-        setupAction(getActionView1(), iconRes, onAction)
+    fun setupAction1Icon(@DrawableRes iconRes: Int) {
+        setupActionIcon(getActionView1(), iconRes)
     }
 
-    fun setupAction2(
-        @DrawableRes iconRes: Int,
-        onAction: () -> (Unit)
-    ) {
-        setupAction(getActionView2(), iconRes, onAction)
+    fun setupAction2Icon(@DrawableRes iconRes: Int) {
+        setupActionIcon(getActionView2(), iconRes)
     }
 
-    fun setupAction3(
-        @DrawableRes iconRes: Int,
-        onAction: () -> (Unit)
-    ) {
-        setupAction(getActionView3(), iconRes, onAction)
+    fun setupAction3Icon(@DrawableRes iconRes: Int) {
+        setupActionIcon(getActionView3(), iconRes)
+    }
+
+    private fun setupActionIcon(actionView: AppCompatImageButton, @DrawableRes iconRes: Int) {
+        actionView.visibility = View.VISIBLE
+        actionView.setImageResource(iconRes)
+        actionColorFilter?.let { actionView.setColorFilter(it) }
     }
 
     fun setAction1Enabled(enabled: Boolean) {
@@ -109,16 +106,20 @@ abstract class TextBoxBase : FrameLayout {
         actionView.isEnabled = enabled
     }
 
-    private fun setupAction(
-        actionView: AppCompatImageButton,
-        @DrawableRes iconRes: Int,
-        onAction: () -> (Unit)
-    ) {
-        actionView.visibility = View.VISIBLE
-        actionView.setImageResource(iconRes)
-        actionColorFilter?.let { actionView.setColorFilter(it) }
-        actionView.setOnClickListener { onAction() }
+    fun setupAction1(onAction: () -> (Unit)) {
+        setupAction(getActionView1(), onAction)
     }
 
+    fun setupAction2(onAction: () -> (Unit)) {
+        setupAction(getActionView2(), onAction)
+    }
+
+    fun setupAction3(onAction: () -> (Unit)) {
+        setupAction(getActionView3(), onAction)
+    }
+
+    private fun setupAction(actionView: AppCompatImageButton, onAction: () -> (Unit)) {
+        actionView.setOnClickListener { onAction() }
+    }
 
 }

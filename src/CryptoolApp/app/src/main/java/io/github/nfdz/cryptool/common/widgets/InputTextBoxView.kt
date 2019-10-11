@@ -1,6 +1,8 @@
 package io.github.nfdz.cryptool.common.widgets
 
 import android.content.Context
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
 import android.widget.TextView
@@ -18,6 +20,20 @@ class InputTextBoxView : TextBoxBase {
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
     constructor(context: Context) : super(context)
+
+    private val inputWatcher: TextWatcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) = Unit
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) =
+            inputChangeListener()
+    }
+
+    private var inputChangeListener: () -> (Unit) = {}
+
+    override fun initView() {
+        super.initView()
+        itb_et.addTextChangedListener(inputWatcher)
+    }
 
     override fun getLayout(): Int {
         return R.layout.input_text_box
@@ -56,8 +72,22 @@ class InputTextBoxView : TextBoxBase {
     }
 
     override fun setText(text: String) {
-        itb_et.text.clear()
-        itb_et.text.append(text)
+        itb_et.text?.clear()
+        itb_et.text?.append(text)
+    }
+
+    fun setInputChangedListener(listener: () -> (Unit)) {
+        inputChangeListener = listener
+    }
+
+    fun setInputType(type: Int) {
+        itb_et.removeTextChangedListener(inputWatcher)
+        itb_et.inputType = type
+        itb_et.addTextChangedListener(inputWatcher)
+    }
+
+    fun setInputEnabled(enabled: Boolean) {
+        itb_et.isEnabled = enabled
     }
 
 }

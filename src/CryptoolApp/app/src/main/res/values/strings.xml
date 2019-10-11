@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">Cryptool</string>
+    <string name="permission_denied">Draw over other apps permission needed</string>
     <string name="main_tab_cipher">Cypher</string>
     <string name="main_tab_hash">Hash</string>
     <string name="main_tab_keys">Keys</string>
@@ -11,6 +12,7 @@
     <string name="cb_copy_success">Successfully copied to clipboard</string>
     <string name="cb_copy_empty">There is no text to copy</string>
     <string name="cb_paste_empty">There is no text to paste</string>
+    <string name="cb_label">Cryptool data</string>
 
     <!-- Cypher -->
     <string name="cypher_plain_label">Original text:</string>

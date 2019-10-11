@@ -28,7 +28,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@drawable/ic_encryption" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/otb_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
         tools:text="@string/cypher_encrypted_label"
         tools:textColor="@color/colorLight" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/otb_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

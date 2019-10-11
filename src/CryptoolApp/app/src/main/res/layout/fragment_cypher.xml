@@ -31,13 +31,13 @@
                 android:orientation="vertical">
 
                 <io.github.nfdz.cryptool.common.widgets.InputTextBoxView
-                    android:id="@+id/cypher_itb_plain"
+                    android:id="@+id/cypher_itb_origin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/activity_vertical_margin" />
 
                 <io.github.nfdz.cryptool.common.widgets.OutputTextBoxView
-                    android:id="@+id/cypher_otb_crypt"
+                    android:id="@+id/cypher_otb_processed"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
