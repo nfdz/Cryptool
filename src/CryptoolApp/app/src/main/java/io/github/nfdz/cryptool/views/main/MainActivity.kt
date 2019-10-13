@@ -13,7 +13,8 @@ import io.github.nfdz.cryptool.R
 import io.github.nfdz.cryptool.common.utils.BroadcastHelper
 import io.github.nfdz.cryptool.common.utils.OverlayPermissionHelper
 import io.github.nfdz.cryptool.common.utils.toast
-import io.github.nfdz.cryptool.views.cypher.CypherFragment
+import io.github.nfdz.cryptool.services.BallService
+import io.github.nfdz.cryptool.views.hash.HashFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.*
 
@@ -21,7 +22,7 @@ import kotlinx.android.synthetic.main.app_bar.*
 class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
 
     companion object {
-        const val OPEN_CYPHER_BALL_ACTION = "io.github.nfdz.cryptool.OPEN_TOOL_BALL"
+        const val OPEN_CIPHER_BALL_ACTION = "io.github.nfdz.cryptool.OPEN_CIPHER_BALL"
         const val OPEN_HASH_BALL_ACTION = "io.github.nfdz.cryptool.OPEN_HASH_BALL"
         const val OPEN_KEYS_BALL_ACTION = "io.github.nfdz.cryptool.OPEN_KEYS_BALL"
 
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
         val action = intent?.action
         return if (action?.isNotEmpty() == true && permissionHelper.hasPermission()) {
             return when (action) {
-                OPEN_CYPHER_BALL_ACTION -> true
+                OPEN_CIPHER_BALL_ACTION -> true
                 OPEN_HASH_BALL_ACTION -> true
                 OPEN_KEYS_BALL_ACTION -> true
                 else -> false
@@ -70,7 +71,7 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
-        pagerAdapter = MainPagerAdapter(this, supportFragmentManager)
+        pagerAdapter = MainPagerAdapter(supportFragmentManager)
         main_view_pager.adapter = pagerAdapter
         main_nav.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
@@ -87,6 +88,7 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
             }
         }
         main_nav.selectedItemId = R.id.main_nav_cipher
+        main_fab_ball.setOnClickListener { permissionHelper.request() }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -110,13 +112,13 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
         }
     }
 
-    private class MainPagerAdapter(val context: Context, fm: FragmentManager) :
+    private class MainPagerAdapter(fm: FragmentManager) :
         FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
         override fun getItem(position: Int) = when (position) {
-            0 -> CypherFragment.newInstance()
-            1 -> CypherFragment.newInstance()
-            2 -> CypherFragment.newInstance()
+            0 -> CipherFragment.newInstance()
+            1 -> HashFragment.newInstance()
+            2 -> HashFragment.newInstance()
             else -> throw IllegalArgumentException("Invalid tab position=$position")
         }
 
@@ -125,8 +127,8 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
     }
 
     override fun onPermissionGranted() {
-//        ToolBallService.start(this);
-//        finish();
+        BallService.start(this)
+        finish()
     }
 
     override fun onPermissionDenied() {

@@ -5,9 +5,9 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.View
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatImageButton
-import androidx.appcompat.widget.AppCompatImageView
 import io.github.nfdz.cryptool.R
 import kotlinx.android.synthetic.main.input_text_box.view.*
 
@@ -22,16 +22,18 @@ class InputTextBoxView : TextBoxBase {
     constructor(context: Context) : super(context)
 
     private val inputWatcher: TextWatcher = object : TextWatcher {
-        override fun afterTextChanged(s: Editable?) = Unit
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) =
+        override fun afterTextChanged(s: Editable?) {}
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             inputChangeListener()
+        }
     }
 
     private var inputChangeListener: () -> (Unit) = {}
 
-    override fun initView() {
-        super.initView()
+    override fun afterViewSetup() {
+        itb_et.isSaveEnabled = false
+        itb_et.removeTextChangedListener(inputWatcher)
         itb_et.addTextChangedListener(inputWatcher)
     }
 
@@ -39,19 +41,19 @@ class InputTextBoxView : TextBoxBase {
         return R.layout.input_text_box
     }
 
-    override fun getActionView1(): AppCompatImageButton {
+    override fun getActionView1(): ImageButton {
         return itb_action_1
     }
 
-    override fun getActionView2(): AppCompatImageButton {
+    override fun getActionView2(): ImageButton {
         return itb_action_2
     }
 
-    override fun getActionView3(): AppCompatImageButton {
+    override fun getActionView3(): ImageButton {
         return itb_action_3
     }
 
-    override fun getIcon(): AppCompatImageView {
+    override fun getIcon(): ImageView {
         return itb_icon
     }
 
@@ -72,8 +74,10 @@ class InputTextBoxView : TextBoxBase {
     }
 
     override fun setText(text: String) {
+        itb_et.removeTextChangedListener(inputWatcher)
         itb_et.text?.clear()
         itb_et.text?.append(text)
+        itb_et.addTextChangedListener(inputWatcher)
     }
 
     fun setInputChangedListener(listener: () -> (Unit)) {

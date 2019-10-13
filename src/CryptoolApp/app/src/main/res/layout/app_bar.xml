@@ -2,7 +2,6 @@
 <com.google.android.material.appbar.AppBarLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/appbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -16,17 +15,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="@string/app_name"
-            android:textSize="@dimen/toolbar_title_size"
-            android:textColor="@color/colorLight"
-            android:fontFamily="@font/nunito"
-            tools:ignore="SpUsage" />
+        <include layout="@layout/logo" />
 
     </androidx.appcompat.widget.Toolbar>
 

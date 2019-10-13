@@ -1,18 +1,18 @@
-package io.github.nfdz.cryptool.views.cypher
+package io.github.nfdz.cryptool.views.cipher
 
 import android.content.Context
 import io.github.nfdz.cryptool.common.utils.CryptographyHelper
 import io.github.nfdz.cryptool.common.utils.PreferencesHelper
 import io.github.nfdz.cryptool.common.utils.doAsync
 import io.github.nfdz.cryptool.common.utils.doMainThread
-import java.security.GeneralSecurityException
+import timber.log.Timber
 
-class CypherInteractorImpl(context: Context) : CypherContract.Interactor {
+class CipherInteractorImpl(context: Context) : CipherContract.Interactor {
 
     private val prefs = PreferencesHelper(context)
     private val crypto = CryptographyHelper()
 
-    override fun getLastMode(): CypherContract.ModeFlag = prefs.getLastMode()
+    override fun getLastMode(): CipherContract.ModeFlag = prefs.getLastMode()
 
     override fun getLastPassphrase(): String = prefs.getLastPassphrase()
 
@@ -20,16 +20,16 @@ class CypherInteractorImpl(context: Context) : CypherContract.Interactor {
 
     override fun getLastOriginText(): String = prefs.getLastOriginText()
 
-    override fun destroy(
-        lastMode: CypherContract.ModeFlag,
-        lastPassphrase: String,
+    override fun saveState(
+        lastMode: CipherContract.ModeFlag?,
+        lastPassphrase: String?,
         isLastPassphraseLocked: Boolean,
-        lastOriginText: String
+        lastOriginText: String?
     ) {
-        prefs.setLastMode(lastMode)
-        prefs.setLastPassphrase(lastPassphrase)
+        prefs.setLastMode(lastMode ?: CipherContract.DEFAULT_MODE)
+        prefs.setLastPassphrase(lastPassphrase ?: "")
         prefs.setLastPassphraseLocked(isLastPassphraseLocked)
-        prefs.setLastOriginText(lastOriginText)
+        prefs.setLastOriginText(lastOriginText ?: "")
     }
 
     override fun encrypt(
@@ -41,11 +41,10 @@ class CypherInteractorImpl(context: Context) : CypherContract.Interactor {
         doAsync {
             try {
                 val processedText = crypto.encrypt(plainText, passphrase)
-                doMainThread {
-                    success(processedText)
-                }
-            } catch (e: GeneralSecurityException) {
-                error()
+                doMainThread { success(processedText) }
+            } catch (e: Exception) {
+                Timber.e(e)
+                doMainThread { error() }
             }
         }
     }
@@ -59,11 +58,10 @@ class CypherInteractorImpl(context: Context) : CypherContract.Interactor {
         doAsync {
             try {
                 val processedText = crypto.decrypt(encryptedText, passphrase)
-                doMainThread {
-                    success(processedText)
-                }
-            } catch (e: GeneralSecurityException) {
-                error()
+                doMainThread { success(processedText) }
+            } catch (e: Exception) {
+                Timber.e(e)
+                doMainThread { error() }
             }
         }
     }

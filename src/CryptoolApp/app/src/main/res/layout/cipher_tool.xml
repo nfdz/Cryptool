@@ -14,7 +14,7 @@
         android:orientation="vertical">
 
         <io.github.nfdz.cryptool.common.widgets.InputTextBoxView
-            android:id="@+id/cypher_itb_pass"
+            android:id="@+id/cipher_itb_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_vertical_margin" />
@@ -31,20 +31,20 @@
                 android:orientation="vertical">
 
                 <io.github.nfdz.cryptool.common.widgets.InputTextBoxView
-                    android:id="@+id/cypher_itb_origin"
+                    android:id="@+id/cipher_itb_origin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/activity_vertical_margin" />
 
                 <io.github.nfdz.cryptool.common.widgets.OutputTextBoxView
-                    android:id="@+id/cypher_otb_processed"
+                    android:id="@+id/cipher_otb_processed"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/cypher_btn_reverse"
+                android:id="@+id/cipher_btn_reverse"
                 android:layout_width="@dimen/reverse_icon_size"
                 android:layout_height="match_parent"
                 android:scaleType="fitCenter"

@@ -39,7 +39,7 @@
         app:layout_constraintLeft_toRightOf="@+id/otb_icon"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/otb_icon"
-        tools:text="@string/cypher_encrypted_label"
+        tools:text="@string/cipher_encrypted_label"
         tools:textColor="@color/colorLight" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -63,6 +63,7 @@
         android:adjustViewBounds="true"
         android:padding="@dimen/action_button_padding"
         android:scaleType="fitCenter"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/otb_tv"
         tools:srcCompat="@drawable/ic_copy"
@@ -75,6 +76,7 @@
         android:adjustViewBounds="true"
         android:padding="@dimen/action_button_padding"
         android:scaleType="fitCenter"
+        android:visibility="gone"
         app:layout_constraintLeft_toRightOf="@+id/otb_action_1"
         app:layout_constraintTop_toBottomOf="@+id/otb_tv"
         tools:srcCompat="@drawable/ic_paste"
@@ -87,6 +89,7 @@
         android:adjustViewBounds="true"
         android:padding="@dimen/action_button_padding"
         android:scaleType="fitCenter"
+        android:visibility="gone"
         app:layout_constraintLeft_toRightOf="@+id/otb_action_2"
         app:layout_constraintTop_toBottomOf="@+id/otb_tv"
         tools:srcCompat="@drawable/ic_clear"

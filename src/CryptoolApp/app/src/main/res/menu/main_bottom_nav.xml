@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/main_nav_cipher"
-        android:icon="@drawable/ic_cypher_tab"
+        android:icon="@drawable/ic_cipher_tab"
         android:title="@string/main_tab_cipher"/>
     <item
         android:id="@+id/main_nav_hash"

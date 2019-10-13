@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/colorSemiTransparentDark">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/floating_tool_margin"
+        android:orientation="vertical"
+        android:background="@color/colorLight">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/floating_tool_app_bar_height"
+            android:background="@color/colorPrimary">
+
+            <include
+                android:id="@+id/ft_tv_logo"
+                layout="@layout/logo" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/ft_btn_ball"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:padding="@dimen/floating_tool_close_padding"
+                    android:adjustViewBounds="true"
+                    app:srcCompat="@drawable/ic_arrow_down"
+                    android:tint="@color/colorLight"
+                    android:background="@android:color/transparent" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/ft_btn_close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:padding="@dimen/floating_tool_close_padding"
+                    android:adjustViewBounds="true"
+                    app:srcCompat="@drawable/ic_clear"
+                    android:tint="@color/colorLight"
+                    android:background="@android:color/transparent" />
+
+            </LinearLayout>
+
+
+        </FrameLayout>
+
+        <include layout="@layout/cipher_tool"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -7,5 +7,6 @@
     <color name="colorPrimaryDark">@color/colorPrimary</color>
     <color name="colorLight">@android:color/white</color>
     <color name="colorDark">@color/colorPrimary</color>
+    <color name="colorSemiTransparentDark">#801b1b1b</color>
     <color name="ic_launcher_background">@color/colorPrimary</color>
 </resources>

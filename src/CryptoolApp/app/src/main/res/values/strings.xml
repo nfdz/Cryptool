@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Cryptool</string>
     <string name="permission_denied">Draw over other apps permission needed</string>
-    <string name="main_tab_cipher">Cypher</string>
+    <string name="main_tab_cipher">Cipher</string>
     <string name="main_tab_hash">Hash</string>
     <string name="main_tab_keys">Keys</string>
     <string name="main_menu_settings">Settings</string>
@@ -14,10 +14,10 @@
     <string name="cb_paste_empty">There is no text to paste</string>
     <string name="cb_label">Cryptool data</string>
 
-    <!-- Cypher -->
-    <string name="cypher_plain_label">Original text:</string>
-    <string name="cypher_encrypted_label">Encrypted text:</string>
-    <string name="cypher_passphrase_label">Passphrase:</string>
+    <!-- Cipher -->
+    <string name="cipher_plain_label">Original text:</string>
+    <string name="cipher_encrypted_label">Encrypted text:</string>
+    <string name="cipher_passphrase_label">Passphrase:</string>
 
     <!-- Errors -->
     <string name="error_no_settings">It is not possible open your System Settings</string>
