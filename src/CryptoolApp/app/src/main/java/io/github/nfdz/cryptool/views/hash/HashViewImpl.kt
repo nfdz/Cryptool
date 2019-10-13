@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 import io.github.nfdz.cryptool.R
 import io.github.nfdz.cryptool.common.utils.ClipboardHelper
+import io.github.nfdz.cryptool.common.utils.toast
 import io.github.nfdz.cryptool.common.widgets.InputTextBoxView
 import io.github.nfdz.cryptool.common.widgets.OutputTextBoxView
 
@@ -40,26 +41,25 @@ class HashViewImpl(private val view: View?, private val context: Context?) : Has
     }
 
     private fun setupTextBoxes() {
-        // TODO texts
-        texts
         hash_itb_origin?.setupView(
             R.color.colorLight,
             R.drawable.selector_action_light,
             R.color.colorDark,
-            R.drawable.ic_no_encryption,
-            R.string.cipher_plain_label
+            R.drawable.ic_short_text,
+            R.string.hash_plain_label
         )
         hash_otb_processed?.setupView(
             R.color.colorDark,
             R.drawable.selector_action_dark,
             R.color.colorLight,
-            R.drawable.ic_encryption,
-            R.string.cipher_encrypted_label
+            R.drawable.ic_text_check,
+            R.string.hash_processed_label
         )
         hash_itb_origin?.setupAction1Icon(R.drawable.ic_copy, R.color.colorDark)
         hash_itb_origin?.setupAction2Icon(R.drawable.ic_paste, R.color.colorDark)
         hash_itb_origin?.setupAction3Icon(R.drawable.ic_clear, R.color.colorDark)
         hash_otb_processed?.setupAction1Icon(R.drawable.ic_copy, R.color.colorLight)
+        hash_otb_processed?.setupAction2Icon(R.drawable.ic_info_outline, R.color.colorLight)
     }
 
     private fun setupActions() {
@@ -92,6 +92,9 @@ class HashViewImpl(private val view: View?, private val context: Context?) : Has
                     hash_otb_processed?.getText() ?: ""
                 )
             }
+        }
+        hash_otb_processed?.setupAction2 {
+            context?.toast(R.string.hash_info)
         }
     }
 

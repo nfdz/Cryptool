@@ -18,6 +18,12 @@
     <string name="cipher_plain_label">Original text:</string>
     <string name="cipher_encrypted_label">Encrypted text:</string>
     <string name="cipher_passphrase_label">Passphrase:</string>
+    <string name="cipher_info">Cipher algorithm: AES</string>
+
+    <!-- Hash -->
+    <string name="hash_plain_label">Original text:</string>
+    <string name="hash_processed_label">Hash:</string>
+    <string name="hash_info">Hash algorithm: SHA-256</string>
 
     <!-- Errors -->
     <string name="error_no_settings">It is not possible open your System Settings</string>

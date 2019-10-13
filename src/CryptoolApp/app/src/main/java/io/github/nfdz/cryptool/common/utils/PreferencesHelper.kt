@@ -10,6 +10,7 @@ class PreferencesHelper(private val context: Context) {
 
     companion object {
         private const val PREFS_FILE_NAME = "cryptool_preferences"
+        private const val LAST_TAB_KEY = "last_tab"
         private const val LAST_MODE_KEY = "last_mode_key"
         private const val LAST_PASSPHRASE_KEY = "last_passphrase"
         private const val LAST_PASSPHRASE_LOCKED_KEY = "last_passphrase_locked_flag"
@@ -79,6 +80,12 @@ class PreferencesHelper(private val context: Context) {
 
     fun setLastHashOriginText(originText: String) {
         preferences.edit().putString(LAST_HASH_ORIGIN_TEXT_KEY, originText).apply()
+    }
+
+    fun getLastTab(): Int = preferences.getInt(LAST_TAB_KEY, 0)
+
+    fun setLastTab(tabIndex: Int) {
+        preferences.edit().putInt(LAST_TAB_KEY, tabIndex).apply()
     }
 
 }

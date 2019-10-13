@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import io.github.nfdz.cryptool.R
 import io.github.nfdz.cryptool.common.utils.BroadcastHelper
 import io.github.nfdz.cryptool.common.utils.OverlayPermissionHelper
+import io.github.nfdz.cryptool.common.utils.PreferencesHelper
 import io.github.nfdz.cryptool.common.utils.toast
 import io.github.nfdz.cryptool.services.BallService
 import kotlinx.android.synthetic.main.activity_main.*
@@ -35,6 +36,7 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
         }
     }
 
+    private val prefs by lazy { PreferencesHelper(this) }
     private var pagerAdapter: MainPagerAdapter? = null
     private val permissionHelper: OverlayPermissionHelper by lazy {
         OverlayPermissionHelper(this, this)
@@ -42,7 +44,7 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setupView()
+        setupView(prefs.getLastTab())
         BroadcastHelper.sendCloseFloatingWindowsBroadcast(this)
         handleIntent()
     }
@@ -66,7 +68,7 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
         }
     }
 
-    private fun setupView() {
+    private fun setupView(initialTab: Int) {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
@@ -75,18 +77,37 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
         main_nav.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.main_nav_cipher -> {
-                    main_view_pager.currentItem = 0; true
+                    main_view_pager.currentItem = 0
+                    prefs.setLastTab(0)
+                    true
                 }
                 R.id.main_nav_hash -> {
-                    main_view_pager.currentItem = 1; true
+                    main_view_pager.currentItem = 1
+                    prefs.setLastTab(1)
+                    true
                 }
                 R.id.main_nav_keys -> {
-                    main_view_pager.currentItem = 2; true
+                    main_view_pager.currentItem = 2
+                    prefs.setLastTab(2)
+                    true
                 }
                 else -> false
             }
         }
-        main_nav.selectedItemId = R.id.main_nav_cipher
+        when (initialTab) {
+            2 -> {
+                main_view_pager.setCurrentItem(2, false)
+                main_nav.selectedItemId = R.id.main_nav_keys
+            }
+            1 -> {
+                main_view_pager.setCurrentItem(1, false)
+                main_nav.selectedItemId = R.id.main_nav_hash
+            }
+            else -> {
+                main_view_pager.setCurrentItem(0, false)
+                main_nav.selectedItemId = R.id.main_nav_cipher
+            }
+        }
         main_fab_ball.setOnClickListener { permissionHelper.request() }
     }
 
