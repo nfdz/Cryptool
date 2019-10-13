@@ -14,7 +14,6 @@ import io.github.nfdz.cryptool.common.utils.BroadcastHelper
 import io.github.nfdz.cryptool.common.utils.OverlayPermissionHelper
 import io.github.nfdz.cryptool.common.utils.toast
 import io.github.nfdz.cryptool.services.BallService
-import io.github.nfdz.cryptool.views.hash.HashFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.*
 

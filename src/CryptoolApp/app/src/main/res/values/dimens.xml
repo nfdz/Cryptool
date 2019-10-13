@@ -20,7 +20,9 @@
     <dimen name="ball_margin_top">16dp</dimen>
     <dimen name="ball_close_size">26dp</dimen>
     <dimen name="ball_close_margin_left">40dp</dimen>
-    <dimen name="floating_tool_margin">50dp</dimen>
+    <dimen name="floating_tool_margin">30dp</dimen>
     <dimen name="floating_tool_app_bar_height">45dp</dimen>
-    <dimen name="floating_tool_close_padding">12dp</dimen>
+    <dimen name="floating_tool_close_padding">7dp</dimen>
+    <dimen name="floating_tool_close_width">36dp</dimen>
+
 </resources>

@@ -16,6 +16,7 @@ class PreferencesHelper(private val context: Context) {
         private const val LAST_ORIGIN_TEXT_KEY = "last_origin_text"
         private const val LAST_BALL_POSITION_KEY = "last_ball_position"
         private const val LAST_BALL_GRAVITY_KEY = "last_ball_gravity"
+        private const val LAST_HASH_ORIGIN_TEXT_KEY = "last_hash_origin_text"
     }
 
     private val preferences: SharedPreferences by lazy {
@@ -72,6 +73,12 @@ class PreferencesHelper(private val context: Context) {
 
     fun setLastBallGravity(gravity: Int) {
         preferences.edit().putInt(LAST_BALL_GRAVITY_KEY, gravity).apply()
+    }
+
+    fun getLastHashOriginText(): String = preferences.getString(LAST_HASH_ORIGIN_TEXT_KEY, null) ?: ""
+
+    fun setLastHashOriginText(originText: String) {
+        preferences.edit().putString(LAST_HASH_ORIGIN_TEXT_KEY, originText).apply()
     }
 
 }

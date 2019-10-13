@@ -32,6 +32,7 @@ class CipherViewImpl(private val view: View?, private val context: Context?) : C
         cipher_itb_pass = null
         cipher_itb_origin = null
         cipher_otb_processed = null
+        cipher_btn_reverse = null
     }
 
     private fun bindView() {
