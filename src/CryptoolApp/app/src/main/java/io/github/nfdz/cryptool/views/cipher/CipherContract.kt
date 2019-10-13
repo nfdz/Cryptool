@@ -1,7 +1,7 @@
-package io.github.nfdz.cryptool.views.cypher
+package io.github.nfdz.cryptool.views.cipher
 
 
-interface CypherContract {
+interface CipherContract {
 
     companion object {
         val DEFAULT_MODE = ModeFlag.ENCRYIPT_MODE
@@ -13,10 +13,16 @@ interface CypherContract {
     }
 
     interface View {
-        var mode: ModeFlag
-        var originText: String
-        var processedText: String
-        var passphrase: String
+        fun onViewCreated()
+        fun onDestroyView()
+        fun getCipherMode(): ModeFlag
+        fun setCipherMode(mode: ModeFlag)
+        fun getOriginText(): String
+        fun setOriginText(text: String)
+        fun getProcessedText(): String
+        fun setProcessedText(text: String)
+        fun getPassphrase(): String
+        fun setPassphrase(pass: String)
         fun setPassphraseMode(visible: Boolean, enabled: Boolean)
     }
 
@@ -36,11 +42,11 @@ interface CypherContract {
         fun wasLastPassphraseLocked(): Boolean
         fun getLastOriginText(): String
 
-        fun destroy(
-            lastMode: ModeFlag,
-            lastPassphrase: String,
+        fun saveState(
+            lastMode: ModeFlag?,
+            lastPassphrase: String?,
             isLastPassphraseLocked: Boolean,
-            lastOriginText: String
+            lastOriginText: String?
         )
 
         fun encrypt(

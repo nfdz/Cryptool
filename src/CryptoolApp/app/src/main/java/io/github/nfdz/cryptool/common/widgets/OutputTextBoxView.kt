@@ -3,9 +3,9 @@ package io.github.nfdz.cryptool.common.widgets
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatImageButton
-import androidx.appcompat.widget.AppCompatImageView
 import io.github.nfdz.cryptool.R
 import kotlinx.android.synthetic.main.output_text_box.view.*
 
@@ -15,26 +15,28 @@ class OutputTextBoxView : TextBoxBase {
         attrs,
         defStyle
     )
+
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
     constructor(context: Context) : super(context)
+
 
     override fun getLayout(): Int {
         return R.layout.output_text_box
     }
 
-    override fun getActionView1(): AppCompatImageButton {
+    override fun getActionView1(): ImageButton {
         return otb_action_1
     }
 
-    override fun getActionView2(): AppCompatImageButton {
+    override fun getActionView2(): ImageButton {
         return otb_action_2
     }
 
-    override fun getActionView3(): AppCompatImageButton {
+    override fun getActionView3(): ImageButton {
         return otb_action_3
     }
 
-    override fun getIcon(): AppCompatImageView {
+    override fun getIcon(): ImageView {
         return otb_icon
     }
 

@@ -1,10 +1,12 @@
-package io.github.nfdz.cryptool.views.cypher
+package io.github.nfdz.cryptool.views.cipher
+
+import java.util.concurrent.atomic.AtomicInteger
 
 
-class CypherPresenterImpl(
-    private var view: CypherContract.View?,
-    private var interactor: CypherContract.Interactor?
-) : CypherContract.Presenter {
+class CipherPresenterImpl(
+    private var view: CipherContract.View?,
+    private var interactor: CipherContract.Interactor?
+) : CipherContract.Presenter {
 
     companion object {
         const val PROCESSING_TEXT = "⌛"
@@ -13,26 +15,20 @@ class CypherPresenterImpl(
 
     private var isPassphraseLocked: Boolean = false
     private var isPassphraseVisible: Boolean = false
+    private var processCounter = AtomicInteger()
 
     override fun onCreate() {
         interactor?.let {
-            view?.mode = it.getLastMode()
-            view?.passphrase = it.getLastPassphrase()
-            view?.originText = it.getLastOriginText()
+            view?.setCipherMode(it.getLastMode())
+            view?.setPassphrase(it.getLastPassphrase())
+            view?.setOriginText(it.getLastOriginText())
             isPassphraseLocked = it.wasLastPassphraseLocked()
             view?.setPassphraseMode(isPassphraseVisible, !isPassphraseLocked)
         }
+        processOriginText()
     }
 
     override fun onDestroy() {
-        view?.let {
-            interactor?.destroy(
-                it.mode,
-                it.passphrase,
-                isPassphraseLocked,
-                it.originText
-            )
-        }
         view = null
         interactor = null
     }
@@ -44,7 +40,7 @@ class CypherPresenterImpl(
 
     private fun clearPassphraseLock() {
         if (isPassphraseLocked) {
-            val passphrase = view?.passphrase ?: ""
+            val passphrase = view?.getPassphrase() ?: ""
             if (passphrase == "") {
                 isPassphraseLocked = false
                 view?.setPassphraseMode(isPassphraseVisible, !isPassphraseLocked)
@@ -58,37 +54,47 @@ class CypherPresenterImpl(
     }
 
     override fun onToggleModeClick() {
-        view?.mode = when (view?.mode) {
-            CypherContract.ModeFlag.ENCRYIPT_MODE -> CypherContract.ModeFlag.DECRYIPT_MODE
-            CypherContract.ModeFlag.DECRYIPT_MODE -> CypherContract.ModeFlag.ENCRYIPT_MODE
-            null -> CypherContract.DEFAULT_MODE
-        }
-        var processedText = view?.processedText ?: ""
+        view?.setCipherMode(
+            when (view?.getCipherMode()) {
+                CipherContract.ModeFlag.ENCRYIPT_MODE -> CipherContract.ModeFlag.DECRYIPT_MODE
+                CipherContract.ModeFlag.DECRYIPT_MODE -> CipherContract.ModeFlag.ENCRYIPT_MODE
+                null -> CipherContract.DEFAULT_MODE
+            }
+        )
+        var processedText = view?.getProcessedText() ?: ""
         if (processedText == PROCESSING_TEXT || processedText == ERROR_TEXT) {
             processedText = ""
         }
-        view?.originText = processedText
+        view?.setOriginText(processedText)
         processOriginText()
     }
 
     private fun processOriginText() {
-        val passphrase = view?.passphrase ?: ""
-        val originText = view?.originText ?: ""
+        val expectedProcessCounter = processCounter.incrementAndGet()
+        val passphrase = view?.getPassphrase() ?: ""
+        val originText = view?.getOriginText() ?: ""
         if (passphrase == "" || originText == "") {
-            view?.processedText = ""
+            view?.setProcessedText("")
+            saveState()
         } else {
-            view?.processedText = PROCESSING_TEXT
+            view?.setProcessedText(PROCESSING_TEXT)
             val success: (String) -> (Unit) = { processedText ->
-                view?.processedText = processedText
+                if (processCounter.get() == expectedProcessCounter) {
+                    view?.setProcessedText(processedText)
+                    saveState()
+                }
             }
             val error: () -> (Unit) = {
-                view?.processedText = ERROR_TEXT
+                if (processCounter.get() == expectedProcessCounter) {
+                    view?.setProcessedText(ERROR_TEXT)
+                    saveState()
+                }
             }
-            when (view?.mode) {
-                CypherContract.ModeFlag.ENCRYIPT_MODE -> {
+            when (view?.getCipherMode()) {
+                CipherContract.ModeFlag.ENCRYIPT_MODE -> {
                     interactor?.encrypt(passphrase, originText, success, error)
                 }
-                CypherContract.ModeFlag.DECRYIPT_MODE -> {
+                CipherContract.ModeFlag.DECRYIPT_MODE -> {
                     interactor?.decrypt(passphrase, originText, success, error)
                 }
             }
@@ -104,12 +110,22 @@ class CypherPresenterImpl(
     }
 
     override fun onLockPassphraseClick() {
-        val passphrase = view?.passphrase ?: ""
+        val passphrase = view?.getPassphrase() ?: ""
         if (passphrase != "") {
             isPassphraseLocked = true
             isPassphraseVisible = false
             view?.setPassphraseMode(isPassphraseVisible, !isPassphraseLocked)
+            saveState()
         }
+    }
+
+    private fun saveState() {
+        interactor?.saveState(
+            view?.getCipherMode(),
+            view?.getPassphrase(),
+            isPassphraseLocked,
+            view?.getOriginText()
+        )
     }
 
 }

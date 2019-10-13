@@ -1,16 +1,17 @@
 package io.github.nfdz.cryptool.common.widgets
 
 import android.content.Context
+import android.graphics.PorterDuff
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.appcompat.widget.AppCompatImageButton
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 
 abstract class TextBoxBase : FrameLayout {
@@ -33,25 +34,19 @@ abstract class TextBoxBase : FrameLayout {
     private fun initView() {
         val view = View.inflate(context, getLayout(), null)
         addView(view)
-        getActionView1().visibility = View.GONE
-        getActionView2().visibility = View.GONE
-        getActionView3().visibility = View.GONE
     }
 
     protected open fun afterViewSetup() {}
-
     protected abstract fun getLayout(): Int
-    protected abstract fun getActionView1(): AppCompatImageButton
-    protected abstract fun getActionView2(): AppCompatImageButton
-    protected abstract fun getActionView3(): AppCompatImageButton
-    protected abstract fun getIcon(): AppCompatImageView
+    protected abstract fun getActionView1(): ImageButton
+    protected abstract fun getActionView2(): ImageButton
+    protected abstract fun getActionView3(): ImageButton
+    protected abstract fun getIcon(): ImageView
     protected abstract fun getLabel(): TextView
     protected abstract fun getBg(): View
     protected abstract fun setTextColor(@ColorInt color: Int)
     abstract fun getText(): String
     abstract fun setText(text: String)
-
-    private var actionColorFilter: Int? = null
 
     fun setupView(
         @ColorRes bgColorRes: Int,
@@ -62,10 +57,9 @@ abstract class TextBoxBase : FrameLayout {
     ) {
         val bgColor = ContextCompat.getColor(context, bgColorRes)
         val textColor = ContextCompat.getColor(context, textColorRes)
-        actionColorFilter = textColor
         getBg().setBackgroundColor(bgColor)
         getIcon().setImageResource(iconRes)
-        getIcon().setColorFilter(textColorRes)
+        getIcon().setColorFilter(textColor, PorterDuff.Mode.SRC_IN)
         getLabel().setText(labelRes)
         getLabel().setTextColor(textColor)
         setTextColor(textColor)
@@ -75,22 +69,25 @@ abstract class TextBoxBase : FrameLayout {
         afterViewSetup()
     }
 
-    fun setupAction1Icon(@DrawableRes iconRes: Int) {
-        setupActionIcon(getActionView1(), iconRes)
+    fun setupAction1Icon(@DrawableRes iconRes: Int, @ColorRes iconColorRes: Int) {
+        setupActionIcon(getActionView1(), iconRes, iconColorRes)
     }
 
-    fun setupAction2Icon(@DrawableRes iconRes: Int) {
-        setupActionIcon(getActionView2(), iconRes)
+    fun setupAction2Icon(@DrawableRes iconRes: Int, @ColorRes iconColorRes: Int) {
+        setupActionIcon(getActionView2(), iconRes, iconColorRes)
     }
 
-    fun setupAction3Icon(@DrawableRes iconRes: Int) {
-        setupActionIcon(getActionView3(), iconRes)
+    fun setupAction3Icon(@DrawableRes iconRes: Int, @ColorRes iconColorRes: Int) {
+        setupActionIcon(getActionView3(), iconRes, iconColorRes)
     }
 
-    private fun setupActionIcon(actionView: AppCompatImageButton, @DrawableRes iconRes: Int) {
+    private fun setupActionIcon(actionView: ImageButton,
+                                @DrawableRes iconRes: Int,
+                                @ColorRes iconColorRes: Int) {
+        val iconColor = ContextCompat.getColor(context, iconColorRes)
         actionView.visibility = View.VISIBLE
         actionView.setImageResource(iconRes)
-        actionColorFilter?.let { actionView.setColorFilter(it) }
+        actionView.setColorFilter(iconColor, PorterDuff.Mode.SRC_IN)
     }
 
     fun setAction1Enabled(enabled: Boolean) {
@@ -105,7 +102,7 @@ abstract class TextBoxBase : FrameLayout {
         setActionEnabled(getActionView3(), enabled)
     }
 
-    private fun setActionEnabled(actionView: AppCompatImageButton, enabled: Boolean) {
+    private fun setActionEnabled(actionView: ImageButton, enabled: Boolean) {
         actionView.isEnabled = enabled
     }
 
@@ -121,7 +118,7 @@ abstract class TextBoxBase : FrameLayout {
         setupAction(getActionView3(), onAction)
     }
 
-    private fun setupAction(actionView: AppCompatImageButton, onAction: () -> (Unit)) {
+    private fun setupAction(actionView: ImageButton, onAction: () -> (Unit)) {
         actionView.setOnClickListener { onAction() }
     }
 

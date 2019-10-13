@@ -31,6 +31,14 @@
 
         </activity>
 
+        <service
+            android:name=".services.BallService"
+            android:exported="false"/>
+
+        <service
+            android:name=".services.ToolService"
+            android:exported="false"/>
+
     </application>
 
 </manifest>
