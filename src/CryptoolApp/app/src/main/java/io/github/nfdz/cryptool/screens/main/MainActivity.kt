@@ -1,4 +1,4 @@
-package io.github.nfdz.cryptool.views.main
+package io.github.nfdz.cryptool.screens.main
 
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -10,10 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import io.github.nfdz.cryptool.R
-import io.github.nfdz.cryptool.common.utils.BroadcastHelper
-import io.github.nfdz.cryptool.common.utils.OverlayPermissionHelper
-import io.github.nfdz.cryptool.common.utils.PreferencesHelper
-import io.github.nfdz.cryptool.common.utils.toast
+import io.github.nfdz.cryptool.common.utils.*
 import io.github.nfdz.cryptool.services.BallService
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.*
@@ -22,10 +19,6 @@ import kotlinx.android.synthetic.main.app_bar.*
 class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
 
     companion object {
-        const val OPEN_CIPHER_BALL_ACTION = "io.github.nfdz.cryptool.OPEN_CIPHER_BALL"
-        const val OPEN_HASH_BALL_ACTION = "io.github.nfdz.cryptool.OPEN_HASH_BALL"
-        const val OPEN_KEYS_BALL_ACTION = "io.github.nfdz.cryptool.OPEN_KEYS_BALL"
-
         @JvmStatic
         fun startActivity(context: Context) {
             context.startActivity(
@@ -57,12 +50,14 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
     private fun handleIntent(): Boolean {
         val action = intent?.action
         return if (action?.isNotEmpty() == true && permissionHelper.hasPermission()) {
-            return when (action) {
+            val openBall = when (action) {
                 OPEN_CIPHER_BALL_ACTION -> true
                 OPEN_HASH_BALL_ACTION -> true
                 OPEN_KEYS_BALL_ACTION -> true
                 else -> false
             }
+            if (openBall) BallService.start(this, action)
+            return openBall
         } else {
             false
         }
@@ -126,6 +121,7 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
                 }
                 true
             }
+            // TODO
 //            R.id.main_menu_rate_suggestions -> { navigateToClub(); true }
 //            R.id.main_menu_about -> { navigateToPlaylist(); true }
             else -> super.onOptionsItemSelected(item)
@@ -138,7 +134,7 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
         override fun getItem(position: Int) = when (position) {
             0 -> CipherFragment.newInstance()
             1 -> HashFragment.newInstance()
-            2 -> HashFragment.newInstance()
+            2 -> KeysFragment.newInstance()
             else -> throw IllegalArgumentException("Invalid tab position=$position")
         }
 
@@ -147,7 +143,12 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
     }
 
     override fun onPermissionGranted() {
-        BallService.start(this)
+        val action = when (main_view_pager.currentItem) {
+            2 -> OPEN_KEYS_BALL_ACTION
+            1 -> OPEN_HASH_BALL_ACTION
+            else -> OPEN_CIPHER_BALL_ACTION
+        }
+        BallService.start(this, action)
         finish()
     }
 

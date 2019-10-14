@@ -1,5 +1,7 @@
 package io.github.nfdz.cryptool.views.cipher
 
+import io.github.nfdz.cryptool.views.ToolViewBase
+
 
 interface CipherContract {
 
@@ -12,9 +14,7 @@ interface CipherContract {
         DECRYIPT_MODE
     }
 
-    interface View {
-        fun onViewCreated()
-        fun onDestroyView()
+    interface View : ToolViewBase {
         fun getCipherMode(): ModeFlag
         fun setCipherMode(mode: ModeFlag)
         fun getOriginText(): String

@@ -1,10 +1,10 @@
 package io.github.nfdz.cryptool.views.hash
 
+import io.github.nfdz.cryptool.views.ToolViewBase
+
 interface HashContract {
 
-    interface View {
-        fun onViewCreated()
-        fun onDestroyView()
+    interface View : ToolViewBase {
         fun getOriginText(): String
         fun setOriginText(text: String)
         fun setProcessedText(text: String)

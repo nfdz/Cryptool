@@ -21,8 +21,8 @@ import kotlin.math.roundToInt
 class BallService : Service() {
 
     companion object {
-        fun start(context: Context) {
-            context.startService(Intent(context, BallService::class.java))
+        fun start(context: Context, action: String?) {
+            context.startService(Intent(context, BallService::class.java).setAction(action))
         }
 
         const val RIGHT_GRAVITY = Gravity.CENTER_VERTICAL or Gravity.RIGHT
@@ -30,6 +30,7 @@ class BallService : Service() {
         const val DEFAULT_GRAVITY = RIGHT_GRAVITY
     }
 
+    private var action: String? = null
     private val windowManager: WindowManager by lazy { getSystemService(WINDOW_SERVICE) as WindowManager }
     private val touchXThreshold: Float by lazy { getXThreshold() }
     private val layoutParams: WindowManager.LayoutParams by lazy { buildLayoutParams() }
@@ -58,6 +59,11 @@ class BallService : Service() {
         closeIcon.setOnClickListener { closeBall() }
         registerReceiver(bcReceiver, IntentFilter(BroadcastHelper.CLOSE_FLOATING_WINDOWS_ACTION))
         ballView.fadeIn()
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        action = intent?.action
+        return super.onStartCommand(intent, flags, startId)
     }
 
     private fun getXThreshold(): Float {
@@ -134,7 +140,7 @@ class BallService : Service() {
         prefs.setLastBallGravity(layoutParams.gravity)
         ballView.fadeOut {
             if (launchFloatingTool) {
-                ToolService.start(this)
+                ToolService.start(this, action)
             }
             stopSelf()
         }

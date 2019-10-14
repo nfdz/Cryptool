@@ -8,52 +8,68 @@ import android.content.IntentFilter
 import android.graphics.PixelFormat
 import android.os.Build
 import android.os.IBinder
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.WindowManager
+import android.view.*
 import io.github.nfdz.cryptool.R
-import io.github.nfdz.cryptool.common.utils.BroadcastHelper
-import io.github.nfdz.cryptool.common.utils.fadeIn
-import io.github.nfdz.cryptool.common.utils.fadeOut
-import io.github.nfdz.cryptool.views.cipher.CipherContract
+import io.github.nfdz.cryptool.common.utils.*
+import io.github.nfdz.cryptool.views.ToolViewBase
 import io.github.nfdz.cryptool.views.cipher.CipherViewImpl
+import io.github.nfdz.cryptool.views.hash.HashViewImpl
+import io.github.nfdz.cryptool.views.keys.KeysViewImpl
+
 
 class ToolService : Service() {
 
     companion object {
-        fun start(context: Context) {
-            context.startService(Intent(context, ToolService::class.java))
+        fun start(context: Context, action: String?) {
+            context.startService(Intent(context, ToolService::class.java).setAction(action))
         }
     }
 
+    private var action: String? = null
     private val windowManager: WindowManager by lazy { getSystemService(WINDOW_SERVICE) as WindowManager }
     private val layoutParams: WindowManager.LayoutParams by lazy { buildLayoutParams() }
     private val toolView: View by lazy {
         LayoutInflater.from(this).inflate(R.layout.floating_tool, null)
     }
-    private val cipherView: CipherContract.View by lazy { CipherViewImpl(toolView, this) }
+    private var tool: ToolViewBase? = null
     private val bcReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             closeTool()
         }
     }
 
-
-    override fun onCreate() {
-        super.onCreate()
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        action = intent?.action
         windowManager.addView(toolView, layoutParams)
+        val container: ViewGroup = toolView.findViewById(R.id.ft_container)
+        when (action) {
+            OPEN_KEYS_BALL_ACTION -> {
+                val keysView = LayoutInflater.from(this).inflate(R.layout.keys_tool, null)
+                container.addView(keysView)
+                tool = KeysViewImpl(keysView, this)
+            }
+            OPEN_HASH_BALL_ACTION -> {
+                val hashView = LayoutInflater.from(this).inflate(R.layout.hash_tool, null)
+                container.addView(hashView)
+                tool = HashViewImpl(hashView, this)
+            }
+            else -> {
+                val cipherView = LayoutInflater.from(this).inflate(R.layout.cipher_tool, null)
+                container.addView(cipherView)
+                tool = CipherViewImpl(cipherView, this)
+            }
+        }
         val tvLogo: View = toolView.findViewById<View>(R.id.ft_tv_logo)
         val btnBall: View = toolView.findViewById<View>(R.id.ft_btn_ball)
         val btnClose: View = toolView.findViewById<View>(R.id.ft_btn_close)
         tvLogo.setOnClickListener { closeTool(launchApp = true) }
         btnBall.setOnClickListener { closeTool(launchBall = true) }
         btnClose.setOnClickListener { closeTool() }
-        cipherView.onViewCreated()
+        tool?.onViewCreated()
         registerReceiver(bcReceiver, IntentFilter(BroadcastHelper.CLOSE_FLOATING_WINDOWS_ACTION))
         toolView.fadeIn()
+        return super.onStartCommand(intent, flags, startId)
     }
-
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -81,7 +97,7 @@ class ToolService : Service() {
 
     override fun onDestroy() {
         unregisterReceiver(bcReceiver)
-        cipherView.onDestroyView()
+        tool?.onDestroyView()
         windowManager.removeView(toolView)
         super.onDestroy()
     }
@@ -89,11 +105,10 @@ class ToolService : Service() {
     private fun closeTool(launchBall: Boolean = false, launchApp: Boolean = false) {
         toolView.fadeOut {
             if (launchBall) {
-                BallService.start(this)
+                BallService.start(this, action)
             }
             stopSelf()
         }
     }
-
 
 }

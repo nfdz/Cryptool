@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".views.main.MainActivity">
+        <activity android:name="io.github.nfdz.cryptool.screens.main.MainActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -8,6 +8,7 @@
     android:background="@color/colorSemiTransparentDark">
 
     <LinearLayout
+        android:id="@+id/ft_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -55,10 +56,6 @@
             </LinearLayout>
 
         </FrameLayout>
-
-        <include layout="@layout/cipher_tool"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 

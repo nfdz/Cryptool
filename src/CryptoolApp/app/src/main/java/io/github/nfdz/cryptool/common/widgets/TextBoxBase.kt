@@ -54,13 +54,21 @@ abstract class TextBoxBase : FrameLayout {
         @ColorRes textColorRes: Int,
         @DrawableRes iconRes: Int,
         @StringRes labelRes: Int
+    ) = setupView(bgColorRes, actionBgRes, textColorRes, iconRes, context.getString(labelRes))
+
+    fun setupView(
+        @ColorRes bgColorRes: Int,
+        @DrawableRes actionBgRes: Int,
+        @ColorRes textColorRes: Int,
+        @DrawableRes iconRes: Int,
+        label: String
     ) {
         val bgColor = ContextCompat.getColor(context, bgColorRes)
         val textColor = ContextCompat.getColor(context, textColorRes)
         getBg().setBackgroundColor(bgColor)
         getIcon().setImageResource(iconRes)
         getIcon().setColorFilter(textColor, PorterDuff.Mode.SRC_IN)
-        getLabel().setText(labelRes)
+        getLabel().text = label
         getLabel().setTextColor(textColor)
         setTextColor(textColor)
         getActionView1().setBackgroundResource(actionBgRes)
@@ -81,9 +89,11 @@ abstract class TextBoxBase : FrameLayout {
         setupActionIcon(getActionView3(), iconRes, iconColorRes)
     }
 
-    private fun setupActionIcon(actionView: ImageButton,
-                                @DrawableRes iconRes: Int,
-                                @ColorRes iconColorRes: Int) {
+    private fun setupActionIcon(
+        actionView: ImageButton,
+        @DrawableRes iconRes: Int,
+        @ColorRes iconColorRes: Int
+    ) {
         val iconColor = ContextCompat.getColor(context, iconColorRes)
         actionView.visibility = View.VISIBLE
         actionView.setImageResource(iconRes)
