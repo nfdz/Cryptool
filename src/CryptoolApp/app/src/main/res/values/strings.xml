@@ -28,9 +28,11 @@
     <!-- Keys -->
     <string name="keys_create_label">Label: </string>
     <string name="keys_create_key">Key: </string>
+    <string name="keys_remove_key_long">Keep long press to delete key</string>
 
     <!-- Errors -->
     <string name="error_no_settings">It is not possible open your System Settings</string>
     <string name="error_label_empty">Label field is empty</string>
     <string name="error_key_empty">Key field is empty</string>
+    <string name="error_label_key_empty">Label and Key field are empty</string>
 </resources>

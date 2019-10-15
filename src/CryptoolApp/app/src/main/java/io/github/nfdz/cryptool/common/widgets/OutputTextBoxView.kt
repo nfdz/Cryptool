@@ -59,5 +59,9 @@ class OutputTextBoxView : TextBoxBase {
     override fun setText(text: String) {
         otb_tv.text = text
     }
+    
+    override fun setInputType(type: Int) {
+        otb_tv.inputType = type
+    }
 
 }

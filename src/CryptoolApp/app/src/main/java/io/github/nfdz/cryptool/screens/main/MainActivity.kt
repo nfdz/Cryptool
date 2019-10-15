@@ -20,12 +20,12 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
 
     companion object {
         @JvmStatic
-        fun startActivity(context: Context) {
+        fun startNewActivity(context: Context) {
             context.startActivity(
                 Intent(
                     context,
                     MainActivity::class.java
-                ).apply { addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) })
+                ).apply { addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK) })
         }
     }
 

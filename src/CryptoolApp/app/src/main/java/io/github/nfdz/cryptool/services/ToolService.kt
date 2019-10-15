@@ -1,20 +1,23 @@
 package io.github.nfdz.cryptool.services
 
 import android.app.Service
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.graphics.PixelFormat
 import android.os.Build
 import android.os.IBinder
 import android.view.*
 import io.github.nfdz.cryptool.R
-import io.github.nfdz.cryptool.common.utils.*
+import io.github.nfdz.cryptool.common.utils.OPEN_HASH_BALL_ACTION
+import io.github.nfdz.cryptool.common.utils.OPEN_KEYS_BALL_ACTION
+import io.github.nfdz.cryptool.common.utils.fadeIn
+import io.github.nfdz.cryptool.common.utils.fadeOut
+import io.github.nfdz.cryptool.screens.main.MainActivity
 import io.github.nfdz.cryptool.views.ToolViewBase
 import io.github.nfdz.cryptool.views.cipher.CipherViewImpl
 import io.github.nfdz.cryptool.views.hash.HashViewImpl
 import io.github.nfdz.cryptool.views.keys.KeysViewImpl
+import timber.log.Timber
 
 
 class ToolService : Service() {
@@ -32,11 +35,6 @@ class ToolService : Service() {
         LayoutInflater.from(this).inflate(R.layout.floating_tool, null)
     }
     private var tool: ToolViewBase? = null
-    private val bcReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            closeTool()
-        }
-    }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         action = intent?.action
@@ -66,7 +64,6 @@ class ToolService : Service() {
         btnBall.setOnClickListener { closeTool(launchBall = true) }
         btnClose.setOnClickListener { closeTool() }
         tool?.onViewCreated()
-        registerReceiver(bcReceiver, IntentFilter(BroadcastHelper.CLOSE_FLOATING_WINDOWS_ACTION))
         toolView.fadeIn()
         return super.onStartCommand(intent, flags, startId)
     }
@@ -91,23 +88,29 @@ class ToolService : Service() {
                 PixelFormat.TRANSLUCENT
             )
         }
-        params.gravity = Gravity.CENTER;
+        params.gravity = Gravity.CENTER
         return params
     }
 
     override fun onDestroy() {
-        unregisterReceiver(bcReceiver)
         tool?.onDestroyView()
-        windowManager.removeView(toolView)
+        try {
+            windowManager.removeView(toolView)
+        } catch (e: Exception) {
+            Timber.e(e)
+        }
         super.onDestroy()
     }
 
     private fun closeTool(launchBall: Boolean = false, launchApp: Boolean = false) {
         toolView.fadeOut {
+            stopSelf()
             if (launchBall) {
                 BallService.start(this, action)
             }
-            stopSelf()
+            if (launchApp) {
+                MainActivity.startNewActivity(this)
+            }
         }
     }
 

@@ -114,7 +114,7 @@ class BallService : Service() {
                 true
             }
             MotionEvent.ACTION_UP -> {
-                if (lastAction == MotionEvent.ACTION_DOWN) {
+                if (lastAction == MotionEvent.ACTION_DOWN || initialTouchY == event.rawY) {
                     closeBall(launchFloatingTool = true)
                 }
                 lastAction = event.action

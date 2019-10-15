@@ -14,7 +14,7 @@
         android:layout_gravity="center"
         android:layout_margin="@dimen/floating_tool_margin"
         android:orientation="vertical"
-        android:background="@color/colorLight">
+        android:background="@color/colorBackground">
 
         <FrameLayout
             android:layout_width="match_parent"

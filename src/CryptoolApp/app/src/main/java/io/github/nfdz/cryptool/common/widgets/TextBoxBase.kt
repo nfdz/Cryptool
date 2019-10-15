@@ -2,6 +2,7 @@ package io.github.nfdz.cryptool.common.widgets
 
 import android.content.Context
 import android.graphics.PorterDuff
+import android.text.InputType
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
@@ -45,6 +46,7 @@ abstract class TextBoxBase : FrameLayout {
     protected abstract fun getLabel(): TextView
     protected abstract fun getBg(): View
     protected abstract fun setTextColor(@ColorInt color: Int)
+    abstract fun setInputType(type: Int)
     abstract fun getText(): String
     abstract fun setText(text: String)
 
@@ -120,16 +122,40 @@ abstract class TextBoxBase : FrameLayout {
         setupAction(getActionView1(), onAction)
     }
 
+    fun setupAction1LongPress(onAction: () -> (Unit)) {
+        setupActionLongPress(getActionView1(), onAction)
+    }
+
     fun setupAction2(onAction: () -> (Unit)) {
         setupAction(getActionView2(), onAction)
+    }
+
+    fun setupAction2LongPress(onAction: () -> (Unit)) {
+        setupActionLongPress(getActionView2(), onAction)
     }
 
     fun setupAction3(onAction: () -> (Unit)) {
         setupAction(getActionView3(), onAction)
     }
 
+    fun setupAction3LongPress(onAction: () -> (Unit)) {
+        setupActionLongPress(getActionView3(), onAction)
+    }
+
     private fun setupAction(actionView: ImageButton, onAction: () -> (Unit)) {
         actionView.setOnClickListener { onAction() }
+    }
+
+    private fun setupActionLongPress(actionView: ImageButton, onAction: () -> (Unit)) {
+        actionView.setOnLongClickListener { onAction(); true }
+    }
+    
+    fun setInputTypePassword(visible: Boolean = false) {
+        if (visible) {
+            setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)
+        } else {
+            setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)
+        }
     }
 
 }
