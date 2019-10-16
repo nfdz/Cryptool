@@ -1,5 +1,6 @@
 package io.github.nfdz.cryptool.common.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import io.github.nfdz.cryptool.services.BallService
@@ -155,6 +156,11 @@ class PreferencesHelper(private val context: Context) {
 
     fun deleteCode() {
         preferences.edit().clear().apply()
+    }
+
+    @SuppressLint("ApplySharedPref")
+    fun clearAllSync() {
+        preferences.edit().clear().commit()
     }
 
 }

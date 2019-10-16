@@ -1,6 +1,6 @@
 package io.github.nfdz.cryptool.common.utils
 
-import android.util.Base64
+import org.apache.commons.codec.binary.Base64
 import java.security.MessageDigest
 import javax.crypto.Cipher
 import javax.crypto.SecretKeyFactory
@@ -10,6 +10,7 @@ import javax.crypto.spec.SecretKeySpec
 
 
 class CryptographyHelper {
+
     companion object {
         private const val CIPHER_TRANSFORMATION = "AES/CBC/PKCS5Padding"
         private const val CIPHER = "AES"
@@ -19,9 +20,6 @@ class CryptographyHelper {
         private const val DUMMY_ITERATION_COUNT = 73
         private const val KEY_GEN_ALGORITHM = "PBKDF2WithHmacSHA1"
         private const val HASH_ALGORITHM = "SHA-256"
-
-        private const val BASE64_FLAGS = Base64.NO_WRAP
-
     }
 
     fun encrypt(plaintext: String, passphrase: String): String {
@@ -32,7 +30,7 @@ class CryptographyHelper {
             getDummyIv(aesCipherForEncryption)
         )
         val byteCipherText = aesCipherForEncryption.doFinal(plaintext.toByteArray())
-        return String(Base64.encode(byteCipherText, BASE64_FLAGS))
+        return String(Base64.encodeBase64(byteCipherText))
     }
 
     fun decrypt(ciphertext: String, passphrase: String): String {
@@ -42,7 +40,7 @@ class CryptographyHelper {
             getKeyFromPassphrase(passphrase),
             getDummyIv(aesCipherForDecryption)
         )
-        val byteCipherText = Base64.decode(ciphertext.toByteArray(), BASE64_FLAGS)
+        val byteCipherText = Base64.decodeBase64(ciphertext.toByteArray())
         val bytePlainText = aesCipherForDecryption.doFinal(byteCipherText)
         return String(bytePlainText)
     }
