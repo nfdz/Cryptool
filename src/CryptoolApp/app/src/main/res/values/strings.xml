@@ -9,7 +9,7 @@
     <!-- Menu options -->
     <string name="main_menu_pin_code">Security PIN code</string>
     <string name="main_menu_settings">System Settings</string>
-    <string name="main_menu_rate_suggestions">Rate, Suggestions &amp; Bugs</string>
+    <string name="main_menu_rate_suggestions">Suggestions &amp; Bugs</string>
     <string name="main_menu_about">About &amp; Code</string>
 
     <!-- Clipboard -->
@@ -46,11 +46,11 @@
     <!-- Promo -->
     <string name="rate_app_title">@string/main_menu_rate_suggestions</string>
     <string name="rate_app_content">The development of this app is non-profit. If you like it, please leave a review to support us.\n\nIf you have any suggestions or app error, you can write it on GitHub, send it by email or in your review in the store.</string>
-    <string name="rate_app_btn">Rate</string>
-    <string name="about_app_btn">GitHub</string>
+    <string name="rate_app_btn" translatable="false">Google Play</string>
+    <string name="about_app_btn" translatable="false">GitHub</string>
     <string name="about_app_title">@string/main_menu_about</string>
-    <string name="about_app_content">The code is open source (GPLv3) and you can see it on GitHub. Visit the repository, download the code, try it, modify it and do what you want.\n\nSome icons were made by Freepik (from www.flaticon.com)\n\nThe only 3rd party library is Timber from Jake Wharton</string>
-    <string name="welcome_app_title">Cryptool v2</string>
+    <string name="about_app_content">The code is open source (GPLv3) and you can see it on GitHub. Visit the repository, download the code, try it and modify it if you want!\n\nSome icons were made by Freepik (from www.flaticon.com).\n\nThe only 3rd party library is Timber from Jake Wharton.</string>
+    <string name="welcome_app_title" translatable="false">Cryptool v2</string>
     <string name="welcome_app_content">Welcome to this new version full of security improvements and new features.\n\nWe strongly recommend that you set a PIN code now to improve the security of all the stored data.\n\nEnjoy!</string>
     <string name="welcome_app_pin">PIN</string>
     <string name="welcome_app_close">Close</string>
@@ -60,6 +60,6 @@
     <string name="error_label_empty">Label field is empty</string>
     <string name="error_key_empty">Key field is empty</string>
     <string name="error_label_key_empty">Label and Key field are empty</string>
-    <string name="permission_denied">Draw over other apps permission needed</string>
+    <string name="permission_denied">Display over other apps permission needed</string>
 
 </resources>
