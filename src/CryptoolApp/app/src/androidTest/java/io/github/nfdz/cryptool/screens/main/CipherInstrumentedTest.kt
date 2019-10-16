@@ -1,7 +1,5 @@
 package io.github.nfdz.cryptool.screens.main
 
-import android.view.View
-import android.view.ViewGroup
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.action.ViewActions.*
@@ -13,10 +11,7 @@ import androidx.test.rule.ActivityTestRule
 import io.github.nfdz.cryptool.R
 import io.github.nfdz.cryptool.common.utils.ERROR_TEXT
 import io.github.nfdz.cryptool.common.utils.PreferencesHelper
-import org.hamcrest.Description
-import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
-import org.hamcrest.TypeSafeMatcher
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -27,9 +22,9 @@ import org.junit.runner.RunWith
 class CipherInstrumentedTest {
 
     companion object {
-        const val DUMMY_PASS = "hello"
-        const val DUMMY_ORIGIN = "world"
-        const val DUMMY_PROCESSED = "0/YT6mWR8CvyOaCunsI6iA=="
+        private const val DUMMY_PASS = "hello"
+        private const val DUMMY_ORIGIN = "world"
+        private const val DUMMY_PROCESSED = "0/YT6mWR8CvyOaCunsI6iA=="
     }
 
     @Before
@@ -46,6 +41,7 @@ class CipherInstrumentedTest {
     @Test
     fun encrypt_decrypt() {
         closeWelcome()
+        clickNavigationOption(R.id.main_nav_cipher)
         typeInputPass(DUMMY_PASS)
         typeInputOrigin(DUMMY_ORIGIN)
         checkOutputText(DUMMY_PROCESSED)
@@ -58,6 +54,7 @@ class CipherInstrumentedTest {
     @Test
     fun decrypt_error() {
         closeWelcome()
+        clickNavigationOption(R.id.main_nav_cipher)
         clickReverse()
         typeInputPass(DUMMY_PASS)
         typeInputOrigin("not encrypted text")
@@ -66,21 +63,6 @@ class CipherInstrumentedTest {
     }
 
     private fun clickReverse() = onView(withId(R.id.cipher_btn_reverse)).perform(click())
-
-    private fun closeWelcome() {
-        try {
-            val closeWelcome = onView(
-                allOf(
-                    withId(android.R.id.button2),
-                    withText("Close"),
-                    childAtPosition(childAtPosition(withId(R.id.buttonPanel), 0), 2)
-                )
-            )
-            closeWelcome.perform(scrollTo(), click())
-        } catch (e: NoMatchingViewException) {
-            // Swallow -> There is no welcome
-        }
-    }
 
     private fun typeInputPass(text: String) {
         val inputPass = getInputPass()
@@ -120,20 +102,5 @@ class CipherInstrumentedTest {
             isDisplayed()
         )
     )
-
-    private fun childAtPosition(parentMatcher: Matcher<View>, position: Int): Matcher<View> {
-        return object : TypeSafeMatcher<View>() {
-            override fun describeTo(description: Description) {
-                description.appendText("Child at position $position in parent ")
-                parentMatcher.describeTo(description)
-            }
-
-            public override fun matchesSafely(view: View): Boolean {
-                val parent = view.parent
-                return parent is ViewGroup && parentMatcher.matches(parent)
-                        && view == parent.getChildAt(position)
-            }
-        }
-    }
 
 }

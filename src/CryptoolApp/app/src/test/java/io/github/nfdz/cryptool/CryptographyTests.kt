@@ -11,12 +11,13 @@ import java.util.*
 class CryptographyTests {
 
     companion object {
-        const val DUMMY_TEXT =
+        private const val DUMMY_TEXT =
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-        const val DUMMY_PASS = "Lorem ipsum"
-        const val DUMMY_PROCESSED =
+        private const val DUMMY_PASS = "Lorem ipsum"
+        private const val DUMMY_PROCESSED =
             "mcgVEtIPk+L5pJJ1G/TYl4+ZuzgqJ8BS2SdvqXz1FETBxotA0Fm3GhK4NpTjngIumU1Gk8AOQS8TuMOwZFnjk2dddRJG3yMgId7Cqv+TVInm17n0FGkGzcUHHngXkL+770Q5x7X4gqubfX0gjADwN/CE/ymxPusgLA1UdJF/4PA="
-        const val DUMMY_HASH = "29c03d361dde0dbff070f8efad6da05fcb72e0cc825c301ab8f0596224bc23c7"
+        private const val DUMMY_HASH =
+            "29c03d361dde0dbff070f8efad6da05fcb72e0cc825c301ab8f0596224bc23c7"
     }
 
     /** Encrypt an already known processed text, output must be always the same */
@@ -51,7 +52,7 @@ class CryptographyTests {
 
     /** Encrypt and decrypt a big bunch of random data */
     @Test
-    fun encrypt_decrypt_randomly() {
+    fun encrypt_decrypt_random_long() {
         val crypto = CryptographyHelper()
         val size = 10000
         val origins = List(size) {
@@ -77,6 +78,17 @@ class CryptographyTests {
         val processed = crypto.hash(origin)
         val expected = DUMMY_HASH
         assertEquals(expected, processed)
+    }
+
+    /** Hash an already known text, output must be always the same */
+    @Test
+    fun hash_collision_random_long() {
+        val crypto = CryptographyHelper()
+        val size = 100000
+        val outputs: Set<String> = List(size) {
+            crypto.hash(it.toString())
+        }.toSet()
+        assertEquals(size, outputs.size)
     }
 
 }
