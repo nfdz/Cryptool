@@ -43,16 +43,19 @@ class ToolService : Service() {
         when (action) {
             OPEN_KEYS_BALL_ACTION -> {
                 val keysView = LayoutInflater.from(this).inflate(R.layout.keys_tool, null)
+                keysView.setBackgroundResource(R.drawable.shape_tool_body_round)
                 container.addView(keysView)
                 tool = KeysViewImpl(keysView, this)
             }
             OPEN_HASH_BALL_ACTION -> {
                 val hashView = LayoutInflater.from(this).inflate(R.layout.hash_tool, null)
+                hashView.setBackgroundResource(R.drawable.shape_tool_body_round)
                 container.addView(hashView)
                 tool = HashViewImpl(hashView, this)
             }
             else -> {
                 val cipherView = LayoutInflater.from(this).inflate(R.layout.cipher_tool, null)
+                cipherView.setBackgroundResource(R.drawable.shape_tool_body_round)
                 container.addView(cipherView)
                 tool = CipherViewImpl(cipherView, this)
             }

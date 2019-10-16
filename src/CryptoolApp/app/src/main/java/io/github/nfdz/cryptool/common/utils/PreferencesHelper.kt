@@ -21,6 +21,7 @@ class PreferencesHelper(private val context: Context) {
         private const val LAST_HASH_ORIGIN_TEXT_KEY = "hash_hash_origin_text"
         private const val KEYS_LABEL_KEY = "keys_labels"
         private const val KEYS_VALUE_KEY = "keys_values"
+        private const val ACCESS_CODE_KEY = "access_code"
     }
 
     private val crypto = CryptographyHelper()
@@ -28,7 +29,6 @@ class PreferencesHelper(private val context: Context) {
     private val preferences: SharedPreferences by lazy {
         context.getSharedPreferences(PREFS_FILE_NAME, Context.MODE_PRIVATE)
         // TODO: Use EncryptedSharedPreferences when sdk min is ok and lib is not alpha
-        // WORKAROUND: Use own AES encryption for sensitive fields meanwhile
 //        val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
 //        EncryptedSharedPreferences.create(
 //            PREFS_FILE_NAME,
@@ -42,7 +42,7 @@ class PreferencesHelper(private val context: Context) {
     private fun hideSensitiveField(field: String?): String {
         return if (field?.isNotEmpty() == true) {
             try {
-                crypto.encrypt(field, PREFS_FILE_NAME)
+                crypto.encrypt(field, CODE)
             } catch (e: Exception) {
                 Timber.e(e)
                 ""
@@ -55,7 +55,7 @@ class PreferencesHelper(private val context: Context) {
     private fun exposeSensitiveField(storedField: String?): String {
         return if (storedField?.isNotEmpty() == true) {
             try {
-                crypto.decrypt(storedField, PREFS_FILE_NAME)
+                crypto.decrypt(storedField, CODE)
             } catch (e: Exception) {
                 Timber.e(e)
                 ""
@@ -139,6 +139,22 @@ class PreferencesHelper(private val context: Context) {
     fun setKeysValue(values: Set<String>) {
         val hiddenValues = values.map { value -> hideSensitiveField(value) }.toHashSet()
         preferences.edit().putStringSet(KEYS_VALUE_KEY, hiddenValues).apply()
+    }
+
+    fun hasCode(): Boolean {
+        return preferences.contains(ACCESS_CODE_KEY)
+    }
+
+    fun getCode(): String {
+        return exposeSensitiveField(preferences.getString(ACCESS_CODE_KEY, null))
+    }
+
+    fun setCode(code: String) {
+        preferences.edit().clear().putString(ACCESS_CODE_KEY, hideSensitiveField(code)).apply()
+    }
+
+    fun deleteCode() {
+        preferences.edit().clear().apply()
     }
 
 }

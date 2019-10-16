@@ -4,8 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:background="@color/colorSemiTransparentDark">
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:id="@+id/ft_container"
@@ -13,13 +12,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="@dimen/floating_tool_margin"
-        android:orientation="vertical"
-        android:background="@color/colorBackground">
+        android:orientation="vertical">
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/floating_tool_app_bar_height"
-            android:background="@color/colorPrimary">
+            android:background="@drawable/shape_tool_bar_round">
 
             <include
                 android:id="@+id/ft_tv_logo"

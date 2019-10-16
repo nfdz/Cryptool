@@ -24,5 +24,15 @@
     <dimen name="floating_tool_app_bar_height">45dp</dimen>
     <dimen name="floating_tool_close_padding">7dp</dimen>
     <dimen name="floating_tool_close_width">36dp</dimen>
+    <dimen name="pin_code_number_text_size">32dp</dimen>
+    <dimen name="pin_code_input_text_size">28dp</dimen>
+    <dimen name="pin_code_input_text_margin">4dp</dimen>
+    <dimen name="pin_code_box_size">60dp</dimen>
+    <dimen name="pin_code_box_margin">7dp</dimen>
+    <dimen name="pin_code_dialog_width">340dp</dimen>
+    <dimen name="pin_code_dialog_height">340dp</dimen>
+    <dimen name="pin_code_action_icon_size">34dp</dimen>
+    <dimen name="pin_code_action_icon_margin_horizontal">26dp</dimen>
+    <dimen name="pin_code_action_icon_margin_top">24dp</dimen>
 
 </resources>

@@ -6,7 +6,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import io.github.nfdz.cryptool.R
@@ -40,7 +42,26 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
         setupView(prefs.getLastTab())
         BroadcastHelper.sendCloseFloatingWindowsBroadcast(this)
         handleIntent()
+        askCodeIfNeeded()
     }
+
+    private fun askCodeIfNeeded() {
+        if (hasPinCode() && !CODE_ASKED_ONCE) {
+            RequestPinCodeDialog.show(this, setPinMode = false) {
+                onCodeSet()
+            }
+        }
+    }
+
+    private fun onCodeSet() {
+        CODE_ASKED_ONCE = true
+        val currentPage = main_view_pager.currentItem
+        pagerAdapter = MainPagerAdapter(supportFragmentManager)
+        main_view_pager.adapter = pagerAdapter
+        main_view_pager.setCurrentItem(currentPage, false)
+    }
+
+    private fun hasPinCode(): Boolean = prefs.hasCode()
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -121,6 +142,14 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
                 }
                 true
             }
+            R.id.main_menu_pin_code -> {
+                if (hasPinCode()) {
+                    askDeletePin()
+                } else {
+                    askCreatePin()
+                }
+                true
+            }
             // TODO
 //            R.id.main_menu_rate_suggestions -> { navigateToClub(); true }
 //            R.id.main_menu_about -> { navigateToPlaylist(); true }
@@ -128,17 +157,51 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
         }
     }
 
-    private class MainPagerAdapter(fm: FragmentManager) :
+    private fun askCreatePin() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.pin_create_title)
+            .setMessage(R.string.pin_create_content)
+            .setPositiveButton(android.R.string.yes) { dialog, _ ->
+                RequestPinCodeDialog.show(this, setPinMode = true) {
+                    onCodeSet()
+                }
+                dialog.dismiss()
+            }
+            .setNegativeButton(android.R.string.no) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun askDeletePin() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.pin_delete_title)
+            .setMessage(R.string.pin_delete_content)
+            .setPositiveButton(android.R.string.yes) { dialog, _ ->
+                prefs.deleteCode()
+                CODE = DEFAULT_CODE
+                onCodeSet()
+                dialog.dismiss()
+            }
+            .setNegativeButton(android.R.string.no) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private inner class MainPagerAdapter(fm: FragmentManager) :
         FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
         override fun getItem(position: Int) = when (position) {
-            0 -> CipherFragment.newInstance()
-            1 -> HashFragment.newInstance()
-            2 -> KeysFragment.newInstance()
+            0 -> if (hideContent()) Fragment() else CipherFragment.newInstance()
+            1 -> if (hideContent()) Fragment() else HashFragment.newInstance()
+            2 -> if (hideContent()) Fragment() else KeysFragment.newInstance()
             else -> throw IllegalArgumentException("Invalid tab position=$position")
         }
 
         override fun getCount() = 3
+
+        private fun hideContent(): Boolean = hasPinCode() && !CODE_ASKED_ONCE
 
     }
 
