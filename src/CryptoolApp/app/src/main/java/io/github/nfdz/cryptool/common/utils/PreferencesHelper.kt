@@ -10,7 +10,7 @@ import timber.log.Timber
 class PreferencesHelper(private val context: Context) {
 
     companion object {
-        private const val PREFS_FILE_NAME = "cryptool_preferences"
+        private const val PREFS_FILE_NAME = "cryptool.prefs"
         private const val LAST_TAB_KEY = "last_tab"
         private const val LAST_MODE_KEY = "cipher_last_mode"
         private const val LAST_PASSPHRASE_KEY = "cipher_last_passphrase"

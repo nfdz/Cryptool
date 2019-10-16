@@ -1,5 +1,6 @@
 package io.github.nfdz.cryptool.common.utils
 
+import android.content.Context
 import android.os.Process
 import java.security.SecureRandom
 import java.util.UUID.randomUUID
@@ -59,4 +60,11 @@ fun generateRandomKey(): String {
 
 fun stopApp() {
     Process.killProcess(Process.myPid())
+}
+
+fun showWelcome(context: Context): Boolean {
+    val prefs = context.getSharedPreferences("welcome", Context.MODE_PRIVATE)
+    val value = prefs.getBoolean("show_welcome", true)
+    prefs.edit().putBoolean("show_welcome", false).apply()
+    return value
 }

@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
         setupView(prefs.getLastTab())
         BroadcastHelper.sendCloseFloatingWindowsBroadcast(this)
         askCodeIfNeeded()
+        showWelcomeIfNeeded()
     }
 
     private fun askCodeIfNeeded() {
@@ -51,6 +52,24 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
             PinCodeDialog.show(this, createPinMode = false) {
                 onCodeSet()
             }
+        }
+    }
+
+    private fun showWelcomeIfNeeded() {
+        if (showWelcome(this)) {
+            AlertDialog.Builder(this)
+                .setTitle(R.string.welcome_app_title)
+                .setMessage(R.string.welcome_app_content)
+                .setPositiveButton(R.string.welcome_app_pin) { dialog, _ ->
+                    PinCodeDialog.show(this, createPinMode = true) {
+                        onCodeSet()
+                    }
+                    dialog.dismiss()
+                }
+                .setNegativeButton(R.string.welcome_app_close) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
         }
     }
 
@@ -141,11 +160,11 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
                 true
             }
             R.id.main_menu_rate_suggestions -> {
-                showSuggestionsDialog();
+                showSuggestionsDialog()
                 true
             }
             R.id.main_menu_about -> {
-                showAboutDialog();
+                showAboutDialog()
                 true
             }
             else -> super.onOptionsItemSelected(item)
