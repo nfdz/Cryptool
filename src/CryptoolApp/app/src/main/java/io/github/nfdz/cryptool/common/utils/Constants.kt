@@ -1,5 +1,10 @@
 package io.github.nfdz.cryptool.common.utils
 
+import android.os.Process
+import java.security.SecureRandom
+import java.util.UUID.randomUUID
+
+
 const val PROCESSING_TEXT = "⌛"
 const val ERROR_TEXT = "✖"
 
@@ -19,3 +24,39 @@ var CODE_ASKED_ONCE = false
 
 const val STORE_URL = "https://play.google.com/store/apps/details?id=io.github.nfdz.cryptool"
 const val GITHUB_URL = "https://github.com/nfdz/Cryptool"
+
+const val RND_KEY_CAPS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+const val RND_KEY_NUMBER = "0123456789"
+const val RND_KEY_SPECIAL = "~!@#\$%&*()-_=+[{]};:,<.>/?"
+
+fun generateRandomKey(): String {
+    val rnd = SecureRandom()
+    val uuid = randomUUID().toString()
+    val result = uuid.toMutableList()
+    result.shuffle(rnd)
+    var count: Int = 0
+    // Add some caps
+    val capsToAdd = rnd.nextInt(6) + 2
+    for (i in 0..capsToAdd) {
+        result[count] = RND_KEY_CAPS[rnd.nextInt(RND_KEY_CAPS.length)]
+        count++
+    }
+    // Add some numbers
+    val numbersToAdd = rnd.nextInt(6) + 2
+    for (i in 0..numbersToAdd) {
+        result[count] = RND_KEY_NUMBER[rnd.nextInt(RND_KEY_NUMBER.length)]
+        count++
+    }
+    // Add special chars
+    val specialsToAdd = rnd.nextInt(6) + 2
+    for (i in 0..specialsToAdd) {
+        result[count] = RND_KEY_SPECIAL[rnd.nextInt(RND_KEY_SPECIAL.length)]
+        count++
+    }
+    result.shuffle(rnd)
+    return result.joinToString(separator = "")
+}
+
+fun stopApp() {
+    Process.killProcess(Process.myPid())
+}

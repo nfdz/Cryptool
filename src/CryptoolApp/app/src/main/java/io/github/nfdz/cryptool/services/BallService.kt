@@ -11,10 +11,7 @@ import android.os.Build
 import android.os.IBinder
 import android.view.*
 import io.github.nfdz.cryptool.R
-import io.github.nfdz.cryptool.common.utils.BroadcastHelper
-import io.github.nfdz.cryptool.common.utils.PreferencesHelper
-import io.github.nfdz.cryptool.common.utils.fadeIn
-import io.github.nfdz.cryptool.common.utils.fadeOut
+import io.github.nfdz.cryptool.common.utils.*
 import kotlin.math.roundToInt
 
 
@@ -139,10 +136,12 @@ class BallService : Service() {
         prefs.setLastBallPosition(layoutParams.y)
         prefs.setLastBallGravity(layoutParams.gravity)
         ballView.fadeOut {
+            stopSelf()
             if (launchFloatingTool) {
                 ToolService.start(this, action)
+            } else {
+                stopApp()
             }
-            stopSelf()
         }
     }
 

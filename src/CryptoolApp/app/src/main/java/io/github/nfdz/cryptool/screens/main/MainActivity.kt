@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
         super.onCreate(savedInstanceState)
         setupView(prefs.getLastTab())
         BroadcastHelper.sendCloseFloatingWindowsBroadcast(this)
-        handleIntent()
         askCodeIfNeeded()
     }
 
@@ -70,20 +69,9 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
         permissionHelper.onActivityResult(requestCode)
     }
 
-    private fun handleIntent(): Boolean {
-        val action = intent?.action
-        return if (action?.isNotEmpty() == true && permissionHelper.hasPermission()) {
-            val openBall = when (action) {
-                OPEN_CIPHER_BALL_ACTION -> true
-                OPEN_HASH_BALL_ACTION -> true
-                OPEN_KEYS_BALL_ACTION -> true
-                else -> false
-            }
-            if (openBall) BallService.start(this, action)
-            return openBall
-        } else {
-            false
-        }
+    override fun onBackPressed() {
+        stopApp()
+        super.onBackPressed()
     }
 
     private fun setupView(initialTab: Int) {

@@ -8,10 +8,7 @@ import android.os.Build
 import android.os.IBinder
 import android.view.*
 import io.github.nfdz.cryptool.R
-import io.github.nfdz.cryptool.common.utils.OPEN_HASH_BALL_ACTION
-import io.github.nfdz.cryptool.common.utils.OPEN_KEYS_BALL_ACTION
-import io.github.nfdz.cryptool.common.utils.fadeIn
-import io.github.nfdz.cryptool.common.utils.fadeOut
+import io.github.nfdz.cryptool.common.utils.*
 import io.github.nfdz.cryptool.screens.main.MainActivity
 import io.github.nfdz.cryptool.views.ToolViewBase
 import io.github.nfdz.cryptool.views.cipher.CipherViewImpl
@@ -110,9 +107,10 @@ class ToolService : Service() {
             stopSelf()
             if (launchBall) {
                 BallService.start(this, action)
-            }
-            if (launchApp) {
+            } else if (launchApp) {
                 MainActivity.startNewActivity(this)
+            } else {
+                stopApp()
             }
         }
     }

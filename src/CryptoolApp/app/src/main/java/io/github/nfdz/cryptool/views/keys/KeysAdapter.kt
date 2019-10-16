@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import io.github.nfdz.cryptool.R
 import io.github.nfdz.cryptool.common.utils.ClipboardHelper
+import io.github.nfdz.cryptool.common.utils.generateRandomKey
 import io.github.nfdz.cryptool.common.utils.hideKeyboard
 import io.github.nfdz.cryptool.common.utils.toast
 import io.github.nfdz.cryptool.common.widgets.InputTextBoxView
@@ -136,6 +137,10 @@ class KeysAdapter(private val listener: Listener) :
                         keyInput.setText(pasteText)
                     }
                 }
+            }
+            keyInput.setupAction3Icon(R.drawable.ic_random_line, R.color.colorLight)
+            keyInput.setupAction3 {
+                keyInput.setText(generateRandomKey())
             }
         }
     }
