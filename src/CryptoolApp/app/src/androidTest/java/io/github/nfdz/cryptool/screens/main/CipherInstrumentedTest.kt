@@ -1,18 +1,14 @@
 package io.github.nfdz.cryptool.screens.main
 
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.LargeTest
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import io.github.nfdz.cryptool.R
 import io.github.nfdz.cryptool.common.utils.ERROR_TEXT
-import io.github.nfdz.cryptool.common.utils.PreferencesHelper
 import org.hamcrest.Matchers.allOf
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -27,12 +23,6 @@ class CipherInstrumentedTest {
         private const val DUMMY_PROCESSED = "0/YT6mWR8CvyOaCunsI6iA=="
     }
 
-    @Before
-    fun setup() {
-        val context = InstrumentationRegistry.getInstrumentation().context
-        PreferencesHelper(context).clearAllSync()
-    }
-
     @Rule
     @JvmField
     var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
@@ -40,6 +30,7 @@ class CipherInstrumentedTest {
     /** Encrypt and decrypt text */
     @Test
     fun encrypt_decrypt() {
+        cleanStoredData(mActivityTestRule.activity)
         closeWelcome()
         clickNavigationOption(R.id.main_nav_cipher)
         typeInputPass(DUMMY_PASS)
@@ -53,6 +44,7 @@ class CipherInstrumentedTest {
     /** Try to decrypt a wrong encrypted text */
     @Test
     fun decrypt_error() {
+        cleanStoredData(mActivityTestRule.activity)
         closeWelcome()
         clickNavigationOption(R.id.main_nav_cipher)
         clickReverse()

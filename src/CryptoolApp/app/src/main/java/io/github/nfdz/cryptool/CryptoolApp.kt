@@ -6,9 +6,6 @@ import timber.log.Timber
 
 class CryptoolApp : Application() {
 
-    private val DB_NAME = "memotex.realm"
-    private val SCHEMA_VERSION = 1L
-
     override fun onCreate() {
         super.onCreate()
         setupLogger()
@@ -20,4 +17,5 @@ class CryptoolApp : Application() {
             Timber.plant(Timber.DebugTree())
         }
     }
+    
 }

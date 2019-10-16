@@ -8,7 +8,7 @@ import java.util.*
 /**
  * This junit class contains all tests about CryptographyHelper.
  */
-class CryptographyTests {
+class CryptographyTest {
 
     companion object {
         private const val DUMMY_TEXT =

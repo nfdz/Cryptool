@@ -1,43 +1,49 @@
 package io.github.nfdz.cryptool.screens.main
 
 import android.R
+import android.content.Context
 import android.view.View
 import android.view.ViewGroup
-import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
+import io.github.nfdz.cryptool.common.utils.PreferencesHelper
 import org.hamcrest.Description
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers
+import org.hamcrest.Matchers.allOf
 import org.hamcrest.TypeSafeMatcher
 
+
+fun cleanStoredData(context: Context) {
+    PreferencesHelper(context).clearAllSync()
+}
 fun closeWelcome() {
     try {
-        val closeWelcome = Espresso.onView(
-            Matchers.allOf(
-                ViewMatchers.withId(R.id.button2), ViewMatchers.withText("Close"), childAtPosition(
+        val closeWelcome = onView(
+            allOf(
+                withId(R.id.button2),
+                withText("Close"),
+                childAtPosition(
                     childAtPosition(
-                        ViewMatchers.withId(io.github.nfdz.cryptool.R.id.buttonPanel),
+                        withId(io.github.nfdz.cryptool.R.id.buttonPanel),
                         0
                     ), 2
                 )
             )
         )
-        closeWelcome.perform(ViewActions.scrollTo(), ViewActions.click())
+        closeWelcome.perform(ViewActions.scrollTo(), click())
     } catch (e: NoMatchingViewException) {
         // Swallow -> There is no welcome
     }
 }
 
 fun clickNavigationOption(id: Int) {
-    val bottomNavigationItemView = Espresso.onView(
-        Matchers.allOf(
-            ViewMatchers.withId(id),
-            ViewMatchers.isDisplayed()
-        )
-    )
-    bottomNavigationItemView.perform(ViewActions.click())
+    val bottomNavigationItemView = onView(allOf(withId(id), ViewMatchers.isDisplayed()))
+    bottomNavigationItemView.perform(click())
 }
 
 fun childAtPosition(parentMatcher: Matcher<View>, position: Int): Matcher<View> {
