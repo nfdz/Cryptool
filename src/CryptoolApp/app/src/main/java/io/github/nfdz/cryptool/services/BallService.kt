@@ -11,18 +11,15 @@ import android.os.Build
 import android.os.IBinder
 import android.view.*
 import io.github.nfdz.cryptool.R
-import io.github.nfdz.cryptool.common.utils.BroadcastHelper
-import io.github.nfdz.cryptool.common.utils.PreferencesHelper
-import io.github.nfdz.cryptool.common.utils.fadeIn
-import io.github.nfdz.cryptool.common.utils.fadeOut
+import io.github.nfdz.cryptool.common.utils.*
 import kotlin.math.roundToInt
 
 
 class BallService : Service() {
 
     companion object {
-        fun start(context: Context) {
-            context.startService(Intent(context, BallService::class.java))
+        fun start(context: Context, action: String?) {
+            context.startService(Intent(context, BallService::class.java).setAction(action))
         }
 
         const val RIGHT_GRAVITY = Gravity.CENTER_VERTICAL or Gravity.RIGHT
@@ -30,6 +27,7 @@ class BallService : Service() {
         const val DEFAULT_GRAVITY = RIGHT_GRAVITY
     }
 
+    private var action: String? = null
     private val windowManager: WindowManager by lazy { getSystemService(WINDOW_SERVICE) as WindowManager }
     private val touchXThreshold: Float by lazy { getXThreshold() }
     private val layoutParams: WindowManager.LayoutParams by lazy { buildLayoutParams() }
@@ -58,6 +56,11 @@ class BallService : Service() {
         closeIcon.setOnClickListener { closeBall() }
         registerReceiver(bcReceiver, IntentFilter(BroadcastHelper.CLOSE_FLOATING_WINDOWS_ACTION))
         ballView.fadeIn()
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        action = intent?.action
+        return super.onStartCommand(intent, flags, startId)
     }
 
     private fun getXThreshold(): Float {
@@ -108,7 +111,7 @@ class BallService : Service() {
                 true
             }
             MotionEvent.ACTION_UP -> {
-                if (lastAction == MotionEvent.ACTION_DOWN) {
+                if (lastAction == MotionEvent.ACTION_DOWN || initialTouchY == event.rawY) {
                     closeBall(launchFloatingTool = true)
                 }
                 lastAction = event.action
@@ -133,10 +136,12 @@ class BallService : Service() {
         prefs.setLastBallPosition(layoutParams.y)
         prefs.setLastBallGravity(layoutParams.gravity)
         ballView.fadeOut {
-            if (launchFloatingTool) {
-                ToolService.start(this)
-            }
             stopSelf()
+            if (launchFloatingTool) {
+                ToolService.start(this, action)
+            } else {
+                stopApp()
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 package io.github.nfdz.cryptool.common.utils
 
 import android.util.Base64
+import java.security.MessageDigest
 import javax.crypto.Cipher
 import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.IvParameterSpec
@@ -17,6 +18,7 @@ class CryptographyHelper {
         private const val DUMMY_IV_BASE = "2323362g4b5kh2345fas"
         private const val DUMMY_ITERATION_COUNT = 73
         private const val KEY_GEN_ALGORITHM = "PBKDF2WithHmacSHA1"
+        private const val HASH_ALGORITHM = "SHA-256"
 
         private const val BASE64_FLAGS = Base64.NO_WRAP
 
@@ -53,7 +55,8 @@ class CryptographyHelper {
                 salt[i] = saltBase[i]
             }
         }
-        val spec = PBEKeySpec(passphrase.toCharArray(), salt, DUMMY_ITERATION_COUNT, AES_KEY_LENGTH_BITS)
+        val spec =
+            PBEKeySpec(passphrase.toCharArray(), salt, DUMMY_ITERATION_COUNT, AES_KEY_LENGTH_BITS)
         val f = SecretKeyFactory.getInstance(KEY_GEN_ALGORITHM)
         val key = f.generateSecret(spec).encoded
         return SecretKeySpec(key, CIPHER)
@@ -69,4 +72,21 @@ class CryptographyHelper {
         }
         return IvParameterSpec(iv)
     }
+
+    fun hash(text: String): String {
+        val digest = MessageDigest.getInstance(HASH_ALGORITHM)
+        val hashBytes = digest.digest(text.toByteArray())
+        return bytesToHex(hashBytes)
+    }
+
+    private fun bytesToHex(hashBytes: ByteArray): String {
+        val hexString = StringBuffer()
+        for (i in hashBytes.indices) {
+            val hex = Integer.toHexString(0xff and hashBytes[i].toInt())
+            if (hex.length == 1) hexString.append('0')
+            hexString.append(hex)
+        }
+        return hexString.toString()
+    }
+
 }

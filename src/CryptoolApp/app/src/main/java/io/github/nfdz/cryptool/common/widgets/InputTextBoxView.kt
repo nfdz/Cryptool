@@ -84,7 +84,7 @@ class InputTextBoxView : TextBoxBase {
         inputChangeListener = listener
     }
 
-    fun setInputType(type: Int) {
+    override fun setInputType(type: Int) {
         itb_et.removeTextChangedListener(inputWatcher)
         itb_et.inputType = type
         itb_et.addTextChangedListener(inputWatcher)

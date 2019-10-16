@@ -2,6 +2,7 @@ package io.github.nfdz.cryptool.common.widgets
 
 import android.content.Context
 import android.graphics.PorterDuff
+import android.text.InputType
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
@@ -45,6 +46,7 @@ abstract class TextBoxBase : FrameLayout {
     protected abstract fun getLabel(): TextView
     protected abstract fun getBg(): View
     protected abstract fun setTextColor(@ColorInt color: Int)
+    abstract fun setInputType(type: Int)
     abstract fun getText(): String
     abstract fun setText(text: String)
 
@@ -54,13 +56,21 @@ abstract class TextBoxBase : FrameLayout {
         @ColorRes textColorRes: Int,
         @DrawableRes iconRes: Int,
         @StringRes labelRes: Int
+    ) = setupView(bgColorRes, actionBgRes, textColorRes, iconRes, context.getString(labelRes))
+
+    fun setupView(
+        @ColorRes bgColorRes: Int,
+        @DrawableRes actionBgRes: Int,
+        @ColorRes textColorRes: Int,
+        @DrawableRes iconRes: Int,
+        label: String
     ) {
         val bgColor = ContextCompat.getColor(context, bgColorRes)
         val textColor = ContextCompat.getColor(context, textColorRes)
         getBg().setBackgroundColor(bgColor)
         getIcon().setImageResource(iconRes)
         getIcon().setColorFilter(textColor, PorterDuff.Mode.SRC_IN)
-        getLabel().setText(labelRes)
+        getLabel().text = label
         getLabel().setTextColor(textColor)
         setTextColor(textColor)
         getActionView1().setBackgroundResource(actionBgRes)
@@ -81,9 +91,11 @@ abstract class TextBoxBase : FrameLayout {
         setupActionIcon(getActionView3(), iconRes, iconColorRes)
     }
 
-    private fun setupActionIcon(actionView: ImageButton,
-                                @DrawableRes iconRes: Int,
-                                @ColorRes iconColorRes: Int) {
+    private fun setupActionIcon(
+        actionView: ImageButton,
+        @DrawableRes iconRes: Int,
+        @ColorRes iconColorRes: Int
+    ) {
         val iconColor = ContextCompat.getColor(context, iconColorRes)
         actionView.visibility = View.VISIBLE
         actionView.setImageResource(iconRes)
@@ -110,16 +122,40 @@ abstract class TextBoxBase : FrameLayout {
         setupAction(getActionView1(), onAction)
     }
 
+    fun setupAction1LongPress(onAction: () -> (Unit)) {
+        setupActionLongPress(getActionView1(), onAction)
+    }
+
     fun setupAction2(onAction: () -> (Unit)) {
         setupAction(getActionView2(), onAction)
+    }
+
+    fun setupAction2LongPress(onAction: () -> (Unit)) {
+        setupActionLongPress(getActionView2(), onAction)
     }
 
     fun setupAction3(onAction: () -> (Unit)) {
         setupAction(getActionView3(), onAction)
     }
 
+    fun setupAction3LongPress(onAction: () -> (Unit)) {
+        setupActionLongPress(getActionView3(), onAction)
+    }
+
     private fun setupAction(actionView: ImageButton, onAction: () -> (Unit)) {
         actionView.setOnClickListener { onAction() }
+    }
+
+    private fun setupActionLongPress(actionView: ImageButton, onAction: () -> (Unit)) {
+        actionView.setOnLongClickListener { onAction(); true }
+    }
+    
+    fun setInputTypePassword(visible: Boolean = false) {
+        if (visible) {
+            setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)
+        } else {
+            setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)
+        }
     }
 
 }

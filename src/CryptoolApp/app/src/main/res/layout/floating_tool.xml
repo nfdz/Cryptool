@@ -4,21 +4,23 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:background="@color/colorSemiTransparentDark">
+    android:fitsSystemWindows="true">
 
     <LinearLayout
+        android:id="@+id/ft_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="@dimen/floating_tool_margin"
-        android:orientation="vertical"
-        android:background="@color/colorLight">
+        android:layout_marginLeft="@dimen/floating_tool_margin_horizontal"
+        android:layout_marginRight="@dimen/floating_tool_margin_horizontal"
+        android:layout_marginTop="@dimen/floating_tool_margin_vertical"
+        android:layout_marginBottom="@dimen/floating_tool_margin_vertical"
+        android:orientation="vertical">
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/floating_tool_app_bar_height"
-            android:background="@color/colorPrimary">
+            android:background="@drawable/shape_tool_bar_round">
 
             <include
                 android:id="@+id/ft_tv_logo"
@@ -32,7 +34,7 @@
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/ft_btn_ball"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/floating_tool_close_width"
                     android:layout_height="match_parent"
                     android:scaleType="fitCenter"
                     android:padding="@dimen/floating_tool_close_padding"
@@ -43,7 +45,7 @@
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/ft_btn_close"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/floating_tool_close_width"
                     android:layout_height="match_parent"
                     android:scaleType="fitCenter"
                     android:padding="@dimen/floating_tool_close_padding"
@@ -54,12 +56,7 @@
 
             </LinearLayout>
 
-
         </FrameLayout>
-
-        <include layout="@layout/cipher_tool"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 

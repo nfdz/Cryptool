@@ -1,10 +1,10 @@
 package io.github.nfdz.cryptool.views.cipher
 
 import android.content.Context
-import android.text.InputType
 import android.view.View
 import io.github.nfdz.cryptool.R
 import io.github.nfdz.cryptool.common.utils.ClipboardHelper
+import io.github.nfdz.cryptool.common.utils.toast
 import io.github.nfdz.cryptool.common.widgets.InputTextBoxView
 import io.github.nfdz.cryptool.common.widgets.OutputTextBoxView
 
@@ -32,6 +32,7 @@ class CipherViewImpl(private val view: View?, private val context: Context?) : C
         cipher_itb_pass = null
         cipher_itb_origin = null
         cipher_otb_processed = null
+        cipher_btn_reverse = null
     }
 
     private fun bindView() {
@@ -75,6 +76,10 @@ class CipherViewImpl(private val view: View?, private val context: Context?) : C
                 cipher_itb_origin?.setupAction2Icon(R.drawable.ic_paste, R.color.colorDark)
                 cipher_itb_origin?.setupAction3Icon(R.drawable.ic_clear, R.color.colorDark)
                 cipher_otb_processed?.setupAction1Icon(R.drawable.ic_copy, R.color.colorLight)
+                cipher_otb_processed?.setupAction2Icon(
+                    R.drawable.ic_info_outline,
+                    R.color.colorLight
+                )
             }
             CipherContract.ModeFlag.DECRYIPT_MODE -> {
                 cipher_otb_processed?.setupView(
@@ -95,6 +100,10 @@ class CipherViewImpl(private val view: View?, private val context: Context?) : C
                 cipher_itb_origin?.setupAction2Icon(R.drawable.ic_paste, R.color.colorLight)
                 cipher_itb_origin?.setupAction3Icon(R.drawable.ic_clear, R.color.colorLight)
                 cipher_otb_processed?.setupAction1Icon(R.drawable.ic_copy, R.color.colorDark)
+                cipher_otb_processed?.setupAction2Icon(
+                    R.drawable.ic_info_outline,
+                    R.color.colorDark
+                )
             }
         }
     }
@@ -136,6 +145,9 @@ class CipherViewImpl(private val view: View?, private val context: Context?) : C
                     cipher_otb_processed?.getText() ?: ""
                 )
             }
+        }
+        cipher_otb_processed?.setupAction2 {
+            context?.toast(R.string.cipher_info)
         }
         cipher_btn_reverse?.setOnClickListener {
             presenter.onToggleModeClick()
@@ -189,10 +201,10 @@ class CipherViewImpl(private val view: View?, private val context: Context?) : C
         cipher_itb_pass?.setupAction2Icon(R.drawable.ic_save, iconColor)
         if (visible) {
             cipher_itb_pass?.setupAction1Icon(R.drawable.ic_eye_blind, iconColor)
-            cipher_itb_pass?.setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)
+            cipher_itb_pass?.setInputTypePassword(visible = true)
         } else {
             cipher_itb_pass?.setupAction1Icon(R.drawable.ic_eye, iconColor)
-            cipher_itb_pass?.setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)
+            cipher_itb_pass?.setInputTypePassword(visible = false)
         }
         cipher_itb_pass?.setInputEnabled(enabled)
         cipher_itb_pass?.setAction1Enabled(enabled)

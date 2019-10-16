@@ -1,5 +1,7 @@
 package io.github.nfdz.cryptool.views.cipher
 
+import io.github.nfdz.cryptool.common.utils.ERROR_TEXT
+import io.github.nfdz.cryptool.common.utils.PROCESSING_TEXT
 import java.util.concurrent.atomic.AtomicInteger
 
 
@@ -8,14 +10,9 @@ class CipherPresenterImpl(
     private var interactor: CipherContract.Interactor?
 ) : CipherContract.Presenter {
 
-    companion object {
-        const val PROCESSING_TEXT = "⌛"
-        const val ERROR_TEXT = "✖"
-    }
-
     private var isPassphraseLocked: Boolean = false
     private var isPassphraseVisible: Boolean = false
-    private var processCounter = AtomicInteger()
+    private val processCounter = AtomicInteger()
 
     override fun onCreate() {
         interactor?.let {

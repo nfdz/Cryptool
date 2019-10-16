@@ -1,12 +1,16 @@
 <resources>
     <string name="app_name" translatable="false">Cryptool</string>
-    <string name="permission_denied">Draw over other apps permission needed</string>
+
+    <!-- Main activity -->
     <string name="main_tab_cipher">Cipher</string>
     <string name="main_tab_hash">Hash</string>
     <string name="main_tab_keys">Keys</string>
-    <string name="main_menu_settings">Settings</string>
-    <string name="main_menu_rate_suggestions">Rate &amp; Suggestions</string>
-    <string name="main_menu_about">About</string>
+
+    <!-- Menu options -->
+    <string name="main_menu_pin_code">Security PIN code</string>
+    <string name="main_menu_settings">System Settings</string>
+    <string name="main_menu_rate_suggestions">Rate, Suggestions &amp; Bugs</string>
+    <string name="main_menu_about">About &amp; Code</string>
 
     <!-- Clipboard -->
     <string name="cb_copy_success">Successfully copied to clipboard</string>
@@ -18,7 +22,44 @@
     <string name="cipher_plain_label">Original text:</string>
     <string name="cipher_encrypted_label">Encrypted text:</string>
     <string name="cipher_passphrase_label">Passphrase:</string>
+    <string name="cipher_info">Cipher algorithm: AES</string>
+
+    <!-- Hash -->
+    <string name="hash_plain_label">Original text:</string>
+    <string name="hash_processed_label">Hash:</string>
+    <string name="hash_info">Hash algorithm: SHA-256</string>
+
+    <!-- Keys -->
+    <string name="keys_create_label">Label: </string>
+    <string name="keys_create_key">Key: </string>
+    <string name="keys_remove_key_long">Keep long press to delete key</string>
+
+    <!-- Pin code dialogs -->
+    <string name="pin_create_title">Create PIN</string>
+    <string name="pin_create_btn">Create</string>
+    <string name="pin_delete_btn">Delete</string>
+    <string name="pin_create_content">Do you want to set a security PIN?\n\nBe careful! everything you have saved so far will be DELETED.\n\nNew stored data will be encrypted using the PIN.\n\nThe length must be 4 to 8 characters, 6+ are recommended for high security.</string>
+    <string name="pin_size_min">The length must be 4 to 8 characters</string>
+    <string name="pin_delete_title">Delete PIN</string>
+    <string name="pin_delete_content">Do you want to delete your current security PIN?\n\nBe careful! everything you have saved so far will be DELETED.</string>
+
+    <!-- Promo -->
+    <string name="rate_app_title">@string/main_menu_rate_suggestions</string>
+    <string name="rate_app_content">The development of this app is non-profit. If you like it, please leave a review to support us.\n\nIf you have any suggestions or app error, you can write it on GitHub, send it by email or in your review in the store.</string>
+    <string name="rate_app_btn">Rate</string>
+    <string name="about_app_btn">GitHub</string>
+    <string name="about_app_title">@string/main_menu_about</string>
+    <string name="about_app_content">The code is open source (GPLv3) and you can see it on GitHub. Visit the repository, download the code, try it, modify it and do what you want.\n\nSome icons were made by Freepik (from www.flaticon.com)\n\nThe only 3rd party library is Timber from Jake Wharton</string>
+    <string name="welcome_app_title">Cryptool v2</string>
+    <string name="welcome_app_content">Welcome to this new version full of security improvements and new features.\n\nWe strongly recommend that you set a PIN code now to improve the security of all the stored data.\n\nEnjoy!</string>
+    <string name="welcome_app_pin">PIN</string>
+    <string name="welcome_app_close">Close</string>
 
     <!-- Errors -->
     <string name="error_no_settings">It is not possible open your System Settings</string>
+    <string name="error_label_empty">Label field is empty</string>
+    <string name="error_key_empty">Key field is empty</string>
+    <string name="error_label_key_empty">Label and Key field are empty</string>
+    <string name="permission_denied">Draw over other apps permission needed</string>
+
 </resources>

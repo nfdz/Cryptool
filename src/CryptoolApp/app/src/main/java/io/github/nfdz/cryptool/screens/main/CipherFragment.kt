@@ -1,4 +1,4 @@
-package io.github.nfdz.cryptool.views.main
+package io.github.nfdz.cryptool.screens.main
 
 import android.os.Bundle
 import android.view.LayoutInflater
