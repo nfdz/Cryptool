@@ -9,6 +9,9 @@ import io.github.nfdz.cryptool.R
 import io.github.nfdz.cryptool.views.cipher.CipherContract
 import io.github.nfdz.cryptool.views.cipher.CipherViewImpl
 
+/**
+ * Fragment that contains cipher view tool.
+ */
 class CipherFragment : Fragment() {
 
     companion object {

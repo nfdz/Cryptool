@@ -9,6 +9,9 @@ import io.github.nfdz.cryptool.R
 
 object ClipboardHelper {
 
+    /**
+     * Try to copy given text. If it is not possible, it will show a toast message.
+     */
     fun copyText(
         context: Context,
         clipLabel: String,
@@ -24,6 +27,10 @@ object ClipboardHelper {
         }
     }
 
+    /**
+     * Try to paste text from clipboard in given destination.
+     * If it is not possible, it will show a toast message.
+     */
     fun pasteText(context: Context, destination: (String) -> (Unit)) {
         val clipboard = context.getSystemService(CLIPBOARD_SERVICE) as? ClipboardManager
         if (clipboard == null || !clipboard.hasPrimaryClip()) {

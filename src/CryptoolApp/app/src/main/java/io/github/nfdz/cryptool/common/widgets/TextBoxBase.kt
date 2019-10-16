@@ -15,6 +15,10 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 
+/**
+ * This base class contains all the common logic to deal with text box,
+ * no matter the type of text implementation.
+ */
 abstract class TextBoxBase : FrameLayout {
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
         context,
@@ -46,6 +50,7 @@ abstract class TextBoxBase : FrameLayout {
     protected abstract fun getLabel(): TextView
     protected abstract fun getBg(): View
     protected abstract fun setTextColor(@ColorInt color: Int)
+
     abstract fun setInputType(type: Int)
     abstract fun getText(): String
     abstract fun setText(text: String)
@@ -149,7 +154,7 @@ abstract class TextBoxBase : FrameLayout {
     private fun setupActionLongPress(actionView: ImageButton, onAction: () -> (Unit)) {
         actionView.setOnLongClickListener { onAction(); true }
     }
-    
+
     fun setInputTypePassword(visible: Boolean = false) {
         if (visible) {
             setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)

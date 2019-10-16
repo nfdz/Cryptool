@@ -9,7 +9,9 @@ import io.github.nfdz.cryptool.R
 import io.github.nfdz.cryptool.views.keys.KeysContract
 import io.github.nfdz.cryptool.views.keys.KeysViewImpl
 
-
+/**
+ * Fragment that contains keys view tool.
+ */
 class KeysFragment : Fragment() {
 
     companion object {

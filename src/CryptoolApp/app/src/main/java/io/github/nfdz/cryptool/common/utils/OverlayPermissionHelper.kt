@@ -7,6 +7,9 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 
+/**
+ * This class has the responsability of dealing with system settings.
+ */
 class OverlayPermissionHelper(private val activity: Activity, private val callback: Callback?) {
 
     interface Callback {
@@ -18,6 +21,9 @@ class OverlayPermissionHelper(private val activity: Activity, private val callba
         private val CODE_PERMISSION_REQUEST = 2839
     }
 
+    /**
+     * Request permission if needed. It sends result through callback.
+     */
     fun request() {
         if (!hasPermission()) {
             val intent = Intent(

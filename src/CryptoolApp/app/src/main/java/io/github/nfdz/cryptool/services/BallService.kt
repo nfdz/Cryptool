@@ -11,10 +11,18 @@ import android.os.Build
 import android.os.IBinder
 import android.view.*
 import io.github.nfdz.cryptool.R
-import io.github.nfdz.cryptool.common.utils.*
+import io.github.nfdz.cryptool.common.utils.PreferencesHelper
+import io.github.nfdz.cryptool.common.utils.fadeIn
+import io.github.nfdz.cryptool.common.utils.fadeOut
+import io.github.nfdz.cryptool.common.utils.stopApp
 import kotlin.math.roundToInt
 
-
+/**
+ * This service has the responsability of showing an icon ball on the screen over any apps.
+ * It will not block the user input, so the user could use another app meanwhile.
+ * This ball can be moved, closed (stop service) and opened (stop this service and launch
+ * tool service)
+ */
 class BallService : Service() {
 
     companion object {
@@ -22,8 +30,16 @@ class BallService : Service() {
             context.startService(Intent(context, BallService::class.java).setAction(action))
         }
 
-        const val RIGHT_GRAVITY = Gravity.CENTER_VERTICAL or Gravity.RIGHT
-        const val LEFT_GRAVITY = Gravity.CENTER_VERTICAL or Gravity.LEFT
+        fun stop(context: Context) {
+            val intent = Intent()
+            intent.action = CLOSE_FLOATING_WINDOWS_ACTION
+            context.sendBroadcast(intent)
+        }
+
+        private const val CLOSE_FLOATING_WINDOWS_ACTION =
+            "io.github.nfdz.cryptool.CLOSE_FLOATING_WINDOWS"
+        private const val RIGHT_GRAVITY = Gravity.CENTER_VERTICAL or Gravity.RIGHT
+        private const val LEFT_GRAVITY = Gravity.CENTER_VERTICAL or Gravity.LEFT
         const val DEFAULT_GRAVITY = RIGHT_GRAVITY
     }
 
@@ -37,7 +53,7 @@ class BallService : Service() {
     }
     private val bcReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            closeBall()
+            closeBall(avoidStopProcess = true)
         }
     }
 
@@ -54,7 +70,7 @@ class BallService : Service() {
         val closeIcon: View = ballView.findViewById<View>(R.id.ball_iv_close)
         ballIcon.setOnTouchListener { _, event -> handleTouchEvent(event) }
         closeIcon.setOnClickListener { closeBall() }
-        registerReceiver(bcReceiver, IntentFilter(BroadcastHelper.CLOSE_FLOATING_WINDOWS_ACTION))
+        registerReceiver(bcReceiver, IntentFilter(CLOSE_FLOATING_WINDOWS_ACTION))
         ballView.fadeIn()
     }
 
@@ -132,14 +148,14 @@ class BallService : Service() {
         }
     }
 
-    private fun closeBall(launchFloatingTool: Boolean = false) {
+    private fun closeBall(launchFloatingTool: Boolean = false, avoidStopProcess: Boolean = false) {
         prefs.setLastBallPosition(layoutParams.y)
         prefs.setLastBallGravity(layoutParams.gravity)
         ballView.fadeOut {
             stopSelf()
             if (launchFloatingTool) {
                 ToolService.start(this, action)
-            } else {
+            } else if (!avoidStopProcess) {
                 stopApp()
             }
         }

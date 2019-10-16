@@ -17,5 +17,5 @@ class CryptoolApp : Application() {
             Timber.plant(Timber.DebugTree())
         }
     }
-    
+
 }

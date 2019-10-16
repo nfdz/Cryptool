@@ -10,7 +10,9 @@ import io.github.nfdz.cryptool.common.utils.*
 import kotlinx.android.synthetic.main.dialog_request_pin.*
 import java.util.*
 
-
+/**
+ * This custom dialog show PIN code pad and handle the input of user.
+ */
 class PinCodeDialog(
     private val onSuccessListener: () -> (Unit),
     private val createPinMode: Boolean,
@@ -18,6 +20,13 @@ class PinCodeDialog(
 ) : AlertDialog(context) {
 
     companion object {
+        /**
+         * Create and show the dialog.
+         * If createPinMode is false, dialog will not be cancelable and it will only exit and execute
+         * onSuccessListener when user match the stored code.
+         * If it is true, dialog will only execute onSuccessListener
+         * when user save the PIN successfully.
+         */
         fun show(
             context: Context,
             createPinMode: Boolean,
@@ -36,6 +45,7 @@ class PinCodeDialog(
         }
     }
 
+    // Shuffle sets content
     private val set0 = CODE_SET_0.toCharArray().toMutableList().apply { shuffle() }
     private val set1 = CODE_SET_1.toCharArray().toMutableList().apply { shuffle() }
     private val set2 = CODE_SET_2.toCharArray().toMutableList().apply { shuffle() }

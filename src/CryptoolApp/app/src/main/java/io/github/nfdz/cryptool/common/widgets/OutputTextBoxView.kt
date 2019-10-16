@@ -9,6 +9,9 @@ import android.widget.TextView
 import io.github.nfdz.cryptool.R
 import kotlinx.android.synthetic.main.output_text_box.view.*
 
+/**
+ * This implementation of TextBoxBase has a simple TextView.
+ */
 class OutputTextBoxView : TextBoxBase {
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
         context,
@@ -59,7 +62,7 @@ class OutputTextBoxView : TextBoxBase {
     override fun setText(text: String) {
         otb_tv.text = text
     }
-    
+
     override fun setInputType(type: Int) {
         otb_tv.inputType = type
     }

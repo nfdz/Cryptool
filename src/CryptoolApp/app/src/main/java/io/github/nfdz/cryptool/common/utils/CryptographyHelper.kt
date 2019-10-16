@@ -8,7 +8,9 @@ import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.PBEKeySpec
 import javax.crypto.spec.SecretKeySpec
 
-
+/**
+ * This class has the responsability of dealing with cryptography.
+ */
 class CryptographyHelper {
 
     companion object {
@@ -22,6 +24,7 @@ class CryptographyHelper {
         private const val HASH_ALGORITHM = "SHA-256"
     }
 
+    /** Encrypt given text */
     fun encrypt(plaintext: String, passphrase: String): String {
         val aesCipherForEncryption = Cipher.getInstance(CIPHER_TRANSFORMATION)
         aesCipherForEncryption.init(
@@ -33,6 +36,10 @@ class CryptographyHelper {
         return String(Base64.encodeBase64(byteCipherText))
     }
 
+    /**
+     * Decrypt given text. If there is a problem (like given text is not encrypted properly)
+     * it will launch an exception.
+     */
     fun decrypt(ciphertext: String, passphrase: String): String {
         val aesCipherForDecryption = Cipher.getInstance(CIPHER_TRANSFORMATION)
         aesCipherForDecryption.init(
@@ -71,6 +78,9 @@ class CryptographyHelper {
         return IvParameterSpec(iv)
     }
 
+    /**
+     * Hash given text.
+     */
     fun hash(text: String): String {
         val digest = MessageDigest.getInstance(HASH_ALGORITHM)
         val hashBytes = digest.digest(text.toByteArray())
