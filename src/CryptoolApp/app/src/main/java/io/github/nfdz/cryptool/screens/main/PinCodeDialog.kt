@@ -8,22 +8,23 @@ import androidx.appcompat.app.AlertDialog
 import io.github.nfdz.cryptool.R
 import io.github.nfdz.cryptool.common.utils.*
 import kotlinx.android.synthetic.main.dialog_request_pin.*
+import java.util.*
 
 
-class RequestPinCodeDialog(
+class PinCodeDialog(
     private val onSuccessListener: () -> (Unit),
-    private val setPinMode: Boolean,
+    private val createPinMode: Boolean,
     context: Context
 ) : AlertDialog(context) {
 
     companion object {
         fun show(
             context: Context,
-            setPinMode: Boolean,
+            createPinMode: Boolean,
             onSuccessListener: () -> (Unit)
         ) {
-            RequestPinCodeDialog(onSuccessListener, setPinMode, context).apply {
-                setCancelable(setPinMode)
+            PinCodeDialog(onSuccessListener, createPinMode, context).apply {
+                setCancelable(createPinMode)
                 requestWindowFeature(Window.FEATURE_NO_TITLE)
             }.run {
                 show()
@@ -41,8 +42,7 @@ class RequestPinCodeDialog(
 
     private val prefs: PreferencesHelper by lazy { PreferencesHelper(getContext()) }
 
-    private var selectedSet = set0
-    private var selectedSetIndex = 0
+    private var selectedSet = getInitialSetRandomly()
     private var inputCode: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,21 +55,40 @@ class RequestPinCodeDialog(
 
     }
 
+    private fun getInitialSetRandomly(): List<Char> {
+        return when (Random().nextInt(3)) {
+            2 -> set2
+            1 -> set1
+            else -> set0
+        }
+    }
+
     private fun setupActionsListeners() {
         pin_code_set_previous.setOnClickListener {
-            selectedSetIndex = if (selectedSetIndex == 0) 2 else selectedSetIndex - 1
-            updateSet()
+            val newSet = when (selectedSet) {
+                set0 -> set2
+                set1 -> set0
+                set2 -> set1
+                else -> set0
+            }
+            updateSet(newSet)
         }
         pin_code_set_next.setOnClickListener {
-            selectedSetIndex = if (selectedSetIndex == 2) 0 else selectedSetIndex + 1
-            updateSet()
+            val newSet = when (selectedSet) {
+                set0 -> set1
+                set1 -> set2
+                set2 -> set0
+                else -> set0
+            }
+            updateSet(newSet)
         }
-        if (setPinMode) {
+        if (createPinMode) {
             pin_code_save.visibility = View.VISIBLE
             pin_code_save.setOnClickListener {
                 if (inputCode.length < CODE_MIN_LENGTH) {
                     context.toast(R.string.pin_size_min)
                 } else {
+                    CODE = inputCode
                     prefs.setCode(inputCode)
                     onSuccessListener()
                     dismiss()
@@ -78,19 +97,19 @@ class RequestPinCodeDialog(
         }
     }
 
-    private fun updateSet() {
-        selectedSet = when (selectedSetIndex) {
-            2 -> set2
-            1 -> set1
-            else -> set0
-        }
+    private fun updateSet(newSet: List<Char>) {
+        selectedSet = newSet
         setupPinPad()
     }
 
     private fun setupPinPadListeners() {
         val pinPadHandler: (Char) -> (Unit) = { input ->
             inputCode += input
-            checkCode()
+            if (createPinMode) {
+                updateInputCode()
+            } else {
+                checkCode()
+            }
         }
         pin_code_tv_1.setOnClickListener { pinPadHandler(selectedSet[0]) }
         pin_code_tv_2.setOnClickListener { pinPadHandler(selectedSet[1]) }
@@ -129,17 +148,21 @@ class RequestPinCodeDialog(
 
     private fun checkCode() {
         CODE = inputCode
-        val success: Boolean = !setPinMode && prefs.getCode() == inputCode
+        val success: Boolean = !createPinMode && prefs.getCode() == inputCode
         if (success) {
             onSuccessListener()
             dismiss()
         } else {
-            val lengthToClear = if (setPinMode) 9 else 8
-            if (inputCode.length >= lengthToClear) {
-                inputCode = ""
-            }
-            setupInputCode()
+            updateInputCode()
         }
+    }
+
+    private fun updateInputCode() {
+        val lengthToClear = if (createPinMode) 9 else 8
+        if (inputCode.length >= lengthToClear) {
+            inputCode = ""
+        }
+        setupInputCode()
     }
 
 }

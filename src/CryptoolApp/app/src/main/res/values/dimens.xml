@@ -2,10 +2,16 @@
 <resources>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="toolbar_title_size">24dp</dimen>
+
+    <!-- Main Activity -->
     <dimen name="main_bottom_nav_height">68dp</dimen>
     <dimen name="main_fab_margin_bottom">86dp</dimen>
     <dimen name="main_fab_margin_right">16dp</dimen>
-    <dimen name="toolbar_title_size">24dp</dimen>
+    <dimen name="reverse_icon_padding">9dp</dimen>
+    <dimen name="reverse_icon_size">40dp</dimen>
+
+    <!-- Text box -->
     <dimen name="action_button_size">42dp</dimen>
     <dimen name="action_button_padding">12dp</dimen>
     <dimen name="text_box_icon_label_margin_horizontal">8dp</dimen>
@@ -14,16 +20,19 @@
     <dimen name="text_box_content_padding">12dp</dimen>
     <dimen name="text_box_content_size">18sp</dimen>
     <dimen name="text_box_label_size">14sp</dimen>
-    <dimen name="reverse_icon_padding">9dp</dimen>
-    <dimen name="reverse_icon_size">40dp</dimen>
+
+    <!-- Floating tool-->
     <dimen name="ball_size">60dp</dimen>
     <dimen name="ball_margin_top">16dp</dimen>
     <dimen name="ball_close_size">26dp</dimen>
     <dimen name="ball_close_margin_left">40dp</dimen>
-    <dimen name="floating_tool_margin">30dp</dimen>
+    <dimen name="floating_tool_margin_horizontal">30dp</dimen>
+    <dimen name="floating_tool_margin_vertical">100dp</dimen>
     <dimen name="floating_tool_app_bar_height">45dp</dimen>
     <dimen name="floating_tool_close_padding">7dp</dimen>
     <dimen name="floating_tool_close_width">36dp</dimen>
+
+    <!-- PIN Code -->
     <dimen name="pin_code_number_text_size">32dp</dimen>
     <dimen name="pin_code_input_text_size">28dp</dimen>
     <dimen name="pin_code_input_text_margin">4dp</dimen>

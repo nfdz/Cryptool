@@ -16,3 +16,6 @@ const val CODE_SET_2 = "579iXW=€%"
 const val DEFAULT_CODE = "00"
 var CODE = DEFAULT_CODE
 var CODE_ASKED_ONCE = false
+
+const val STORE_URL = "https://play.google.com/store/apps/details?id=io.github.nfdz.cryptool"
+const val GITHUB_URL = "https://github.com/nfdz/Cryptool"

@@ -3,6 +3,7 @@ package io.github.nfdz.cryptool.screens.main
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -16,6 +17,7 @@ import io.github.nfdz.cryptool.common.utils.*
 import io.github.nfdz.cryptool.services.BallService
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.*
+import timber.log.Timber
 
 
 class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
@@ -47,7 +49,7 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
 
     private fun askCodeIfNeeded() {
         if (hasPinCode() && !CODE_ASKED_ONCE) {
-            RequestPinCodeDialog.show(this, setPinMode = false) {
+            PinCodeDialog.show(this, createPinMode = false) {
                 onCodeSet()
             }
         }
@@ -150,9 +152,14 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
                 }
                 true
             }
-            // TODO
-//            R.id.main_menu_rate_suggestions -> { navigateToClub(); true }
-//            R.id.main_menu_about -> { navigateToPlaylist(); true }
+            R.id.main_menu_rate_suggestions -> {
+                showSuggestionsDialog();
+                true
+            }
+            R.id.main_menu_about -> {
+                showAboutDialog();
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -161,8 +168,8 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
         AlertDialog.Builder(this)
             .setTitle(R.string.pin_create_title)
             .setMessage(R.string.pin_create_content)
-            .setPositiveButton(android.R.string.yes) { dialog, _ ->
-                RequestPinCodeDialog.show(this, setPinMode = true) {
+            .setPositiveButton(R.string.pin_create_btn) { dialog, _ ->
+                PinCodeDialog.show(this, createPinMode = true) {
                     onCodeSet()
                 }
                 dialog.dismiss()
@@ -177,7 +184,7 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
         AlertDialog.Builder(this)
             .setTitle(R.string.pin_delete_title)
             .setMessage(R.string.pin_delete_content)
-            .setPositiveButton(android.R.string.yes) { dialog, _ ->
+            .setPositiveButton(R.string.pin_delete_btn) { dialog, _ ->
                 prefs.deleteCode()
                 CODE = DEFAULT_CODE
                 onCodeSet()
@@ -187,6 +194,44 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
                 dialog.dismiss()
             }
             .show()
+    }
+
+    private fun showAboutDialog() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.about_app_title)
+            .setMessage(R.string.about_app_content)
+            .setPositiveButton(R.string.about_app_btn) { dialog, _ ->
+                try {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(GITHUB_URL)))
+                } catch (e: Exception) {
+                    Timber.e(e)
+                }
+                dialog.dismiss()
+            }
+            .setNegativeButton(android.R.string.no) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+
+    }
+
+    private fun showSuggestionsDialog() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.rate_app_title)
+            .setMessage(R.string.rate_app_content)
+            .setPositiveButton(R.string.rate_app_btn) { dialog, _ ->
+                try {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(STORE_URL)))
+                } catch (e: Exception) {
+                    Timber.e(e)
+                }
+                dialog.dismiss()
+            }
+            .setNegativeButton(android.R.string.no) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+
     }
 
     private inner class MainPagerAdapter(fm: FragmentManager) :
