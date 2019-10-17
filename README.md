@@ -1,18 +1,18 @@
+<p align="center">
+  <img src="dev/icon.png?raw=true" alt="Cryptool"/>
+</p>
+
 # Cryptool
 
 Cryptography and high security keystore Android application tool. It has a very useful floating tool and ball/bubble mode.
 
-It has been developed keeping in mind these three words: fast, small and offline. 
+It has been developed keeping in mind these three words: **fast**, **small** and **offline**. 
 
 ### Encryption AES and Hash SHA-256
 Easy encryption and hash computation of any text in any place and situation.
 
 ### Keystore
 Keep your keys away these fancy services that does not show the source code and send data all the time to the cloud.
-
-<p align="center">
-  <img src="dev/icon.png?raw=true" alt="Cryptool"/>
-</p>
 
 ## Download
 
@@ -27,14 +27,19 @@ Keep your keys away these fancy services that does not show the source code and 
 ## Screenshots
 
 <p align="center">
-  <img src="screenshots/1_main.png?raw=true" width="250" alt="Cryptool"/>
-  <img src="screenshots/2_main.png?raw=true" width="250" alt="Cryptool"/>
-  <img src="screenshots/3_main.png?raw=true" width="250" alt="Cryptool"/>
+  <img src="screenshots/en/en_1.png?raw=true" width="250" alt="Cryptool"/>
+  <img src="screenshots/en/en_2.png?raw=true" width="250" alt="Cryptool"/>
+  <img src="screenshots/en/en_3.png?raw=true" width="250" alt="Cryptool"/>
 </p>
 <p align="center">
-  <img src="screenshots/4_toolball.png?raw=true" width="250" alt="Cryptool"/>
-  <img src="screenshots/5_toolball.png?raw=true" width="250" alt="Cryptool"/>
-  <img src="screenshots/6_toolball.png?raw=true" width="250" alt="Cryptool"/>
+  <img src="screenshots/en/en_4.png?raw=true" width="250" alt="Cryptool"/>
+  <img src="screenshots/en/en_5.png?raw=true" width="250" alt="Cryptool"/>
+  <img src="screenshots/en/en_6.png?raw=true" width="250" alt="Cryptool"/>
+</p>
+<p align="center">
+  <img src="screenshots/en/en_7.png?raw=true" width="250" alt="Cryptool"/>
+  <img src="screenshots/en/en_8.png?raw=true" width="250" alt="Cryptool"/>
+  <img src="screenshots/en/en_9.png?raw=true" width="250" alt="Cryptool"/>
 </p>
 
 ## 3rd party software
