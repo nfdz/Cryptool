@@ -19,7 +19,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.*
 import timber.log.Timber
 
-
+/**
+ * Main activity of the application. This is the entry point activity.
+ */
 class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
 
     companion object {
@@ -41,8 +43,8 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setupView(prefs.getLastTab())
-        BroadcastHelper.sendCloseFloatingWindowsBroadcast(this)
+        setupView()
+        BallService.stop(this)
         askCodeIfNeeded()
         showWelcomeIfNeeded()
     }
@@ -93,10 +95,16 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
         super.onBackPressed()
     }
 
-    private fun setupView(initialTab: Int) {
+    private fun setupView() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
+        setupViewPagerWithNav()
+        main_fab_ball.setOnClickListener { permissionHelper.request() }
+    }
+
+    private fun setupViewPagerWithNav() {
+        val initialTab = prefs.getLastTab()
         pagerAdapter = MainPagerAdapter(supportFragmentManager)
         main_view_pager.adapter = pagerAdapter
         main_nav.setOnNavigationItemSelectedListener { item ->
@@ -133,7 +141,6 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
                 main_nav.selectedItemId = R.id.main_nav_cipher
             }
         }
-        main_fab_ball.setOnClickListener { permissionHelper.request() }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

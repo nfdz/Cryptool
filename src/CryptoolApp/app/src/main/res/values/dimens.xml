@@ -22,9 +22,9 @@
     <dimen name="text_box_label_size">14sp</dimen>
 
     <!-- Floating tool-->
-    <dimen name="ball_size">60dp</dimen>
-    <dimen name="ball_margin_top">16dp</dimen>
-    <dimen name="ball_close_size">26dp</dimen>
+    <dimen name="ball_size">62dp</dimen>
+    <dimen name="ball_margin_top">12dp</dimen>
+    <dimen name="ball_close_size">28dp</dimen>
     <dimen name="ball_close_margin_left">40dp</dimen>
     <dimen name="floating_tool_margin_horizontal">30dp</dimen>
     <dimen name="floating_tool_margin_vertical">100dp</dimen>

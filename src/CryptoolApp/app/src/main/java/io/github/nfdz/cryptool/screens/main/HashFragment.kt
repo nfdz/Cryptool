@@ -9,6 +9,9 @@ import io.github.nfdz.cryptool.R
 import io.github.nfdz.cryptool.views.hash.HashContract
 import io.github.nfdz.cryptool.views.hash.HashViewImpl
 
+/**
+ * Fragment that contains hash view tool.
+ */
 class HashFragment : Fragment() {
 
     companion object {

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Main activity -->
+    <string name="main_tab_cipher">Verschlüsseln</string>
+    <string name="main_tab_hash">Hash</string>
+    <string name="main_tab_keys">Passwörter</string>
+
+    <!-- Menu options -->
+    <string name="main_menu_pin_code">PIN-Code</string>
+    <string name="main_menu_settings">Systemeinstellungen</string>
+    <string name="main_menu_rate_suggestions">Vorschläge und Fehler</string>
+    <string name="main_menu_about">Über und Quellcode</string>
+
+    <!-- Clipboard -->
+    <string name="cb_copy_success">Es wurde erfolgreich kopiert</string>
+    <string name="cb_copy_empty">Es gibt nichts zu kopieren</string>
+    <string name="cb_paste_empty">Die Zwischenablage ist leer</string>
+    <string name="cb_label">Cryptool daten</string>
+
+    <!-- Cipher -->
+    <string name="cipher_plain_label">Ursprünglicher text:</string>
+    <string name="cipher_encrypted_label">Verschlüsselter text:</string>
+    <string name="cipher_passphrase_label">Passwort:</string>
+    <string name="cipher_info">Verschlüsselungsalgorithmus: AES</string>
+
+    <!-- Hash -->
+    <string name="hash_plain_label">Ursprünglicher text:</string>
+    <string name="hash_processed_label">Hash:</string>
+    <string name="hash_info">Hash-Algorithmus: SHA-256</string>
+
+    <!-- Keys -->
+    <string name="keys_create_label">Label: </string>
+    <string name="keys_create_key">Passwort: </string>
+    <string name="keys_remove_key_long">Halten Sie die Taste gedrückt, um das Passwort zu löschen</string>
+
+    <!-- Pin code dialogs -->
+    <string name="pin_create_title">PIN erstellen</string>
+    <string name="pin_create_btn">Erstellen</string>
+    <string name="pin_delete_btn">Löschen</string>
+    <string name="pin_create_content">Möchten Sie einen PIN-Code konfigurieren?\n\nVorsicht! Alles, was Sie gespeichert haben, wird gelöscht.\n\nNeue Daten werden gespeichert und mit der PIN verschlüsselt.\n\nDie PIN-Länge muss 4 bis 8 Zeichen betragen. Es wird empfohlen, mindestens 6 Zeichen einzugeben, um eine hohe Sicherheitsstufe zu erreichen.</string>
+    <string name="pin_size_min">Die Länge muss 4 bis 8 Zeichen betragen</string>
+    <string name="pin_delete_title">PIN löschen</string>
+    <string name="pin_delete_content">Möchten Sie Ihren aktuellen PIN-Code löschen?\n\nVorsicht! Alles, was Sie gespeichert haben, wird gelöscht.</string>
+
+    <!-- Promo -->
+    <string name="rate_app_title">@string/main_menu_rate_suggestions</string>
+    <string name="rate_app_content">Die Entwicklung dieser Anwendung ist gemeinnützig. Wenn es Ihnen gefällt, hinterlassen Sie eine Bewertung im Shop, um uns zu unterstützen.\n\nWenn Sie Vorschläge haben oder einen Fehler gefunden haben, können Sie diesen in GitHub, in einem Kommentar im Store mitteilen oder per E-Mail senden.</string>
+    <string name="about_app_title">@string/main_menu_about</string>
+    <string name="about_app_content">Die Anwendung ist Open Source (GPLv3) und Sie können den Code auf GitHub sehen. Sehen Sie sich das Repository an, kopieren Sie den Code, versuchen Sie es, ändern Sie ihn, wenn Sie möchten!\n\nEinige Icons wurden von Freepik erstellt (von www.flaticon.com).\n\nDie einzige Bibliothek von Drittanbietern ist Timber von Jake Wharton.</string>
+    <string name="welcome_app_content">Willkommen zu dieser neuen Version voller Sicherheitsverbesserungen und neuer Funktionen.\n\nEs wird dringend empfohlen, jetzt einen PIN-Code festzulegen, um die Sicherheit der gespeicherten Daten zu verbessern.\n\nViel Spaß!</string>
+    <string name="welcome_app_pin">PIN</string>
+    <string name="welcome_app_close">Schließen</string>
+
+    <!-- Errors -->
+    <string name="error_no_settings">Es ist nicht möglich, Ihre Systemeinstellungen zu öffnen</string>
+    <string name="error_label_empty">Sie haben das Etikett nicht geschrieben</string>
+    <string name="error_key_empty">Sie haben das Passwort nicht geschrieben</string>
+    <string name="error_label_key_empty">Sie haben das Etikett und Passwort nicht geschrieben</string>
+    <string name="permission_denied">Über anderen Apps einblenden erforderlich</string>
+
+</resources>

@@ -16,7 +16,11 @@ import io.github.nfdz.cryptool.views.hash.HashViewImpl
 import io.github.nfdz.cryptool.views.keys.KeysViewImpl
 import timber.log.Timber
 
-
+/**
+ * This service has the responsability of showing a tool view on the screen over any app.
+ * This will block and prevent that user click outside the tool.
+ * The tool is selected according with given intent action.
+ */
 class ToolService : Service() {
 
     companion object {
@@ -37,26 +41,7 @@ class ToolService : Service() {
         action = intent?.action
         windowManager.addView(toolView, layoutParams)
         val container: ViewGroup = toolView.findViewById(R.id.ft_container)
-        when (action) {
-            OPEN_KEYS_BALL_ACTION -> {
-                val keysView = LayoutInflater.from(this).inflate(R.layout.keys_tool, null)
-                keysView.setBackgroundResource(R.drawable.shape_tool_body_round)
-                container.addView(keysView)
-                tool = KeysViewImpl(keysView, this)
-            }
-            OPEN_HASH_BALL_ACTION -> {
-                val hashView = LayoutInflater.from(this).inflate(R.layout.hash_tool, null)
-                hashView.setBackgroundResource(R.drawable.shape_tool_body_round)
-                container.addView(hashView)
-                tool = HashViewImpl(hashView, this)
-            }
-            else -> {
-                val cipherView = LayoutInflater.from(this).inflate(R.layout.cipher_tool, null)
-                cipherView.setBackgroundResource(R.drawable.shape_tool_body_round)
-                container.addView(cipherView)
-                tool = CipherViewImpl(cipherView, this)
-            }
-        }
+        tool = createTool(container)
         val tvLogo: View = toolView.findViewById<View>(R.id.ft_tv_logo)
         val btnBall: View = toolView.findViewById<View>(R.id.ft_btn_ball)
         val btnClose: View = toolView.findViewById<View>(R.id.ft_btn_close)
@@ -66,6 +51,27 @@ class ToolService : Service() {
         tool?.onViewCreated()
         toolView.fadeIn()
         return super.onStartCommand(intent, flags, startId)
+    }
+
+    private fun createTool(container: ViewGroup) = when (action) {
+        OPEN_KEYS_BALL_ACTION -> {
+            val keysView = LayoutInflater.from(this).inflate(R.layout.keys_tool, null)
+            keysView.setBackgroundResource(R.drawable.shape_tool_body_round)
+            container.addView(keysView)
+            KeysViewImpl(keysView, this)
+        }
+        OPEN_HASH_BALL_ACTION -> {
+            val hashView = LayoutInflater.from(this).inflate(R.layout.hash_tool, null)
+            hashView.setBackgroundResource(R.drawable.shape_tool_body_round)
+            container.addView(hashView)
+            HashViewImpl(hashView, this)
+        }
+        else -> {
+            val cipherView = LayoutInflater.from(this).inflate(R.layout.cipher_tool, null)
+            cipherView.setBackgroundResource(R.drawable.shape_tool_body_round)
+            container.addView(cipherView)
+            CipherViewImpl(cipherView, this)
+        }
     }
 
     override fun onBind(intent: Intent?): IBinder? = null
@@ -94,6 +100,7 @@ class ToolService : Service() {
 
     override fun onDestroy() {
         tool?.onDestroyView()
+        tool = null
         try {
             windowManager.removeView(toolView)
         } catch (e: Exception) {
@@ -105,12 +112,10 @@ class ToolService : Service() {
     private fun closeTool(launchBall: Boolean = false, launchApp: Boolean = false) {
         toolView.fadeOut {
             stopSelf()
-            if (launchBall) {
-                BallService.start(this, action)
-            } else if (launchApp) {
-                MainActivity.startNewActivity(this)
-            } else {
-                stopApp()
+            when {
+                launchBall -> BallService.start(this, action)
+                launchApp -> MainActivity.startNewActivity(this)
+                else -> stopApp()
             }
         }
     }

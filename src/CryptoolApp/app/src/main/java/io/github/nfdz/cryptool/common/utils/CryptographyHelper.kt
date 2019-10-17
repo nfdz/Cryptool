@@ -1,6 +1,6 @@
 package io.github.nfdz.cryptool.common.utils
 
-import android.util.Base64
+import org.apache.commons.codec.binary.Base64
 import java.security.MessageDigest
 import javax.crypto.Cipher
 import javax.crypto.SecretKeyFactory
@@ -8,8 +8,11 @@ import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.PBEKeySpec
 import javax.crypto.spec.SecretKeySpec
 
-
+/**
+ * This class has the responsability of dealing with cryptography.
+ */
 class CryptographyHelper {
+
     companion object {
         private const val CIPHER_TRANSFORMATION = "AES/CBC/PKCS5Padding"
         private const val CIPHER = "AES"
@@ -19,11 +22,9 @@ class CryptographyHelper {
         private const val DUMMY_ITERATION_COUNT = 73
         private const val KEY_GEN_ALGORITHM = "PBKDF2WithHmacSHA1"
         private const val HASH_ALGORITHM = "SHA-256"
-
-        private const val BASE64_FLAGS = Base64.NO_WRAP
-
     }
 
+    /** Encrypt given text */
     fun encrypt(plaintext: String, passphrase: String): String {
         val aesCipherForEncryption = Cipher.getInstance(CIPHER_TRANSFORMATION)
         aesCipherForEncryption.init(
@@ -32,9 +33,13 @@ class CryptographyHelper {
             getDummyIv(aesCipherForEncryption)
         )
         val byteCipherText = aesCipherForEncryption.doFinal(plaintext.toByteArray())
-        return String(Base64.encode(byteCipherText, BASE64_FLAGS))
+        return String(Base64.encodeBase64(byteCipherText))
     }
 
+    /**
+     * Decrypt given text. If there is a problem (like given text is not encrypted properly)
+     * it will launch an exception.
+     */
     fun decrypt(ciphertext: String, passphrase: String): String {
         val aesCipherForDecryption = Cipher.getInstance(CIPHER_TRANSFORMATION)
         aesCipherForDecryption.init(
@@ -42,7 +47,7 @@ class CryptographyHelper {
             getKeyFromPassphrase(passphrase),
             getDummyIv(aesCipherForDecryption)
         )
-        val byteCipherText = Base64.decode(ciphertext.toByteArray(), BASE64_FLAGS)
+        val byteCipherText = Base64.decodeBase64(ciphertext.toByteArray())
         val bytePlainText = aesCipherForDecryption.doFinal(byteCipherText)
         return String(bytePlainText)
     }
@@ -73,6 +78,9 @@ class CryptographyHelper {
         return IvParameterSpec(iv)
     }
 
+    /**
+     * Hash given text.
+     */
     fun hash(text: String): String {
         val digest = MessageDigest.getInstance(HASH_ALGORITHM)
         val hashBytes = digest.digest(text.toByteArray())

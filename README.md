@@ -1,6 +1,14 @@
 # Cryptool
 
-Android application cryptography tool. It makes easy the encryption of text in any place and situation. It has a very useful floating tool mode.
+Cryptography and high security keystore Android application tool. It has a very useful floating tool and ball/bubble mode.
+
+It has been developed keeping in mind these three words: fast, small and offline. 
+
+### Encryption AES and Hash SHA-256
+Easy encryption and hash computation of any text in any place and situation.
+
+### Keystore
+Keep your keys away these fancy services that does not show the source code and send data all the time to the cloud.
 
 <p align="center">
   <img src="dev/icon.png?raw=true" alt="Cryptool"/>
@@ -19,16 +27,24 @@ Android application cryptography tool. It makes easy the encryption of text in a
 ## Screenshots
 
 <p align="center">
-  <img src="screenshots/1_main.png?raw=true" width="250" alt="Pomodoro working"/>
-  <img src="screenshots/2_main.png?raw=true" width="250" alt="Pomodoro short break"/>
-  <img src="screenshots/3_main.png?raw=true" width="250" alt="Pomodoro long break"/>
+  <img src="screenshots/1_main.png?raw=true" width="250" alt="Cryptool"/>
+  <img src="screenshots/2_main.png?raw=true" width="250" alt="Cryptool"/>
+  <img src="screenshots/3_main.png?raw=true" width="250" alt="Cryptool"/>
 </p>
 <p align="center">
-  <img src="screenshots/4_toolball.png?raw=true" width="250" alt="Pomodoro End"/>
-  <img src="screenshots/5_toolball.png?raw=true" width="250" alt="Records"/>
-  <img src="screenshots/6_toolball.png?raw=true" width="250" alt="Settings"/>
+  <img src="screenshots/4_toolball.png?raw=true" width="250" alt="Cryptool"/>
+  <img src="screenshots/5_toolball.png?raw=true" width="250" alt="Cryptool"/>
+  <img src="screenshots/6_toolball.png?raw=true" width="250" alt="Cryptool"/>
 </p>
+
+## 3rd party software
+* [Timber](https://github.com/JakeWharton/timber)
 
 ## License
 
 [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.en.html "GNU General Public License v3")
+
+Google Play and the Google Play logo are trademarks of Google Inc.
+Github and the Github logo are trademarks of Github Inc.
+
+Some icons were made by Freepik (from www.flaticon.com)

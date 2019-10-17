@@ -1,12 +1,17 @@
 package io.github.nfdz.cryptool.common.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import io.github.nfdz.cryptool.services.BallService
 import io.github.nfdz.cryptool.views.cipher.CipherContract
 import timber.log.Timber
 
-
+/**
+ * This class has the responsability of managing stored data in preferences.
+ * TODO: Now it uses SharedPreferences to decouple implementation but it could be interesting
+ * use an interface and a dependency injector to provide the storage functionality.
+ */
 class PreferencesHelper(private val context: Context) {
 
     companion object {
@@ -149,12 +154,23 @@ class PreferencesHelper(private val context: Context) {
         return exposeSensitiveField(preferences.getString(ACCESS_CODE_KEY, null))
     }
 
+    /**
+     * This method set clear all stored data and set the new code.
+     */
     fun setCode(code: String) {
         preferences.edit().clear().putString(ACCESS_CODE_KEY, hideSensitiveField(code)).apply()
     }
 
+    /**
+     * This method delete all stored data.
+     */
     fun deleteCode() {
         preferences.edit().clear().apply()
+    }
+
+    @SuppressLint("ApplySharedPref")
+    fun clearAllSync() {
+        preferences.edit().clear().commit()
     }
 
 }

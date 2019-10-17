@@ -11,6 +11,9 @@ import android.widget.TextView
 import io.github.nfdz.cryptool.R
 import kotlinx.android.synthetic.main.input_text_box.view.*
 
+/**
+ * This implementation of TextBoxBase has an EditText as TextView.
+ */
 class InputTextBoxView : TextBoxBase {
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
         context,
@@ -80,6 +83,9 @@ class InputTextBoxView : TextBoxBase {
         itb_et.addTextChangedListener(inputWatcher)
     }
 
+    /**
+     * Subscribe to input changes.
+     */
     fun setInputChangedListener(listener: () -> (Unit)) {
         inputChangeListener = listener
     }
@@ -90,6 +96,9 @@ class InputTextBoxView : TextBoxBase {
         itb_et.addTextChangedListener(inputWatcher)
     }
 
+    /**
+     * Set input EditText enabled/disabled
+     */
     fun setInputEnabled(enabled: Boolean) {
         itb_et.isEnabled = enabled
     }
