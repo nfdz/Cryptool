@@ -51,7 +51,7 @@
     <string name="about_app_title">@string/main_menu_about</string>
     <string name="about_app_content">The code is open source (GPLv3) and you can see it on GitHub. Visit the repository, download the code, try it and modify it if you want!\n\nSome icons were made by Freepik (from www.flaticon.com).\n\nThe only 3rd party library is Timber from Jake Wharton.</string>
     <string name="welcome_app_title" translatable="false">Cryptool v2</string>
-    <string name="welcome_app_content">Welcome to this new version full of security improvements and new features.\n\nWe strongly recommend that you set a PIN code now to improve the security of all the stored data.\n\nEnjoy!</string>
+    <string name="welcome_app_content">Welcome to this new version full of security improvements and new features.\n\nWe strongly recommend that you set a PIN code now to improve the security of all the stored data.\n\nThe new encryption is not compatible with the previous one. If you want to continue using that encryption you can download the v1 app on GitHub.\n\nEnjoy!</string>
     <string name="welcome_app_pin">PIN</string>
     <string name="welcome_app_close">Close</string>
 

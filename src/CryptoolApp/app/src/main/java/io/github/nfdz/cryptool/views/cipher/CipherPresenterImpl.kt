@@ -1,7 +1,6 @@
 package io.github.nfdz.cryptool.views.cipher
 
 import io.github.nfdz.cryptool.common.utils.ERROR_TEXT
-import io.github.nfdz.cryptool.common.utils.PROCESSING_TEXT
 import java.util.concurrent.atomic.AtomicInteger
 
 
@@ -59,7 +58,7 @@ class CipherPresenterImpl(
             }
         )
         var processedText = view?.getProcessedText() ?: ""
-        if (processedText == PROCESSING_TEXT || processedText == ERROR_TEXT) {
+        if (processedText == ERROR_TEXT) {
             processedText = ""
         }
         view?.setOriginText(processedText)
@@ -74,7 +73,6 @@ class CipherPresenterImpl(
             view?.setProcessedText("")
             saveState()
         } else {
-            view?.setProcessedText(PROCESSING_TEXT)
             val success: (String) -> (Unit) = { processedText ->
                 if (processCounter.get() == expectedProcessCounter) {
                     view?.setProcessedText(processedText)

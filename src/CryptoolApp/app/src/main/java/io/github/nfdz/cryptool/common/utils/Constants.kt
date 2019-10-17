@@ -5,8 +5,6 @@ import android.os.Process
 import java.security.SecureRandom
 import java.util.UUID.randomUUID
 
-
-const val PROCESSING_TEXT = "⌛"
 const val ERROR_TEXT = "✖"
 
 const val OPEN_CIPHER_BALL_ACTION = "io.github.nfdz.cryptool.OPEN_CIPHER_BALL"
