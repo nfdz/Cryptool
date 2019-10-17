@@ -1,7 +1,6 @@
 package io.github.nfdz.cryptool.views.hash
 
 import io.github.nfdz.cryptool.common.utils.ERROR_TEXT
-import io.github.nfdz.cryptool.common.utils.PROCESSING_TEXT
 import java.util.concurrent.atomic.AtomicInteger
 
 class HashPresenterImpl(
@@ -34,7 +33,6 @@ class HashPresenterImpl(
             view?.setProcessedText("")
             saveState()
         } else {
-            view?.setProcessedText(PROCESSING_TEXT)
             val success: (String) -> (Unit) = { processedText ->
                 if (processCounter.get() == expectedProcessCounter) {
                     view?.setProcessedText(processedText)

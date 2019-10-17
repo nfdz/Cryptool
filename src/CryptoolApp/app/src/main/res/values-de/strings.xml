@@ -48,7 +48,7 @@
     <string name="rate_app_content">Die Entwicklung dieser Anwendung ist gemeinnützig. Wenn es Ihnen gefällt, hinterlassen Sie eine Bewertung im Shop, um uns zu unterstützen.\n\nWenn Sie Vorschläge haben oder einen Fehler gefunden haben, können Sie diesen in GitHub, in einem Kommentar im Store mitteilen oder per E-Mail senden.</string>
     <string name="about_app_title">@string/main_menu_about</string>
     <string name="about_app_content">Die Anwendung ist Open Source (GPLv3) und Sie können den Code auf GitHub sehen. Sehen Sie sich das Repository an, kopieren Sie den Code, versuchen Sie es, ändern Sie ihn, wenn Sie möchten!\n\nEinige Icons wurden von Freepik erstellt (von www.flaticon.com).\n\nDie einzige Bibliothek von Drittanbietern ist Timber von Jake Wharton.</string>
-    <string name="welcome_app_content">Willkommen zu dieser neuen Version voller Sicherheitsverbesserungen und neuer Funktionen.\n\nEs wird dringend empfohlen, jetzt einen PIN-Code festzulegen, um die Sicherheit der gespeicherten Daten zu verbessern.\n\nViel Spaß!</string>
+    <string name="welcome_app_content">Willkommen zu dieser neuen Version voller Sicherheitsverbesserungen und neuer Funktionen.\n\nEs wird dringend empfohlen, jetzt einen PIN-Code festzulegen, um die Sicherheit der gespeicherten Daten zu verbessern.\n\nDie neue Verschlüsselung ist mit der vorherigen nicht kompatibel. Wenn Sie diese Verschlüsselung weiterhin verwenden möchten, können Sie die v1-App auf GitHub herunterladen.\n\nViel Spaß!</string>
     <string name="welcome_app_pin">PIN</string>
     <string name="welcome_app_close">Schließen</string>
 

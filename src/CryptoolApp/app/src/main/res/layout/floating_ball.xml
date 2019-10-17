@@ -11,7 +11,7 @@
         android:layout_width="@dimen/ball_size"
         android:layout_height="@dimen/ball_size"
         android:layout_marginTop="@dimen/ball_margin_top"
-        android:src="@mipmap/ic_launcher"
+        android:src="@mipmap/ic_ball"
         tools:ignore="ContentDescription"/>
 
     <!-- Close button -->
