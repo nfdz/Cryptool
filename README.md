@@ -42,6 +42,15 @@ Keep your keys away these fancy services that does not show the source code and 
   <img src="screenshots/en/en_9.png?raw=true" width="250" alt="Cryptool"/>
 </p>
 
+## Roadmap
+* Cipher webapp. It is very interesting the development of a basic cipher webapp in order to offer a crossplatform solution for that.
+* Clipboard cleaning.
+* Clear PIN button.
+* Hide content when user go to see all activities.
+* Kill app in several escenarios.
+* Selection password for encryption from keystore without copy paste.
+* Export/Import keystore.
+
 ## 3rd party software
 * [Timber](https://github.com/JakeWharton/timber)
 
