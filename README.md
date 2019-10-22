@@ -4,7 +4,7 @@
 
 # Cryptool
 
-Cryptool is a cryptography tool and high security keystore app for Android. It has a very useful floating tool and a ball/bubble mode.
+Cryptool is a cryptography tool and high security keystore app for Android. It can be used as a floating tool and in ball/bubble mode.
 
 It has been developed keeping in mind these three words: **fast**, **small** and **offline**. 
 
