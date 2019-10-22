@@ -1,4 +1,4 @@
-ogram--to make sure it remains free software for all its users. We, the Free Software Foundation, use the GNU General Public License for most of our software; it applies also<p align="center">
+<p align="center">
   <img src="dev/icon.png?raw=true" alt="Cryptool"/>
 </p>
 
