@@ -1,4 +1,4 @@
-<p align="center">
+ogram--to make sure it remains free software for all its users. We, the Free Software Foundation, use the GNU General Public License for most of our software; it applies also<p align="center">
   <img src="dev/icon.png?raw=true" alt="Cryptool"/>
 </p>
 
@@ -43,6 +43,7 @@ Keep your keys away from "fancy" services that are not open-source and phone hom
 </p>
 
 ## Roadmap
+* Asymetric encryption (PGP).
 * Cipher webapp. The development of a web application compatible with Cryptool is important in order to offer a crossplatform solution.
 * Clipboard cleaning.
 * Clear PIN button.
