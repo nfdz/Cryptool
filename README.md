@@ -4,15 +4,15 @@
 
 # Cryptool
 
-Cryptography and high security keystore Android application tool. It has a very useful floating tool and ball/bubble mode.
+Cryptool is a cryptography tool and high security keystore app for Android. It can be used as a floating tool and in ball/bubble mode.
 
 It has been developed keeping in mind these three words: **fast**, **small** and **offline**. 
 
-### Encryption AES and Hash SHA-256
+### AES Encryption and SHA-256 Hashing
 Easy encryption and hash computation of any text in any place and situation.
 
 ### Keystore
-Keep your keys away these fancy services that does not show the source code and send data all the time to the cloud.
+Keep your keys away from "fancy" services that are not open-source and phone home continuosly.
 
 ## Download
 
@@ -43,12 +43,13 @@ Keep your keys away these fancy services that does not show the source code and 
 </p>
 
 ## Roadmap
-* Cipher webapp. It is very interesting the development of a basic cipher webapp in order to offer a crossplatform solution for that.
+* Asymetric encryption (PGP).
+* Cipher webapp. The development of a web application compatible with Cryptool is important in order to offer a crossplatform solution.
 * Clipboard cleaning.
 * Clear PIN button.
-* Hide content when user go to see all activities.
-* Kill app in several escenarios.
-* Selection password for encryption from keystore without copy paste.
+* Prevent screenshots and app preview in *recent apps* view.
+* Automatically kill app in defined scenarios.
+* Ability to select a password from the keystore without requiring a copy-paste operation.
 * Export/Import keystore.
 
 ## 3rd party software
