@@ -56,23 +56,30 @@ class ToolService : Service() {
     private fun createTool(container: ViewGroup) = when (action) {
         OPEN_KEYS_BALL_ACTION -> {
             val keysView = LayoutInflater.from(this).inflate(R.layout.keys_tool, null)
-            keysView.setBackgroundResource(R.drawable.shape_tool_body_round)
+            keysView.setBackgroundResource(getBackgroundRes())
             container.addView(keysView)
             KeysViewImpl(keysView, this)
         }
         OPEN_HASH_BALL_ACTION -> {
             val hashView = LayoutInflater.from(this).inflate(R.layout.hash_tool, null)
-            hashView.setBackgroundResource(R.drawable.shape_tool_body_round)
+            hashView.setBackgroundResource(getBackgroundRes())
             container.addView(hashView)
             HashViewImpl(hashView, this)
         }
         else -> {
             val cipherView = LayoutInflater.from(this).inflate(R.layout.cipher_tool, null)
-            cipherView.setBackgroundResource(R.drawable.shape_tool_body_round)
+            cipherView.setBackgroundResource(getBackgroundRes())
             container.addView(cipherView)
             CipherViewImpl(cipherView, this)
         }
     }
+
+    private fun getBackgroundRes() =
+        if (isNightUiMode() == true) {
+            R.drawable.shape_tool_body_round_dark
+        } else {
+            R.drawable.shape_tool_body_round_light
+        }
 
     override fun onBind(intent: Intent?): IBinder? = null
 

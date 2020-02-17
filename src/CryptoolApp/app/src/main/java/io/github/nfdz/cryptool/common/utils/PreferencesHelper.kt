@@ -16,6 +16,7 @@ class PreferencesHelper(private val context: Context) {
 
     companion object {
         private const val PREFS_FILE_NAME = "cryptool.prefs"
+        private const val THEME_NIGHT_MODE = "theme_night_mode"
         private const val LAST_TAB_KEY = "last_tab"
         private const val LAST_MODE_KEY = "cipher_last_mode"
         private const val LAST_PASSPHRASE_KEY = "cipher_last_passphrase"
@@ -67,6 +68,19 @@ class PreferencesHelper(private val context: Context) {
             }
         } else {
             ""
+        }
+    }
+
+    fun getThemeNightMode(): Boolean? {
+        if (!preferences.contains(THEME_NIGHT_MODE)) return null
+        return preferences.getBoolean(THEME_NIGHT_MODE, false)
+    }
+
+    fun setThemeNightMode(nightMode: Boolean?) {
+        if (nightMode == null) {
+            preferences.edit().remove(THEME_NIGHT_MODE).apply()
+        } else {
+            preferences.edit().putBoolean(THEME_NIGHT_MODE, nightMode).apply()
         }
     }
 

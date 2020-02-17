@@ -7,10 +7,7 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import io.github.nfdz.cryptool.R
-import io.github.nfdz.cryptool.common.utils.ClipboardHelper
-import io.github.nfdz.cryptool.common.utils.generateRandomKey
-import io.github.nfdz.cryptool.common.utils.hideKeyboard
-import io.github.nfdz.cryptool.common.utils.toast
+import io.github.nfdz.cryptool.common.utils.*
 import io.github.nfdz.cryptool.common.widgets.InputTextBoxView
 import io.github.nfdz.cryptool.common.widgets.OutputTextBoxView
 import kotlin.properties.Delegates
@@ -153,19 +150,41 @@ class KeysAdapter(private val listener: Listener) :
     ) :
         RecyclerView.ViewHolder(keyOutput) {
         init {
-            keyOutput.setupAction1Icon(R.drawable.ic_copy, R.color.colorDark)
-            keyOutput.setupAction2Icon(R.drawable.ic_eye, R.color.colorDark)
-            keyOutput.setupAction3Icon(R.drawable.ic_clear, R.color.colorDark)
+            val actionIconColor = getActionIconColor()
+            keyOutput.setupAction1Icon(R.drawable.ic_copy, actionIconColor)
+            keyOutput.setupAction2Icon(R.drawable.ic_eye, actionIconColor)
+            keyOutput.setupAction3Icon(R.drawable.ic_clear, actionIconColor)
         }
 
+        private fun getActionIconColor() =
+            if (keyOutput.context.isNightUiMode() == true) {
+                R.color.colorLight
+            } else {
+                R.color.colorDark
+            }
+
         fun bind(entry: KeysContract.KeyEntry) = with(itemView) {
-            keyOutput.setupView(
-                R.color.colorLight,
-                R.drawable.selector_action_light,
-                R.color.colorDark,
-                R.drawable.ic_passphrase,
-                entry.label
-            )
+            val actionIconColor =
+            if (context.isNightUiMode() == true) {
+                keyOutput.setupView(
+                    R.color.colorDark,
+                    R.drawable.selector_action_dark,
+                    R.color.colorLight,
+                    R.drawable.ic_passphrase,
+                    entry.label
+                )
+                R.color.colorLight
+            } else {
+                keyOutput.setupView(
+                    R.color.colorLight,
+                    R.drawable.selector_action_light,
+                    R.color.colorDark,
+                    R.drawable.ic_passphrase,
+                    entry.label
+                )
+                R.color.colorDark
+            }
+
             keyOutput.setText(entry.key)
             keyOutput.setupAction1 {
                 context?.let {
@@ -185,10 +204,10 @@ class KeysAdapter(private val listener: Listener) :
             }
             val showKey = keysToShow.contains(entry.index)
             if (showKey) {
-                keyOutput.setupAction2Icon(R.drawable.ic_eye_blind, R.color.colorDark)
+                keyOutput.setupAction2Icon(R.drawable.ic_eye_blind, actionIconColor)
                 keyOutput.setInputTypePassword(visible = true)
             } else {
-                keyOutput.setupAction2Icon(R.drawable.ic_eye, R.color.colorDark)
+                keyOutput.setupAction2Icon(R.drawable.ic_eye, actionIconColor)
                 keyOutput.setInputTypePassword(visible = false)
             }
             keyOutput.setupAction2 {

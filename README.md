@@ -43,6 +43,7 @@ Keep your keys away from "fancy" services that are not open-source and phone hom
 </p>
 
 ## Roadmap
+* ~~Dark theme~~
 * Asymetric encryption (PGP).
 * Cipher webapp. The development of a web application compatible with Cryptool is important in order to offer a crossplatform solution.
 * Clipboard cleaning.

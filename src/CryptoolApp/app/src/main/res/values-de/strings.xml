@@ -9,6 +9,7 @@
     <!-- Menu options -->
     <string name="main_menu_pin_code">PIN-Code</string>
     <string name="main_menu_settings">Systemeinstellungen</string>
+    <string name="main_menu_theme">Thema</string>
     <string name="main_menu_rate_suggestions">Vorschläge und Fehler</string>
     <string name="main_menu_about">Über und Quellcode</string>
 
@@ -42,6 +43,11 @@
     <string name="pin_size_min">Die Länge muss 4 bis 8 Zeichen betragen</string>
     <string name="pin_delete_title">PIN löschen</string>
     <string name="pin_delete_content">Möchten Sie Ihren aktuellen PIN-Code löschen?\n\nVorsicht! Alles, was Sie gespeichert haben, wird gelöscht.</string>
+
+    <!-- Theme -->
+    <string name="theme_light">Licht</string>
+    <string name="theme_dark">Dunkles</string>
+    <string name="theme_system">Auto (System)</string>
 
     <!-- Promo -->
     <string name="rate_app_title">@string/main_menu_rate_suggestions</string>

@@ -5,6 +5,7 @@
     android:layout_width="@dimen/pin_code_dialog_width"
     android:layout_height="@dimen/pin_code_dialog_height"
     android:layout_gravity="center"
+    android:background="@color/colorLight"
     android:gravity="center">
 
     <LinearLayout

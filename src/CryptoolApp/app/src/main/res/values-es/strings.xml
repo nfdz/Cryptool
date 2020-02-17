@@ -8,6 +8,7 @@
 
     <!-- Menu options -->
     <string name="main_menu_pin_code">Código PIN</string>
+    <string name="main_menu_theme">Tema</string>
     <string name="main_menu_settings">Ajustes del Sistema</string>
     <string name="main_menu_rate_suggestions">Sugerencias y Errores</string>
     <string name="main_menu_about">Acerca y Código</string>
@@ -42,6 +43,11 @@
     <string name="pin_size_min">La longitud debe ser de 4 a 8 caracteres</string>
     <string name="pin_delete_title">Eliminar PIN</string>
     <string name="pin_delete_content">¿Quieres eliminar tu código PIN actual?\n\n¡Cuidado! todo lo que tengas guardado será BORRADO.</string>
+
+    <!-- Theme -->
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Oscuro</string>
+    <string name="theme_system">Auto (Sistema)</string>
 
     <!-- Promo -->
     <string name="rate_app_title">@string/main_menu_rate_suggestions</string>

@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat
  * no matter the type of text implementation.
  */
 abstract class TextBoxBase : FrameLayout {
+
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(
         context,
         attrs,

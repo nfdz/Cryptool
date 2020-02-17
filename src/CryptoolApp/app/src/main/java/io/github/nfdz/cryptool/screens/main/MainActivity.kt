@@ -9,6 +9,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        resolveTheme()
         setupView()
         BallService.stop(this)
         askCodeIfNeeded()
@@ -93,6 +95,28 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
     override fun onBackPressed() {
         stopApp()
         super.onBackPressed()
+    }
+
+    private fun resolveTheme() {
+        val customThemeNightMode = prefs.getThemeNightMode()
+        if (customThemeNightMode != null) {
+            if (isNightUiMode() != customThemeNightMode) {
+                recreate()
+            }
+            if (customThemeNightMode) {
+                setTheme(R.style.AppThemeDark)
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                setTheme(R.style.AppThemeLight)
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        } else {
+            if (isNightUiMode() == true) {
+                setTheme(R.style.AppThemeDark)
+            } else {
+                setTheme(R.style.AppThemeLight)
+            }
+        }
     }
 
     private fun setupView() {
@@ -174,6 +198,10 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
                 showAboutDialog()
                 true
             }
+            R.id.main_menu_toggle_theme -> {
+                askThemeDialog()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -246,6 +274,43 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
             }
             .show()
 
+    }
+
+    private fun askThemeDialog() {
+        val customThemeNightMode = prefs.getThemeNightMode()
+        val optionsTitles = arrayOf(
+            getText(R.string.theme_light),
+            getText(R.string.theme_dark),
+            getText(R.string.theme_system)
+        )
+        val selectedOption = when (customThemeNightMode) {
+            false -> 0
+            true -> 1
+            null -> 2
+        }
+        AlertDialog.Builder(this)
+            .setSingleChoiceItems(
+                optionsTitles,
+                selectedOption
+            )
+            { dialog, which ->
+                when (which) {
+                    0 -> {
+                        prefs.setThemeNightMode(false)
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    }
+                    1 -> {
+                        prefs.setThemeNightMode(true)
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    }
+                    2 -> {
+                        prefs.setThemeNightMode(null)
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                    }
+                }
+                dialog.dismiss()
+            }
+            .show()
     }
 
     private inner class MainPagerAdapter(fm: FragmentManager) :

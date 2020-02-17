@@ -9,6 +9,11 @@
         android:icon="@drawable/ic_pin_code"
         app:showAsAction="ifRoom"/>
 
+    <item android:id="@+id/main_menu_toggle_theme"
+        android:orderInCategory="199"
+        android:title="@string/main_menu_theme"
+        app:showAsAction="never"/>
+
     <item android:id="@+id/main_menu_settings"
         android:orderInCategory="200"
         android:title="@string/main_menu_settings"
