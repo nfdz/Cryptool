@@ -96,6 +96,10 @@ class PinCodeDialog(
             }
             updateSet(newSet)
         }
+        pin_code_clear.setOnClickListener {
+            inputCode = ""
+            updateInputCode()
+        }
         if (createPinMode) {
             pin_code_save.visibility = View.VISIBLE
             pin_code_save.setOnClickListener {
@@ -108,7 +112,31 @@ class PinCodeDialog(
                     dismiss()
                 }
             }
+        } else {
+            pin_code_reset.visibility = View.VISIBLE
+            pin_code_reset.setOnClickListener {
+                askConfirmationToResetPin {
+                    CODE = DEFAULT_CODE
+                    prefs.deleteCode()
+                    onSuccessListener()
+                    dismiss()
+                }
+            }
         }
+    }
+
+    private fun askConfirmationToResetPin(onConfirmation: () -> (Unit)) {
+        Builder(context)
+            .setTitle(R.string.pin_delete_title)
+            .setMessage(R.string.pin_delete_content)
+            .setPositiveButton(R.string.pin_delete_btn) { dialog, _ ->
+                onConfirmation()
+                dialog.dismiss()
+            }
+            .setNegativeButton(android.R.string.no) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 
     private fun updateSet(newSet: List<Char>) {
