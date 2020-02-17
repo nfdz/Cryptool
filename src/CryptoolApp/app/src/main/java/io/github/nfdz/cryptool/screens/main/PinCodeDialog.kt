@@ -49,6 +49,7 @@ class PinCodeDialog(
     private val set0 = CODE_SET_0.toCharArray().toMutableList().apply { shuffle() }
     private val set1 = CODE_SET_1.toCharArray().toMutableList().apply { shuffle() }
     private val set2 = CODE_SET_2.toCharArray().toMutableList().apply { shuffle() }
+    private val set3 = CODE_SET_3.toCharArray().toMutableList().apply { shuffle() }
 
     private val prefs: PreferencesHelper by lazy { PreferencesHelper(getContext()) }
 
@@ -66,7 +67,8 @@ class PinCodeDialog(
     }
 
     private fun getInitialSetRandomly(): List<Char> {
-        return when (Random().nextInt(3)) {
+        return when (Random().nextInt(4)) {
+            3 -> set3
             2 -> set2
             1 -> set1
             else -> set0
@@ -76,9 +78,10 @@ class PinCodeDialog(
     private fun setupActionsListeners() {
         pin_code_set_previous.setOnClickListener {
             val newSet = when (selectedSet) {
-                set0 -> set2
+                set0 -> set3
                 set1 -> set0
                 set2 -> set1
+                set3 -> set2
                 else -> set0
             }
             updateSet(newSet)
@@ -87,7 +90,8 @@ class PinCodeDialog(
             val newSet = when (selectedSet) {
                 set0 -> set1
                 set1 -> set2
-                set2 -> set0
+                set2 -> set3
+                set3 -> set0
                 else -> set0
             }
             updateSet(newSet)

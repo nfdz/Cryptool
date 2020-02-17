@@ -17,6 +17,7 @@ const val CODE_SLOT = "_"
 const val CODE_SET_0 = "146aZd?.-"
 const val CODE_SET_1 = "832VgJ$+&"
 const val CODE_SET_2 = "579iXW=€%"
+const val CODE_SET_3 = "!uRj0@|#£"
 const val DEFAULT_CODE = "00"
 var CODE = DEFAULT_CODE
 var CODE_ASKED_ONCE = false
