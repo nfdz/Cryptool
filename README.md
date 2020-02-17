@@ -47,7 +47,7 @@ Keep your keys away from "fancy" services that are not open-source and phone hom
 * Asymetric encryption (PGP).
 * Cipher webapp. The development of a web application compatible with Cryptool is important in order to offer a crossplatform solution.
 * Clipboard cleaning.
-* Clear PIN button.
+* **[Work in progress]** Clear PIN button.
 * Prevent screenshots and app preview in *recent apps* view.
 * Automatically kill app in defined scenarios.
 * Ability to select a password from the keystore without requiring a copy-paste operation.
