@@ -40,6 +40,11 @@
     <string name="pin_create_btn">Crear</string>
     <string name="pin_delete_btn">Eliminar</string>
     <string name="pin_create_content">¿Quieres configurar un código PIN?\n\nLa longitud del PIN debe ser de 4 a 8 caracteres, se recomiendan 6 o más para alcanzar un nivel de seguridad alto.</string>
+    <string name="pin_manage_title">Gestionar PIN</string>
+    <string name="pin_modify_btn">Modificar</string>
+    <string name="pin_created_success">PIN creado</string>
+    <string name="pin_modified_success">PIN modificado</string>
+    <string name="pin_deleted_success">PIN eliminado</string>
     <string name="pin_size_min">La longitud debe ser de 4 a 8 caracteres</string>
     <string name="pin_delete_title">Eliminar PIN</string>
     <string name="pin_delete_content">¿Quieres eliminar tu código PIN actual?\n\n¡Cuidado! todo lo que tengas guardado será BORRADO.</string>

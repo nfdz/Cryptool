@@ -38,8 +38,13 @@
     <!-- Pin code dialogs -->
     <string name="pin_create_title">Create PIN</string>
     <string name="pin_create_btn">Create</string>
-    <string name="pin_delete_btn">Delete</string>
     <string name="pin_create_content">Do you want to set a security PIN?\n\nThe length must be 4 to 8 characters, 6+ are recommended for high security.</string>
+    <string name="pin_delete_btn">Delete</string>
+    <string name="pin_manage_title">Manage PIN</string>
+    <string name="pin_modify_btn">Modify</string>
+    <string name="pin_created_success">PIN created</string>
+    <string name="pin_modified_success">PIN modified</string>
+    <string name="pin_deleted_success">PIN deleted</string>
     <string name="pin_size_min">The length must be 4 to 8 characters</string>
     <string name="pin_delete_title">Delete PIN</string>
     <string name="pin_delete_content">Do you want to delete your current security PIN?\n\nBe careful! everything you have saved so far will be DELETED.</string>

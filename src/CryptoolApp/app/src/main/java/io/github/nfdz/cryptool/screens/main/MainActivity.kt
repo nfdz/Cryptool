@@ -184,7 +184,7 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
             }
             R.id.main_menu_pin_code -> {
                 if (hasPinCode()) {
-                    askDeletePin()
+                    askManagePin()
                 } else {
                     askCreatePin()
                 }
@@ -215,6 +215,7 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
                 PinCodeDialog.show(this, createPinMode = true) {
                     migrationHelper.deployData()
                     onCodeSet()
+                    toast(R.string.pin_created_success)
                 }
                 dialog.dismiss()
             }
@@ -224,17 +225,27 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
             .show()
     }
 
-    private fun askDeletePin() {
+    private fun askManagePin() {
         AlertDialog.Builder(this)
-            .setTitle(R.string.pin_delete_title)
-            .setMessage(R.string.pin_delete_content)
-            .setPositiveButton(R.string.pin_delete_btn) { dialog, _ ->
-                prefs.deleteCode()
-                CODE = DEFAULT_CODE
-                onCodeSet()
+            .setTitle(R.string.pin_manage_title)
+            .setPositiveButton(R.string.pin_modify_btn) { dialog, _ ->
+                val migrationHelper = MigrationHelper(prefs)
+                PinCodeDialog.show(this, createPinMode = true) {
+                    migrationHelper.deployData()
+                    onCodeSet()
+                    toast(R.string.pin_modified_success)
+                }
                 dialog.dismiss()
             }
-            .setNegativeButton(android.R.string.no) { dialog, _ ->
+            .setNeutralButton(R.string.pin_delete_btn) { dialog, _ ->
+                val migrationHelper = MigrationHelper(prefs)
+                CODE = DEFAULT_CODE
+                prefs.deleteCode()
+                migrationHelper.deployData()
+                toast(R.string.pin_deleted_success)
+                dialog.dismiss()
+            }
+            .setNegativeButton(android.R.string.cancel) { dialog, _ ->
                 dialog.dismiss()
             }
             .show()
