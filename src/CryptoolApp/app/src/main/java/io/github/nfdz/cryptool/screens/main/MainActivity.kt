@@ -211,7 +211,9 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
             .setTitle(R.string.pin_create_title)
             .setMessage(R.string.pin_create_content)
             .setPositiveButton(R.string.pin_create_btn) { dialog, _ ->
+                val migrationHelper = MigrationHelper(prefs)
                 PinCodeDialog.show(this, createPinMode = true) {
+                    migrationHelper.deployData()
                     onCodeSet()
                 }
                 dialog.dismiss()

@@ -7,6 +7,7 @@ import io.github.nfdz.cryptool.services.BallService
 import io.github.nfdz.cryptool.views.cipher.CipherContract
 import timber.log.Timber
 
+
 /**
  * This class has the responsability of managing stored data in preferences.
  * TODO: Now it uses SharedPreferences to decouple implementation but it could be interesting
@@ -14,6 +15,7 @@ import timber.log.Timber
  */
 class PreferencesHelper(private val context: Context) {
 
+    /** Preferences Keys */
     companion object {
         private const val PREFS_FILE_NAME = "cryptool.prefs"
         private const val THEME_NIGHT_MODE = "theme_night_mode"
@@ -188,3 +190,47 @@ class PreferencesHelper(private val context: Context) {
     }
 
 }
+
+
+class MigrationHelper(private val prefs: PreferencesHelper) {
+
+    private var data: MigrationData = MigrationData(
+        theme = prefs.getThemeNightMode(),
+        lastTab = prefs.getLastTab(),
+        lastPassphrase = prefs.getLastPassphrase(),
+        lastPassphraseLocked = prefs.wasLastPassphraseLocked(),
+        lastOriginText = prefs.getLastOriginText(),
+        lastBallPosition = prefs.getLastBallPosition(),
+        lastBallGravity = prefs.getLastBallGravity(),
+        lastHashOrigin = prefs.getLastHashOriginText(),
+        keysLabel = prefs.getKeysLabel(),
+        keysValue = prefs.getKeysValue()
+    )
+
+    fun deployData() {
+        prefs.setThemeNightMode(data.theme)
+        prefs.setLastTab(data.lastTab)
+        prefs.setLastPassphrase(data.lastPassphrase)
+        prefs.setLastPassphraseLocked(data.lastPassphraseLocked)
+        prefs.setLastOriginText(data.lastOriginText)
+        prefs.setLastBallPosition(data.lastBallPosition)
+        prefs.setLastBallGravity(data.lastBallGravity)
+        prefs.setLastHashOriginText(data.lastHashOrigin)
+        prefs.setKeysLabel(data.keysLabel)
+        prefs.setKeysValue(data.keysValue)
+    }
+}
+
+class MigrationData(
+    val theme: Boolean?,
+    val lastTab: Int,
+    val lastPassphrase: String,
+    val lastPassphraseLocked: Boolean,
+    val lastOriginText: String,
+    val lastBallPosition: Int,
+    val lastBallGravity: Int,
+    val lastHashOrigin: String,
+    val keysLabel: Set<String>,
+    val keysValue: Set<String>
+)
+

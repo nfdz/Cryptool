@@ -39,7 +39,7 @@
     <string name="pin_create_title">PIN erstellen</string>
     <string name="pin_create_btn">Erstellen</string>
     <string name="pin_delete_btn">Löschen</string>
-    <string name="pin_create_content">Möchten Sie einen PIN-Code konfigurieren?\n\nVorsicht! Alles, was Sie gespeichert haben, wird gelöscht.\n\nNeue Daten werden gespeichert und mit der PIN verschlüsselt.\n\nDie PIN-Länge muss 4 bis 8 Zeichen betragen. Es wird empfohlen, mindestens 6 Zeichen einzugeben, um eine hohe Sicherheitsstufe zu erreichen.</string>
+    <string name="pin_create_content">Möchten Sie einen PIN-Code konfigurieren?\n\nDie PIN-Länge muss 4 bis 8 Zeichen betragen. Es wird empfohlen, mindestens 6 Zeichen einzugeben, um eine hohe Sicherheitsstufe zu erreichen.</string>
     <string name="pin_size_min">Die Länge muss 4 bis 8 Zeichen betragen</string>
     <string name="pin_delete_title">PIN löschen</string>
     <string name="pin_delete_content">Möchten Sie Ihren aktuellen PIN-Code löschen?\n\nVorsicht! Alles, was Sie gespeichert haben, wird gelöscht.</string>
