@@ -1,7 +1,6 @@
 package io.github.nfdz.cryptool.common.utils
 
 import android.content.Context
-import android.os.Process
 import java.security.SecureRandom
 import java.util.UUID.randomUUID
 
@@ -55,10 +54,6 @@ fun generateRandomKey(): String {
     }
     result.shuffle(rnd)
     return result.joinToString(separator = "")
-}
-
-fun stopApp() {
-    Process.killProcess(Process.myPid())
 }
 
 fun showWelcome(context: Context): Boolean {

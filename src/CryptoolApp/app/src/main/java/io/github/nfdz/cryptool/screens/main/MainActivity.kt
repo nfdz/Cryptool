@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -44,11 +45,25 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         resolveTheme()
         setupView()
         BallService.stop(this)
         askCodeIfNeeded()
         showWelcomeIfNeeded()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        unscheduleStopApp()
+        enableAutoStopApp()
+    }
+
+    override fun onStop() {
+        if (hasPinCode()) {
+            scheduleStopApp()
+        }
+        super.onStop()
     }
 
     private fun askCodeIfNeeded() {
@@ -124,7 +139,10 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
         setupViewPagerWithNav()
-        main_fab_ball.setOnClickListener { permissionHelper.request() }
+        main_fab_ball.setOnClickListener {
+            disableAutoStopApp()
+            permissionHelper.request()
+        }
     }
 
     private fun setupViewPagerWithNav() {
@@ -176,6 +194,7 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
         return when (item.itemId) {
             R.id.main_menu_settings -> {
                 try {
+                    disableAutoStopApp()
                     permissionHelper.navigateToSettings()
                 } catch (e: ActivityNotFoundException) {
                     toast(R.string.error_no_settings)

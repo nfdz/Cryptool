@@ -11,10 +11,7 @@ import android.os.Build
 import android.os.IBinder
 import android.view.*
 import io.github.nfdz.cryptool.R
-import io.github.nfdz.cryptool.common.utils.PreferencesHelper
-import io.github.nfdz.cryptool.common.utils.fadeIn
-import io.github.nfdz.cryptool.common.utils.fadeOut
-import io.github.nfdz.cryptool.common.utils.stopApp
+import io.github.nfdz.cryptool.common.utils.*
 import kotlin.math.roundToInt
 
 /**
@@ -65,6 +62,8 @@ class BallService : Service() {
 
     override fun onCreate() {
         super.onCreate()
+        disableAutoStopApp()
+        unscheduleStopApp()
         windowManager.addView(ballView, layoutParams)
         val ballIcon: View = ballView.findViewById<View>(R.id.ball_iv_icon)
         val closeIcon: View = ballView.findViewById<View>(R.id.ball_iv_close)

@@ -47,13 +47,13 @@ Keep your keys away from "fancy" services that are not open-source and phone hom
 * ~~Clear & Delete PIN button~~
 * ~~Change PIN~~
 * ~~Migrate data when PIN is created/modified/deleted~~
-* **[Work in progress]** Automatically kill app in defined scenarios.
+* ~~Automatically kill app in defined scenarios~~
+* ~~Prevent screenshots and app preview in *recent apps* view~~
+* **[Work in progress]** Clipboard cleaning and protection.
+* Export/Import keystore.
 * Asymetric encryption (PGP).
 * Cipher webapp. The development of a web application compatible with Cryptool is important in order to offer a crossplatform solution.
-* Clipboard cleaning.
-* Prevent screenshots and app preview in *recent apps* view.
 * Ability to select a password from the keystore without requiring a copy-paste operation.
-* Export/Import keystore.
 
 ## 3rd party software
 * [Timber](https://github.com/JakeWharton/timber)
