@@ -8,6 +8,7 @@
 
     <!-- Menu options -->
     <string name="main_menu_pin_code">Código PIN</string>
+    <string name="main_menu_clipboard_clear">Limpiar Portapapeles</string>
     <string name="main_menu_theme">Tema</string>
     <string name="main_menu_settings">Ajustes del Sistema</string>
     <string name="main_menu_rate_suggestions">Sugerencias y Errores</string>
@@ -17,6 +18,8 @@
     <string name="cb_copy_success">Se ha copiado con éxito</string>
     <string name="cb_copy_empty">No hay nada para copiar</string>
     <string name="cb_paste_empty">El portapapeles esta vacío</string>
+    <string name="cb_clear_empty">El portapapeles esta vacío</string>
+    <string name="cb_clear_success">Portapapeles limpiado con éxito</string>
     <string name="cb_label">Cryptool datos</string>
 
     <!-- Cipher -->

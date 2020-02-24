@@ -8,6 +8,7 @@
 
     <!-- Menu options -->
     <string name="main_menu_pin_code">Security PIN code</string>
+    <string name="main_menu_clipboard_clear">Clear Clipboard</string>
     <string name="main_menu_theme">Theme</string>
     <string name="main_menu_settings">System Settings</string>
     <string name="main_menu_rate_suggestions">Suggestions &amp; Bugs</string>
@@ -17,6 +18,8 @@
     <string name="cb_copy_success">Successfully copied to clipboard</string>
     <string name="cb_copy_empty">There is no text to copy</string>
     <string name="cb_paste_empty">There is no text to paste</string>
+    <string name="cb_clear_empty">There is no text to clear</string>
+    <string name="cb_clear_success">Clipboard cleared successfully</string>
     <string name="cb_label">Cryptool data</string>
 
     <!-- Cipher -->

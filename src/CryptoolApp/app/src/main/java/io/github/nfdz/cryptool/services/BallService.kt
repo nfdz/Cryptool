@@ -155,7 +155,7 @@ class BallService : Service() {
             if (launchFloatingTool) {
                 ToolService.start(this, action)
             } else if (!avoidStopProcess) {
-                stopApp()
+                stopApp(getString(R.string.cb_label), getClipboard())
             }
         }
     }

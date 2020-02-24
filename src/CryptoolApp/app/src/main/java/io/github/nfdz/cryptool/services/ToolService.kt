@@ -124,7 +124,7 @@ class ToolService : Service() {
             when {
                 launchBall -> BallService.start(this, action)
                 launchApp -> MainActivity.startNewActivity(this)
-                else -> stopApp()
+                else -> stopApp(getString(R.string.cb_label), getClipboard())
             }
         }
     }

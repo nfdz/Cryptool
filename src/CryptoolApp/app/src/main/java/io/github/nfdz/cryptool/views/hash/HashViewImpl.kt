@@ -87,7 +87,6 @@ class HashViewImpl(private val view: View?, private val context: Context?) : Has
             context?.let {
                 ClipboardHelper.copyText(
                     it,
-                    context.getString(R.string.cb_label),
                     hash_itb_origin?.getText() ?: ""
                 )
             }
@@ -108,7 +107,6 @@ class HashViewImpl(private val view: View?, private val context: Context?) : Has
             context?.let {
                 ClipboardHelper.copyText(
                     it,
-                    context.getString(R.string.cb_label),
                     hash_otb_processed?.getText() ?: ""
                 )
             }

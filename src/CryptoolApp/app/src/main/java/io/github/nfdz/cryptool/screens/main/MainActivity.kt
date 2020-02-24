@@ -1,6 +1,7 @@
 package io.github.nfdz.cryptool.screens.main
 
 import android.content.ActivityNotFoundException
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -45,7 +46,10 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_SECURE,
+            WindowManager.LayoutParams.FLAG_SECURE
+        );
         resolveTheme()
         setupView()
         BallService.stop(this)
@@ -61,7 +65,7 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
 
     override fun onStop() {
         if (hasPinCode()) {
-            scheduleStopApp()
+            scheduleStopApp(getString(R.string.cb_label), getClipboard())
         }
         super.onStop()
     }
@@ -108,7 +112,7 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
     }
 
     override fun onBackPressed() {
-        stopApp()
+        stopApp(getString(R.string.cb_label), getClipboard())
         super.onBackPressed()
     }
 
@@ -207,6 +211,10 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
                 } else {
                     askCreatePin()
                 }
+                true
+            }
+            R.id.main_menu_clipboard_clear -> {
+                ClipboardHelper.clearClipboard(this)
                 true
             }
             R.id.main_menu_rate_suggestions -> {

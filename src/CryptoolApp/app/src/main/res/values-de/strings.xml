@@ -8,6 +8,7 @@
 
     <!-- Menu options -->
     <string name="main_menu_pin_code">PIN-Code</string>
+    <string name="main_menu_clipboard_clear">Zwischenablage löschen</string>
     <string name="main_menu_settings">Systemeinstellungen</string>
     <string name="main_menu_theme">Thema</string>
     <string name="main_menu_rate_suggestions">Vorschläge und Fehler</string>
@@ -17,6 +18,8 @@
     <string name="cb_copy_success">Es wurde erfolgreich kopiert</string>
     <string name="cb_copy_empty">Es gibt nichts zu kopieren</string>
     <string name="cb_paste_empty">Die Zwischenablage ist leer</string>
+    <string name="cb_clear_empty">Es ist kein Text zu löschen</string>
+    <string name="cb_clear_success">Zwischenablage erfolgreich gelöscht</string>
     <string name="cb_label">Cryptool daten</string>
 
     <!-- Cipher -->

@@ -1,6 +1,7 @@
 package io.github.nfdz.cryptool.common.utils
 
 import android.animation.Animator
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.res.Configuration
 import android.os.AsyncTask
@@ -85,6 +86,9 @@ fun Context?.isNightUiMode(): Boolean? {
         AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
     }
 }
+
+fun Context?.getClipboard(): ClipboardManager? =
+    this?.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
 
 //endregion
 

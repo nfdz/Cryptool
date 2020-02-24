@@ -178,7 +178,6 @@ class CipherViewImpl(private val view: View?, private val context: Context?) : C
             context?.let {
                 ClipboardHelper.copyText(
                     it,
-                    context.getString(R.string.cb_label),
                     cipher_itb_origin?.getText() ?: ""
                 )
             }
@@ -199,7 +198,6 @@ class CipherViewImpl(private val view: View?, private val context: Context?) : C
             context?.let {
                 ClipboardHelper.copyText(
                     it,
-                    context.getString(R.string.cb_label),
                     cipher_otb_processed?.getText() ?: ""
                 )
             }

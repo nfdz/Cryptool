@@ -165,32 +165,31 @@ class KeysAdapter(private val listener: Listener) :
 
         fun bind(entry: KeysContract.KeyEntry) = with(itemView) {
             val actionIconColor =
-            if (context.isNightUiMode() == true) {
-                keyOutput.setupView(
-                    R.color.colorDark,
-                    R.drawable.selector_action_dark,
-                    R.color.colorLight,
-                    R.drawable.ic_passphrase,
-                    entry.label
-                )
-                R.color.colorLight
-            } else {
-                keyOutput.setupView(
-                    R.color.colorLight,
-                    R.drawable.selector_action_light,
-                    R.color.colorDark,
-                    R.drawable.ic_passphrase,
-                    entry.label
-                )
-                R.color.colorDark
-            }
+                if (context.isNightUiMode() == true) {
+                    keyOutput.setupView(
+                        R.color.colorDark,
+                        R.drawable.selector_action_dark,
+                        R.color.colorLight,
+                        R.drawable.ic_passphrase,
+                        entry.label
+                    )
+                    R.color.colorLight
+                } else {
+                    keyOutput.setupView(
+                        R.color.colorLight,
+                        R.drawable.selector_action_light,
+                        R.color.colorDark,
+                        R.drawable.ic_passphrase,
+                        entry.label
+                    )
+                    R.color.colorDark
+                }
 
             keyOutput.setText(entry.key)
             keyOutput.setupAction1 {
                 context?.let {
                     ClipboardHelper.copyText(
                         it,
-                        context.getString(R.string.cb_label),
                         entry.key
                     )
                 }
