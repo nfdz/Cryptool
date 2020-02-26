@@ -217,6 +217,14 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
                 ClipboardHelper.clearClipboard(this)
                 true
             }
+            R.id.main_menu_import -> {
+
+                true
+            }
+            R.id.main_menu_export -> {
+                // TODO
+                true
+            }
             R.id.main_menu_rate_suggestions -> {
                 showSuggestionsDialog()
                 true

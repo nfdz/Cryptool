@@ -16,6 +16,18 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/main_menu_import"
+        android:orderInCategory="190"
+        android:title="@string/main_menu_import"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/main_menu_export"
+        android:orderInCategory="191"
+        android:title="@string/main_menu_export"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/main_menu_toggle_theme"
         android:orderInCategory="199"
         android:title="@string/main_menu_theme"

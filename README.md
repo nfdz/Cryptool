@@ -57,6 +57,7 @@ Keep your keys away from "fancy" services that are not open-source and phone hom
 
 ## 3rd party software
 * [Timber](https://github.com/JakeWharton/timber)
+* [Gson](https://github.com/google/gson)
 
 ## License
 
