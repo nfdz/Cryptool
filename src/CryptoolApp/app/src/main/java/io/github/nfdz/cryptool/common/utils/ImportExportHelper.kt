@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.widget.Toast
 import androidx.documentfile.provider.DocumentFile
 import com.google.gson.Gson
 import io.github.nfdz.cryptool.R
@@ -23,8 +24,8 @@ private const val DATE_FORMAT = "yyyy-MM-dd"
  */
 class ImportExportHelper(
     private val prefs: PreferencesHelper,
-    private val readRequestCode: Int = 933,
-    private val writeRequestCode: Int = 944
+    private val importRequestCode: Int = 933,
+    private val exportRequestCode: Int = 944
 ) {
 
     /**
@@ -41,25 +42,52 @@ class ImportExportHelper(
         intent.addCategory(Intent.CATEGORY_OPENABLE)
         // Filter to show only plain text
         intent.type = MIME_TYPE
-        activity.startActivityForResult(intent, readRequestCode)
+        activity.startActivityForResult(intent, importRequestCode)
     }
 
-    /**
-     * This methods manage the result of an open document activity.
-     * @return true if activity result was managed by this method, false if not.
-     */
-    fun onImportActivityResult(
+    fun onActivityResult(
         requestCode: Int,
         resultCode: Int,
         resultData: Intent?,
         context: Context,
         onDataImported: () -> Unit
     ): Boolean {
-        return if (requestCode == readRequestCode) {
+        return when (requestCode) {
+            importRequestCode -> onImportActivityResult(
+                requestCode,
+                resultCode,
+                resultData,
+                context,
+                onDataImported
+            )
+            exportRequestCode -> onExportActivityResult(
+                requestCode,
+                resultCode,
+                resultData,
+                context
+            )
+            else -> false
+        }
+    }
+
+    /**
+     * This methods manage the result of an open document activity.
+     * @return true if activity result was managed by this method, false if not.
+     */
+    private fun onImportActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        resultData: Intent?,
+        context: Context,
+        onDataImported: () -> Unit
+    ): Boolean {
+        return if (requestCode == importRequestCode) {
             // URI to user document is contained in the return intent
             if (resultCode == Activity.RESULT_OK) {
+                context.toast(R.string.import_ongoing,  Toast.LENGTH_SHORT)
                 val uri = resultData?.data
                 doAsync {
+                    var cryptoError = false
                     val data: MigrationData? = try {
                         // Get content of the file
                         val file: DocumentFile? =
@@ -67,7 +95,12 @@ class ImportExportHelper(
                         val input = file?.let { context.contentResolver.openInputStream(it.uri) }
                         val inputAsString = input?.bufferedReader().use { it?.readText() }
                         inputAsString?.let {
-                            val json = CryptographyHelper().decrypt(it, CODE)
+                            val json = try {
+                                CryptographyHelper().decrypt(it, CODE)
+                            } catch (e: Exception) {
+                                cryptoError = true
+                                throw e
+                            }
                             Gson().fromJson(json, MigrationData::class.java)
                         }
                     } catch (e: Exception) {
@@ -80,7 +113,11 @@ class ImportExportHelper(
                             context.toast(R.string.import_success)
                             onDataImported()
                         } else {
-                            context.toast(R.string.import_read_error)
+                            if (cryptoError) {
+                                context.toast(R.string.import_read_crypto_error)
+                            } else {
+                                context.toast(R.string.import_read_error)
+                            }
                         }
                     }
                 }
@@ -96,7 +133,7 @@ class ImportExportHelper(
     /**
      * This method starts create document system activity.
      */
-    fun exportDocument(
+    fun exportData(
         activity: Activity
     ) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
@@ -116,22 +153,23 @@ class ImportExportHelper(
             currentDate
         )
         intent.putExtra(Intent.EXTRA_TITLE, suggestedName)
-        activity.startActivityForResult(intent, writeRequestCode)
+        activity.startActivityForResult(intent, exportRequestCode)
     }
 
     /**
      * This methods manage the result of an create document activity.
      * @return true if activity result was managed by this method, false if not.
      */
-    fun onExportActivityResult(
+    private fun onExportActivityResult(
         requestCode: Int,
         resultCode: Int,
         resultData: Intent?,
         context: Context
     ): Boolean {
-        return if (requestCode == writeRequestCode) {
+        return if (requestCode == exportRequestCode) {
             // URI to user document is contained in the return intent
             if (resultCode == Activity.RESULT_OK) {
+                context.toast(R.string.export_ongoing,  Toast.LENGTH_SHORT)
                 val uri = resultData?.data
                 doAsync {
                     val success: Boolean = try {

@@ -66,6 +66,17 @@
     <string name="welcome_app_pin">PIN</string>
     <string name="welcome_app_close">Schließen</string>
 
+    <!-- Import/Export -->
+    <string name="import_success">Der Import war erfolgreich</string>
+    <string name="import_ongoing">Importieren…</string>
+    <string name="import_open_error">Es ist nicht möglich, die Datei zu öffnen</string>
+    <string name="import_read_crypto_error">Es ist nicht möglich, die Daten zu importieren, da sie mit einer anderen PIN gespeichert wurden</string>
+    <string name="import_read_error">Es ist nicht möglich, die Daten zu importieren</string>
+    <string name="export_success">Der Export war erfolgreich</string>
+    <string name="export_ongoing">Exportieren…</string>
+    <string name="export_open_error">Es ist nicht möglich, die Datei zu öffnen</string>
+    <string name="export_write_error">Es ist nicht möglich, die Daten zu exportieren</string>
+
     <!-- Errors -->
     <string name="error_no_settings">Es ist nicht möglich, Ihre Systemeinstellungen zu öffnen</string>
     <string name="error_label_empty">Sie haben das Etikett nicht geschrieben</string>

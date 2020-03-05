@@ -1,7 +1,6 @@
 package io.github.nfdz.cryptool.screens.main
 
 import android.content.ActivityNotFoundException
-import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -42,6 +41,9 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
     private var pagerAdapter: MainPagerAdapter? = null
     private val permissionHelper: OverlayPermissionHelper by lazy {
         OverlayPermissionHelper(this, this)
+    }
+    private val importExportHelper: ImportExportHelper by lazy {
+        ImportExportHelper(prefs)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -98,6 +100,10 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
 
     private fun onCodeSet() {
         CODE_ASKED_ONCE = true
+        setViewPages()
+    }
+
+    private fun setViewPages() {
         val currentPage = main_view_pager.currentItem
         pagerAdapter = MainPagerAdapter(supportFragmentManager)
         main_view_pager.adapter = pagerAdapter
@@ -109,6 +115,9 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         permissionHelper.onActivityResult(requestCode)
+        importExportHelper.onActivityResult(requestCode, resultCode, data, this) {
+            setViewPages()
+        }
     }
 
     override fun onBackPressed() {
@@ -218,11 +227,11 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
                 true
             }
             R.id.main_menu_import -> {
-
+                importExportHelper.importData(this)
                 true
             }
             R.id.main_menu_export -> {
-                // TODO
+                importExportHelper.exportData(this)
                 true
             }
             R.id.main_menu_rate_suggestions -> {

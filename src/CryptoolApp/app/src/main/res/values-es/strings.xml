@@ -66,6 +66,17 @@
     <string name="welcome_app_pin">PIN</string>
     <string name="welcome_app_close">Cerrar</string>
 
+    <!-- Import/Export -->
+    <string name="import_success">Importado con éxito</string>
+    <string name="import_ongoing">Importando…</string>
+    <string name="import_open_error">No es posible abrir el archivo</string>
+    <string name="import_read_crypto_error">No es posible importar los datos porque fueron guardados usando otro PIN</string>
+    <string name="import_read_error">No es posible importar los datos</string>
+    <string name="export_success">Exportado con éxito</string>
+    <string name="export_ongoing">Exportando…</string>
+    <string name="export_open_error">No es posible abrir el archivo</string>
+    <string name="export_write_error">No es posible exportar los datos</string>
+
     <!-- Errors -->
     <string name="error_no_settings">No es posible abrir tus Ajustes del Sistema</string>
     <string name="error_label_empty">No has escrito la etiqueta</string>
