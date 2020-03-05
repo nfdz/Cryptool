@@ -50,9 +50,9 @@ Keep your keys away from "fancy" services that are not open-source and phone hom
 * ~~Automatically kill app in defined scenarios~~
 * ~~Prevent screenshots and app preview in *recent apps* view~~
 * ~~Clipboard cleaning and protection~~
-* **[Work in progress]** Export/Import keystore.
-* Cipher webapp. The development of a web application compatible with Cryptool is important in order to offer a crossplatform solution.
-* Ability to select a password from the keystore without requiring a copy-paste operation.
+*  ~~Export/Import data~~
+* **[Work in progress]** Cipher webapp. The development of a web application compatible with Cryptool is important in order to offer a crossplatform solution.
+* **[Need help to define the feature]** Ability to select a password from the keystore without requiring a copy-paste operation.
 * Asymmetric encryption (PGP).
 
 ## 3rd party software

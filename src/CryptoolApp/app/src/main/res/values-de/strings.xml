@@ -65,6 +65,8 @@
     <string name="welcome_app_content">Willkommen zu dieser neuen Version voller Sicherheitsverbesserungen und neuer Funktionen.\n\nEs wird dringend empfohlen, jetzt einen PIN-Code festzulegen, um die Sicherheit der gespeicherten Daten zu verbessern.\n\nDie neue Verschlüsselung ist mit der vorherigen nicht kompatibel. Wenn Sie diese Verschlüsselung weiterhin verwenden möchten, können Sie die v1-App auf GitHub herunterladen.\n\nViel Spaß!</string>
     <string name="welcome_app_pin">PIN</string>
     <string name="welcome_app_close">Schließen</string>
+    <string name="changelog_title">Änderungslog</string>
+    <string name="changelog_content">Dunkles Thema\nLöschen PIN\Veränderung PIN\nMigrieren Sie Daten wenn die PIN erstellt/geändert/gelöscht wird\nApp in definierten Szenarien automatisch beenden\nVerhindern Sie Screenshots und App-Vorschau in der Ansicht der letzten Apps\nReinigung und Schutz der Zwischenablage\nDaten exportieren/importieren</string>
 
     <!-- Import/Export -->
     <string name="import_success">Der Import war erfolgreich</string>

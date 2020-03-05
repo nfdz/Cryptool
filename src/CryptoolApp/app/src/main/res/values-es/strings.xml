@@ -65,6 +65,9 @@
     <string name="welcome_app_content">Bienvenido a esta nueva version llena de mejoras de seguridad y nuevas funcionalidades.\n\nRecomendamos encarecidamente que establezcas un código PIN ahora para mejorar la seguridad de los datos almacenados.\n\nEl nuevo cifrado no es compatible con el de la versión anterior. Si quieres seguir usando ese cifrado puedes descargar la v1 de la aplicación en GitHub.\n\n¡Disfruta!</string>
     <string name="welcome_app_pin">PIN</string>
     <string name="welcome_app_close">Cerrar</string>
+    <string name="changelog_title">Novedades</string>
+    <string name="changelog_content">Tema oscuro\nBotones para limpiar y eliminar PIN\nCambiar PIN\nMigrar datos cuando el PIN es creado/modificado/eliminado\nParar la aplicación automáticamente\nEvitar capturas de pantalla en modo de vista previa\nLimpieza y protección del portapapeles\nExportar/Importar datos</string>
+
 
     <!-- Import/Export -->
     <string name="import_success">Importado con éxito</string>

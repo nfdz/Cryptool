@@ -59,6 +59,18 @@ fun generateRandomKey(): String {
 fun showWelcome(context: Context): Boolean {
     val prefs = context.getSharedPreferences("welcome", Context.MODE_PRIVATE)
     val value = prefs.getBoolean("show_welcome", true)
-    prefs.edit().putBoolean("show_welcome", false).apply()
+    if (value) {
+        prefs.edit().putBoolean("show_welcome", false).apply()
+        prefs.edit().putBoolean("show_changelog", false).apply()
+    }
+    return value
+}
+
+fun showChangelog(context: Context): Boolean {
+    val prefs = context.getSharedPreferences("welcome", Context.MODE_PRIVATE)
+    val value = prefs.getBoolean("show_changelog", true)
+    if (value) {
+        prefs.edit().putBoolean("show_changelog", false).apply()
+    }
     return value
 }

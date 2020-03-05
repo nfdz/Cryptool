@@ -95,6 +95,14 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
                     dialog.dismiss()
                 }
                 .show()
+        } else if (showChangelog(this)) {
+            AlertDialog.Builder(this)
+                .setTitle(R.string.changelog_title)
+                .setMessage(R.string.changelog_content)
+                .setPositiveButton(android.R.string.ok) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
         }
     }
 
