@@ -73,7 +73,7 @@
     <string name="import_success">Importado con éxito</string>
     <string name="import_ongoing">Importando…</string>
     <string name="import_open_error">No es posible abrir el archivo</string>
-    <string name="import_read_crypto_error">No es posible importar los datos porque fueron guardados usando otro PIN</string>
+    <string name="import_read_crypto_error">No es posible importar los datos porque fueron exportados usando otro PIN</string>
     <string name="import_read_error">No es posible importar los datos</string>
     <string name="export_success">Exportado con éxito</string>
     <string name="export_ongoing">Exportando…</string>
