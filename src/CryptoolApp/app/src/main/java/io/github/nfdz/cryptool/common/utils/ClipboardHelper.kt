@@ -20,7 +20,7 @@ object ClipboardHelper {
         if (text.isNotEmpty()) {
             val clipboard = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
             val clip = ClipData.newPlainText(context.getString(R.string.cb_label), text)
-            clipboard.primaryClip = clip
+            clipboard.setPrimaryClip(clip)
             context.toast(R.string.cb_copy_success)
         } else {
             context.toast(R.string.cb_copy_empty)
@@ -62,7 +62,7 @@ object ClipboardHelper {
         } else {
             val clip =
                 ClipData.newPlainText(label, "\uD83D\uDC40")
-            clipboard?.primaryClip = clip
+            clipboard?.setPrimaryClip(clip)
         }
     }
 }
