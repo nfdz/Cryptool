@@ -1,13 +1,39 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppThemeLight" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="android:windowBackground">@color/colorBackgroundLight</item>
+        <item name="android:colorBackground">@color/colorBackgroundLight</item>
+        <item name="android:textColorPrimary">@color/colorTextLightTheme</item>
+        <item name="colorBackground">@color/colorBackgroundLight</item>
+        <item name="colorBottomBar">@color/colorAccent</item>
+
+        <!-- Common -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/colorBackground</item>
-        <item name="android:colorBackground">@color/colorBackground</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppThemeDark" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="android:windowBackground">@color/colorBackgroundDark</item>
+        <item name="android:colorBackground">@color/colorBackgroundDark</item>
+        <item name="android:textColorPrimary">@color/colorTextDarkTheme</item>
+        <item name="alertDialogTheme">@style/DialogThemeDark</item>
+        <item name="colorBackground">@color/colorBackgroundDark</item>
+        <item name="colorBottomBar">@color/colorBackgroundDark</item>
+
+        <!-- Common -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="DialogThemeDark" parent="Base.Theme.AppCompat.Dialog.Alert">
+        <item name="colorBackground">@color/colorBackgroundDark</item>
+        <item name="android:windowBackground">@color/colorBackgroundDark</item>
     </style>
 
 </resources>

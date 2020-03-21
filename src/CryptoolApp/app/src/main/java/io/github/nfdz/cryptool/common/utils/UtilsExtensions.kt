@@ -1,7 +1,9 @@
 package io.github.nfdz.cryptool.common.utils
 
 import android.animation.Animator
+import android.content.ClipboardManager
 import android.content.Context
+import android.content.res.Configuration
 import android.os.AsyncTask
 import android.os.Handler
 import android.os.Looper
@@ -10,6 +12,7 @@ import android.view.animation.LinearInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatDelegate
 
 //region View/ViewGroup utils
 
@@ -71,6 +74,21 @@ fun View.fadeOut(onAnimationEnd: () -> (Unit) = {}) {
 
 fun Context?.toast(@StringRes textId: Int, duration: Int = Toast.LENGTH_LONG) =
     this?.let { Toast.makeText(it, textId, duration).show() }
+
+fun Context?.isNightUiMode(): Boolean? {
+    val nightModeFlag = AppCompatDelegate.getDefaultNightMode()
+    val useSystemMode = nightModeFlag == AppCompatDelegate.MODE_NIGHT_UNSPECIFIED ||
+            nightModeFlag == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+    return if (useSystemMode) {
+        this?.resources?.configuration
+            ?.uiMode?.let { it -> it and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES }
+    } else {
+        AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
+    }
+}
+
+fun Context?.getClipboard(): ClipboardManager? =
+    this?.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
 
 //endregion
 

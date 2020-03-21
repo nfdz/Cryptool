@@ -8,6 +8,8 @@
 
     <!-- Menu options -->
     <string name="main_menu_pin_code">Código PIN</string>
+    <string name="main_menu_clipboard_clear">Limpiar Portapapeles</string>
+    <string name="main_menu_theme">Tema</string>
     <string name="main_menu_settings">Ajustes del Sistema</string>
     <string name="main_menu_rate_suggestions">Sugerencias y Errores</string>
     <string name="main_menu_about">Acerca y Código</string>
@@ -16,6 +18,8 @@
     <string name="cb_copy_success">Se ha copiado con éxito</string>
     <string name="cb_copy_empty">No hay nada para copiar</string>
     <string name="cb_paste_empty">El portapapeles esta vacío</string>
+    <string name="cb_clear_empty">El portapapeles esta vacío</string>
+    <string name="cb_clear_success">Portapapeles limpiado con éxito</string>
     <string name="cb_label">Cryptool datos</string>
 
     <!-- Cipher -->
@@ -38,10 +42,20 @@
     <string name="pin_create_title">Crear PIN</string>
     <string name="pin_create_btn">Crear</string>
     <string name="pin_delete_btn">Eliminar</string>
-    <string name="pin_create_content">¿Quieres configurar un código PIN?\n\n¡Cuidado! todo lo que tengas guardado será BORRADO.\n\nLos nuevos datos almacenados serán cifrados usando el PIN.\n\nLa longitud del PIN debe ser de 4 a 8 caracteres, se recomiendan 6 o más para alcanzar un nivel de seguridad alto.</string>
+    <string name="pin_create_content">¿Quieres configurar un código PIN?\n\nLa longitud del PIN debe ser de 4 a 8 caracteres, se recomiendan 6 o más para alcanzar un nivel de seguridad alto.</string>
+    <string name="pin_manage_title">Gestionar PIN</string>
+    <string name="pin_modify_btn">Modificar</string>
+    <string name="pin_created_success">PIN creado</string>
+    <string name="pin_modified_success">PIN modificado</string>
+    <string name="pin_deleted_success">PIN eliminado</string>
     <string name="pin_size_min">La longitud debe ser de 4 a 8 caracteres</string>
     <string name="pin_delete_title">Eliminar PIN</string>
     <string name="pin_delete_content">¿Quieres eliminar tu código PIN actual?\n\n¡Cuidado! todo lo que tengas guardado será BORRADO.</string>
+
+    <!-- Theme -->
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Oscuro</string>
+    <string name="theme_system">Auto (Sistema)</string>
 
     <!-- Promo -->
     <string name="rate_app_title">@string/main_menu_rate_suggestions</string>
@@ -51,6 +65,20 @@
     <string name="welcome_app_content">Bienvenido a esta nueva version llena de mejoras de seguridad y nuevas funcionalidades.\n\nRecomendamos encarecidamente que establezcas un código PIN ahora para mejorar la seguridad de los datos almacenados.\n\nEl nuevo cifrado no es compatible con el de la versión anterior. Si quieres seguir usando ese cifrado puedes descargar la v1 de la aplicación en GitHub.\n\n¡Disfruta!</string>
     <string name="welcome_app_pin">PIN</string>
     <string name="welcome_app_close">Cerrar</string>
+    <string name="changelog_title">Novedades</string>
+    <string name="changelog_content">Tema oscuro\nBotones para limpiar y eliminar PIN\nCambiar PIN\nMigrar datos cuando el PIN es creado/modificado/eliminado\nParar la aplicación automáticamente\nEvitar capturas de pantalla en modo de vista previa\nLimpieza y protección del portapapeles\nExportar/Importar datos</string>
+
+
+    <!-- Import/Export -->
+    <string name="import_success">Importado con éxito</string>
+    <string name="import_ongoing">Importando…</string>
+    <string name="import_open_error">No es posible abrir el archivo</string>
+    <string name="import_read_crypto_error">No es posible importar los datos porque fueron exportados usando otro PIN</string>
+    <string name="import_read_error">No es posible importar los datos</string>
+    <string name="export_success">Exportado con éxito</string>
+    <string name="export_ongoing">Exportando…</string>
+    <string name="export_open_error">No es posible abrir el archivo</string>
+    <string name="export_write_error">No es posible exportar los datos</string>
 
     <!-- Errors -->
     <string name="error_no_settings">No es posible abrir tus Ajustes del Sistema</string>

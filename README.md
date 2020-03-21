@@ -43,17 +43,21 @@ Keep your keys away from "fancy" services that are not open-source and phone hom
 </p>
 
 ## Roadmap
-* Asymetric encryption (PGP).
-* Cipher webapp. The development of a web application compatible with Cryptool is important in order to offer a crossplatform solution.
-* Clipboard cleaning.
-* Clear PIN button.
-* Prevent screenshots and app preview in *recent apps* view.
-* Automatically kill app in defined scenarios.
-* Ability to select a password from the keystore without requiring a copy-paste operation.
-* Export/Import keystore.
+* ~~Dark theme~~
+* ~~Clear & Delete PIN button~~
+* ~~Change PIN~~
+* ~~Migrate data when PIN is created/modified/deleted~~
+* ~~Automatically kill app in defined scenarios~~
+* ~~Prevent screenshots and app preview in *recent apps* view~~
+* ~~Clipboard cleaning and protection~~
+*  ~~Export/Import data~~
+* **[Work in progress]** Cipher webapp. The development of a web application compatible with Cryptool is important in order to offer a crossplatform solution.
+* **[Need help to define the feature]** Ability to select a password from the keystore without requiring a copy-paste operation.
+* Asymmetric encryption (PGP).
 
 ## 3rd party software
 * [Timber](https://github.com/JakeWharton/timber)
+* [Gson](https://github.com/google/gson)
 
 ## License
 

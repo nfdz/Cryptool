@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/AppThemeDark"
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity android:name="io.github.nfdz.cryptool.screens.main.MainActivity">

@@ -7,8 +7,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
@@ -40,13 +42,34 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
     private val permissionHelper: OverlayPermissionHelper by lazy {
         OverlayPermissionHelper(this, this)
     }
+    private val importExportHelper: ImportExportHelper by lazy {
+        ImportExportHelper(prefs)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_SECURE,
+            WindowManager.LayoutParams.FLAG_SECURE
+        );
+        resolveTheme()
         setupView()
         BallService.stop(this)
         askCodeIfNeeded()
         showWelcomeIfNeeded()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        unscheduleStopApp()
+        enableAutoStopApp()
+    }
+
+    override fun onStop() {
+        if (hasPinCode()) {
+            scheduleStopApp(getString(R.string.cb_label), getClipboard())
+        }
+        super.onStop()
     }
 
     private fun askCodeIfNeeded() {
@@ -72,11 +95,23 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
                     dialog.dismiss()
                 }
                 .show()
+        } else if (showChangelog(this)) {
+            AlertDialog.Builder(this)
+                .setTitle(R.string.changelog_title)
+                .setMessage(R.string.changelog_content)
+                .setPositiveButton(android.R.string.ok) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
         }
     }
 
     private fun onCodeSet() {
         CODE_ASKED_ONCE = true
+        setViewPages()
+    }
+
+    private fun setViewPages() {
         val currentPage = main_view_pager.currentItem
         pagerAdapter = MainPagerAdapter(supportFragmentManager)
         main_view_pager.adapter = pagerAdapter
@@ -88,11 +123,36 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         permissionHelper.onActivityResult(requestCode)
+        importExportHelper.onActivityResult(requestCode, resultCode, data, this) {
+            setViewPages()
+        }
     }
 
     override fun onBackPressed() {
-        stopApp()
+        stopApp(getString(R.string.cb_label), getClipboard())
         super.onBackPressed()
+    }
+
+    private fun resolveTheme() {
+        val customThemeNightMode = prefs.getThemeNightMode()
+        if (customThemeNightMode != null) {
+            if (isNightUiMode() != customThemeNightMode) {
+                recreate()
+            }
+            if (customThemeNightMode) {
+                setTheme(R.style.AppThemeDark)
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                setTheme(R.style.AppThemeLight)
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        } else {
+            if (isNightUiMode() == true) {
+                setTheme(R.style.AppThemeDark)
+            } else {
+                setTheme(R.style.AppThemeLight)
+            }
+        }
     }
 
     private fun setupView() {
@@ -100,7 +160,10 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
         setupViewPagerWithNav()
-        main_fab_ball.setOnClickListener { permissionHelper.request() }
+        main_fab_ball.setOnClickListener {
+            disableAutoStopApp()
+            permissionHelper.request()
+        }
     }
 
     private fun setupViewPagerWithNav() {
@@ -152,6 +215,7 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
         return when (item.itemId) {
             R.id.main_menu_settings -> {
                 try {
+                    disableAutoStopApp()
                     permissionHelper.navigateToSettings()
                 } catch (e: ActivityNotFoundException) {
                     toast(R.string.error_no_settings)
@@ -160,10 +224,22 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
             }
             R.id.main_menu_pin_code -> {
                 if (hasPinCode()) {
-                    askDeletePin()
+                    askManagePin()
                 } else {
                     askCreatePin()
                 }
+                true
+            }
+            R.id.main_menu_clipboard_clear -> {
+                ClipboardHelper.clearClipboard(this)
+                true
+            }
+            R.id.main_menu_import -> {
+                importExportHelper.importData(this)
+                true
+            }
+            R.id.main_menu_export -> {
+                importExportHelper.exportData(this)
                 true
             }
             R.id.main_menu_rate_suggestions -> {
@@ -172,6 +248,10 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
             }
             R.id.main_menu_about -> {
                 showAboutDialog()
+                true
+            }
+            R.id.main_menu_toggle_theme -> {
+                askThemeDialog()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -183,8 +263,11 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
             .setTitle(R.string.pin_create_title)
             .setMessage(R.string.pin_create_content)
             .setPositiveButton(R.string.pin_create_btn) { dialog, _ ->
+                val migrationHelper = MigrationHelper(prefs)
                 PinCodeDialog.show(this, createPinMode = true) {
+                    migrationHelper.deployData()
                     onCodeSet()
+                    toast(R.string.pin_created_success)
                 }
                 dialog.dismiss()
             }
@@ -194,17 +277,27 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
             .show()
     }
 
-    private fun askDeletePin() {
+    private fun askManagePin() {
         AlertDialog.Builder(this)
-            .setTitle(R.string.pin_delete_title)
-            .setMessage(R.string.pin_delete_content)
-            .setPositiveButton(R.string.pin_delete_btn) { dialog, _ ->
-                prefs.deleteCode()
-                CODE = DEFAULT_CODE
-                onCodeSet()
+            .setTitle(R.string.pin_manage_title)
+            .setPositiveButton(R.string.pin_modify_btn) { dialog, _ ->
+                val migrationHelper = MigrationHelper(prefs)
+                PinCodeDialog.show(this, createPinMode = true) {
+                    migrationHelper.deployData()
+                    onCodeSet()
+                    toast(R.string.pin_modified_success)
+                }
                 dialog.dismiss()
             }
-            .setNegativeButton(android.R.string.no) { dialog, _ ->
+            .setNeutralButton(R.string.pin_delete_btn) { dialog, _ ->
+                val migrationHelper = MigrationHelper(prefs)
+                CODE = DEFAULT_CODE
+                prefs.deleteCode()
+                migrationHelper.deployData()
+                toast(R.string.pin_deleted_success)
+                dialog.dismiss()
+            }
+            .setNegativeButton(android.R.string.cancel) { dialog, _ ->
                 dialog.dismiss()
             }
             .show()
@@ -246,6 +339,43 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
             }
             .show()
 
+    }
+
+    private fun askThemeDialog() {
+        val customThemeNightMode = prefs.getThemeNightMode()
+        val optionsTitles = arrayOf(
+            getText(R.string.theme_light),
+            getText(R.string.theme_dark),
+            getText(R.string.theme_system)
+        )
+        val selectedOption = when (customThemeNightMode) {
+            false -> 0
+            true -> 1
+            null -> 2
+        }
+        AlertDialog.Builder(this)
+            .setSingleChoiceItems(
+                optionsTitles,
+                selectedOption
+            )
+            { dialog, which ->
+                when (which) {
+                    0 -> {
+                        prefs.setThemeNightMode(false)
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    }
+                    1 -> {
+                        prefs.setThemeNightMode(true)
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    }
+                    2 -> {
+                        prefs.setThemeNightMode(null)
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                    }
+                }
+                dialog.dismiss()
+            }
+            .show()
     }
 
     private inner class MainPagerAdapter(fm: FragmentManager) :

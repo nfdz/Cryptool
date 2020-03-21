@@ -8,8 +8,8 @@
     <dimen name="main_bottom_nav_height">68dp</dimen>
     <dimen name="main_fab_margin_bottom">86dp</dimen>
     <dimen name="main_fab_margin_right">16dp</dimen>
-    <dimen name="reverse_icon_padding">9dp</dimen>
-    <dimen name="reverse_icon_size">40dp</dimen>
+    <dimen name="reverse_icon_padding">4dp</dimen>
+    <dimen name="reverse_icon_size">30dp</dimen>
 
     <!-- Text box -->
     <dimen name="action_button_size">42dp</dimen>

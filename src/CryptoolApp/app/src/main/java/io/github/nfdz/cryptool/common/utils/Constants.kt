@@ -1,7 +1,6 @@
 package io.github.nfdz.cryptool.common.utils
 
 import android.content.Context
-import android.os.Process
 import java.security.SecureRandom
 import java.util.UUID.randomUUID
 
@@ -17,6 +16,7 @@ const val CODE_SLOT = "_"
 const val CODE_SET_0 = "146aZd?.-"
 const val CODE_SET_1 = "832VgJ$+&"
 const val CODE_SET_2 = "579iXW=€%"
+const val CODE_SET_3 = "!uRj0@|#£"
 const val DEFAULT_CODE = "00"
 var CODE = DEFAULT_CODE
 var CODE_ASKED_ONCE = false
@@ -56,13 +56,21 @@ fun generateRandomKey(): String {
     return result.joinToString(separator = "")
 }
 
-fun stopApp() {
-    Process.killProcess(Process.myPid())
-}
-
 fun showWelcome(context: Context): Boolean {
     val prefs = context.getSharedPreferences("welcome", Context.MODE_PRIVATE)
     val value = prefs.getBoolean("show_welcome", true)
-    prefs.edit().putBoolean("show_welcome", false).apply()
+    if (value) {
+        prefs.edit().putBoolean("show_welcome", false).apply()
+        prefs.edit().putBoolean("show_changelog", false).apply()
+    }
+    return value
+}
+
+fun showChangelog(context: Context): Boolean {
+    val prefs = context.getSharedPreferences("welcome", Context.MODE_PRIVATE)
+    val value = prefs.getBoolean("show_changelog", true)
+    if (value) {
+        prefs.edit().putBoolean("show_changelog", false).apply()
+    }
     return value
 }

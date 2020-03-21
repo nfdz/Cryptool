@@ -8,7 +8,9 @@
 
     <!-- Menu options -->
     <string name="main_menu_pin_code">PIN-Code</string>
+    <string name="main_menu_clipboard_clear">Zwischenablage löschen</string>
     <string name="main_menu_settings">Systemeinstellungen</string>
+    <string name="main_menu_theme">Thema</string>
     <string name="main_menu_rate_suggestions">Vorschläge und Fehler</string>
     <string name="main_menu_about">Über und Quellcode</string>
 
@@ -16,6 +18,8 @@
     <string name="cb_copy_success">Es wurde erfolgreich kopiert</string>
     <string name="cb_copy_empty">Es gibt nichts zu kopieren</string>
     <string name="cb_paste_empty">Die Zwischenablage ist leer</string>
+    <string name="cb_clear_empty">Es ist kein Text zu löschen</string>
+    <string name="cb_clear_success">Zwischenablage erfolgreich gelöscht</string>
     <string name="cb_label">Cryptool daten</string>
 
     <!-- Cipher -->
@@ -38,10 +42,20 @@
     <string name="pin_create_title">PIN erstellen</string>
     <string name="pin_create_btn">Erstellen</string>
     <string name="pin_delete_btn">Löschen</string>
-    <string name="pin_create_content">Möchten Sie einen PIN-Code konfigurieren?\n\nVorsicht! Alles, was Sie gespeichert haben, wird gelöscht.\n\nNeue Daten werden gespeichert und mit der PIN verschlüsselt.\n\nDie PIN-Länge muss 4 bis 8 Zeichen betragen. Es wird empfohlen, mindestens 6 Zeichen einzugeben, um eine hohe Sicherheitsstufe zu erreichen.</string>
+    <string name="pin_create_content">Möchten Sie einen PIN-Code konfigurieren?\n\nDie PIN-Länge muss 4 bis 8 Zeichen betragen. Es wird empfohlen, mindestens 6 Zeichen einzugeben, um eine hohe Sicherheitsstufe zu erreichen.</string>
+    <string name="pin_manage_title">PIN Verwalten</string>
+    <string name="pin_modify_btn">Ändern</string>
+    <string name="pin_created_success">PIN erstellt</string>
+    <string name="pin_modified_success">PIN geändert</string>
+    <string name="pin_deleted_success">PIN gelöscht</string>
     <string name="pin_size_min">Die Länge muss 4 bis 8 Zeichen betragen</string>
     <string name="pin_delete_title">PIN löschen</string>
     <string name="pin_delete_content">Möchten Sie Ihren aktuellen PIN-Code löschen?\n\nVorsicht! Alles, was Sie gespeichert haben, wird gelöscht.</string>
+
+    <!-- Theme -->
+    <string name="theme_light">Licht</string>
+    <string name="theme_dark">Dunkles</string>
+    <string name="theme_system">Auto (System)</string>
 
     <!-- Promo -->
     <string name="rate_app_title">@string/main_menu_rate_suggestions</string>
@@ -51,6 +65,19 @@
     <string name="welcome_app_content">Willkommen zu dieser neuen Version voller Sicherheitsverbesserungen und neuer Funktionen.\n\nEs wird dringend empfohlen, jetzt einen PIN-Code festzulegen, um die Sicherheit der gespeicherten Daten zu verbessern.\n\nDie neue Verschlüsselung ist mit der vorherigen nicht kompatibel. Wenn Sie diese Verschlüsselung weiterhin verwenden möchten, können Sie die v1-App auf GitHub herunterladen.\n\nViel Spaß!</string>
     <string name="welcome_app_pin">PIN</string>
     <string name="welcome_app_close">Schließen</string>
+    <string name="changelog_title">Änderungslog</string>
+    <string name="changelog_content">Dunkles Thema\nLöschen PIN\Veränderung PIN\nMigrieren Sie Daten wenn die PIN erstellt/geändert/gelöscht wird\nApp in definierten Szenarien automatisch beenden\nVerhindern Sie Screenshots und App-Vorschau in der Ansicht der letzten Apps\nReinigung und Schutz der Zwischenablage\nDaten exportieren/importieren</string>
+
+    <!-- Import/Export -->
+    <string name="import_success">Der Import war erfolgreich</string>
+    <string name="import_ongoing">Importieren…</string>
+    <string name="import_open_error">Es ist nicht möglich, die Datei zu öffnen</string>
+    <string name="import_read_crypto_error">Es ist nicht möglich, die Daten zu importieren, da sie mit einer anderen PIN gespeichert wurden</string>
+    <string name="import_read_error">Es ist nicht möglich, die Daten zu importieren</string>
+    <string name="export_success">Der Export war erfolgreich</string>
+    <string name="export_ongoing">Exportieren…</string>
+    <string name="export_open_error">Es ist nicht möglich, die Datei zu öffnen</string>
+    <string name="export_write_error">Es ist nicht möglich, die Daten zu exportieren</string>
 
     <!-- Errors -->
     <string name="error_no_settings">Es ist nicht möglich, Ihre Systemeinstellungen zu öffnen</string>

@@ -7,6 +7,7 @@ import io.github.nfdz.cryptool.services.BallService
 import io.github.nfdz.cryptool.views.cipher.CipherContract
 import timber.log.Timber
 
+
 /**
  * This class has the responsability of managing stored data in preferences.
  * TODO: Now it uses SharedPreferences to decouple implementation but it could be interesting
@@ -14,8 +15,10 @@ import timber.log.Timber
  */
 class PreferencesHelper(private val context: Context) {
 
+    /** Preferences Keys */
     companion object {
         private const val PREFS_FILE_NAME = "cryptool.prefs"
+        private const val THEME_NIGHT_MODE = "theme_night_mode"
         private const val LAST_TAB_KEY = "last_tab"
         private const val LAST_MODE_KEY = "cipher_last_mode"
         private const val LAST_PASSPHRASE_KEY = "cipher_last_passphrase"
@@ -67,6 +70,19 @@ class PreferencesHelper(private val context: Context) {
             }
         } else {
             ""
+        }
+    }
+
+    fun getThemeNightMode(): Boolean? {
+        if (!preferences.contains(THEME_NIGHT_MODE)) return null
+        return preferences.getBoolean(THEME_NIGHT_MODE, false)
+    }
+
+    fun setThemeNightMode(nightMode: Boolean?) {
+        if (nightMode == null) {
+            preferences.edit().remove(THEME_NIGHT_MODE).apply()
+        } else {
+            preferences.edit().putBoolean(THEME_NIGHT_MODE, nightMode).apply()
         }
     }
 
@@ -174,3 +190,5 @@ class PreferencesHelper(private val context: Context) {
     }
 
 }
+
+
