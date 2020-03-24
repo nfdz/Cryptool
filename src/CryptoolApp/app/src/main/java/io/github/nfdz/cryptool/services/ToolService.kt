@@ -29,6 +29,7 @@ class ToolService : Service() {
         }
     }
 
+    private var started: Boolean = false
     private var action: String? = null
     private val windowManager: WindowManager by lazy { getSystemService(WINDOW_SERVICE) as WindowManager }
     private val layoutParams: WindowManager.LayoutParams by lazy { buildLayoutParams() }
@@ -38,18 +39,21 @@ class ToolService : Service() {
     private var tool: ToolViewBase? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        action = intent?.action
-        windowManager.addView(toolView, layoutParams)
-        val container: ViewGroup = toolView.findViewById(R.id.ft_container)
-        tool = createTool(container)
-        val tvLogo: View = toolView.findViewById<View>(R.id.ft_tv_logo)
-        val btnBall: View = toolView.findViewById<View>(R.id.ft_btn_ball)
-        val btnClose: View = toolView.findViewById<View>(R.id.ft_btn_close)
-        tvLogo.setOnClickListener { closeTool(launchApp = true) }
-        btnBall.setOnClickListener { closeTool(launchBall = true) }
-        btnClose.setOnClickListener { closeTool() }
-        tool?.onViewCreated()
-        toolView.fadeIn()
+        if (!started) {
+            started = true
+            action = intent?.action
+            windowManager.addView(toolView, layoutParams)
+            val container: ViewGroup = toolView.findViewById(R.id.ft_container)
+            tool = createTool(container)
+            val tvLogo: View = toolView.findViewById(R.id.ft_tv_logo)
+            val btnBall: View = toolView.findViewById(R.id.ft_btn_ball)
+            val btnClose: View = toolView.findViewById(R.id.ft_btn_close)
+            tvLogo.setOnClickListener { closeTool(launchApp = true) }
+            btnBall.setOnClickListener { closeTool(launchBall = true) }
+            btnClose.setOnClickListener { closeTool() }
+            tool?.onViewCreated()
+            toolView.fadeIn()
+        }
         return super.onStartCommand(intent, flags, startId)
     }
 

@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Build
 import io.github.nfdz.cryptool.R
+import timber.log.Timber
 
 
 object ClipboardHelper {
@@ -57,12 +58,15 @@ object ClipboardHelper {
     }
 
     fun clearClipboardQuietly(label: String, clipboard: ClipboardManager?) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            clipboard?.clearPrimaryClip()
-        } else {
-            val clip =
-                ClipData.newPlainText(label, "\uD83D\uDC40")
-            clipboard?.setPrimaryClip(clip)
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                clipboard?.clearPrimaryClip()
+            } else {
+                val clip = ClipData.newPlainText(label, "\uD83D\uDC40")
+                clipboard?.setPrimaryClip(clip)
+            }
+        } catch (e: Exception) {
+            Timber.e(e)
         }
     }
 }
