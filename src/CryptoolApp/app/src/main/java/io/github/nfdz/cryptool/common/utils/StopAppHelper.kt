@@ -5,7 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import android.os.Process
 
-const val STOP_APP_AUTO_MILLIS = 20000L
+const val STOP_APP_AUTO_MILLIS = 15000L
 
 fun stopApp(label: String, clipboard: ClipboardManager?) {
     ClipboardHelper.clearClipboardQuietly(label, clipboard)
