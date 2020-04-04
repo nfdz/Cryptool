@@ -42,6 +42,12 @@ Keep your keys away from "fancy" services that are not open-source and phone hom
   <img src="screenshots/en/en_9.png?raw=true" width="250" alt="Cryptool"/>
 </p>
 
+## Supported Languages
+* Chinese
+* English
+* German
+* Spanish
+
 ## Roadmap
 * ~~Dark theme~~
 * ~~Clear & Delete PIN button~~
