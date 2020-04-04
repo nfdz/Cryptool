@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Main activity -->
+    <string name="main_tab_cipher">加密</string>
+    <string name="main_tab_hash">哈希</string>
+    <string name="main_tab_keys">密钥</string>
+
+    <!-- Menu options -->
+    <string name="main_menu_pin_code">PIN码</string>
+    <string name="main_menu_clipboard_clear">清除粘贴板</string>
+    <string name="main_menu_import">导入</string>
+    <string name="main_menu_export">导出</string>
+    <string name="main_menu_theme">主题</string>
+    <string name="main_menu_settings">系统设置</string>
+    <string name="main_menu_rate_suggestions">Bugs &amp; 建议</string>
+    <string name="main_menu_about">关于 &amp; 代码</string>
+
+    <!-- Clipboard -->
+    <string name="cb_copy_success">成功复制到剪贴板</string>
+    <string name="cb_copy_empty">找不到要复制的文字</string>
+    <string name="cb_paste_empty">找不到要粘贴的文字</string>
+    <string name="cb_clear_empty">找不到要清除的文字</string>
+    <string name="cb_clear_success">成功清除粘贴板</string>
+    <string name="cb_label">Cryptool data</string>
+
+    <!-- Cipher -->
+    <string name="cipher_plain_label">原文字: </string>
+    <string name="cipher_encrypted_label">加密后:</string>
+    <string name="cipher_passphrase_label">口令:</string>
+    <string name="cipher_info">加密算法：AES</string>
+
+    <!-- Hash -->
+    <string name="hash_plain_label">原文字:</string>
+    <string name="hash_processed_label">哈希:</string>
+    <string name="hash_info">哈希算法: SHA-256</string>
+
+    <!-- Keys -->
+    <string name="keys_create_label">标签: </string>
+    <string name="keys_create_key">密钥: </string>
+    <string name="keys_remove_key_long">长按以删除</string>
+
+    <!-- Pin code dialogs -->
+    <string name="pin_create_title">创建PIN码</string>
+    <string name="pin_create_btn">创建</string>
+    <string name="pin_create_content">您是否要设置PIN码？\n\nPIN码的长度必须为4到8个字符，建议6个以上比较安全。</string>
+    <string name="pin_delete_btn">删除</string>
+    <string name="pin_manage_title">管理PIN码</string>
+    <string name="pin_modify_btn">修改</string>
+    <string name="pin_created_success">PIN码已创建</string>
+    <string name="pin_modified_success">PIN码已修改</string>
+    <string name="pin_deleted_success">PIN码已删除</string>
+    <string name="pin_size_min">PIN码的长度必须为4到8个字符</string>
+    <string name="pin_delete_title">删除PIN码</string>
+    <string name="pin_delete_content">您要删除当前的PIN码吗\n\n您保存的所有内容都将被删除</string>
+
+    <!-- Theme -->
+    <string name="theme_light">浅色模式</string>
+    <string name="theme_dark">深色模式</string>
+    <string name="theme_system">自动</string>
+
+    <!-- Promo -->
+    <string name="rate_app_title">@string/main_menu_rate_suggestions</string>
+    <string name="rate_app_content">此工具的开发是没有任何盈利行为的 如果您喜欢它, 请留下评论以支持我们\n\n如果有任何建议或应用错误，可以在GitHub上指出并修改, 也可以通过提交lssue的方式提交</string>
+    <string name="about_app_title">@string/main_menu_about</string>
+    <string name="about_app_content">该代码是开源(GPLv3), 您可以在GitHub上看到它 \n\n某些图标由Freepik制作(来自www.flaticon.com) \n\n使用了一个第三方库: Jake Wharton的Timber</string>
+    <string name="welcome_app_content">欢迎使用具有安全性改进和新功能的新版本 \n\n我们强烈建议您立即设置PIN码, 以提高所有存储数据的安全性 \n\n新加密与以前的加密不兼容  如果要继续使用该加密, 可以在GitHub上下载并继续使用v1版本</string>
+    <string name="welcome_app_pin">PIN码</string>
+    <string name="welcome_app_close">关闭</string>
+    <string name="changelog_title">更新日志</string>
+    <string name="changelog_content">深色主题\n删除 &amp; 清除PIN按钮\n 更改PIN \n 在创建/修改/删除PIN时迁移数据\n在已定义的方案中自动终止应用\n在"最近的应用"视图中阻止屏幕截图和应用预览\n剪贴板清空和保护\n导出/导入数据</string>
+
+    <!-- Import/Export -->
+    <string name="import_success">导入成功</string>
+    <string name="import_ongoing">导入中......</string>
+    <string name="import_open_error">文件打开失败</string>
+    <string name="import_read_crypto_error">无法导入数据，因为它是使用另一个PIN导出的</string>
+    <string name="import_read_error">导入失败</string>
+    <string name="export_success">导出成功</string>
+    <string name="export_ongoing">导出中......</string>
+    <string name="export_open_error">文件打开失败</string>
+    <string name="export_write_error">数据导出失败</string>
+
+    <!-- Errors -->
+    <string name="error_no_settings">无法打开系统设置</string>
+    <string name="error_label_empty">标签字段为空</string>
+    <string name="error_key_empty">密钥字段为空</string>
+    <string name="error_label_key_empty">标签和密钥字段都为空</string>
+    <string name="permission_denied">需要悬浮窗权限</string>
+
+</resources>

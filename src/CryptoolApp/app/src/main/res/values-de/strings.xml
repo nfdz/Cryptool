@@ -9,6 +9,8 @@
     <!-- Menu options -->
     <string name="main_menu_pin_code">PIN-Code</string>
     <string name="main_menu_clipboard_clear">Zwischenablage löschen</string>
+    <string name="main_menu_import">Importieren</string>
+    <string name="main_menu_export">Export</string>
     <string name="main_menu_settings">Systemeinstellungen</string>
     <string name="main_menu_theme">Thema</string>
     <string name="main_menu_rate_suggestions">Vorschläge und Fehler</string>
