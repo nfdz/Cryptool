@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import io.github.nfdz.cryptool.R
 import io.github.nfdz.cryptool.common.utils.*
 import io.github.nfdz.cryptool.services.BallService
+import io.github.nfdz.cryptool.views.keys.KeysContract
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar.*
 import timber.log.Timber
@@ -379,18 +380,35 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
     }
 
     private inner class MainPagerAdapter(fm: FragmentManager) :
-        FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+        FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT),
+        KeysContract.OnSelectKeyListener {
 
         override fun getItem(position: Int) = when (position) {
             0 -> if (hideContent()) Fragment() else CipherFragment.newInstance()
             1 -> if (hideContent()) Fragment() else HashFragment.newInstance()
-            2 -> if (hideContent()) Fragment() else KeysFragment.newInstance()
+            2 -> if (hideContent()) {
+                Fragment()
+            } else {
+                val fragment = KeysFragment.newInstance()
+                fragment.setOnSelectListener(this)
+                fragment
+            }
             else -> throw IllegalArgumentException("Invalid tab position=$position")
         }
 
         override fun getCount() = 3
 
         private fun hideContent(): Boolean = hasPinCode() && !CODE_ASKED_ONCE
+
+        override fun onSelectKey(key: String) {
+            prefs.setLastPassphraseLocked(false)
+            prefs.setLastPassphrase(key)
+            moveToCipher()
+        }
+
+        private fun moveToCipher() {
+            main_nav.selectedItemId = R.id.main_nav_cipher
+        }
 
     }
 

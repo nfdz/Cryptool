@@ -39,6 +39,10 @@ class OutputTextBoxView : TextBoxBase {
         return otb_action_3
     }
 
+    override fun getActionView4(): ImageButton {
+        return otb_action_4
+    }
+
     override fun getIcon(): ImageView {
         return otb_icon
     }

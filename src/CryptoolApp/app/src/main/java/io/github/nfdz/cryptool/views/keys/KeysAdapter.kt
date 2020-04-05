@@ -24,9 +24,10 @@ class KeysAdapter(private val listener: Listener) :
     interface Listener {
         fun onCreateKey(label: String, key: String)
         fun onRemoveKey(index: Int)
+        fun onSelectKey(key: String)
     }
 
-    val keysToShow = HashSet<Int>()
+    private val keysToShow = HashSet<Int>()
 
     var data by Delegates.observable(emptyList<KeysContract.KeyEntry>()) { _, oldList, newList ->
         val result = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
@@ -152,8 +153,9 @@ class KeysAdapter(private val listener: Listener) :
         init {
             val actionIconColor = getActionIconColor()
             keyOutput.setupAction1Icon(R.drawable.ic_copy, actionIconColor)
-            keyOutput.setupAction2Icon(R.drawable.ic_eye, actionIconColor)
-            keyOutput.setupAction3Icon(R.drawable.ic_clear, actionIconColor)
+            keyOutput.setupAction2Icon(R.drawable.ic_passphrase, actionIconColor)
+            keyOutput.setupAction3Icon(R.drawable.ic_eye, actionIconColor)
+            keyOutput.setupAction4Icon(R.drawable.ic_clear, actionIconColor)
         }
 
         private fun getActionIconColor() =
@@ -194,22 +196,25 @@ class KeysAdapter(private val listener: Listener) :
                     )
                 }
             }
-            keyOutput.setupAction3 {
+            keyOutput.setupAction2 {
+                listener.onSelectKey(entry.key)
+            }
+            keyOutput.setupAction4 {
                 context?.toast(R.string.keys_remove_key_long)
             }
-            keyOutput.setupAction3LongPress {
+            keyOutput.setupAction4LongPress {
                 keysToShow.remove(entry.index)
                 listener.onRemoveKey(entry.index)
             }
             val showKey = keysToShow.contains(entry.index)
             if (showKey) {
-                keyOutput.setupAction2Icon(R.drawable.ic_eye_blind, actionIconColor)
+                keyOutput.setupAction3Icon(R.drawable.ic_eye_blind, actionIconColor)
                 keyOutput.setInputTypePassword(visible = true)
             } else {
-                keyOutput.setupAction2Icon(R.drawable.ic_eye, actionIconColor)
+                keyOutput.setupAction3Icon(R.drawable.ic_eye, actionIconColor)
                 keyOutput.setInputTypePassword(visible = false)
             }
-            keyOutput.setupAction2 {
+            keyOutput.setupAction3 {
                 if (showKey) {
                     keysToShow.remove(entry.index)
                 } else {
