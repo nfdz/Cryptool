@@ -13,6 +13,7 @@ import io.github.nfdz.cryptool.screens.main.MainActivity
 import io.github.nfdz.cryptool.views.ToolViewBase
 import io.github.nfdz.cryptool.views.cipher.CipherViewImpl
 import io.github.nfdz.cryptool.views.hash.HashViewImpl
+import io.github.nfdz.cryptool.views.keys.KeysContract
 import io.github.nfdz.cryptool.views.keys.KeysViewImpl
 import timber.log.Timber
 
@@ -21,7 +22,7 @@ import timber.log.Timber
  * This will block and prevent that user click outside the tool.
  * The tool is selected according with given intent action.
  */
-class ToolService : Service() {
+class ToolService : Service(), KeysContract.OnSelectKeyListener {
 
     companion object {
         fun start(context: Context, action: String?) {
@@ -31,6 +32,7 @@ class ToolService : Service() {
 
     private var started: Boolean = false
     private var action: String? = null
+    private val prefs by lazy { PreferencesHelper(this) }
     private val windowManager: WindowManager by lazy { getSystemService(WINDOW_SERVICE) as WindowManager }
     private val layoutParams: WindowManager.LayoutParams by lazy { buildLayoutParams() }
     private val toolView: View by lazy {
@@ -62,7 +64,9 @@ class ToolService : Service() {
             val keysView = LayoutInflater.from(this).inflate(R.layout.keys_tool, null)
             keysView.setBackgroundResource(getBackgroundRes())
             container.addView(keysView)
-            KeysViewImpl(keysView, this)
+            val view = KeysViewImpl(keysView, this)
+            view.setOnSelectListener(this)
+            view
         }
         OPEN_HASH_BALL_ACTION -> {
             val hashView = LayoutInflater.from(this).inflate(R.layout.hash_tool, null)
@@ -122,15 +126,25 @@ class ToolService : Service() {
         super.onDestroy()
     }
 
-    private fun closeTool(launchBall: Boolean = false, launchApp: Boolean = false) {
+    private fun closeTool(
+        launchBall: Boolean = false, launchApp: Boolean = false,
+        launchCipher: Boolean = false
+    ) {
         toolView.fadeOut {
             stopSelf()
             when {
                 launchBall -> BallService.start(this, action)
                 launchApp -> MainActivity.startNewActivity(this)
+                launchCipher ->  start(this, OPEN_CIPHER_BALL_ACTION)
                 else -> stopApp(getString(R.string.cb_label), getClipboard())
             }
         }
+    }
+
+    override fun onSelectKey(key: String) {
+        prefs.setLastPassphraseLocked(false)
+        prefs.setLastPassphrase(key)
+        closeTool(launchCipher= true)
     }
 
 }

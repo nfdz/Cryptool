@@ -9,6 +9,8 @@
     <!-- Menu options -->
     <string name="main_menu_pin_code">PIN-Code</string>
     <string name="main_menu_clipboard_clear">Zwischenablage löschen</string>
+    <string name="main_menu_import">Importieren</string>
+    <string name="main_menu_export">Export</string>
     <string name="main_menu_settings">Systemeinstellungen</string>
     <string name="main_menu_theme">Thema</string>
     <string name="main_menu_rate_suggestions">Vorschläge und Fehler</string>
@@ -66,7 +68,7 @@
     <string name="welcome_app_pin">PIN</string>
     <string name="welcome_app_close">Schließen</string>
     <string name="changelog_title">Änderungslog</string>
-    <string name="changelog_content">Dunkles Thema\nLöschen PIN\Veränderung PIN\nMigrieren Sie Daten wenn die PIN erstellt/geändert/gelöscht wird\nApp in definierten Szenarien automatisch beenden\nVerhindern Sie Screenshots und App-Vorschau in der Ansicht der letzten Apps\nReinigung und Schutz der Zwischenablage\nDaten exportieren/importieren</string>
+    <string name="changelog_content">Wählen Sie das Passwort aus dem Keystore\nUnterstützung für neue Sprachen\nVerbesserungen bei der Reinigung der Zwischenablage\nVerbesserungen beim Export/Importieren von Daten</string>
 
     <!-- Import/Export -->
     <string name="import_success">Der Import war erfolgreich</string>

@@ -71,7 +71,7 @@
     <string name="welcome_app_pin">PIN</string>
     <string name="welcome_app_close">Close</string>
     <string name="changelog_title">Changelog</string>
-    <string name="changelog_content">Dark theme\nClear &amp; delete PIN buttons\nChange PIN\nMigrate data when PIN is created/modified/deleted\nAutomatically kill app in defined scenarios\nPrevent screenshots and app preview in recent apps view\nClipboard cleaning and protection\nExport/Import data</string>
+    <string name="changelog_content">Select password from keystore\nNew languages support\nClipboard cleaning improvements\nExport/Import data improvements</string>
 
     <!-- Import/Export -->
     <string name="import_success">Import was successful</string>

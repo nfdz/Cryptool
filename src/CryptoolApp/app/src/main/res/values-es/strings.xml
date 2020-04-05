@@ -9,6 +9,8 @@
     <!-- Menu options -->
     <string name="main_menu_pin_code">Código PIN</string>
     <string name="main_menu_clipboard_clear">Limpiar Portapapeles</string>
+    <string name="main_menu_import">Importar</string>
+    <string name="main_menu_export">Exportar</string>
     <string name="main_menu_theme">Tema</string>
     <string name="main_menu_settings">Ajustes del Sistema</string>
     <string name="main_menu_rate_suggestions">Sugerencias y Errores</string>
@@ -66,7 +68,7 @@
     <string name="welcome_app_pin">PIN</string>
     <string name="welcome_app_close">Cerrar</string>
     <string name="changelog_title">Novedades</string>
-    <string name="changelog_content">Tema oscuro\nBotones para limpiar y eliminar PIN\nCambiar PIN\nMigrar datos cuando el PIN es creado/modificado/eliminado\nParar la aplicación automáticamente\nEvitar capturas de pantalla en modo de vista previa\nLimpieza y protección del portapapeles\nExportar/Importar datos</string>
+    <string name="changelog_content">Seleccionar contraseña del almacen de claves\nSoporte de nuevos idiomas\nMejoras gestión del portapapeles\nMejoras Exportar/Importar datos</string>
 
 
     <!-- Import/Export -->

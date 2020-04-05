@@ -98,4 +98,17 @@
         tools:srcCompat="@drawable/ic_clear"
         tools:background="@drawable/selector_action_light" />
 
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/itb_action_4"
+        android:layout_width="@dimen/action_button_size"
+        android:layout_height="@dimen/action_button_size"
+        android:adjustViewBounds="true"
+        android:padding="@dimen/action_button_padding"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        app:layout_constraintLeft_toRightOf="@+id/itb_action_3"
+        app:layout_constraintTop_toBottomOf="@+id/itb_et"
+        tools:srcCompat="@drawable/ic_clear"
+        tools:background="@drawable/selector_action_light" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

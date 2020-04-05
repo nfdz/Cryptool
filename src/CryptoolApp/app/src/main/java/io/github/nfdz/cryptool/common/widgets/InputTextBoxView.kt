@@ -56,6 +56,10 @@ class InputTextBoxView : TextBoxBase {
         return itb_action_3
     }
 
+    override fun getActionView4(): ImageButton {
+        return itb_action_4
+    }
+
     override fun getIcon(): ImageView {
         return itb_icon
     }

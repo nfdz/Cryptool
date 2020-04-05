@@ -14,6 +14,7 @@ class KeysViewImpl(private val view: View?, private val context: Context?) : Key
 
     private var keys_iv: RecyclerView? = null
     private var adapter: KeysAdapter? = null
+    private var listener: KeysContract.OnSelectKeyListener? = null
 
     override fun onViewCreated() {
         bindView()
@@ -40,12 +41,20 @@ class KeysViewImpl(private val view: View?, private val context: Context?) : Key
         adapter?.data = entries
     }
 
+    override fun setOnSelectListener(listener: KeysContract.OnSelectKeyListener?) {
+        this.listener = listener
+    }
+
     override fun onCreateKey(label: String, key: String) {
         presenter.onCreateKey(label, key)
     }
 
     override fun onRemoveKey(index: Int) {
         presenter.onRemoveKey(index)
+    }
+
+    override fun onSelectKey(key: String) {
+        listener?.onSelectKey(key)
     }
 
 }

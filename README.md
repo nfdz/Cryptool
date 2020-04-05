@@ -42,6 +42,14 @@ Keep your keys away from "fancy" services that are not open-source and phone hom
   <img src="screenshots/en/en_9.png?raw=true" width="250" alt="Cryptool"/>
 </p>
 
+## Supported Languages
+* Chinese (Thanks to @kouhe3 and @WOSHIZHAZHA120)
+* English
+* German
+* Spanish
+
+If you want to help translate the application into a new language, just create an [Issue](https://github.com/nfdz/Cryptool/issues).
+
 ## Roadmap
 * ~~Dark theme~~
 * ~~Clear & Delete PIN button~~
@@ -50,10 +58,11 @@ Keep your keys away from "fancy" services that are not open-source and phone hom
 * ~~Automatically kill app in defined scenarios~~
 * ~~Prevent screenshots and app preview in *recent apps* view~~
 * ~~Clipboard cleaning and protection~~
-*  ~~Export/Import data~~
+* ~~Export/Import data~~
+* ~~ Ability to select a password from the keystore without requiring a copy-paste operation.~~
 * **[Work in progress]** Cipher webapp. The development of a web application compatible with Cryptool is important in order to offer a crossplatform solution.
-* **[Need help to define the feature]** Ability to select a password from the keystore without requiring a copy-paste operation.
 * Asymmetric encryption (PGP).
+* Hash file.
 
 ## 3rd party software
 * [Timber](https://github.com/JakeWharton/timber)

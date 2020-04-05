@@ -20,6 +20,7 @@ class KeysFragment : Fragment() {
     }
 
     private val keysView: KeysContract.View by lazy { KeysViewImpl(view, activity) }
+    private var listener: KeysContract.OnSelectKeyListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,11 +33,17 @@ class KeysFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         keysView.onViewCreated()
+        keysView.setOnSelectListener(listener)
     }
 
     override fun onDestroyView() {
+        keysView.setOnSelectListener(null)
         keysView.onDestroyView()
         super.onDestroyView()
+    }
+
+    fun setOnSelectListener(listener: KeysContract.OnSelectKeyListener) {
+        this.listener = listener
     }
 
 }

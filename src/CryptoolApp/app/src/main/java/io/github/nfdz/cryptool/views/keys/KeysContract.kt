@@ -7,7 +7,13 @@ interface KeysContract {
     data class KeyEntry(val index: Int, val label: String, val key: String)
 
     interface View : ToolViewBase {
+        fun setOnSelectListener(listener: OnSelectKeyListener?)
         fun setKeys(entries: List<KeyEntry>)
+    }
+
+
+    interface OnSelectKeyListener {
+        fun onSelectKey(key: String)
     }
 
     interface Presenter {

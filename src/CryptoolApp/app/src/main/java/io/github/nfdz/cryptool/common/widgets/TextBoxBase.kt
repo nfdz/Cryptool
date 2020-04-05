@@ -47,6 +47,7 @@ abstract class TextBoxBase : FrameLayout {
     protected abstract fun getActionView1(): ImageButton
     protected abstract fun getActionView2(): ImageButton
     protected abstract fun getActionView3(): ImageButton
+    protected abstract fun getActionView4(): ImageButton
     protected abstract fun getIcon(): ImageView
     protected abstract fun getLabel(): TextView
     protected abstract fun getBg(): View
@@ -82,6 +83,7 @@ abstract class TextBoxBase : FrameLayout {
         getActionView1().setBackgroundResource(actionBgRes)
         getActionView2().setBackgroundResource(actionBgRes)
         getActionView3().setBackgroundResource(actionBgRes)
+        getActionView4().setBackgroundResource(actionBgRes)
         afterViewSetup()
     }
 
@@ -95,6 +97,10 @@ abstract class TextBoxBase : FrameLayout {
 
     fun setupAction3Icon(@DrawableRes iconRes: Int, @ColorRes iconColorRes: Int) {
         setupActionIcon(getActionView3(), iconRes, iconColorRes)
+    }
+
+    fun setupAction4Icon(@DrawableRes iconRes: Int, @ColorRes iconColorRes: Int) {
+        setupActionIcon(getActionView4(), iconRes, iconColorRes)
     }
 
     private fun setupActionIcon(
@@ -118,6 +124,10 @@ abstract class TextBoxBase : FrameLayout {
 
     fun setAction3Enabled(enabled: Boolean) {
         setActionEnabled(getActionView3(), enabled)
+    }
+
+    fun setAction4Enabled(enabled: Boolean) {
+        setActionEnabled(getActionView4(), enabled)
     }
 
     private fun setActionEnabled(actionView: ImageButton, enabled: Boolean) {
@@ -146,6 +156,14 @@ abstract class TextBoxBase : FrameLayout {
 
     fun setupAction3LongPress(onAction: () -> (Unit)) {
         setupActionLongPress(getActionView3(), onAction)
+    }
+
+    fun setupAction4(onAction: () -> (Unit)) {
+        setupAction(getActionView4(), onAction)
+    }
+
+    fun setupAction4LongPress(onAction: () -> (Unit)) {
+        setupActionLongPress(getActionView4(), onAction)
     }
 
     private fun setupAction(actionView: ImageButton, onAction: () -> (Unit)) {
