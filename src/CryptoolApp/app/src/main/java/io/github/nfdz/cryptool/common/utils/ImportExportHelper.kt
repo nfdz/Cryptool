@@ -4,7 +4,10 @@ package io.github.nfdz.cryptool.common.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
+import android.provider.DocumentsContract
 import android.widget.Toast
 import androidx.documentfile.provider.DocumentFile
 import com.google.gson.Gson
@@ -15,7 +18,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-private const val MIME_TYPE = "text/*"
+private const val MIME_TYPE = "*/*"
 private const val SUGGESTED_NAME_FORMAT = "%s.cryptool"
 private const val DATE_FORMAT = "yyyy-MM-dd"
 
@@ -37,7 +40,11 @@ class ImportExportHelper(
             return
         }
         // Choose a file via the system's file browser
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        val intent = if (isMediaProviderSupported(activity)) {
+            Intent(Intent.ACTION_OPEN_DOCUMENT)
+        } else {
+            Intent(Intent.ACTION_GET_CONTENT)
+        }
         // Show only results that can be "opened", such as a file
         intent.addCategory(Intent.CATEGORY_OPENABLE)
         // Filter to show only plain text
@@ -84,7 +91,7 @@ class ImportExportHelper(
         return if (requestCode == importRequestCode) {
             // URI to user document is contained in the return intent
             if (resultCode == Activity.RESULT_OK) {
-                context.toast(R.string.import_ongoing,  Toast.LENGTH_SHORT)
+                context.toast(R.string.import_ongoing, Toast.LENGTH_SHORT)
                 val uri = resultData?.data
                 doAsync {
                     var cryptoError = false
@@ -140,7 +147,11 @@ class ImportExportHelper(
             Timber.w("Invalid SDK version ${Build.VERSION.SDK_INT}")
             return
         }
-        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
+        val intent = if (isMediaProviderSupported(activity)) {
+            Intent(Intent.ACTION_CREATE_DOCUMENT)
+        } else {
+            Intent(Intent.ACTION_GET_CONTENT)
+        }
         // Show only results that can be "opened", such as a file
         intent.addCategory(Intent.CATEGORY_OPENABLE)
         // Create a file with plain text MIME type
@@ -169,7 +180,7 @@ class ImportExportHelper(
         return if (requestCode == exportRequestCode) {
             // URI to user document is contained in the return intent
             if (resultCode == Activity.RESULT_OK) {
-                context.toast(R.string.export_ongoing,  Toast.LENGTH_SHORT)
+                context.toast(R.string.export_ongoing, Toast.LENGTH_SHORT)
                 val uri = resultData?.data
                 doAsync {
                     val success: Boolean = try {
@@ -202,4 +213,31 @@ class ImportExportHelper(
             false
         }
     }
+
+    private fun isMediaProviderSupported(
+        activity: Activity
+    ): Boolean {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            try {
+
+                val pm: PackageManager = activity.packageManager
+                val intent = Intent(DocumentsContract.PROVIDER_INTERFACE)
+                val providers =
+                    pm.queryIntentContentProviders(intent, 0)
+                for (info in providers) {
+                    if (info?.providerInfo != null) {
+                        val authority = info.providerInfo.authority
+                        if (isMediaDocumentProvider(Uri.parse("content://$authority"))) return true
+                    }
+                }
+            } catch (e: Exception) {
+                Timber.w(e)
+            }
+        }
+        return false
+    }
+
+    private fun isMediaDocumentProvider(uri: Uri) =
+        "com.android.providers.media.documents" == uri.authority
+
 }
