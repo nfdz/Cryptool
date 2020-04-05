@@ -4,11 +4,11 @@
     <!-- Main activity -->
     <string name="main_tab_cipher">加密</string>
     <string name="main_tab_hash">哈希</string>
-    <string name="main_tab_keys">密钥</string>
+    <string name="main_tab_keys">密码</string>
 
     <!-- Menu options -->
     <string name="main_menu_pin_code">PIN码</string>
-    <string name="main_menu_clipboard_clear">清除粘贴板</string>
+    <string name="main_menu_clipboard_clear">清除剪切板</string>
     <string name="main_menu_import">导入</string>
     <string name="main_menu_export">导出</string>
     <string name="main_menu_theme">主题</string>
@@ -37,7 +37,7 @@
 
     <!-- Keys -->
     <string name="keys_create_label">标签: </string>
-    <string name="keys_create_key">密钥: </string>
+    <string name="keys_create_key">密码: </string>
     <string name="keys_remove_key_long">长按以删除</string>
 
     <!-- Pin code dialogs -->
@@ -68,7 +68,7 @@
     <string name="welcome_app_pin">PIN码</string>
     <string name="welcome_app_close">关闭</string>
     <string name="changelog_title">更新日志</string>
-    <string name="changelog_content">深色主题\n删除 &amp; 清除PIN按钮\n 更改PIN \n 在创建/修改/删除PIN时迁移数据\n在已定义的方案中自动终止应用\n在"最近的应用"视图中阻止屏幕截图和应用预览\n剪贴板清空和保护\n导出/导入数据</string>
+    <string name="changelog_content">从密钥库中选择密码\n支持新语言\n改进剪贴板清洁\n导出/导入数据方面的改进</string>
 
     <!-- Import/Export -->
     <string name="import_success">导入成功</string>

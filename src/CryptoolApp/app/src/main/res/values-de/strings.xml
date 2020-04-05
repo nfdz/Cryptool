@@ -68,7 +68,7 @@
     <string name="welcome_app_pin">PIN</string>
     <string name="welcome_app_close">Schließen</string>
     <string name="changelog_title">Änderungslog</string>
-    <string name="changelog_content">Dunkles Thema\nLöschen PIN\Veränderung PIN\nMigrieren Sie Daten wenn die PIN erstellt/geändert/gelöscht wird\nApp in definierten Szenarien automatisch beenden\nVerhindern Sie Screenshots und App-Vorschau in der Ansicht der letzten Apps\nReinigung und Schutz der Zwischenablage\nDaten exportieren/importieren</string>
+    <string name="changelog_content">Wählen Sie das Passwort aus dem Keystore\nUnterstützung für neue Sprachen\nVerbesserungen bei der Reinigung der Zwischenablage\nVerbesserungen beim Export/Importieren von Daten</string>
 
     <!-- Import/Export -->
     <string name="import_success">Der Import war erfolgreich</string>
