@@ -47,6 +47,7 @@ Keep your keys away from "fancy" services that are not open-source and phone hom
 * English
 * German
 * Spanish
+
 If you want to help translate the application into a new language, just create an [Issue](https://github.com/nfdz/Cryptool/issues).
 
 ## Roadmap
