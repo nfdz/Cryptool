@@ -68,7 +68,7 @@
     <string name="welcome_app_pin">PIN</string>
     <string name="welcome_app_close">Cerrar</string>
     <string name="changelog_title">Novedades</string>
-    <string name="changelog_content">Seleccionar contraseña del almacen de claves\nSoporte de nuevos idiomas\nMejoras gestión del portapapeles\nMejoras Exportar/Importar datos</string>
+    <string name="changelog_content">Seleccionar contraseña del almacén de claves\nSoporte de nuevos idiomas\nMejoras gestión del portapapeles\nMejoras Exportar/Importar datos</string>
 
 
     <!-- Import/Export -->
