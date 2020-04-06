@@ -135,7 +135,7 @@ class ToolService : Service(), KeysContract.OnSelectKeyListener {
             when {
                 launchBall -> BallService.start(this, action)
                 launchApp -> MainActivity.startNewActivity(this)
-                launchCipher ->  start(this, OPEN_CIPHER_BALL_ACTION)
+                launchCipher -> start(this, OPEN_CIPHER_BALL_ACTION)
                 else -> stopApp(getString(R.string.cb_label), getClipboard())
             }
         }
@@ -144,7 +144,7 @@ class ToolService : Service(), KeysContract.OnSelectKeyListener {
     override fun onSelectKey(key: String) {
         prefs.setLastPassphraseLocked(false)
         prefs.setLastPassphrase(key)
-        closeTool(launchCipher= true)
+        closeTool(launchCipher = true)
     }
 
 }

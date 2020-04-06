@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity(), OverlayPermissionHelper.Callback {
         window.setFlags(
             WindowManager.LayoutParams.FLAG_SECURE,
             WindowManager.LayoutParams.FLAG_SECURE
-        );
+        )
         resolveTheme()
         setupView()
         BallService.stop(this)
