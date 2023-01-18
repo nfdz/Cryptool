@@ -1,0 +1,182 @@
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
+    <string name="app_name" translatable="false">Cryptool</string>
+
+    <string name="app_slogan">Cryptography for humans</string>
+    <string name="dialog_create">Create</string>
+    <string name="dialog_edit">Edit</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="select_all">Select all</string>
+    <string name="unselect_all">Unselect all</string>
+    <string name="more_options_icon_description">More options</string>
+    <string name="shortcut_title">Cryptool Overlay</string>
+    <string name="shortcut_description">Open Cryptool in overlay mode</string>
+    <string name="unexpected_error">Unexpected error, please report the problem if any</string>
+    <string name="input_minimum_length">Minimum length is %1$d</string>
+
+    <string name="version_10_name" translatable="false">3.0.0</string>
+    <string name="version_10_description">• New modern user interface.
+                                       \n• New cryptographic algorithms supported.
+                                       \n• Multiple encryption configurations as conversations.
+                                       \n• Biometric identification support.
+                                       \n• Improved export\/import feature.</string>
+    <string name="version_4_name" translatable="false">2.1.1</string>
+    <string name="version_4_description">• Fix clipboard cleaning error.
+                                       \n• New languages support.</string>
+    <string name="version_3_name" translatable="false">2.1.0</string>
+    <string name="version_3_description">• Dark theme feature.
+                                       \n• Forget Access PIN feature.
+                                       \n• Change PIN feature.
+                                       \n• Export and import feature.</string>
+    <string name="version_2_name" translatable="false">2.0.0</string>
+    <string name="version_2_description">• Keystore feature.
+                                       \n• Access PIN feature.
+                                       \n• Minor bug fixes.</string>
+    <string name="version_1_name" translatable="false">1.0.0</string>
+    <string name="version_1_description">• Hello, World!</string>
+
+    <string name="welcome_main_description">This tool wants to help you to protect the information that matter most to you. We don\'t hide anything that\'s going on under the hood, we show the algorithms and data input\/output as it is.\n\nThis is a non-profit open source solution and we are not interested in your data. Anyway, we do not ask you to trust, we ask you to <b>block</b> the internet access, <b>review</b> the code, or even <b>build</b> the app yourself.\n\nIf you find any problem, have any suggestion, or want to collaborate, do not hesitate to contact us. We will be very grateful 🙂</string>
+    <string name="welcome_changelog_title">What\’s New</string>
+    <string name="welcome_tutorial_title">Tutorial</string>
+    <string name="welcome_tutorial_message_1">Welcome to your first encrypted conversation</string>
+    <string name="welcome_tutorial_message_2">Everything you write here is encrypted with the cryptographic configuration</string>
+    <string name="welcome_tutorial_message_3">For now, there is only the Manual mode but we are going to add more options soon</string>
+    <string name="welcome_tutorial_message_4">All the application data is encrypted and protected with your access code</string>
+    <string name="welcome_tutorial_message_5">Even so, we recommend being especially careful with the clipboard and stopping the application when you no longer use it</string>
+
+    <string name="gatekeeper_open_action">Open</string>
+    <string name="gatekeeper_open_biometrics_icon_description">Use biometrics to open</string>
+    <string name="gatekeeper_hide_icon_description">Hide code</string>
+    <string name="gatekeeper_show_icon_description">Show code</string>
+    <string name="gatekeeper_set_code_label">Set a code to control the access to the app</string>
+    <string name="gatekeeper_enable_biometrics">Use biometrics to access:</string>
+    <string name="gatekeeper_set_code_action">Set</string>
+    <string name="gatekeeper_do_not_remember">I do not remember</string>
+    <string name="gatekeeper_delete_code_dialog_title">Reset</string>
+    <string name="gatekeeper_delete_code_dialog_description">You are about to delete all stored data and start again from the beginning. Do you want to continue?</string>
+    <string name="gatekeeper_delete_code_dialog_action">Delete</string>
+    <string name="gatekeeper_access_invalid_error">Access denied</string>
+    <string name="change_access_topbar_title">Change Access Code</string>
+    <string name="change_access_description">We need to reencrypt all your data to change the access code, we recommend that you have a backup exported beforehand. This process could take some seconds, please do not close the screen during that time.\n\nIf you use biometric access, you may be required to use it.\n</string>
+    <string name="change_access_old_code_hint">Current access code</string>
+    <string name="change_access_new_code_hint">New access code</string>
+    <string name="change_access_enable_biometrics">Use biometrics to access:</string>
+    <string name="change_access_change_action">Change</string>
+    <string name="change_access_old_code_error">Invalid current access code</string>
+    <string name="change_access_error">There was an unexpected error changing the code, please check that everything is fine, and try again</string>
+
+    <string name="password_topbar_title">Passwords</string>
+    <string name="password_empty_label">You don\'t have passwords</string>
+    <string name="password_new_title">New Password</string>
+    <string name="password_edit_title">Edit Password</string>
+    <string name="password_hide_icon_description">Hide password</string>
+    <string name="password_show_icon_description">Show password</string>
+    <string name="password_random_icon_description">Generate a random password</string>
+    <string name="password_name_hint">Name</string>
+    <string name="password_password_hint">Password</string>
+    <string name="password_tags_hint">Tags (separated by comma)</string>
+    <string name="password_copy_icon_description">Copy password</string>
+    <string name="password_delete_icon_description">Delete password</string>
+    <string name="password_delete_dialog_title">Delete password</string>
+    <string name="password_delete_dialog_description">You are about to delete this password. Do you want to continue?</string>
+    <string name="password_delete_dialog_action">Delete</string>
+    <string name="password_bottombar_create_icon_description">Create a new password</string>
+
+    <string name="main_empty_label">You don\'t have encrypted conversations</string>
+    <string name="main_encryption_favorite_icon_description">This encrypted conversation is favorite</string>
+    <string name="main_set_favorites_icon_description">Set conversations as favorites</string>
+    <string name="main_unset_favorites_icon_description">Set conversations as not favorites</string>
+    <string name="main_delete_icon_description">Delete conversations</string>
+    <string name="main_bottombar_finish_app_icon_description">Close application</string>
+    <string name="main_bottombar_open_overlay_icon_description">Open overlay mode</string>
+    <string name="main_bottombar_open_passwords_icon_description">Go to passwords</string>
+    <string name="main_bottombar_clear_clipboard_icon_description">Clear clipboard</string>
+    <string name="main_bottombar_create_icon_description">Create a new encrypted conversation</string>
+    <string name="main_bottombar_open_full_icon_description">Open in full screen mode</string>
+    <string name="main_open_overlay_permission_error">If you want to use the overlay mode, you have to grant the \'Display Over Other Apps\' permission.</string>
+    <string name="main_open_overlay_permission_action">Settings</string>
+
+    <string name="algorithms_topbar_title">Encryption algorithms</string>
+    <string name="algorithms_see_source_code_action">See the source code</string>
+    <string name="algorithms_introduction">Learn more about how the encryption algorithms works. Cryptool uses common encryption algorithms, so we will refer to the official documentation of each one. We want to increase the number of algorithms available so you can use whatever you want.</string>
+    <string name="algorithms_v1_description">• Advanced Encryption Standard (AES) specification.\n• Cipher-block chaining (CBC) mode.\n• Password-Based Key Derivation Function 2 (PBKDF2).\n• Base64 binary-to-text encoding schemes.\n\n⚠️This cryptographic configuration provides low security because the password derivation code has some issues.\n\nIt is difficult (not impossible) to use this configuration in other tools because of the very specific password derivation configuration and the salt computation.</string>
+    <string name="algorithms_v2_description">• Advanced Encryption Standard (AES) 256 specification.\n• Galois/Counter Mode (GCM) mode.\n• Argon2 Key Derivation Function.\n• Base64 binary-to-text encoding schemes.\n\nYou can use this configuration in other tools very easily, for this you only need to know how to identify each part of the text:</string>
+    <string name="algorithms_v2_components" translatable="false">saltBase64.ivBase64.tLen.encryptedTextBase64</string>
+
+    <string name="main_export_dialog_title">Export data</string>
+    <string name="main_export_dialog_action">Export</string>
+    <string name="main_import_dialog_title">Import data</string>
+    <string name="main_import_dialog_action">Import</string>
+    <string name="main_import_dialog_encryptions">Conversation definitions</string>
+    <string name="main_import_dialog_messages">Messages</string>
+    <string name="main_import_dialog_passwords">Passwords</string>
+    <string name="main_import_dialog_code_hint">Security code</string>
+    <string name="main_import_dialog_code_caption">Leave it empty to use your access code</string>
+    <string name="main_import_dialog_hide_code_icon_description">Hide code</string>
+    <string name="main_import_dialog_show_code_icon_description">Show code</string>
+    <string name="export_in_progress_snackbar">Exporting…</string>
+    <string name="export_success_snackbar">Export finished successfully</string>
+    <string name="export_error_snackbar">The export process has failed, try again and if it fails again, report the error</string>
+    <string name="import_in_progress_snackbar">Importing…</string>
+    <string name="import_success_empty_snackbar">There is nothing to be imported</string>
+    <string name="import_error_snackbar">The import process has failed, check that the file and code is correct, try again and if it fails again, report the error</string>
+    <string name="import_success_snackbar" tools:ignore="PluralsCandidate">Import finished successfully: %1$d conversation definitions, %2$d messages, and %3$d passwords</string>
+
+    <string name="encryption_new_title">New encrypted conversation</string>
+    <string name="encryption_edit_title">Edit encrypted conversation</string>
+    <string name="encryption_name_hint">Name</string>
+    <string name="encryption_password_hint">Password</string>
+    <string name="encryption_hide_password_icon_description">Hide password</string>
+    <string name="encryption_show_password_icon_description">Show password</string>
+    <string name="encryption_algorithm_label">Algorithm:</string>
+    <string name="encryption_change_source_icon_description">Change message source</string>
+    <string name="encryption_hide_messages_icon_description">Hide messages</string>
+    <string name="encryption_show_messages_icon_description">Show messages</string>
+    <string name="encryption_show_favorites_only_icon_description">Show favorite messages only</string>
+    <string name="encryption_show_all_icon_description">Show all messages</string>
+    <string name="encryption_set_favorites_icon_description">Set messages as favorites</string>
+    <string name="encryption_unset_favorites_icon_description">Set messages as not favorites</string>
+    <string name="encryption_delete_messages_icon_description">Delete messages</string>
+    <string name="encryption_message_favorite_icon_description">This message is favorite</string>
+    <string name="encryption_receive_message_error">The message can not be received, check that the conversation is the correct one, password, algorithm…</string>
+    <string name="encryption_send_message_hint">Your message</string>
+    <string name="encryption_send_message_icon_description">Send</string>
+    <string name="encryption_receive_message_hint">%1$s\'s message</string>
+    <string name="encryption_receive_message_icon_description">Receive</string>
+    <string name="encryption_message_copy_encrypted">Copy encrypted message</string>
+    <string name="encryption_message_copy_plain">Copy message</string>
+    <string name="encryption_message_copy_icon_description">Copy</string>
+    <string name="encryption_source_manual_title">Manual</string>
+    <string name="encryption_source_manual_description">Handle de input and output of the communication yourself.</string>
+    <string name="encryption_source_sms_title">SMS</string>
+    <string name="encryption_source_sms_description">Use your SMS provider. This option could have cost depending the contract with your provider.</string>
+
+    <string name="about_topbar_title">About</string>
+    <string name="about_official_website">Official website</string>
+    <string name="about_source_code">Source code</string>
+    <string name="about_libraries">Libraries</string>
+    <string name="about_license">Copyleft license</string>
+    <string name="changelog_topbar_title">Changelog</string>
+    <string name="libraries_topbar_title">Libraries</string>
+    <string name="libraries_open_library_icon_description">Open official website library</string>
+
+    <string name="report_topbar_title">Help and feedback</string>
+    <string name="report_help_section">Help</string>
+    <string name="report_help_open_gh_issue">Open a GitHub issue</string>
+    <string name="report_help_email">Email the issue</string>
+    <string name="report_feedback_section">Feedback</string>
+    <string name="report_feedback_google_play">Write a Google Play Review</string>
+    <string name="report_feedback_open_gh_issue">Open a GitHub issue</string>
+    <string name="report_feedback_email">Email the feedback</string>
+    <string name="report_description">The development of this application is non-profit. You can support us in several ways. Leaving a review, sharing the project, reporting issues, helping with development and translation.</string>
+
+    <string name="legacy_migration_topbar_title">Welcome to Cryptool 3.0</string>
+    <string name="legacy_migration_description">This is a major release with many improvements: security fixes, modern user interface, integrations, and more features.</string>
+    <string name="legacy_migration_section">Migration</string>
+    <string name="legacy_migration_migration_details">You have to migrate your data to the new version. Don\'t worry this is not a destructive migration, you are not deleting your data, so you can downgrade and report any problem if something goes wrong.\n\nOn the other hand, the import functionality supports files from any version.\n\nYou will have to set a new access code to finish the migration.</string>
+    <string name="legacy_migration_action">Start migration</string>
+
+    <string name="cb_copy_success_snackbar">Successfully copied to clipboard</string>
+    <string name="cb_copy_empty_snackbar">There is no text to copy</string>
+    <string name="cb_clear_success_snackbar">Clipboard cleared successfully</string>
+
+</resources>

@@ -1,18 +1,48 @@
 <p align="center">
-  <img src="dev/icon.png?raw=true" alt="Cryptool"/>
+  <img src=".github/dev/icon.png?raw=true" alt="Cryptool"/>
 </p>
+
+This repository contains the source code of Cryptool Android application.
 
 # Cryptool
 
-Cryptool is a cryptography tool and high security keystore app for Android. It can be used as a floating tool and in ball/bubble mode.
+[![Crowdin](https://badges.crowdin.net/cryptool/localized.svg)](https://crowdin.com/project/cryptool)
 
-It has been developed keeping in mind these three words: **fast**, **small** and **offline**. 
+*Cryptography for humans*
 
-### AES Encryption and SHA-256 Hashing
-Easy encryption and hash computation of any text in any place and situation.
+Cryptool wants to help you to protect the information that matter most to you. We don't hide anything that's going on under the hood, we show the algorithms and data input/output as it is.
 
-### Keystore
-Keep your keys away from "fancy" services that are not open-source and phone home continuosly.
+This is a non-profit open source solution and we are not interested in your data. Anyway, we do not ask you to trust, we ask you to **block** the Internet access, **review** the code, or even **build** the app yourself.
+
+## Main features
+
+- Lightweight application.
+- Modern UI. Material You + support to light/dark theme.
+- Multiple encryption configurations as conversations.
+- Multiple message sources.
+  - Manual mode is the only one in production.
+- Keystore.
+- Multiple algorithms and encryption configurations.
+- Interoperable encryption.
+- Clipboard control.
+- Export/Import:
+  - Custom code protection.
+  - Filter data.
+- Access code protection:
+  - Forget/Reset.
+  - Change.
+  - Biometric identification.
+- Supported languages:
+  - English
+  - Spanish
+
+## Contributing
+
+If you think something is missing from the application, please create an issue to discuss it or make a pull request if you can implement it yourself.
+
+## Translation
+
+The application is translated by volunteers on a collaborative translation platform. You can help complete and improve the translations by joining the Crowdin project. If you would like to start the translation in a new language, contact or create an issue. Any help is greatly appreciated!
 
 ## Download
 
@@ -21,58 +51,21 @@ Keep your keys away from "fancy" services that are not open-source and phone hom
 </a></p>
 
 <p align="center"><a href="https://github.com/nfdz/Cryptool/releases">
-  <img width="250" src="dev/githubBadge.png?raw=true" alt="Get it on Github"/>
+  <img width="250" src=".github/dev/githubBadge.png?raw=true" alt="Get it on Github"/>
 </a></p>
 
 ## Screenshots
 
 <p align="center">
-  <img src="screenshots/en/en_1.png?raw=true" width="250" alt="Cryptool"/>
-  <img src="screenshots/en/en_2.png?raw=true" width="250" alt="Cryptool"/>
-  <img src="screenshots/en/en_3.png?raw=true" width="250" alt="Cryptool"/>
+  <img src=".github/dev/screenshots/en/1.png?raw=true" width="250" alt="Cryptool"/>
+  <img src=".github/dev/screenshots/en/2.png?raw=true" width="250" alt="Cryptool"/>
+  <img src=".github/dev/screenshots/en/3.png?raw=true" width="250" alt="Cryptool"/>
 </p>
 <p align="center">
-  <img src="screenshots/en/en_4.png?raw=true" width="250" alt="Cryptool"/>
-  <img src="screenshots/en/en_5.png?raw=true" width="250" alt="Cryptool"/>
-  <img src="screenshots/en/en_6.png?raw=true" width="250" alt="Cryptool"/>
-</p>
-<p align="center">
-  <img src="screenshots/en/en_7.png?raw=true" width="250" alt="Cryptool"/>
-  <img src="screenshots/en/en_8.png?raw=true" width="250" alt="Cryptool"/>
-  <img src="screenshots/en/en_9.png?raw=true" width="250" alt="Cryptool"/>
+  <img src=".github/dev/screenshots/en/4.png?raw=true" width="250" alt="Cryptool"/>
+  <img src=".github/dev/screenshots/en/5.png?raw=true" width="250" alt="Cryptool"/>
+  <img src=".github/dev/screenshots/en/6.png?raw=true" width="250" alt="Cryptool"/>
 </p>
 
-## Supported Languages
-* Chinese (Thanks to @kouhe3 and @WOSHIZHAZHA120)
-* English
-* German
-* Spanish
-
-If you want to help translate the application into a new language, just create an [Issue](https://github.com/nfdz/Cryptool/issues).
-
-## Roadmap
-* ~~Dark theme~~
-* ~~Clear & Delete PIN button~~
-* ~~Change PIN~~
-* ~~Migrate data when PIN is created/modified/deleted~~
-* ~~Automatically kill app in defined scenarios~~
-* ~~Prevent screenshots and app preview in *recent apps* view~~
-* ~~Clipboard cleaning and protection~~
-* ~~Export/Import data~~
-* ~~ Ability to select a password from the keystore without requiring a copy-paste operation.~~
-* **[Work in progress]** Cipher webapp. The development of a web application compatible with Cryptool is important in order to offer a crossplatform solution.
-* Asymmetric encryption (PGP).
-* Hash file.
-
-## 3rd party software
-* [Timber](https://github.com/JakeWharton/timber)
-* [Gson](https://github.com/google/gson)
-
-## License
-
-[GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.en.html "GNU General Public License v3")
-
-Google Play and the Google Play logo are trademarks of Google Inc.
-Github and the Github logo are trademarks of Github Inc.
-
-Some icons were made by Freepik (from www.flaticon.com)
+*Google Play and the Google Play logo are trademarks of Google Inc.*
+*Github and the Github logo are trademarks of Github Inc.*
