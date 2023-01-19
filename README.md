@@ -67,5 +67,5 @@ The application is translated by volunteers on a collaborative translation platf
   <img src=".github/dev/screenshots/en/6.png?raw=true" width="250" alt="Cryptool"/>
 </p>
 
-*Google Play and the Google Play logo are trademarks of Google Inc.*
-*Github and the Github logo are trademarks of Github Inc.*
+> *Google Play and the Google Play logo are trademarks of Google Inc.*
+> *Github and the Github logo are trademarks of Github Inc.*
