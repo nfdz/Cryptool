@@ -8,7 +8,7 @@ fun runCoroutineTest(
     testBody: suspend TestScope.() -> Unit
 ): TestResult {
     return runTest(
-        context = UnconfinedTestDispatcher(),
+        context = StandardTestDispatcher(),
         dispatchTimeoutMs = 20_000L,
         testBody = testBody,
     )
