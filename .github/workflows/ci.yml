@@ -1,0 +1,89 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+          cache: 'gradle'
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+      - name: Lint
+        run: .github/ci/android/lint.sh
+
+  release-dry-run:
+    name: Release dry run
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+          cache: 'gradle'
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+      - name: Release dry run
+        run: ./gradlew :androidApp:assembleRelease
+
+#
+#  TODO: runTest (coroutines) fails randomly
+#
+#  unit-test:
+#    name: Unit Test
+#    needs: [ lint, release-dry-run ]
+#    runs-on: macos-latest
+#
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v3
+#      - name: Set up JDK
+#        uses: actions/setup-java@v3
+#        with:
+#          distribution: 'adopt'
+#          java-version: '11'
+#          cache: 'gradle'
+#      - name: Setup Android SDK
+#        uses: android-actions/setup-android@v2
+#      - name: Unit Test
+#        run: .github/ci/android/unit_test.sh
+#
+#  TODO: Check if it works with Android Gradle plugin 8
+#  https://issuetracker.google.com/issues/193118030
+#
+#  instrumentation-test:
+#    name: Instrumentation Test
+#    needs: [ lint, release-dry-run ]
+#    runs-on: macos-latest
+#
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v3
+#      - name: Set up JDK
+#        uses: actions/setup-java@v3
+#        with:
+#          distribution: 'adopt'
+#          java-version: '11'
+#          cache: 'gradle'
+#      - name: Setup Android SDK
+#        uses: android-actions/setup-android@v2
+#      - name: Instrumentation Test
+#        run: .github/ci/android/instrumentation_test.sh

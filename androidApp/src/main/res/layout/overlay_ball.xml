@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ball_icon"
+        android:layout_width="@dimen/overlay_ball_size"
+        android:layout_height="@dimen/overlay_ball_size"
+        android:layout_marginTop="@dimen/overlay_ball_margin_top"
+        android:background="@drawable/overlay_ball_shape"
+        app:srcCompat="@drawable/ic_launcher_foreground"
+        tools:ignore="ContentDescription" />
+
+    <!-- Close button -->
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ball_close"
+        android:layout_width="@dimen/overlay_ball_close_size"
+        android:layout_height="@dimen/overlay_ball_close_size"
+        android:layout_marginStart="@dimen/overlay_ball_close_margin_start"
+        android:background="@drawable/overlay_ball_close_shape"
+        android:padding="@dimen/overlay_ball_close_padding"
+        app:srcCompat="@drawable/overlay_ball_close_icon"
+        tools:ignore="ContentDescription" />
+
+</FrameLayout>
