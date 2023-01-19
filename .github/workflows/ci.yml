@@ -46,7 +46,7 @@ jobs:
 
   unit-test:
     name: Unit Test
-    needs: [ lint, build ]
+    needs: [ lint, release-dry-run ]
     runs-on: ubuntu-latest
 
     steps:
@@ -65,7 +65,7 @@ jobs:
 
   instrumentation-test:
     name: Instrumentation Test
-    needs: [ lint, build ]
+    needs: [ lint, release-dry-run ]
     runs-on: macos-latest
 
     steps:
@@ -98,4 +98,3 @@ jobs:
           profile: pixel_5
           pre-emulator-launch-script: .github/ci/android/instrumentation_test_before.sh
           script: .github/ci/android/instrumentation_test.sh
-          
