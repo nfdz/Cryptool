@@ -1,8 +1,8 @@
+<sup><sub>This repository contains the source code of Cryptool Android application.</sub></sup>
+
 <p align="center">
   <img src=".github/dev/icon.png?raw=true" alt="Cryptool"/>
 </p>
-
-This repository contains the source code of Cryptool Android application.
 
 # Cryptool
 
@@ -46,13 +46,10 @@ The application is translated by volunteers on a collaborative translation platf
 
 ## Download
 
-<p align="center"><a href="https://play.google.com/store/apps/details?id=io.github.nfdz.cryptool">
-  <img width="250" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png?raw=true" alt="Get it on Google Play"/>
-</a></p>
-
-<p align="center"><a href="https://github.com/nfdz/Cryptool/releases">
-  <img width="250" src=".github/dev/githubBadge.png?raw=true" alt="Get it on Github"/>
-</a></p>
+<p align="center">
+  <a href="https://play.google.com/store/apps/details?id=io.github.nfdz.cryptool"><img width="250" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png?raw=true" alt="Get it on Google Play"/></a>
+  <a href="https://github.com/nfdz/Cryptool/releases"><img width="250" src=".github/dev/githubBadge.png?raw=true" alt="Get it on Github"/></a>
+</p>
 
 ## Screenshots
 
