@@ -25,6 +25,7 @@ import io.github.nfdz.cryptool.ui.common.LargeAppName
 import io.github.nfdz.cryptool.ui.extension.getTutorialInformation
 import io.github.nfdz.cryptool.ui.platform.EmptyLegacyPinCodeManager
 import io.github.nfdz.cryptool.ui.platform.LegacyPinCodeManager
+import org.koin.core.context.GlobalContext
 
 @Composable
 @Preview
@@ -42,15 +43,16 @@ private fun LegacyMigrationScreenPreview() {
 
 @Composable
 internal fun LegacyMigrationScreen(
-    viewModel: GatekeeperViewModel,
     activity: FragmentActivity?,
     legacyMigrationInfo: LegacyMigrationInformation,
+    viewModel: GatekeeperViewModel = GlobalContext.get().get(),
+    legacyPinCodeManager: LegacyPinCodeManager = GlobalContext.get().get(),
 ) {
     val snackbar = remember { SnackbarHostState() }
     AppMessagesEffect(snackbar)
     LegacyMigrationScreenContent(
         snackbar = snackbar,
-        legacyPinCodeManager = EmptyLegacyPinCodeManager,
+        legacyPinCodeManager = legacyPinCodeManager,
         viewModel = viewModel,
         activity = activity,
         legacyMigrationInfo = legacyMigrationInfo,
