@@ -84,17 +84,16 @@ jobs:
           path: |
             ~/.android/avd/*
             ~/.android/adb*
-          key: pixel5-30-aosp
+          key: pixel5-31-aosp
       - name: create AVD and generate snapshot for caching
         if: steps.avd-cache.outputs.cache-hit != 'true'
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 30
-          target: aosp_atd
-          channel: canary
-          arch: x86
+          api-level: 31
+          target: default
+          arch: x86_64
           profile: pixel_5
-          avd-name: Pixel_5_API_30_AOSP
+          avd-name: Pixel_5_API_31_AOSP
           force-avd-creation: false
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: false
@@ -102,12 +101,11 @@ jobs:
       - name: run tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 30
-          target: aosp_atd
-          channel: canary
-          arch: x86
+          api-level: 31
+          target: default
+          arch: x86_64
           profile: pixel_5
-          avd-name: Pixel_5_API_30_AOSP
+          avd-name: Pixel_5_API_31_AOSP
           force-avd-creation: false
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
