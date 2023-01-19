@@ -15,19 +15,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Set up JDK 1.8
+      - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
           java-version: '11'
+          cache: 'gradle'
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
-      - name: Lint [androidApp]
-        run: ./gradlew :androidApp:lintDebug
-      - name: Lint [androidUI]
-        run: ./gradlew :androidUI:lintDebug
-      - name: Lint [shared]
-        run: ./gradlew :shared:lintDebug
+      - name: Lint
+        run: .github/ci/android/lint.sh
 
   build:
     name: Build
@@ -36,15 +33,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Set up JDK 1.8
+      - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
           java-version: '11'
+          cache: 'gradle'
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
-      - name: Build [androidApp]
-        run: ./gradlew :androidApp:build
+      - name: Build
+        run: .github/ci/android/build.sh
 
   unit-test:
     name: Unit Test
@@ -54,19 +52,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Set up JDK 1.8
+      - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
           java-version: '11'
+          cache: 'gradle'
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
-      - name: Test [androidApp]
-        run: ./gradlew :androidApp:testDebugUnitTest
-      - name: Test [androidUI]
-        run: ./gradlew :androidUI:testDebugUnitTest
-      - name: Test [shared]
-        run: ./gradlew :shared:testDebugUnitTest
+      - name: Unit Test
+        run: .github/ci/android/build.sh
 
   instrumentation-test:
     name: Instrumentation Test
@@ -76,8 +71,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Gradle cache
-        uses: gradle/gradle-build-action@v2
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+          cache: 'gradle'
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+      - name: Before Test
+        run: .github/ci/android/instrumentation_test_before.sh
       - name: AVD cache
         uses: actions/cache@v3
         id: avd-cache
@@ -85,7 +88,7 @@ jobs:
           path: |
             ~/.android/avd/*
             ~/.android/adb*
-          key: avd-33
+          key: avd-adb-33
       - name: run tests
         if: steps.avd-cache.outputs.cache-hit != 'true'
         uses: reactivecircus/android-emulator-runner@v2
@@ -96,32 +99,24 @@ jobs:
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           arch: x86_64
-          profile: Nexus 5
-          script: ./gradlew :androidApp:connectedDebugAndroidTest
-      - name: run tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 33
-          target: google_apis
-          force-avd-creation: false
-          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          disable-animations: true
-          script: ./gradlew :androidUI:connectedDebugAndroidTest
+          profile: Pixel 5
+          script: .github/ci/android/instrumentation_test.sh
 
   release-dry-run:
     name: Release dry run
-    needs: [ unit-test, instrumentation-test ]
+    needs: [ lint, build ]
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Set up JDK 1.8
+      - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
           java-version: '11'
+          cache: 'gradle'
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
-      - name: Build [androidApp]
+      - name: Release dry run
         run: ./gradlew :androidApp:assembleRelease
