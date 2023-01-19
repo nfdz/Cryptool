@@ -5,10 +5,10 @@ import dev.testify.ComposableScreenshotRule
 import dev.testify.annotation.ScreenshotInstrumentation
 import io.github.nfdz.cryptool.shared.gatekeeper.viewModel.EmptyGatekeeperViewModel
 import io.github.nfdz.cryptool.shared.gatekeeper.viewModel.GatekeeperState
-import io.github.nfdz.cryptool.ui.AppTheme
 import io.github.nfdz.cryptool.ui.DarkColorScheme
 import io.github.nfdz.cryptool.ui.EmptyRouter
 import io.github.nfdz.cryptool.ui.LightColorScheme
+import io.github.nfdz.cryptool.ui.test.TestEntry
 import org.junit.Rule
 import org.junit.Test
 
@@ -21,7 +21,7 @@ class ChangeAccessCodeScreenScreenshotTest {
     @Test
     fun light() {
         rule.setCompose {
-            AppTheme(colorScheme = LightColorScheme) {
+            TestEntry(colorScheme = LightColorScheme) {
                 ChangeAccessCodeScreenContent(
                     snackbar = SnackbarHostState(),
                     viewModel = EmptyGatekeeperViewModel,
@@ -43,7 +43,7 @@ class ChangeAccessCodeScreenScreenshotTest {
     @Test
     fun dark() {
         rule.setCompose {
-            AppTheme(colorScheme = DarkColorScheme) {
+            TestEntry(colorScheme = DarkColorScheme) {
                 ChangeAccessCodeScreenContent(
                     snackbar = SnackbarHostState(),
                     viewModel = EmptyGatekeeperViewModel,

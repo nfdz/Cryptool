@@ -4,9 +4,9 @@ import dev.testify.ComposableScreenshotRule
 import dev.testify.annotation.ScreenshotInstrumentation
 import io.github.nfdz.cryptool.shared.password.entity.Password
 import io.github.nfdz.cryptool.shared.password.viewModel.EmptyPasswordViewModel
-import io.github.nfdz.cryptool.ui.AppTheme
 import io.github.nfdz.cryptool.ui.DarkColorScheme
 import io.github.nfdz.cryptool.ui.LightColorScheme
+import io.github.nfdz.cryptool.ui.test.TestEntry
 import org.junit.Rule
 import org.junit.Test
 
@@ -26,7 +26,7 @@ class EditPasswordDialogScreenshotTest {
     @Test
     fun light() {
         rule.setCompose {
-            AppTheme(colorScheme = LightColorScheme) {
+            TestEntry(colorScheme = LightColorScheme) {
                 EditPasswordContent(passwordToEdit, EmptyPasswordViewModel) {}
             }
         }.assertSame()
@@ -36,7 +36,7 @@ class EditPasswordDialogScreenshotTest {
     @Test
     fun dark() {
         rule.setCompose {
-            AppTheme(colorScheme = DarkColorScheme) {
+            TestEntry(colorScheme = DarkColorScheme) {
                 EditPasswordContent(passwordToEdit, EmptyPasswordViewModel) {}
             }
         }.assertSame()

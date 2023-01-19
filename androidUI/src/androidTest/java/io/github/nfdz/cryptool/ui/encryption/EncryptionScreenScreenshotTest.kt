@@ -10,11 +10,11 @@ import io.github.nfdz.cryptool.shared.message.entity.Message
 import io.github.nfdz.cryptool.shared.message.entity.MessageOwnership
 import io.github.nfdz.cryptool.shared.message.viewModel.EmptyMessageViewModel
 import io.github.nfdz.cryptool.shared.message.viewModel.MessageState
-import io.github.nfdz.cryptool.ui.AppTheme
 import io.github.nfdz.cryptool.ui.DarkColorScheme
 import io.github.nfdz.cryptool.ui.EmptyRouter
 import io.github.nfdz.cryptool.ui.LightColorScheme
 import io.github.nfdz.cryptool.ui.platform.EmptyClipboardAndroid
+import io.github.nfdz.cryptool.ui.test.TestEntry
 import org.junit.Rule
 import org.junit.Test
 
@@ -76,7 +76,7 @@ class EncryptionScreenScreenshotTest {
     @Test
     fun light() {
         rule.setCompose {
-            AppTheme(colorScheme = LightColorScheme) {
+            TestEntry(colorScheme = LightColorScheme) {
                 EncryptionScreenContent(
                     snackbar = SnackbarHostState(),
                     encryptionId = "11",
@@ -99,7 +99,7 @@ class EncryptionScreenScreenshotTest {
     @Test
     fun dark() {
         rule.setCompose {
-            AppTheme(colorScheme = DarkColorScheme) {
+            TestEntry(colorScheme = DarkColorScheme) {
                 EncryptionScreenContent(
                     snackbar = SnackbarHostState(),
                     encryptionId = "11",
@@ -122,7 +122,7 @@ class EncryptionScreenScreenshotTest {
     @Test
     fun lightSelected() {
         rule.setCompose {
-            AppTheme(colorScheme = LightColorScheme) {
+            TestEntry(colorScheme = LightColorScheme) {
                 EncryptionScreenContent(
                     snackbar = SnackbarHostState(),
                     encryptionId = "11",
@@ -145,7 +145,7 @@ class EncryptionScreenScreenshotTest {
     @Test
     fun darkSelected() {
         rule.setCompose {
-            AppTheme(colorScheme = DarkColorScheme) {
+            TestEntry(colorScheme = DarkColorScheme) {
                 EncryptionScreenContent(
                     snackbar = SnackbarHostState(),
                     encryptionId = "11",
@@ -168,7 +168,7 @@ class EncryptionScreenScreenshotTest {
     @Test
     fun lightSourcePicker() {
         rule.setCompose {
-            AppTheme(colorScheme = LightColorScheme) {
+            TestEntry(colorScheme = LightColorScheme) {
                 EncryptionScreenContent(
                     snackbar = SnackbarHostState(),
                     encryptionId = "11",
@@ -191,7 +191,7 @@ class EncryptionScreenScreenshotTest {
     @Test
     fun darkSourcePicker() {
         rule.setCompose {
-            AppTheme(colorScheme = DarkColorScheme) {
+            TestEntry(colorScheme = DarkColorScheme) {
                 EncryptionScreenContent(
                     snackbar = SnackbarHostState(),
                     encryptionId = "11",

@@ -1,4 +1,4 @@
 #!/bin/bash -xe
 
-./gradlew :androidApp:connectedDebugAndroidTest
-./gradlew :androidUI:connectedDebugAndroidTest
+./gradlew :androidApp:pixel5api31DebugAndroidTest --no-daemon
+./gradlew :androidUI:pixel5api31DebugAndroidTest --no-daemon

@@ -68,6 +68,17 @@ android {
     lint {
         warningsAsErrors = true
     }
+    testOptions {
+        managedDevices {
+            devices {
+                maybeCreate<com.android.build.api.dsl.ManagedVirtualDevice>("pixel5api31").apply {
+                    device = "Pixel 5"
+                    apiLevel = 31
+                    systemImageSource = "aosp"
+                }
+            }
+        }
+    }
 }
 
 dependencies {

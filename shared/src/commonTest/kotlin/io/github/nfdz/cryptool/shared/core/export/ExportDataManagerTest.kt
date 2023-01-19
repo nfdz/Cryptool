@@ -5,7 +5,7 @@ import io.github.nfdz.cryptool.shared.encryption.repository.FakeEncryptionReposi
 import io.github.nfdz.cryptool.shared.message.repository.FakeMessageRepository
 import io.github.nfdz.cryptool.shared.password.repository.FakePasswordRepository
 import io.github.nfdz.cryptool.shared.test.assertJsonEquals
-import io.github.nfdz.cryptool.shared.test.runCoroutineTest
+import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -81,7 +81,7 @@ class ExportDataManagerTest {
     }
 
     @Test
-    fun testPrepareDataNoConfig() = runCoroutineTest {
+    fun testPrepareDataNoConfig() = runTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
         val passwordRepository = FakePasswordRepository()
@@ -98,7 +98,7 @@ class ExportDataManagerTest {
     }
 
     @Test
-    fun testPrepareDataOnlyPasswords() = runCoroutineTest {
+    fun testPrepareDataOnlyPasswords() = runTest {
         val encryptionRepository = FakeEncryptionRepository(getAllAnswer = listOf(fakeEncryption))
         val messageRepository = FakeMessageRepository(getAllAnswer = listOf(fakeMessage))
         val passwordRepository = FakePasswordRepository(getAllAnswer = listOf(fakePassword))
@@ -115,7 +115,7 @@ class ExportDataManagerTest {
     }
 
     @Test
-    fun testPrepareDataOnlyEncryptions() = runCoroutineTest {
+    fun testPrepareDataOnlyEncryptions() = runTest {
         val encryptionRepository = FakeEncryptionRepository(getAllAnswer = listOf(fakeEncryption))
         val messageRepository = FakeMessageRepository(getAllAnswer = listOf(fakeMessage))
         val passwordRepository = FakePasswordRepository(getAllAnswer = listOf(fakePassword))
@@ -132,7 +132,7 @@ class ExportDataManagerTest {
     }
 
     @Test
-    fun testPrepareDataOnlyMessages() = runCoroutineTest {
+    fun testPrepareDataOnlyMessages() = runTest {
         val encryptionRepository = FakeEncryptionRepository(getAllAnswer = listOf(fakeEncryption))
         val messageRepository = FakeMessageRepository(getAllAnswer = listOf(fakeMessage))
         val passwordRepository = FakePasswordRepository(getAllAnswer = listOf(fakePassword))
@@ -149,7 +149,7 @@ class ExportDataManagerTest {
     }
 
     @Test
-    fun testPrepareDataAll() = runCoroutineTest {
+    fun testPrepareDataAll() = runTest {
         val encryptionRepository = FakeEncryptionRepository(getAllAnswer = listOf(fakeEncryption))
         val messageRepository = FakeMessageRepository(getAllAnswer = listOf(fakeMessage))
         val passwordRepository = FakePasswordRepository(getAllAnswer = listOf(fakePassword))
@@ -166,7 +166,7 @@ class ExportDataManagerTest {
     }
 
     @Test
-    fun testPrepareDataDto() = runCoroutineTest {
+    fun testPrepareDataDto() = runTest {
         val encryptionRepository = FakeEncryptionRepository(getAllAnswer = listOf(fakeEncryption))
         val messageRepository = FakeMessageRepository(getAllAnswer = listOf(fakeMessage))
         val passwordRepository = FakePasswordRepository(getAllAnswer = listOf(fakePassword))

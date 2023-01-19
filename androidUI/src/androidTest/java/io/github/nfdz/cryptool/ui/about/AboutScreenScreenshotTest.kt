@@ -3,10 +3,10 @@ package io.github.nfdz.cryptool.ui.about
 import androidx.compose.material3.SnackbarHostState
 import dev.testify.ComposableScreenshotRule
 import dev.testify.annotation.ScreenshotInstrumentation
-import io.github.nfdz.cryptool.ui.AppTheme
 import io.github.nfdz.cryptool.ui.DarkColorScheme
 import io.github.nfdz.cryptool.ui.EmptyRouter
 import io.github.nfdz.cryptool.ui.LightColorScheme
+import io.github.nfdz.cryptool.ui.test.TestEntry
 import org.junit.Rule
 import org.junit.Test
 
@@ -19,7 +19,7 @@ class AboutScreenScreenshotTest {
     @Test
     fun light() {
         rule.setCompose {
-            AppTheme(colorScheme = LightColorScheme) {
+            TestEntry(colorScheme = LightColorScheme) {
                 AboutScreenContent(snackbar = SnackbarHostState(), router = EmptyRouter)
             }
         }.assertSame()
@@ -29,7 +29,7 @@ class AboutScreenScreenshotTest {
     @Test
     fun dark() {
         rule.setCompose {
-            AppTheme(colorScheme = DarkColorScheme) {
+            TestEntry(colorScheme = DarkColorScheme) {
                 AboutScreenContent(snackbar = SnackbarHostState(), router = EmptyRouter)
             }
         }.assertSame()

@@ -6,12 +6,12 @@ import dev.testify.annotation.ScreenshotInstrumentation
 import io.github.nfdz.cryptool.shared.password.entity.Password
 import io.github.nfdz.cryptool.shared.password.viewModel.EmptyPasswordViewModel
 import io.github.nfdz.cryptool.shared.password.viewModel.PasswordState
-import io.github.nfdz.cryptool.ui.AppTheme
 import io.github.nfdz.cryptool.ui.DarkColorScheme
 import io.github.nfdz.cryptool.ui.EmptyRouter
 import io.github.nfdz.cryptool.ui.LightColorScheme
 import io.github.nfdz.cryptool.ui.platform.EmptyApplicationManager
 import io.github.nfdz.cryptool.ui.platform.EmptyClipboardAndroid
+import io.github.nfdz.cryptool.ui.test.TestEntry
 import org.junit.Rule
 import org.junit.Test
 
@@ -53,7 +53,7 @@ class PasswordScreenScreenshotTest {
     @Test
     fun light() {
         rule.setCompose {
-            AppTheme(colorScheme = LightColorScheme) {
+            TestEntry(colorScheme = LightColorScheme) {
                 PasswordScreenContent(
                     snackbar = SnackbarHostState(),
                     clipboard = EmptyClipboardAndroid,
@@ -75,7 +75,7 @@ class PasswordScreenScreenshotTest {
     @Test
     fun dark() {
         rule.setCompose {
-            AppTheme(colorScheme = DarkColorScheme) {
+            TestEntry(colorScheme = DarkColorScheme) {
                 PasswordScreenContent(
                     snackbar = SnackbarHostState(),
                     clipboard = EmptyClipboardAndroid,
@@ -97,7 +97,7 @@ class PasswordScreenScreenshotTest {
     @Test
     fun lightSelected() {
         rule.setCompose {
-            AppTheme(colorScheme = LightColorScheme) {
+            TestEntry(colorScheme = LightColorScheme) {
                 PasswordScreenContent(
                     snackbar = SnackbarHostState(),
                     clipboard = EmptyClipboardAndroid,
@@ -119,7 +119,7 @@ class PasswordScreenScreenshotTest {
     @Test
     fun darkSelected() {
         rule.setCompose {
-            AppTheme(colorScheme = DarkColorScheme) {
+            TestEntry(colorScheme = DarkColorScheme) {
                 PasswordScreenContent(
                     snackbar = SnackbarHostState(),
                     clipboard = EmptyClipboardAndroid,
@@ -141,7 +141,7 @@ class PasswordScreenScreenshotTest {
     @Test
     fun lightEmpty() {
         rule.setCompose {
-            AppTheme(colorScheme = LightColorScheme) {
+            TestEntry(colorScheme = LightColorScheme) {
                 PasswordScreenContent(
                     snackbar = SnackbarHostState(),
                     clipboard = EmptyClipboardAndroid,
@@ -163,7 +163,7 @@ class PasswordScreenScreenshotTest {
     @Test
     fun darkEmpty() {
         rule.setCompose {
-            AppTheme(colorScheme = DarkColorScheme) {
+            TestEntry(colorScheme = DarkColorScheme) {
                 PasswordScreenContent(
                     snackbar = SnackbarHostState(),
                     clipboard = EmptyClipboardAndroid,

@@ -5,10 +5,10 @@ import dev.testify.ComposableScreenshotRule
 import dev.testify.annotation.ScreenshotInstrumentation
 import io.github.nfdz.cryptool.shared.gatekeeper.entity.LegacyMigrationInformation
 import io.github.nfdz.cryptool.shared.gatekeeper.viewModel.EmptyGatekeeperViewModel
-import io.github.nfdz.cryptool.ui.AppTheme
 import io.github.nfdz.cryptool.ui.DarkColorScheme
 import io.github.nfdz.cryptool.ui.LightColorScheme
 import io.github.nfdz.cryptool.ui.platform.EmptyLegacyPinCodeManager
+import io.github.nfdz.cryptool.ui.test.TestEntry
 import org.junit.Rule
 import org.junit.Test
 
@@ -21,7 +21,7 @@ class LegacyMigrationScreenScreenshotTest {
     @Test
     fun light() {
         rule.setCompose {
-            AppTheme(colorScheme = LightColorScheme) {
+            TestEntry(colorScheme = LightColorScheme) {
                 LegacyMigrationScreenContent(
                     snackbar = SnackbarHostState(),
                     viewModel = EmptyGatekeeperViewModel,
@@ -37,7 +37,7 @@ class LegacyMigrationScreenScreenshotTest {
     @Test
     fun dark() {
         rule.setCompose {
-            AppTheme(colorScheme = DarkColorScheme) {
+            TestEntry(colorScheme = DarkColorScheme) {
                 LegacyMigrationScreenContent(
                     snackbar = SnackbarHostState(),
                     viewModel = EmptyGatekeeperViewModel,

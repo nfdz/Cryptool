@@ -1,5 +1,5 @@
 #!/bin/bash -xe
 
-./gradlew :androidApp:lintDebug
-./gradlew :androidUI:lintDebug
-./gradlew :shared:lintDebug
+./gradlew :androidApp:lintDebug --no-daemon
+./gradlew :androidUI:lintDebug --no-daemon
+./gradlew :shared:lintDebug --no-daemon

@@ -8,12 +8,12 @@ import io.github.nfdz.cryptool.shared.encryption.entity.Encryption
 import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
 import io.github.nfdz.cryptool.shared.encryption.viewModel.EmptyEncryptionViewModel
 import io.github.nfdz.cryptool.shared.encryption.viewModel.EncryptionState
-import io.github.nfdz.cryptool.ui.AppTheme
 import io.github.nfdz.cryptool.ui.DarkColorScheme
 import io.github.nfdz.cryptool.ui.EmptyRouter
 import io.github.nfdz.cryptool.ui.LightColorScheme
 import io.github.nfdz.cryptool.ui.platform.EmptyApplicationManager
 import io.github.nfdz.cryptool.ui.platform.EmptyClipboardAndroid
+import io.github.nfdz.cryptool.ui.test.TestEntry
 import org.junit.Rule
 import org.junit.Test
 
@@ -52,7 +52,7 @@ class MainScreenScreenshotTest {
     @Test
     fun light() {
         rule.setCompose {
-            AppTheme(colorScheme = LightColorScheme) {
+            TestEntry(colorScheme = LightColorScheme) {
                 MainScreenContent(
                     viewModel = EmptyEncryptionViewModel,
                     applicationManager = EmptyApplicationManager,
@@ -73,7 +73,7 @@ class MainScreenScreenshotTest {
     @Test
     fun dark() {
         rule.setCompose {
-            AppTheme(colorScheme = DarkColorScheme) {
+            TestEntry(colorScheme = DarkColorScheme) {
                 MainScreenContent(
                     viewModel = EmptyEncryptionViewModel,
                     applicationManager = EmptyApplicationManager,
@@ -94,7 +94,7 @@ class MainScreenScreenshotTest {
     @Test
     fun lightSelected() {
         rule.setCompose {
-            AppTheme(colorScheme = LightColorScheme) {
+            TestEntry(colorScheme = LightColorScheme) {
                 MainScreenContent(
                     viewModel = EmptyEncryptionViewModel,
                     applicationManager = EmptyApplicationManager,
@@ -115,7 +115,7 @@ class MainScreenScreenshotTest {
     @Test
     fun darkSelected() {
         rule.setCompose {
-            AppTheme(colorScheme = DarkColorScheme) {
+            TestEntry(colorScheme = DarkColorScheme) {
                 MainScreenContent(
                     viewModel = EmptyEncryptionViewModel,
                     applicationManager = EmptyApplicationManager,
@@ -136,7 +136,7 @@ class MainScreenScreenshotTest {
     @Test
     fun lightEmpty() {
         rule.setCompose {
-            AppTheme(colorScheme = LightColorScheme) {
+            TestEntry(colorScheme = LightColorScheme) {
                 MainScreenContent(
                     viewModel = EmptyEncryptionViewModel,
                     applicationManager = EmptyApplicationManager,
@@ -157,7 +157,7 @@ class MainScreenScreenshotTest {
     @Test
     fun darkEmpty() {
         rule.setCompose {
-            AppTheme(colorScheme = DarkColorScheme) {
+            TestEntry(colorScheme = DarkColorScheme) {
                 MainScreenContent(
                     viewModel = EmptyEncryptionViewModel,
                     applicationManager = EmptyApplicationManager,
