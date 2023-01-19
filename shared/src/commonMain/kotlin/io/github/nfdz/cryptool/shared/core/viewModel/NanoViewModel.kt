@@ -3,6 +3,7 @@ package io.github.nfdz.cryptool.shared.core.viewModel
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +23,7 @@ interface NanoViewModel<S : State, A : Action, E : Effect> {
 }
 
 abstract class NanoViewModelBase<S : State, A : Action, E : Effect> : NanoViewModel<S, A, E>,
-    CoroutineScope by CoroutineScope(Dispatchers.Default.limitedParallelism(1)) {
+    CoroutineScope by CoroutineScope(Dispatchers.Default.limitedParallelism(1) + SupervisorJob()) {
 
     companion object {
         private const val actionsChannelCapacity = 100
