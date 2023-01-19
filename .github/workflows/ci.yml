@@ -26,8 +26,8 @@ jobs:
       - name: Lint
         run: .github/ci/android/lint.sh
 
-  build:
-    name: Build
+  release-dry-run:
+    name: Release dry run
     runs-on: ubuntu-latest
 
     steps:
@@ -41,8 +41,8 @@ jobs:
           cache: 'gradle'
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
-      - name: Build
-        run: .github/ci/android/build.sh
+      - name: Release dry run
+        run: ./gradlew :androidApp:assembleRelease
 
   unit-test:
     name: Unit Test
@@ -84,7 +84,7 @@ jobs:
           path: |
             ~/.android/avd/*
             ~/.android/adb*
-          key: avd-adb-33
+          key: pixel5-avd-adb-33
       - name: run tests
         if: steps.avd-cache.outputs.cache-hit != 'true'
         uses: reactivecircus/android-emulator-runner@v2
@@ -95,25 +95,7 @@ jobs:
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           arch: x86_64
-          profile: Pixel 5
+          profile: pixel_5
           pre-emulator-launch-script: .github/ci/android/instrumentation_test_before.sh
           script: .github/ci/android/instrumentation_test.sh
-
-  release-dry-run:
-    name: Release dry run
-    needs: [ lint, build ]
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'adopt'
-          java-version: '11'
-          cache: 'gradle'
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v2
-      - name: Release dry run
-        run: ./gradlew :androidApp:assembleRelease
+          
