@@ -5,9 +5,9 @@ import io.github.nfdz.cryptool.shared.core.import.FakeImportDataManager
 import io.github.nfdz.cryptool.shared.gatekeeper.entity.TutorialInformation
 import io.github.nfdz.cryptool.shared.gatekeeper.repository.FakeGatekeeperRepository
 import io.github.nfdz.cryptool.shared.platform.localization.FakeLocalizedError
+import io.github.nfdz.cryptool.shared.test.runCoroutineTest
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -18,7 +18,7 @@ class GatekeeperViewModelTest {
     }
 
     @Test
-    fun testCreate() = runTest {
+    fun testCreate() = runCoroutineTest {
         val gatekeeperRepository = FakeGatekeeperRepository(
             isOpenAnswer = listOf(false, true),
             hasCodeAnswer = false,
@@ -42,7 +42,7 @@ class GatekeeperViewModelTest {
     }
 
     @Test
-    fun testAccessWithCode() = runTest {
+    fun testAccessWithCode() = runCoroutineTest {
         val gatekeeperRepository = FakeGatekeeperRepository(
             isOpenAnswer = listOf(false, false, true),
             hasCodeAnswer = true,
@@ -71,7 +71,7 @@ class GatekeeperViewModelTest {
     }
 
     @Test
-    fun testAccessWithCodeInvalid() = runTest {
+    fun testAccessWithCodeInvalid() = runCoroutineTest {
         val gatekeeperRepository = FakeGatekeeperRepository(
             isOpenAnswer = listOf(false, false, false),
             hasCodeAnswer = true,
@@ -93,7 +93,7 @@ class GatekeeperViewModelTest {
     }
 
     @Test
-    fun testDelete() = runTest {
+    fun testDelete() = runCoroutineTest {
         val gatekeeperRepository = FakeGatekeeperRepository(
             isOpenAnswer = listOf(true, false),
             hasCodeAnswer = false,
@@ -113,7 +113,7 @@ class GatekeeperViewModelTest {
     }
 
     @Test
-    fun testAcknowledgeWelcome() = runTest {
+    fun testAcknowledgeWelcome() = runCoroutineTest {
         val gatekeeperRepository = FakeGatekeeperRepository(
             isOpenAnswer = listOf(false, true),
             hasCodeAnswer = false,
@@ -134,7 +134,7 @@ class GatekeeperViewModelTest {
     }
 
     @Test
-    fun testAcknowledgeLegacyMigrationWithNoMigration() = runTest {
+    fun testAcknowledgeLegacyMigrationWithNoMigration() = runCoroutineTest {
         val gatekeeperRepository = FakeGatekeeperRepository(
             isOpenAnswer = listOf(false, true),
             hasCodeAnswer = false,
@@ -156,7 +156,7 @@ class GatekeeperViewModelTest {
     }
 
     @Test
-    fun testAcknowledgeLegacyMigrationWithMigration() = runTest {
+    fun testAcknowledgeLegacyMigrationWithMigration() = runCoroutineTest {
         val gatekeeperRepository = FakeGatekeeperRepository(
             isOpenAnswer = listOf(false, true),
             hasCodeAnswer = false,
@@ -178,7 +178,7 @@ class GatekeeperViewModelTest {
     }
 
     @Test
-    fun testCheckAccess() = runTest {
+    fun testCheckAccess() = runCoroutineTest {
         val gatekeeperRepository = FakeGatekeeperRepository(
             isOpenAnswer = listOf(false, true),
             hasCodeAnswer = false,
@@ -199,7 +199,7 @@ class GatekeeperViewModelTest {
     }
 
     @Test
-    fun testChangeAccessCode() = runTest {
+    fun testChangeAccessCode() = runCoroutineTest {
         val fakeDto = "123456789"
         val exportDataManager = FakeExportDataManager(
             prepareDataDtoAnswer = fakeDto,
@@ -237,7 +237,7 @@ class GatekeeperViewModelTest {
     }
 
     @Test
-    fun testChangeAccessCodeWithInvalid() = runTest {
+    fun testChangeAccessCodeWithInvalid() = runCoroutineTest {
         val exportDataManager = FakeExportDataManager()
         val importDataManager = FakeImportDataManager()
         val gatekeeperRepository = FakeGatekeeperRepository(
@@ -268,7 +268,7 @@ class GatekeeperViewModelTest {
     }
 
     @Test
-    fun testChangeAccessCodeWithError() = runTest {
+    fun testChangeAccessCodeWithError() = runCoroutineTest {
         val fakeDto = "123456789"
         val exportDataManager = FakeExportDataManager(
             prepareDataDtoAnswer = fakeDto,

@@ -3,10 +3,10 @@ package io.github.nfdz.cryptool.shared.password.viewModel
 import io.github.nfdz.cryptool.shared.password.entity.FakePassword
 import io.github.nfdz.cryptool.shared.password.entity.Password
 import io.github.nfdz.cryptool.shared.password.repository.FakePasswordRepository
+import io.github.nfdz.cryptool.shared.test.runCoroutineTest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -20,7 +20,7 @@ class PasswordViewModelTest {
     }
 
     @Test
-    fun testInitialize() = runTest {
+    fun testInitialize() = runCoroutineTest {
         val passwordRepository = FakePasswordRepository(
             observeAnswer = flowOf(fakePasswordList)
         )
@@ -36,7 +36,7 @@ class PasswordViewModelTest {
     }
 
     @Test
-    fun testAddFilter() = runTest {
+    fun testAddFilter() = runCoroutineTest {
         val passwordRepository = FakePasswordRepository()
         val instance = PasswordViewModelImpl(passwordRepository)
 
@@ -49,7 +49,7 @@ class PasswordViewModelTest {
     }
 
     @Test
-    fun testRemoveFilter() = runTest {
+    fun testRemoveFilter() = runCoroutineTest {
         val passwordRepository = FakePasswordRepository()
         val instance = PasswordViewModelImpl(passwordRepository)
 
@@ -65,7 +65,7 @@ class PasswordViewModelTest {
     }
 
     @Test
-    fun testCreate() = runTest {
+    fun testCreate() = runCoroutineTest {
         val passwordRepository = FakePasswordRepository(
             createAnswer = fakePasswordA,
         )
@@ -89,7 +89,7 @@ class PasswordViewModelTest {
     }
 
     @Test
-    fun testEdit() = runTest {
+    fun testEdit() = runCoroutineTest {
         val passwordRepository = FakePasswordRepository(
             editAnswer = fakePasswordB,
         )
@@ -115,7 +115,7 @@ class PasswordViewModelTest {
     }
 
     @Test
-    fun testRemove() = runTest {
+    fun testRemove() = runCoroutineTest {
         val passwordRepository = FakePasswordRepository()
         val instance = PasswordViewModelImpl(passwordRepository)
 

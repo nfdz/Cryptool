@@ -2,10 +2,10 @@ package io.github.nfdz.cryptool.shared.encryption.viewModel
 
 import io.github.nfdz.cryptool.shared.encryption.entity.FakeEncryption
 import io.github.nfdz.cryptool.shared.encryption.repository.FakeEncryptionRepository
+import io.github.nfdz.cryptool.shared.test.runCoroutineTest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -18,7 +18,7 @@ class EncryptionViewModelTest {
     }
 
     @Test
-    fun testInitialize() = runTest {
+    fun testInitialize() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository(
             observeAnswer = flowOf(fakeEncryptionList)
         )
@@ -34,7 +34,7 @@ class EncryptionViewModelTest {
     }
 
     @Test
-    fun testCreate() = runTest {
+    fun testCreate() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository(
             createAnswer = fakeEncryption1
         )
@@ -58,7 +58,7 @@ class EncryptionViewModelTest {
     }
 
     @Test
-    fun testEdit() = runTest {
+    fun testEdit() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository(
             editAnswer = fakeEncryption2
         )
@@ -84,7 +84,7 @@ class EncryptionViewModelTest {
     }
 
     @Test
-    fun testRemove() = runTest {
+    fun testRemove() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository()
         val instance = EncryptionViewModelImpl(encryptionRepository)
 
@@ -103,7 +103,7 @@ class EncryptionViewModelTest {
     }
 
     @Test
-    fun testSetFavorite() = runTest {
+    fun testSetFavorite() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository()
         val instance = EncryptionViewModelImpl(encryptionRepository)
 
@@ -122,7 +122,7 @@ class EncryptionViewModelTest {
     }
 
     @Test
-    fun testUnsetFavorite() = runTest {
+    fun testUnsetFavorite() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository()
         val instance = EncryptionViewModelImpl(encryptionRepository)
 
@@ -141,7 +141,7 @@ class EncryptionViewModelTest {
     }
 
     @Test
-    fun testSelect() = runTest {
+    fun testSelect() = runCoroutineTest {
         val instance = EncryptionViewModelImpl(FakeEncryptionRepository())
 
         val encryptionId = "1"
@@ -154,7 +154,7 @@ class EncryptionViewModelTest {
     }
 
     @Test
-    fun testUnselect() = runTest {
+    fun testUnselect() = runCoroutineTest {
         val instance = EncryptionViewModelImpl(FakeEncryptionRepository())
 
         val encryptionId = "1"
@@ -173,7 +173,7 @@ class EncryptionViewModelTest {
     }
 
     @Test
-    fun testUnselectAll() = runTest {
+    fun testUnselectAll() = runCoroutineTest {
         val instance = EncryptionViewModelImpl(FakeEncryptionRepository())
 
         val encryptionId = "1"
@@ -192,7 +192,7 @@ class EncryptionViewModelTest {
     }
 
     @Test
-    fun testSelectAll() = runTest {
+    fun testSelectAll() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository(
             observeAnswer = flowOf(fakeEncryptionList)
         )

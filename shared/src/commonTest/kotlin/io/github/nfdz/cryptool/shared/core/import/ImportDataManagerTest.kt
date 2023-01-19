@@ -10,7 +10,7 @@ import io.github.nfdz.cryptool.shared.message.entity.FakeMessage
 import io.github.nfdz.cryptool.shared.message.repository.FakeMessageRepository
 import io.github.nfdz.cryptool.shared.password.entity.FakePassword
 import io.github.nfdz.cryptool.shared.password.repository.FakePasswordRepository
-import kotlinx.coroutines.test.runTest
+import io.github.nfdz.cryptool.shared.test.runCoroutineTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -74,7 +74,7 @@ class ImportDataManagerTest {
     }
 
     @Test
-    fun testConsumeDataV1NoConfig() = runTest {
+    fun testConsumeDataV1NoConfig() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
         val passwordRepository = FakePasswordRepository()
@@ -90,7 +90,7 @@ class ImportDataManagerTest {
     }
 
     @Test
-    fun testConsumeDataV1() = runTest {
+    fun testConsumeDataV1() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
         val passwordRepository = FakePasswordRepository()
@@ -114,7 +114,7 @@ class ImportDataManagerTest {
     }
 
     @Test
-    fun testConsumeDataV2NoConfig() = runTest {
+    fun testConsumeDataV2NoConfig() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
         val passwordRepository = FakePasswordRepository()
@@ -130,7 +130,7 @@ class ImportDataManagerTest {
     }
 
     @Test
-    fun testConsumeDataV2OnlyEncryptions() = runTest {
+    fun testConsumeDataV2OnlyEncryptions() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
         val passwordRepository = FakePasswordRepository()
@@ -149,7 +149,7 @@ class ImportDataManagerTest {
     }
 
     @Test
-    fun testConsumeDataV2OnlyMessages() = runTest {
+    fun testConsumeDataV2OnlyMessages() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
         val passwordRepository = FakePasswordRepository()
@@ -168,7 +168,7 @@ class ImportDataManagerTest {
     }
 
     @Test
-    fun testConsumeDataV2OnlyPasswords() = runTest {
+    fun testConsumeDataV2OnlyPasswords() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
         val passwordRepository = FakePasswordRepository()
@@ -187,7 +187,7 @@ class ImportDataManagerTest {
     }
 
     @Test
-    fun testConsumeDataV2OnlyAll() = runTest {
+    fun testConsumeDataV2OnlyAll() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
         val passwordRepository = FakePasswordRepository()
@@ -212,7 +212,7 @@ class ImportDataManagerTest {
     }
 
     @Test
-    fun testConsumeDataDto() = runTest {
+    fun testConsumeDataDto() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
         val passwordRepository = FakePasswordRepository()

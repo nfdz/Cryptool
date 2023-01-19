@@ -6,10 +6,10 @@ import io.github.nfdz.cryptool.shared.encryption.repository.FakeEncryptionReposi
 import io.github.nfdz.cryptool.shared.message.entity.FakeMessage
 import io.github.nfdz.cryptool.shared.message.repository.FakeMessageRepository
 import io.github.nfdz.cryptool.shared.platform.localization.FakeLocalizedError
+import io.github.nfdz.cryptool.shared.test.runCoroutineTest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -23,7 +23,7 @@ class MessageViewModelTest {
     }
 
     @Test
-    fun testInitialize() = runTest {
+    fun testInitialize() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository(
             observeWithIdAnswer = flowOf(fakeEncryption1)
         )
@@ -49,7 +49,7 @@ class MessageViewModelTest {
     }
 
     @Test
-    fun testSetSource() = runTest {
+    fun testSetSource() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository(
             observeWithIdAnswer = flowOf(fakeEncryption1)
         )
@@ -76,7 +76,7 @@ class MessageViewModelTest {
     }
 
     @Test
-    fun testSetSourceWithNoEncryption() = runTest {
+    fun testSetSourceWithNoEncryption() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
         val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
@@ -92,7 +92,7 @@ class MessageViewModelTest {
     }
 
     @Test
-    fun testReceiveMessage() = runTest {
+    fun testReceiveMessage() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository(
             observeWithIdAnswer = flowOf(fakeEncryption1)
         )
@@ -118,7 +118,7 @@ class MessageViewModelTest {
     }
 
     @Test
-    fun testReceiveMessageWithNoEncryption() = runTest {
+    fun testReceiveMessageWithNoEncryption() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
         val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
@@ -134,7 +134,7 @@ class MessageViewModelTest {
     }
 
     @Test
-    fun testSendMessage() = runTest {
+    fun testSendMessage() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository(
             observeWithIdAnswer = flowOf(fakeEncryption1)
         )
@@ -160,7 +160,7 @@ class MessageViewModelTest {
     }
 
     @Test
-    fun testSendMessageWithNoEncryption() = runTest {
+    fun testSendMessageWithNoEncryption() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
         val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
@@ -176,7 +176,7 @@ class MessageViewModelTest {
     }
 
     @Test
-    fun testRemove() = runTest {
+    fun testRemove() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
         val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
@@ -192,7 +192,7 @@ class MessageViewModelTest {
     }
 
     @Test
-    fun testSelect() = runTest {
+    fun testSelect() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
         val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
@@ -206,7 +206,7 @@ class MessageViewModelTest {
     }
 
     @Test
-    fun testUnselect() = runTest {
+    fun testUnselect() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
         val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
@@ -223,7 +223,7 @@ class MessageViewModelTest {
     }
 
     @Test
-    fun testUnselectAll() = runTest {
+    fun testUnselectAll() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
         val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
@@ -240,7 +240,7 @@ class MessageViewModelTest {
     }
 
     @Test
-    fun testSelectAll() = runTest {
+    fun testSelectAll() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository(
             observeWithIdAnswer = flowOf(fakeEncryption1)
         )
@@ -261,7 +261,7 @@ class MessageViewModelTest {
     }
 
     @Test
-    fun testSetFavorite() = runTest {
+    fun testSetFavorite() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
         val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
@@ -276,7 +276,7 @@ class MessageViewModelTest {
     }
 
     @Test
-    fun testUnsetFavorite() = runTest {
+    fun testUnsetFavorite() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
         val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
@@ -291,7 +291,7 @@ class MessageViewModelTest {
     }
 
     @Test
-    fun testToggleVisibility() = runTest {
+    fun testToggleVisibility() = runCoroutineTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
         val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
