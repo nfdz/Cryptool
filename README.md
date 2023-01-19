@@ -65,4 +65,5 @@ The application is translated by volunteers on a collaborative translation platf
 </p>
 
 > *Google Play and the Google Play logo are trademarks of Google Inc.*
+
 > *Github and the Github logo are trademarks of Github Inc.*
