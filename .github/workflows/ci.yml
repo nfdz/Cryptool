@@ -77,10 +77,6 @@ jobs:
           distribution: 'adopt'
           java-version: '11'
           cache: 'gradle'
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v2
-      - name: Before Test
-        run: .github/ci/android/instrumentation_test_before.sh
       - name: AVD cache
         uses: actions/cache@v3
         id: avd-cache
@@ -100,6 +96,7 @@ jobs:
           disable-animations: true
           arch: x86_64
           profile: Pixel 5
+          pre-emulator-launch-script: .github/ci/android/instrumentation_test_before.sh
           script: .github/ci/android/instrumentation_test.sh
 
   release-dry-run:
