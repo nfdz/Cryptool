@@ -61,7 +61,7 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
       - name: Unit Test
-        run: .github/ci/android/build.sh
+        run: .github/ci/android/unit_test.sh
 
   instrumentation-test:
     name: Instrumentation Test
@@ -84,16 +84,13 @@ jobs:
           path: |
             ~/.android/avd/*
             ~/.android/adb*
-          key: pixel5-avd-adb-33
+          key: pixel5-33
       - name: run tests
         if: steps.avd-cache.outputs.cache-hit != 'true'
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 33
           target: google_apis
-          force-avd-creation: false
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          disable-animations: true
           arch: x86_64
           profile: pixel_5
           pre-emulator-launch-script: .github/ci/android/instrumentation_test_before.sh
