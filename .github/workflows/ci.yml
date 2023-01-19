@@ -62,7 +62,10 @@ jobs:
         uses: android-actions/setup-android@v2
       - name: Unit Test
         run: .github/ci/android/unit_test.sh
-
+#
+#  TODO: Check if it works with Android Gradle plugin 8
+#  https://issuetracker.google.com/issues/193118030
+#
   instrumentation-test:
     name: Instrumentation Test
     needs: [ lint, release-dry-run ]

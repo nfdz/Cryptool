@@ -26,6 +26,7 @@ kotlin {
         homepage = "https://github.com/nfdz/Cryptool"
         ios.deploymentTarget = "14.1"
         framework {
+            isStatic = true
             baseName = "shared"
         }
         podfile = project.file("../iosApp/Podfile")
