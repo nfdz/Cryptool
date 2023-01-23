@@ -64,9 +64,9 @@ class PasswordRepositoryImpl(
         }.toEntity()
     }
 
-    override suspend fun remove(password: Password) {
+    override suspend fun remove(id: String) {
         realm.write {
-            delete(query<PasswordRealm>("id == '${password.id}'").find().first())
+            delete(query<PasswordRealm>("id == '$id'").find().first())
         }
     }
 }

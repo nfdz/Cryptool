@@ -42,7 +42,7 @@ If you think something is missing from the application, please create an issue t
 
 ## Translation
 
-The application is translated by volunteers on a collaborative translation platform. You can help complete and improve the translations by joining the Crowdin project. If you would like to start the translation in a new language, contact or create an issue. Any help is greatly appreciated!
+The application is translated by volunteers on a collaborative translation platform. You can help complete and improve the translations by joining the [Crowdin](https://crowdin.com/project/cryptool) project. If you would like to start the translation in a new language, contact or create an issue. Any help is greatly appreciated!
 
 ## Download
 

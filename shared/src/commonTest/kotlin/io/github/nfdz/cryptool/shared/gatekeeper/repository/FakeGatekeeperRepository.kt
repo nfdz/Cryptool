@@ -47,7 +47,7 @@ class FakeGatekeeperRepository(
     }
 
     var checkAccessCount = 0
-    override fun checkAccess(): Boolean {
+    override fun checkAccessChange(): Boolean {
         checkAccessCount++
         return checkAccessAnswer!!
     }

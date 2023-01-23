@@ -19,8 +19,8 @@ class MessageRepositoryImpl(
 ) : MessageRepository {
 
     companion object {
-        private const val visibilityKey = "preference_visibility"
-        private const val defaultVisibility = true
+        const val visibilityKey = "preference_visibility"
+        const val defaultVisibility = true
     }
 
     private val realm: Realm
@@ -28,7 +28,7 @@ class MessageRepositoryImpl(
 
     override fun getAll(): List<Message> {
         return realm.query<MessageRealm>().find().map {
-            it.toEntity(it.encryptionId)
+            it.toEntity()
         }
     }
 
@@ -52,7 +52,7 @@ class MessageRepositoryImpl(
 
     override suspend fun observe(encryptionId: String): Flow<List<Message>> {
         return realm.query<MessageRealm>("encryptionId == '${encryptionId}'").asFlow().transform { value ->
-            emit(value.list.map { it.toEntity(it.encryptionId) })
+            emit(value.list.map { it.toEntity() })
         }
     }
 

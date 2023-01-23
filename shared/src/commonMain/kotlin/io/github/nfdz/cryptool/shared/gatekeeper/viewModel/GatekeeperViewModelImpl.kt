@@ -124,7 +124,7 @@ class GatekeeperViewModelImpl(
     }
 
     private fun checkAccess() {
-        val anyChange = repository.checkAccess()
+        val anyChange = repository.checkAccessChange()
         if (anyChange) {
             emitNewState(refreshState())
         }

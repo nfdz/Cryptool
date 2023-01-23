@@ -24,9 +24,9 @@ private fun NoPasswordContentPreview() {
 }
 
 @Composable
-fun NoPasswordContent() {
+fun NoPasswordContent(modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .padding(34.dp)
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center,

@@ -9,5 +9,5 @@ interface PasswordRepository {
     suspend fun observe(): Flow<List<Password>>
     suspend fun create(name: String, password: String, tags: String): Password
     suspend fun edit(passwordToEdit: Password, name: String, password: String, tags: String): Password
-    suspend fun remove(password: Password)
+    suspend fun remove(id: String)
 }

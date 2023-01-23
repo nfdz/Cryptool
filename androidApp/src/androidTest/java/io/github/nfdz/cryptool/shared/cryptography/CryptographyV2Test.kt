@@ -13,7 +13,6 @@ class CryptographyV2Test {
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
         private const val encryptedData =
             "z3C_OUR_lYdYpkbMZ_pawta0ehM.aOpLlw1CMyyh_aj7.128.V_V108PJzPv5hd4WZLQ7JBHOxJWyYPKQQFjELaXzBWCCChNUHOroeMzvgx9QZK_o1TR0PqYCqFpKFnMJR9sAeXaF_hB-Ik3vBn3fFUXFZyDLjx5hy9_dvgon6hnlUj4ic4b7VTbUEg068XJ2senGFsTm6RhJbCi-0YtV3Gcdwrbo1XdC5XMTDLp0BD08RO0IpciWUsMvr8ILODeCzmI_iVq3Xvk7ioTGJBJMr9jbphyHvAlt_L00ug"
-        private const val encryptedEmpty = "eKh4VuQuzDBALymsmn1SKQ==\n"
     }
 
     @Test

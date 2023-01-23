@@ -7,7 +7,7 @@ import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
 
-internal class EncryptionRealm : RealmObject {
+class EncryptionRealm : RealmObject {
     @PrimaryKey
     var id: String = ""
     var name: String = ""

@@ -15,8 +15,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.geometry.center
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RadialGradientShader
+import androidx.compose.ui.graphics.Shader
+import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -65,24 +69,25 @@ class OverlayToolService : OverlayComposeViewServiceBase() {
             minimizeOverlay = ::minimizeOverlay,
             closeOverlay = ::closeOverlay,
         )
-        val darkShadow = Color(0xAA191818)
+        val darkShadow = Color(0xFF191818)
+        val largeRadialGradient = object : ShaderBrush() {
+            override fun createShader(size: Size): Shader {
+                val biggerDimension = maxOf(size.height, size.width)
+                return RadialGradientShader(
+                    colors = listOf(darkShadow, Color.Transparent),
+                    center = size.center,
+                    radius = biggerDimension / 2f,
+                    colorStops = listOf(0f, 0.95f)
+                )
+            }
+        }
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(
-                        Brush.verticalGradient(
-                            0f to darkShadow.copy(alpha = 0f),
-                            0.1f to darkShadow.copy(alpha = 0.1f),
-                            0.25f to darkShadow.copy(alpha = 0.5f),
-                            0.5f to darkShadow,
-                            0.75f to darkShadow.copy(alpha = 0.5f),
-                            0.9f to darkShadow.copy(alpha = 0.1f),
-                            1f to darkShadow.copy(alpha = 0f),
-                        )
-                    )
+                    .background(largeRadialGradient)
                     .noRippleClickable {
                         router.navigateToOverlayBall()
                     }

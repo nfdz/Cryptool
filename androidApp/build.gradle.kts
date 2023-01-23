@@ -95,4 +95,5 @@ dependencies {
     debugImplementation(libs.leakcanary)
     testImplementation(libs.bundles.android.test.unit)
     androidTestImplementation(libs.bundles.android.test.instrumentation)
+    androidTestImplementation(libs.realm)
 }

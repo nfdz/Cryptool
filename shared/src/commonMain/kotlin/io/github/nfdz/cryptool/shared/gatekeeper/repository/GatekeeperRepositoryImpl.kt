@@ -32,11 +32,16 @@ class GatekeeperRepositoryImpl(
 ) : GatekeeperRepository {
 
     companion object {
-        private const val codeKey = "access_code"
-        private const val codeSaltKey = "access_code_salt"
-        private const val biometricCodeKey = "access_biometric_code"
+        const val codeKey = "access_code"
+        const val codeSaltKey = "access_code_salt"
+        const val biometricCodeKey = "access_biometric_code"
 
         private const val accessValidityPeriodInSeconds = 300 // 5 min
+
+        var nowInSecondsForTesting: Long? = null
+        fun nowInSeconds(): Long {
+            return nowInSecondsForTesting ?: Clock.System.now().epochSeconds
+        }
     }
 
     private val keyDerivation = Argon2KeyDerivation()
@@ -74,10 +79,10 @@ class GatekeeperRepositoryImpl(
         storage.putString(biometricCodeKey, encryptedCode)
     }
 
-    override fun checkAccess(): Boolean {
+    override fun checkAccessChange(): Boolean {
         Napier.d(tag = "GatekeeperRepository", message = "Check access validity")
         if (activeCode == null) return false
-        val elapsedTime = Clock.System.now().epochSeconds - accessValidityTimestampInSeconds
+        val elapsedTime = nowInSeconds() - accessValidityTimestampInSeconds
         return if (elapsedTime > accessValidityPeriodInSeconds) {
             Napier.d(tag = "GatekeeperRepository", message = "Access is no longer valid")
             activeCode = null
@@ -89,7 +94,7 @@ class GatekeeperRepositoryImpl(
 
     override fun pushAccessValidity() {
         Napier.d(tag = "GatekeeperRepository", message = "Push access validity")
-        accessValidityTimestampInSeconds = Clock.System.now().epochSeconds
+        accessValidityTimestampInSeconds = nowInSeconds()
     }
 
     override fun reset() {
@@ -118,7 +123,7 @@ class GatekeeperRepositoryImpl(
         realmGateway.open(key)
         activeCode = code
         finishMigrationInProgress()
-        accessValidityTimestampInSeconds = Clock.System.now().epochSeconds
+        accessValidityTimestampInSeconds = nowInSeconds()
     }
 
     override fun acknowledgeWelcome(welcomeTutorial: TutorialInformation?) {
