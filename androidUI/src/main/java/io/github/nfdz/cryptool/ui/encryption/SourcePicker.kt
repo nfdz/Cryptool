@@ -3,6 +3,7 @@ package io.github.nfdz.cryptool.ui.encryption
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FileOpen
 import androidx.compose.material.icons.filled.Message
 import androidx.compose.material.icons.filled.TouchApp
 import androidx.compose.material3.Icon
@@ -32,10 +33,19 @@ private fun SourcePickerPreview() {
 fun SourcePicker(modifier: Modifier = Modifier, onPick: (MessageSource) -> Unit) {
     var showSmsDialog by remember { mutableStateOf(false) }
     if (showSmsDialog) {
-        SmsDialog { phone ->
+        SmsSourceDialog { source ->
             showSmsDialog = false
-            if (phone != null) {
-                onPick(MessageSource.Sms(phone))
+            if (source != null) {
+                onPick(source)
+            }
+        }
+    }
+    var showFileDialog by remember { mutableStateOf(false) }
+    if (showFileDialog) {
+        FileSourceDialog { source ->
+            showFileDialog = false
+            if (source != null) {
+                onPick(source)
             }
         }
     }
@@ -54,6 +64,13 @@ fun SourcePicker(modifier: Modifier = Modifier, onPick: (MessageSource) -> Unit)
             icon = Icons.Filled.Message,
         ) {
             showSmsDialog = true
+        },
+        SourceOptionEntry(
+            title = "TODO File",
+            description = "TODO SMS",
+            icon = Icons.Filled.FileOpen,
+        ) {
+            showFileDialog = true
         },
     )
     BoxWithConstraints(modifier = modifier, contentAlignment = Alignment.Center) {
@@ -88,7 +105,7 @@ private fun SourcePickerGrid(sources: List<SourceOptionEntry>) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        val sourcesRows = sources.chunked(2)
+        val sourcesRows = sources.chunked(3)
         sourcesRows.forEach { row ->
             Row(
                 modifier = Modifier

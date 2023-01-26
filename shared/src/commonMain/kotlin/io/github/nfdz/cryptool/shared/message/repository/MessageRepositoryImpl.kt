@@ -8,6 +8,7 @@ import io.github.nfdz.cryptool.shared.encryption.repository.realm.EncryptionReal
 import io.github.nfdz.cryptool.shared.message.entity.Message
 import io.github.nfdz.cryptool.shared.message.entity.MessageOwnership
 import io.github.nfdz.cryptool.shared.message.repository.realm.MessageRealm
+import io.github.nfdz.cryptool.shared.platform.file.FileMessageSender
 import io.github.nfdz.cryptool.shared.platform.sms.SmsSender
 import io.github.nfdz.cryptool.shared.platform.storage.KeyValueStorage
 import io.realm.kotlin.Realm
@@ -20,6 +21,7 @@ class MessageRepositoryImpl(
     private val realmGateway: RealmGateway,
     private val storage: KeyValueStorage,
     private val smsSender: SmsSender,
+    private val fileMessageSender: FileMessageSender,
 ) : MessageRepository {
     companion object {
         const val visibilityKey = "preference_visibility"
@@ -125,9 +127,8 @@ class MessageRepositoryImpl(
             ?: throw IllegalStateException("Cannot receive message")
         val encryption = realm.query<EncryptionRealm>("id == '${encryptionId}'").find().first()
         when (val source = encryption.source.deserializeMessageSource()) {
-            is MessageSource.Sms -> {
-                smsSender.sendMessage(source.phone, encryptedMessage)
-            }
+            is MessageSource.Sms -> smsSender.sendMessage(source.phone, encryptedMessage)
+            is MessageSource.File -> fileMessageSender.sendMessage(source.outputFilePath, encryptedMessage)
             MessageSource.Manual -> Unit
         }
 

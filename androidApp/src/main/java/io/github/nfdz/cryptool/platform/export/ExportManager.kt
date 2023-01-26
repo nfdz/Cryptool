@@ -51,8 +51,7 @@ class ExportManagerImpl(
             runCatching {
                 val data = exportDataManager.prepareData(configuration)
                 val encryptedData = encryptData(data, code)
-                val file = DocumentFile.fromSingleUri(activity, uri) ?: throw IllegalStateException("File is not valid")
-                val output = activity.contentResolver.openOutputStream(file.uri)
+                val output = activity.contentResolver.openOutputStream(uri)
                     ?: throw IllegalStateException("Cannot open file")
                 output.use { it.bufferedWriter().use { bw -> bw.write(encryptedData) } }
             }.onSuccess {

@@ -17,6 +17,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
 import io.github.nfdz.cryptool.shared.extension.hasPermission
 import io.github.nfdz.cryptool.shared.platform.sms.smsPermissions
 import io.github.nfdz.cryptool.ui.AppTheme
@@ -25,7 +26,7 @@ import io.github.nfdz.cryptool.ui.extension.enforceSingleLine
 import io.github.nfdz.cryptool.ui.extension.navigateToAppSystemSettings
 
 @Composable
-internal fun SmsDialog(callback: (String?) -> Unit) {
+internal fun SmsSourceDialog(callback: (MessageSource.Sms?) -> Unit) {
     var explainPermissionDialog by remember { mutableStateOf(false) }
     var phoneAfterPermission by remember { mutableStateOf("") }
     val context = LocalContext.current
@@ -34,7 +35,7 @@ internal fun SmsDialog(callback: (String?) -> Unit) {
     ) { output ->
         val isGranted = output.values.all { it }
         if (isGranted) {
-            callback(phoneAfterPermission)
+            callback(MessageSource.Sms(phoneAfterPermission))
         } else {
             explainPermissionDialog = true
         }
@@ -50,12 +51,12 @@ internal fun SmsDialog(callback: (String?) -> Unit) {
     Dialog(
         onDismissRequest = { callback(null) },
         content = {
-            SmsDialogContent {
+            SmsSourceDialogContent {
                 if (it == null) {
                     callback(null)
                 } else {
                     if (context.hasPermission(smsPermissions)) {
-                        callback(it)
+                        callback(MessageSource.Sms(it))
                     } else {
                         phoneAfterPermission = it
                         launcher.launch(smsPermissions.toTypedArray())
@@ -68,16 +69,16 @@ internal fun SmsDialog(callback: (String?) -> Unit) {
 
 @Composable
 @Preview
-private fun SmsDialogPreview() {
+private fun SmsSourceDialogPreview() {
     AppTheme {
-        SmsDialogContent() {}
+        SmsSourceDialogContent() {}
     }
 }
 
 private const val maxLength = 100
 
 @Composable
-internal fun SmsDialogContent(callback: (String?) -> Unit) {
+internal fun SmsSourceDialogContent(callback: (String?) -> Unit) {
     var phone by remember { mutableStateOf("") }
 
     Box(

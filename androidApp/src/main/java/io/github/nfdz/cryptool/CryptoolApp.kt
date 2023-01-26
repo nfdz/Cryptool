@@ -35,6 +35,8 @@ import io.github.nfdz.cryptool.shared.password.repository.PasswordRepositoryImpl
 import io.github.nfdz.cryptool.shared.password.viewModel.PasswordViewModel
 import io.github.nfdz.cryptool.shared.password.viewModel.PasswordViewModelImpl
 import io.github.nfdz.cryptool.shared.platform.biometric.Biometric
+import io.github.nfdz.cryptool.shared.platform.file.FileMessageSender
+import io.github.nfdz.cryptool.shared.platform.file.FileMessageSenderAndroid
 import io.github.nfdz.cryptool.shared.platform.localization.LocalizedError
 import io.github.nfdz.cryptool.shared.platform.sms.SmsReceiver
 import io.github.nfdz.cryptool.shared.platform.sms.SmsReceiverAndroid
@@ -73,6 +75,7 @@ class CryptoolApp : Application() {
         // Platform + Core
         single<RealmGateway> { RealmGatewayImpl() }
         single<Biometric> { BiometricAndroid() }
+        single<FileMessageSender> { FileMessageSenderAndroid(applicationContext) }
         single<SmsSender> { SmsSenderAndroid(applicationContext) }
         single<SmsReceiver> { SmsReceiverAndroid(applicationContext, get(), get(), get()) }
         single<KeyValueStorage> { KeyValueStorageAndroid(applicationContext) }
@@ -88,7 +91,7 @@ class CryptoolApp : Application() {
         // Repositories
         single<GatekeeperRepository> { GatekeeperRepositoryImpl(get(), get(), get(), get(), get(), get(), get()) }
         single<EncryptionRepository> { EncryptionRepositoryImpl(get()) }
-        single<MessageRepository> { MessageRepositoryImpl(get(), get(), get()) }
+        single<MessageRepository> { MessageRepositoryImpl(get(), get(), get(), get()) }
         single<PasswordRepository> { PasswordRepositoryImpl(get()) }
 
         // View Models

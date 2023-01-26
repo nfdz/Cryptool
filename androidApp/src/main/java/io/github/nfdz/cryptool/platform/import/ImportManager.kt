@@ -49,8 +49,7 @@ class ImportManagerImpl(
             val uri = openFile() ?: return@withContext
             snackbar.showSnackbarAsync(activity.getString(R.string.import_in_progress_snackbar))
             runCatching {
-                val file = DocumentFile.fromSingleUri(activity, uri) ?: throw IllegalStateException("File is not valid")
-                val input = activity.contentResolver.openInputStream(file.uri)
+                val input = activity.contentResolver.openInputStream(uri)
                     ?: throw IllegalStateException("Cannot open file")
                 val encryptedData = input.use { it.bufferedReader().use { br -> br.readText() } }
                 if (code == null) {
