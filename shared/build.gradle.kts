@@ -56,6 +56,7 @@ kotlin {
             dependencies {
                 implementation(libs.bundles.androidx)
                 implementation(libs.signal.argon2)
+                implementation(libs.libphonenumber)
             }
         }
         val androidTest by getting {

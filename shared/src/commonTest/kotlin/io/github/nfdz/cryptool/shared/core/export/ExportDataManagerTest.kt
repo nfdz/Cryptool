@@ -15,61 +15,58 @@ class ExportDataManagerTest {
     companion object {
         private const val expectedPrepareDataEmpty = """
 {
-   "v2":true,
-   "passwords":[],
-   "encryptions":[],
-   "messages":[]
+   "v2":"",
+   "p":[],
+   "e":[],
+   "m":[]
 }
         """
         private const val expectedPrepareDataOnlyPasswords = """
 {
-   "v2":true,
-   "passwords":[
+   "v2":"",
+   "p":[
       {
-         "id":"A",
-         "name":"Test A",
-         "password":"Password A",
-         "tags":"tag-a"
+         "i":"A",
+         "n":"Test A",
+         "p":"Password A",
+         "t":"tag-a"
       }
    ],
-   "encryptions":[],
-   "messages":[]
+   "e":[],
+   "m":[]
 }
         """
         private const val expectedPrepareDataOnlyEncryption = """
 {
-   "v2":true,
-   "passwords":[],
-   "encryptions":[
+   "v2":"",
+   "p":[],
+   "e":[
       {
-         "id":"1",
-         "name":"Conversation 1",
-         "password":"test 1",
-         "algorithm":"V2",
-         "source":"MANUAL",
-         "isFavorite":false,
-         "unreadMessagesCount":3,
-         "lastMessage":"#4fof34bl4f",
-         "lastMessageTimestamp":987688696768
+         "i":"1",
+         "n":"Conversation 1",
+         "p":"test 1",
+         "a":"V2",
+         "s":"MANUAL",
+         "f":false
       }
    ],
-   "messages":[]
+   "m":[]
 }
         """
         private const val expectedPrepareDataOnlyMessage = """
 {
-   "v2":true,
-   "passwords":[],
-   "encryptions":[],
-   "messages":[
+   "v2":"",
+   "p":[],
+   "e":[],
+   "m":[
       {
-         "id":"1",
-         "encryptionId":"1",
-         "message":"Hello 1",
-         "encryptedMessage":"fwofwffklr",
-         "timestampInMillis":987688696768,
-         "isFavorite":false,
-         "ownership":"OTHER"
+         "i":"1",
+         "ei":"1",
+         "m":"Hello 1",
+         "em":"fwofwffklr",
+         "t":987688696768,
+         "f":false,
+         "o":"OTHER"
       }
    ]
 }
@@ -175,7 +172,7 @@ class ExportDataManagerTest {
         val result = instance.prepareDataDto()
 
         assertTrue(result is ApplicationDataDto)
-        assertEquals(true, result.v2)
+        assertEquals("", result.v2)
         assertEquals(1, result.encryptions.size)
         assertEquals(EncryptionDto.from(fakeEncryption), result.encryptions.first())
         assertEquals(1, result.messages.size)

@@ -18,4 +18,7 @@ object FakeLocalizedError : LocalizedError {
 
     override val messageUnexpected: String
         get() = "message-unexpected"
+
+    override val exclusiveSourceCollision: String
+        get() = "exclusive-source-collision"
 }

@@ -7,11 +7,11 @@ object FakeEncryption {
             "Conversation $id",
             "test $id",
             AlgorithmVersion.V2,
-            MessageSource.MANUAL,
+            MessageSource.Manual,
             false,
-            3,
-            "#4fof34bl4f",
-            987688696768
+            0,
+            "",
+            0L,
         )
     }
 }

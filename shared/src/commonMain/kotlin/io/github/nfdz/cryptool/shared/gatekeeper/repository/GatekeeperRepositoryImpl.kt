@@ -4,6 +4,7 @@ import io.github.aakira.napier.Napier
 import io.github.nfdz.cryptool.shared.core.realm.RealmGateway
 import io.github.nfdz.cryptool.shared.encryption.entity.AlgorithmVersion
 import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
+import io.github.nfdz.cryptool.shared.encryption.entity.serialize
 import io.github.nfdz.cryptool.shared.encryption.repository.realm.EncryptionRealm
 import io.github.nfdz.cryptool.shared.gatekeeper.entity.LegacyMigrationData
 import io.github.nfdz.cryptool.shared.gatekeeper.entity.LegacyMigrationInformation
@@ -16,6 +17,7 @@ import io.github.nfdz.cryptool.shared.platform.biometric.BiometricContext
 import io.github.nfdz.cryptool.shared.platform.cryptography.Argon2KeyDerivation
 import io.github.nfdz.cryptool.shared.platform.cryptography.decodeBase64
 import io.github.nfdz.cryptool.shared.platform.cryptography.encodeBase64
+import io.github.nfdz.cryptool.shared.platform.sms.SmsReceiver
 import io.github.nfdz.cryptool.shared.platform.storage.KeyValueStorage
 import io.github.nfdz.cryptool.shared.platform.version.ChangelogProvider
 import io.github.nfdz.cryptool.shared.platform.version.VersionProvider
@@ -29,6 +31,7 @@ class GatekeeperRepositoryImpl(
     private val realmGateway: RealmGateway,
     private val legacyMigrationManager: LegacyMigrationManager,
     private val versionProvider: VersionProvider,
+    private val smsReceiver: SmsReceiver,
 ) : GatekeeperRepository {
 
     companion object {
@@ -124,6 +127,7 @@ class GatekeeperRepositoryImpl(
         activeCode = code
         finishMigrationInProgress()
         accessValidityTimestampInSeconds = nowInSeconds()
+        triggerOnOpenActions()
     }
 
     override fun acknowledgeWelcome(welcomeTutorial: TutorialInformation?) {
@@ -148,9 +152,10 @@ class GatekeeperRepositoryImpl(
                         password = TutorialInformation.defaultPassword,
                         algorithm = cryptography.version,
                     ).apply {
-                        source = MessageSource.MANUAL.name
+                        source = MessageSource.Manual.serialize()
                         lastMessage = messages.first().second
                         lastMessageTimestamp = timestamp
+                        unreadMessagesCount = welcomeTutorial.messages.size
                     }
                 )
                 messages.forEachIndexed { index, message ->
@@ -219,6 +224,10 @@ class GatekeeperRepositoryImpl(
                 }
             }
         }
+    }
+
+    private fun triggerOnOpenActions() {
+        smsReceiver.receivePendingMessage()
     }
 
 }

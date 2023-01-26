@@ -114,7 +114,7 @@ private fun EncryptionScreenPreview() {
                     "Joe",
                     "Pw test",
                     AlgorithmVersion.V2,
-                    MessageSource.MANUAL,
+                    MessageSource.Manual,
                     false,
                     0,
                     "",
@@ -179,7 +179,7 @@ private fun EncryptionScreenSelectModePreview() {
                     "Joe",
                     "pw test",
                     AlgorithmVersion.V2,
-                    MessageSource.MANUAL,
+                    MessageSource.Manual,
                     false,
                     0,
                     "",
@@ -201,6 +201,7 @@ private fun EncryptionScreenLaunchedEffect(
         if (state.encryption?.id != encryptionId) {
             viewModel.dispatch(MessageAction.Initialize(encryptionId))
         }
+        viewModel.dispatch(MessageAction.AcknowledgeUnreadMessages(encryptionId))
     }
 }
 
@@ -249,8 +250,15 @@ internal fun EncryptionScreenContent(
         },
         content = { padding ->
             if (encryption?.id == encryptionId) {
-                when (val source = encryption.source) {
-                    MessageSource.MANUAL -> Column(
+                val source = encryption.source
+                if (source == null) {
+                    SourcePicker(
+                        modifier = Modifier.padding(padding),
+                    ) {
+                        viewModel.dispatch(MessageAction.SetSource(it))
+                    }
+                } else {
+                    Column(
                         modifier = Modifier
                             .padding(padding)
                             .fillMaxHeight(),
@@ -282,11 +290,6 @@ internal fun EncryptionScreenContent(
                                 viewModel.dispatch(MessageAction.SendMessage(it))
                             })
                         }
-                    }
-                    null -> SourcePicker(
-                        modifier = Modifier.padding(padding),
-                    ) {
-                        viewModel.dispatch(MessageAction.SetSource(it))
                     }
                 }
             }

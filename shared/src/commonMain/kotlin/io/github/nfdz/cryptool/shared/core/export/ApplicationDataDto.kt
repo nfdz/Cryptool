@@ -2,31 +2,39 @@ package io.github.nfdz.cryptool.shared.core.export
 
 import io.github.nfdz.cryptool.shared.encryption.entity.AlgorithmVersion
 import io.github.nfdz.cryptool.shared.encryption.entity.Encryption
-import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
+import io.github.nfdz.cryptool.shared.encryption.entity.deserializeMessageSource
+import io.github.nfdz.cryptool.shared.encryption.entity.serialize
 import io.github.nfdz.cryptool.shared.message.entity.Message
 import io.github.nfdz.cryptool.shared.message.entity.MessageOwnership
 import io.github.nfdz.cryptool.shared.password.entity.Password
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class ApplicationDataDto(
-    val v2: Boolean,
+    val v2: String,
+    @SerialName("p")
     val passwords: List<PasswordDto>,
+    @SerialName("e")
     val encryptions: List<EncryptionDto>,
+    @SerialName("m")
     val messages: List<MessageDto>,
 )
 
 @Serializable
 internal data class EncryptionDto(
+    @SerialName("i")
     val id: String,
+    @SerialName("n")
     val name: String,
+    @SerialName("p")
     val password: String,
+    @SerialName("a")
     val algorithm: String,
+    @SerialName("s")
     val source: String,
+    @SerialName("f")
     val isFavorite: Boolean,
-    val unreadMessagesCount: Int,
-    val lastMessage: String,
-    val lastMessageTimestamp: Long,
 ) {
     companion object {
         fun from(value: Encryption): EncryptionDto {
@@ -35,11 +43,8 @@ internal data class EncryptionDto(
                 name = value.name,
                 password = value.password,
                 algorithm = value.algorithm.name,
-                source = value.source?.name ?: "",
+                source = value.source?.serialize() ?: "",
                 isFavorite = value.isFavorite,
-                unreadMessagesCount = value.unreadMessagesCount,
-                lastMessage = value.lastMessage,
-                lastMessageTimestamp = value.lastMessageTimestamp,
             )
         }
     }
@@ -49,22 +54,29 @@ internal data class EncryptionDto(
         name = name,
         password = password,
         algorithm = AlgorithmVersion.valueOf(algorithm),
-        source = if (source.isNotBlank()) MessageSource.valueOf(source) else null,
+        source = if (source.isNotBlank()) source.deserializeMessageSource() else null,
         isFavorite = isFavorite,
-        unreadMessagesCount = unreadMessagesCount,
-        lastMessage = lastMessage,
-        lastMessageTimestamp = lastMessageTimestamp,
+        unreadMessagesCount = 0,
+        lastMessage = "",
+        lastMessageTimestamp = 0L,
     )
 }
 
 @Serializable
 internal data class MessageDto(
+    @SerialName("i")
     val id: String,
+    @SerialName("ei")
     val encryptionId: String,
+    @SerialName("m")
     val message: String,
+    @SerialName("em")
     val encryptedMessage: String,
+    @SerialName("t")
     val timestampInMillis: Long,
+    @SerialName("f")
     val isFavorite: Boolean,
+    @SerialName("o")
     val ownership: String,
 ) {
     companion object {
@@ -94,9 +106,13 @@ internal data class MessageDto(
 
 @Serializable
 internal data class PasswordDto(
+    @SerialName("i")
     val id: String,
+    @SerialName("n")
     val name: String,
+    @SerialName("p")
     val password: String,
+    @SerialName("t")
     val tags: String,
 ) {
     companion object {

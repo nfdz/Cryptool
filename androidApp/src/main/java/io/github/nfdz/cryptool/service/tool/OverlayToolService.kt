@@ -28,6 +28,7 @@ import androidx.navigation.compose.rememberNavController
 import io.github.nfdz.cryptool.extension.fadeIn
 import io.github.nfdz.cryptool.extension.fadeOut
 import io.github.nfdz.cryptool.extension.noRippleClickable
+import io.github.nfdz.cryptool.platform.broadcast.MessageEventBroadcast
 import io.github.nfdz.cryptool.service.OverlayComposeViewServiceBase
 import io.github.nfdz.cryptool.shared.gatekeeper.viewModel.GatekeeperAction
 import io.github.nfdz.cryptool.shared.gatekeeper.viewModel.GatekeeperViewModel
@@ -35,6 +36,7 @@ import io.github.nfdz.cryptool.ui.AppTheme
 import io.github.nfdz.cryptool.ui.Router
 import io.github.nfdz.cryptool.ui.gatekeeper.GatekeeperScreen
 import io.github.nfdz.cryptool.ui.supportAdvancedFeatures
+import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
 
 class OverlayToolService : OverlayComposeViewServiceBase() {
@@ -45,12 +47,23 @@ class OverlayToolService : OverlayComposeViewServiceBase() {
     }
 
     private val gatekeeperViewModel: GatekeeperViewModel by inject()
+    private val msgEventReceiver = MessageEventBroadcast.createReceiver(get())
 
     override val overlayFullScreen: Boolean
         get() = true
     override val windowLayoutFlags: Int
         get() = WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or
                 WindowManager.LayoutParams.FLAG_SECURE
+
+    override fun onCreate() {
+        super.onCreate()
+        MessageEventBroadcast.registerReceiver(this, msgEventReceiver)
+    }
+
+    override fun onDestroy() {
+        MessageEventBroadcast.unregisterReceiver(this, msgEventReceiver)
+        super.onDestroy()
+    }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (startId > 1) {

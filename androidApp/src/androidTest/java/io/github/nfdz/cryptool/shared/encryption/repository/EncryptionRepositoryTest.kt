@@ -4,6 +4,7 @@ import io.github.nfdz.cryptool.shared.core.realm.FakeRealmGateway
 import io.github.nfdz.cryptool.shared.encryption.entity.AlgorithmVersion
 import io.github.nfdz.cryptool.shared.encryption.entity.Encryption
 import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
+import io.github.nfdz.cryptool.shared.encryption.entity.serialize
 import io.github.nfdz.cryptool.shared.encryption.repository.realm.EncryptionRealm
 import io.realm.kotlin.ext.query
 import junit.framework.TestCase.assertEquals
@@ -278,7 +279,7 @@ class EncryptionRepositoryTest {
         }
         val instance = EncryptionRepositoryImpl(realm)
 
-        val source = MessageSource.MANUAL
+        val source = MessageSource.Manual
         instance.setSource(encryptionA.id, source)
 
         val stored = realm.instance.query<EncryptionRealm>().find()
@@ -291,13 +292,13 @@ class EncryptionRepositoryTest {
     fun testSetSourceNonExisting() = runTest {
         val instance = EncryptionRepositoryImpl(realm)
 
-        instance.setSource(encryptionA.id, MessageSource.MANUAL)
+        instance.setSource(encryptionA.id, MessageSource.Manual)
     }
 
     @Test
     fun testSetSourceNull() = runTest {
         realm.instance.write {
-            encryptionRealmA.source = MessageSource.MANUAL.name
+            encryptionRealmA.source = MessageSource.Manual.serialize()
             copyToRealm(encryptionRealmA)
         }
         val instance = EncryptionRepositoryImpl(realm)

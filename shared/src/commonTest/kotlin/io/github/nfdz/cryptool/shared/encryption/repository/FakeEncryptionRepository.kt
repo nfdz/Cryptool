@@ -13,12 +13,21 @@ class FakeEncryptionRepository(
     val createAnswer: Encryption? = null,
     val editAnswer: Encryption? = null,
     val observeWithIdAnswer: Flow<Encryption> = flow { },
+    val getAllWithAnswer: List<Encryption> = emptyList(),
 ) : EncryptionRepository {
 
     var getAllCount = 0
     override fun getAll(): List<Encryption> {
         getAllCount++
         return getAllAnswer
+    }
+
+    var getAllWithCount = 0
+    var getAllWithArgSource: MessageSource? = null
+    override fun getAllWith(source: MessageSource): List<Encryption> {
+        getAllWithCount++
+        getAllWithArgSource = source
+        return getAllWithAnswer
     }
 
     var addAllRegistry = mutableListOf<List<Encryption>>()
@@ -101,5 +110,13 @@ class FakeEncryptionRepository(
         setSourceCount++
         setSourceArgId = id
         setSourceArgSource = source
+    }
+
+    var acknowledgeUnreadMessagesCount = 0
+    var acknowledgeUnreadMessagesArgId: String? = null
+    override suspend fun acknowledgeUnreadMessages(id: String) {
+        acknowledgeUnreadMessagesCount++
+        acknowledgeUnreadMessagesArgId = id
+
     }
 }

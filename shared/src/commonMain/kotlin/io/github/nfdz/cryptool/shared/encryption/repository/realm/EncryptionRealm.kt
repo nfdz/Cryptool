@@ -3,7 +3,7 @@ package io.github.nfdz.cryptool.shared.encryption.repository.realm
 import io.github.nfdz.cryptool.shared.core.realm.RealmId
 import io.github.nfdz.cryptool.shared.encryption.entity.AlgorithmVersion
 import io.github.nfdz.cryptool.shared.encryption.entity.Encryption
-import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
+import io.github.nfdz.cryptool.shared.encryption.entity.deserializeMessageSource
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
 
@@ -33,7 +33,7 @@ class EncryptionRealm : RealmObject {
         name = name,
         password = password,
         algorithm = AlgorithmVersion.valueOf(algorithm),
-        source = if (source.isNotBlank()) MessageSource.valueOf(source) else null,
+        source = if (source.isNotBlank()) source.deserializeMessageSource() else null,
         isFavorite = isFavorite,
         unreadMessagesCount = unreadMessagesCount,
         lastMessage = lastMessage,

@@ -24,4 +24,7 @@ class LocalizedErrorAndroid(private val context: Context) : LocalizedError {
     override val messageUnexpected: String
         get() = context.getString(R.string.unexpected_error)
 
+    override val exclusiveSourceCollision: String
+        get() = context.getString(R.string.encryption_exclusive_source_error)
+
 }

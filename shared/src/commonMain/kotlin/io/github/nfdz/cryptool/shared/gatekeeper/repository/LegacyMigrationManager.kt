@@ -4,6 +4,7 @@ import io.github.aakira.napier.Napier
 import io.github.nfdz.cryptool.shared.core.realm.RealmGateway
 import io.github.nfdz.cryptool.shared.encryption.entity.AlgorithmVersion
 import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
+import io.github.nfdz.cryptool.shared.encryption.entity.serialize
 import io.github.nfdz.cryptool.shared.encryption.repository.realm.EncryptionRealm
 import io.github.nfdz.cryptool.shared.gatekeeper.entity.LegacyMigrationData
 import io.github.nfdz.cryptool.shared.message.entity.MessageOwnership
@@ -63,7 +64,7 @@ class LegacyMigrationManagerImpl(
                 password = lastPassphrase,
                 algorithm = AlgorithmVersion.V1,
             ).apply {
-                source = MessageSource.MANUAL.name
+                source = MessageSource.Manual.serialize()
             }
             val messageEntry = if (isDecryptMode) {
                 val text = AlgorithmVersion.V1.createCryptography().decrypt(lastPassphrase, lastOriginText)

@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.compose.rememberNavController
+import io.github.nfdz.cryptool.platform.broadcast.MessageEventBroadcast
 import io.github.nfdz.cryptool.platform.export.ExportManagerImpl
 import io.github.nfdz.cryptool.platform.import.ImportManagerImpl
 import io.github.nfdz.cryptool.platform.permission.OverlayPermissionImpl
@@ -34,20 +35,27 @@ class AppActivity : FragmentActivity(), CoroutineScope by CoroutineScope(Dispatc
     private val exportManager = ExportManagerImpl(this, get(), get())
     private val overlayPermission = OverlayPermissionImpl(this)
     private val gatekeeperViewModel: GatekeeperViewModel by inject()
+    private val msgEventReceiver = MessageEventBroadcast.createReceiver(get())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!launchShortcut(intent)) {
             OverlayViewServiceBase.closeAll(this)
+            MessageEventBroadcast.registerReceiver(this, msgEventReceiver)
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+            window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
+            updateShortcut()
+            setContent {
+                val navController = rememberNavController()
+                val router = RouterApp(navController, this, overlayPermission, exportManager, importManager)
+                AppEntryPoint(this, router, navController, gatekeeperViewModel)
+            }
         }
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-        window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
-        updateShortcut()
-        setContent {
-            val navController = rememberNavController()
-            val router = RouterApp(navController, this, overlayPermission, exportManager, importManager)
-            AppEntryPoint(this, router, navController, gatekeeperViewModel)
-        }
+    }
+
+    override fun onDestroy() {
+        MessageEventBroadcast.unregisterReceiver(this, msgEventReceiver)
+        super.onDestroy()
     }
 
     override fun onNewIntent(intent: Intent?) {

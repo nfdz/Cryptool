@@ -36,15 +36,19 @@ import io.github.nfdz.cryptool.shared.password.viewModel.PasswordViewModel
 import io.github.nfdz.cryptool.shared.password.viewModel.PasswordViewModelImpl
 import io.github.nfdz.cryptool.shared.platform.biometric.Biometric
 import io.github.nfdz.cryptool.shared.platform.localization.LocalizedError
+import io.github.nfdz.cryptool.shared.platform.sms.SmsReceiver
+import io.github.nfdz.cryptool.shared.platform.sms.SmsReceiverAndroid
+import io.github.nfdz.cryptool.shared.platform.sms.SmsSender
+import io.github.nfdz.cryptool.shared.platform.sms.SmsSenderAndroid
 import io.github.nfdz.cryptool.shared.platform.storage.KeyValueStorage
 import io.github.nfdz.cryptool.shared.platform.storage.KeyValueStorageAndroid
 import io.github.nfdz.cryptool.shared.platform.storage.LegacyPreferencesStorage
 import io.github.nfdz.cryptool.shared.platform.version.ChangelogProvider
 import io.github.nfdz.cryptool.shared.platform.version.VersionProvider
 import io.github.nfdz.cryptool.ui.platform.ApplicationManager
+import io.github.nfdz.cryptool.ui.platform.ChangelogProviderAndroid
 import io.github.nfdz.cryptool.ui.platform.ClipboardAndroid
 import io.github.nfdz.cryptool.ui.platform.LegacyPinCodeManager
-import io.github.nfdz.cryptool.ui.platform.ChangelogProviderAndroid
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -69,6 +73,8 @@ class CryptoolApp : Application() {
         // Platform + Core
         single<RealmGateway> { RealmGatewayImpl() }
         single<Biometric> { BiometricAndroid() }
+        single<SmsSender> { SmsSenderAndroid(applicationContext) }
+        single<SmsReceiver> { SmsReceiverAndroid(applicationContext, get(), get(), get()) }
         single<KeyValueStorage> { KeyValueStorageAndroid(applicationContext) }
         single<ChangelogProvider> { ChangelogProviderAndroid(applicationContext) }
         single<LegacyPinCodeManager> { LegacyPinCodeManagerImpl }
@@ -80,9 +86,9 @@ class CryptoolApp : Application() {
         single<LocalizedError> { LocalizedErrorAndroid(applicationContext) }
 
         // Repositories
-        single<GatekeeperRepository> { GatekeeperRepositoryImpl(get(), get(), get(), get(), get(), get()) }
+        single<GatekeeperRepository> { GatekeeperRepositoryImpl(get(), get(), get(), get(), get(), get(), get()) }
         single<EncryptionRepository> { EncryptionRepositoryImpl(get()) }
-        single<MessageRepository> { MessageRepositoryImpl(get(), get()) }
+        single<MessageRepository> { MessageRepositoryImpl(get(), get(), get()) }
         single<PasswordRepository> { PasswordRepositoryImpl(get()) }
 
         // View Models

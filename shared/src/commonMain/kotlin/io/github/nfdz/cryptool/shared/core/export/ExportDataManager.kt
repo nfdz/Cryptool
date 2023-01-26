@@ -28,7 +28,7 @@ class ExportDataManagerImpl(
 
     private fun prepareDataDto(configuration: ExportConfiguration): ApplicationDataDto {
         return ApplicationDataDto(
-            v2 = true,
+            v2 = "",
             passwords = if (configuration.passwords) preparePasswords() else emptyList(),
             encryptions = if (configuration.encryptions) prepareEncryptions() else emptyList(),
             messages = if (configuration.messages) prepareMessages() else emptyList(),

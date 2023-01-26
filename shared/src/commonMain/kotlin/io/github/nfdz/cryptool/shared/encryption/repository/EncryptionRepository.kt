@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 interface EncryptionRepository {
 
     fun getAll(): List<Encryption>
+    fun getAllWith(source: MessageSource): List<Encryption>
     suspend fun addAll(encryptions: List<Encryption>)
     suspend fun observe(): Flow<List<Encryption>>
     suspend fun observe(id: String): Flow<Encryption>
@@ -23,4 +24,5 @@ interface EncryptionRepository {
     suspend fun setFavorite(ids: Set<String>)
     suspend fun unsetFavorite(ids: Set<String>)
     suspend fun setSource(id: String, source: MessageSource?)
+    suspend fun acknowledgeUnreadMessages(id: String)
 }

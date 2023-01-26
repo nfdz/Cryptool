@@ -15,6 +15,10 @@ class FakeKeyValueStorage : KeyValueStorage {
         return map[key] as? Int? ?: defaultValue
     }
 
+    override fun getLong(key: String, defaultValue: Long): Long {
+        return map[key] as? Long? ?: defaultValue
+    }
+
     override fun putString(key: String, value: String) {
         map[key] = value
     }
@@ -24,6 +28,10 @@ class FakeKeyValueStorage : KeyValueStorage {
     }
 
     override fun putInt(key: String, value: Int) {
+        map[key] = value
+    }
+
+    override fun putLong(key: String, value: Long) {
         map[key] = value
     }
 

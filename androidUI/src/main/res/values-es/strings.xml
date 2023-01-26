@@ -160,4 +160,6 @@
     <string name="cb_copy_success_snackbar">Copiado al portapapeles con éxito</string>
     <string name="cb_copy_empty_snackbar">No hay texto que copiar</string>
     <string name="cb_clear_success_snackbar">Portapapeles borrado con éxito</string>
+    <string name="encryption_exclusive_source_error">The configured source conflicts with another encryption, and this source does not allow to be used in more than one.</string>
+
 </resources>
