@@ -8,7 +8,7 @@ import io.github.nfdz.cryptool.shared.password.entity.Password
 import io.github.nfdz.cryptool.shared.password.repository.PasswordRepository
 import io.github.nfdz.cryptool.shared.platform.storage.legacyAssociateKeyValue
 
-interface ImportDataManager {
+interface ImportData {
     suspend fun consumeDataV1(data: String, configuration: ImportConfiguration): ImportResult
     suspend fun consumeDataV2(data: String, configuration: ImportConfiguration): ImportResult
     suspend fun consumeDataDto(data: Any)
@@ -22,11 +22,11 @@ data class ImportResult(
     fun isEmpty(): Boolean = passwords == 0 && encryptions == 0 && messages == 0
 }
 
-class ImportDataManagerImpl(
+class ImportDataImpl(
     private val encryptionRepository: EncryptionRepository,
     private val messagesRepository: MessageRepository,
     private val passwordRepository: PasswordRepository,
-) : ImportDataManager {
+) : ImportData {
 
     override suspend fun consumeDataV1(data: String, configuration: ImportConfiguration): ImportResult {
         val dto = ImportExportJsonFactory.createJson().decodeFromString(ApplicationDataDtoV1.serializer(), data)

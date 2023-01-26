@@ -5,16 +5,16 @@ import io.github.nfdz.cryptool.shared.encryption.repository.EncryptionRepository
 import io.github.nfdz.cryptool.shared.message.repository.MessageRepository
 import io.github.nfdz.cryptool.shared.password.repository.PasswordRepository
 
-interface ExportDataManager {
+interface ExportData {
     suspend fun prepareData(configuration: ExportConfiguration): String
     suspend fun prepareDataDto(): Any
 }
 
-class ExportDataManagerImpl(
+class ExportDataImpl(
     private val encryptionRepository: EncryptionRepository,
     private val messagesRepository: MessageRepository,
     private val passwordRepository: PasswordRepository,
-) : ExportDataManager {
+) : ExportData {
 
 
     override suspend fun prepareData(configuration: ExportConfiguration): String {

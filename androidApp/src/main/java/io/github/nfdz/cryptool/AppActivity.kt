@@ -9,8 +9,6 @@ import androidx.core.view.WindowCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.compose.rememberNavController
 import io.github.nfdz.cryptool.platform.broadcast.MessageEventBroadcast
-import io.github.nfdz.cryptool.platform.export.ExportManagerImpl
-import io.github.nfdz.cryptool.platform.import.ImportManagerImpl
 import io.github.nfdz.cryptool.platform.permission.OverlayPermissionImpl
 import io.github.nfdz.cryptool.platform.shortcut.ShortcutAndroid
 import io.github.nfdz.cryptool.service.OverlayViewServiceBase
@@ -31,8 +29,6 @@ class AppActivity : FragmentActivity(), CoroutineScope by CoroutineScope(Dispatc
         }
     }
 
-    private val importManager = ImportManagerImpl(this, get(), get())
-    private val exportManager = ExportManagerImpl(this, get(), get())
     private val overlayPermission = OverlayPermissionImpl(this)
     private val gatekeeperViewModel: GatekeeperViewModel by inject()
     private val msgEventReceiver = MessageEventBroadcast.createReceiver(get())
@@ -47,7 +43,7 @@ class AppActivity : FragmentActivity(), CoroutineScope by CoroutineScope(Dispatc
             updateShortcut()
             setContent {
                 val navController = rememberNavController()
-                val router = RouterApp(navController, this, overlayPermission, exportManager, importManager)
+                val router = RouterApp(navController, this, overlayPermission)
                 AppEntryPoint(this, router, navController, gatekeeperViewModel)
             }
         }

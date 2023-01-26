@@ -1,8 +1,8 @@
 package io.github.nfdz.cryptool.shared.core.export
 
-class FakeExportDataManager(
+class FakeExportData(
     val prepareDataDtoAnswer: Any? = null,
-) : ExportDataManager {
+) : ExportData {
     override suspend fun prepareData(configuration: ExportConfiguration): String {
         TODO("Not yet implemented")
     }

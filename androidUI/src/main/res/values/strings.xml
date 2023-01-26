@@ -139,6 +139,7 @@
     <string name="encryption_message_favorite_icon_description">This message is favorite</string>
     <string name="encryption_receive_message_error">The message can not be received, check that the conversation is the correct one, password, algorithm…</string>
     <string name="encryption_exclusive_source_error">The configured source conflicts with another encryption, and this source does not allow to be used in more than one.</string>
+    <string name="encryption_send_message_file_error">There is a problem sending the message through the configured file, please set the message source again.</string>
     <string name="encryption_send_message_hint">Your message</string>
     <string name="encryption_send_message_icon_description">Send</string>
     <string name="encryption_receive_message_hint">%1$s\'s message</string>

@@ -1,7 +1,7 @@
 package io.github.nfdz.cryptool.shared.gatekeeper.viewModel
 
-import io.github.nfdz.cryptool.shared.core.export.FakeExportDataManager
-import io.github.nfdz.cryptool.shared.core.import.FakeImportDataManager
+import io.github.nfdz.cryptool.shared.core.export.FakeExportData
+import io.github.nfdz.cryptool.shared.core.import.FakeImportData
 import io.github.nfdz.cryptool.shared.gatekeeper.entity.TutorialInformation
 import io.github.nfdz.cryptool.shared.gatekeeper.repository.FakeGatekeeperRepository
 import io.github.nfdz.cryptool.shared.platform.localization.FakeLocalizedError
@@ -25,8 +25,8 @@ class GatekeeperViewModelTest {
         )
         val instance = GatekeeperViewModelImpl(
             repository = gatekeeperRepository,
-            exportDataManager = FakeExportDataManager(),
-            importDataManager = FakeImportDataManager(),
+            exportData = FakeExportData(),
+            importData = FakeImportData(),
             localizedError = FakeLocalizedError,
         )
 
@@ -50,8 +50,8 @@ class GatekeeperViewModelTest {
         )
         val instance = GatekeeperViewModelImpl(
             repository = gatekeeperRepository,
-            exportDataManager = FakeExportDataManager(),
-            importDataManager = FakeImportDataManager(),
+            exportData = FakeExportData(),
+            importData = FakeImportData(),
             localizedError = FakeLocalizedError,
         )
 
@@ -79,8 +79,8 @@ class GatekeeperViewModelTest {
         )
         val instance = GatekeeperViewModelImpl(
             repository = gatekeeperRepository,
-            exportDataManager = FakeExportDataManager(),
-            importDataManager = FakeImportDataManager(),
+            exportData = FakeExportData(),
+            importData = FakeImportData(),
             localizedError = FakeLocalizedError,
         )
 
@@ -100,8 +100,8 @@ class GatekeeperViewModelTest {
         )
         val instance = GatekeeperViewModelImpl(
             repository = gatekeeperRepository,
-            exportDataManager = FakeExportDataManager(),
-            importDataManager = FakeImportDataManager(),
+            exportData = FakeExportData(),
+            importData = FakeImportData(),
             localizedError = FakeLocalizedError,
         )
 
@@ -120,8 +120,8 @@ class GatekeeperViewModelTest {
         )
         val instance = GatekeeperViewModelImpl(
             repository = gatekeeperRepository,
-            exportDataManager = FakeExportDataManager(),
-            importDataManager = FakeImportDataManager(),
+            exportData = FakeExportData(),
+            importData = FakeImportData(),
             localizedError = FakeLocalizedError,
         )
 
@@ -141,8 +141,8 @@ class GatekeeperViewModelTest {
         )
         val instance = GatekeeperViewModelImpl(
             repository = gatekeeperRepository,
-            exportDataManager = FakeExportDataManager(),
-            importDataManager = FakeImportDataManager(),
+            exportData = FakeExportData(),
+            importData = FakeImportData(),
             localizedError = FakeLocalizedError,
         )
 
@@ -163,8 +163,8 @@ class GatekeeperViewModelTest {
         )
         val instance = GatekeeperViewModelImpl(
             repository = gatekeeperRepository,
-            exportDataManager = FakeExportDataManager(),
-            importDataManager = FakeImportDataManager(),
+            exportData = FakeExportData(),
+            importData = FakeImportData(),
             localizedError = FakeLocalizedError,
         )
 
@@ -186,8 +186,8 @@ class GatekeeperViewModelTest {
         )
         val instance = GatekeeperViewModelImpl(
             repository = gatekeeperRepository,
-            exportDataManager = FakeExportDataManager(),
-            importDataManager = FakeImportDataManager(),
+            exportData = FakeExportData(),
+            importData = FakeImportData(),
             localizedError = FakeLocalizedError,
         )
 
@@ -201,10 +201,10 @@ class GatekeeperViewModelTest {
     @Test
     fun testChangeAccessCode() = runTest {
         val fakeDto = "123456789"
-        val exportDataManager = FakeExportDataManager(
+        val exportData = FakeExportData(
             prepareDataDtoAnswer = fakeDto,
         )
-        val importDataManager = FakeImportDataManager()
+        val importData = FakeImportData()
         val gatekeeperRepository = FakeGatekeeperRepository(
             isOpenAnswer = listOf(false, false, true),
             hasCodeAnswer = true,
@@ -212,8 +212,8 @@ class GatekeeperViewModelTest {
         )
         val instance = GatekeeperViewModelImpl(
             repository = gatekeeperRepository,
-            exportDataManager = exportDataManager,
-            importDataManager = importDataManager,
+            exportData = exportData,
+            importData = importData,
             localizedError = FakeLocalizedError,
         )
 
@@ -227,9 +227,9 @@ class GatekeeperViewModelTest {
         assertEquals(oldCode, gatekeeperRepository.validateCodeArgCode)
         assertEquals(1, gatekeeperRepository.setNewCodeCount)
         assertEquals(newCode, gatekeeperRepository.setNewCodeArgCode)
-        assertEquals(1, exportDataManager.prepareDataDtoCount)
-        assertEquals(1, importDataManager.consumeDataDtoCount)
-        assertEquals(fakeDto, importDataManager.consumeDataDtoArgData)
+        assertEquals(1, exportData.prepareDataDtoCount)
+        assertEquals(1, importData.consumeDataDtoCount)
+        assertEquals(fakeDto, importData.consumeDataDtoArgData)
 
         assertEquals(false, statesRecord[0].loadingAccess)
         assertEquals(true, statesRecord[1].loadingAccess)
@@ -238,8 +238,8 @@ class GatekeeperViewModelTest {
 
     @Test
     fun testChangeAccessCodeWithInvalid() = runTest {
-        val exportDataManager = FakeExportDataManager()
-        val importDataManager = FakeImportDataManager()
+        val exportData = FakeExportData()
+        val importData = FakeImportData()
         val gatekeeperRepository = FakeGatekeeperRepository(
             isOpenAnswer = listOf(false, false, true),
             hasCodeAnswer = true,
@@ -247,8 +247,8 @@ class GatekeeperViewModelTest {
         )
         val instance = GatekeeperViewModelImpl(
             repository = gatekeeperRepository,
-            exportDataManager = exportDataManager,
-            importDataManager = importDataManager,
+            exportData = exportData,
+            importData = importData,
             localizedError = FakeLocalizedError,
         )
 
@@ -263,17 +263,17 @@ class GatekeeperViewModelTest {
         assertEquals(1, gatekeeperRepository.validateCodeCount)
         assertEquals(oldCode, gatekeeperRepository.validateCodeArgCode)
         assertEquals(0, gatekeeperRepository.setNewCodeCount)
-        assertEquals(0, exportDataManager.prepareDataDtoCount)
-        assertEquals(0, importDataManager.consumeDataDtoCount)
+        assertEquals(0, exportData.prepareDataDtoCount)
+        assertEquals(0, importData.consumeDataDtoCount)
     }
 
     @Test
     fun testChangeAccessCodeWithError() = runTest {
         val fakeDto = "123456789"
-        val exportDataManager = FakeExportDataManager(
+        val exportData = FakeExportData(
             prepareDataDtoAnswer = fakeDto,
         )
-        val importDataManager = FakeImportDataManager(
+        val importData = FakeImportData(
             consumeDataDtoError = IllegalStateException()
         )
         val gatekeeperRepository = FakeGatekeeperRepository(
@@ -283,8 +283,8 @@ class GatekeeperViewModelTest {
         )
         val instance = GatekeeperViewModelImpl(
             repository = gatekeeperRepository,
-            exportDataManager = exportDataManager,
-            importDataManager = importDataManager,
+            exportData = exportData,
+            importData = importData,
             localizedError = FakeLocalizedError,
         )
 
@@ -300,8 +300,8 @@ class GatekeeperViewModelTest {
         assertEquals(oldCode, gatekeeperRepository.validateCodeArgCode)
         assertEquals(1, gatekeeperRepository.setNewCodeCount)
         assertEquals(newCode, gatekeeperRepository.setNewCodeArgCode)
-        assertEquals(1, exportDataManager.prepareDataDtoCount)
-        assertEquals(1, importDataManager.consumeDataDtoCount)
-        assertEquals(fakeDto, importDataManager.consumeDataDtoArgData)
+        assertEquals(1, exportData.prepareDataDtoCount)
+        assertEquals(1, importData.consumeDataDtoCount)
+        assertEquals(fakeDto, importData.consumeDataDtoArgData)
     }
 }

@@ -10,10 +10,10 @@ import io.github.nfdz.cryptool.platform.legacy.LegacyPreferencesStorageAndroid
 import io.github.nfdz.cryptool.platform.lifecycle.ApplicationManagerImpl
 import io.github.nfdz.cryptool.platform.localization.LocalizedErrorAndroid
 import io.github.nfdz.cryptool.platform.version.VersionProviderAndroid
-import io.github.nfdz.cryptool.shared.core.export.ExportDataManager
-import io.github.nfdz.cryptool.shared.core.export.ExportDataManagerImpl
-import io.github.nfdz.cryptool.shared.core.import.ImportDataManager
-import io.github.nfdz.cryptool.shared.core.import.ImportDataManagerImpl
+import io.github.nfdz.cryptool.shared.core.export.ExportData
+import io.github.nfdz.cryptool.shared.core.export.ExportDataImpl
+import io.github.nfdz.cryptool.shared.core.import.ImportData
+import io.github.nfdz.cryptool.shared.core.import.ImportDataImpl
 import io.github.nfdz.cryptool.shared.core.realm.RealmGateway
 import io.github.nfdz.cryptool.shared.core.realm.RealmGatewayImpl
 import io.github.nfdz.cryptool.shared.encryption.repository.EncryptionRepository
@@ -35,8 +35,7 @@ import io.github.nfdz.cryptool.shared.password.repository.PasswordRepositoryImpl
 import io.github.nfdz.cryptool.shared.password.viewModel.PasswordViewModel
 import io.github.nfdz.cryptool.shared.password.viewModel.PasswordViewModelImpl
 import io.github.nfdz.cryptool.shared.platform.biometric.Biometric
-import io.github.nfdz.cryptool.shared.platform.file.FileMessageSender
-import io.github.nfdz.cryptool.shared.platform.file.FileMessageSenderAndroid
+import io.github.nfdz.cryptool.shared.platform.file.*
 import io.github.nfdz.cryptool.shared.platform.localization.LocalizedError
 import io.github.nfdz.cryptool.shared.platform.sms.SmsReceiver
 import io.github.nfdz.cryptool.shared.platform.sms.SmsReceiverAndroid
@@ -84,8 +83,10 @@ class CryptoolApp : Application() {
         single<ClipboardAndroid> { ClipboardAndroidImpl }
         single<ApplicationManager> { ApplicationManagerImpl }
         single<VersionProvider> { VersionProviderAndroid(get()) }
-        single<ExportDataManager> { ExportDataManagerImpl(get(), get(), get()) }
-        single<ImportDataManager> { ImportDataManagerImpl(get(), get(), get()) }
+        single<ImportFile> { ImportFileAndroid(applicationContext, get(), get()) }
+        single<ExportFile> { ExportFileAndroid(applicationContext, get(), get()) }
+        single<ExportData> { ExportDataImpl(get(), get(), get()) }
+        single<ImportData> { ImportDataImpl(get(), get(), get()) }
         single<LocalizedError> { LocalizedErrorAndroid(applicationContext) }
 
         // Repositories

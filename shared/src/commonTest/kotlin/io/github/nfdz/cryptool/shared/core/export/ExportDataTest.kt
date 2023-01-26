@@ -1,6 +1,6 @@
 package io.github.nfdz.cryptool.shared.core.export
 
-import io.github.nfdz.cryptool.shared.core.import.ImportDataManagerTest
+import io.github.nfdz.cryptool.shared.core.import.ImportDataTest
 import io.github.nfdz.cryptool.shared.encryption.repository.FakeEncryptionRepository
 import io.github.nfdz.cryptool.shared.message.repository.FakeMessageRepository
 import io.github.nfdz.cryptool.shared.password.repository.FakePasswordRepository
@@ -10,7 +10,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class ExportDataManagerTest {
+class ExportDataTest {
 
     companion object {
         private const val expectedPrepareDataEmpty = """
@@ -71,10 +71,10 @@ class ExportDataManagerTest {
    ]
 }
         """
-        private val fakeEncryption = ImportDataManagerTest.fakeEncryption
-        private val fakeMessage = ImportDataManagerTest.fakeMessage
-        private val fakePassword = ImportDataManagerTest.fakePassword
-        private const val expectedPrepareDataAll = ImportDataManagerTest.dtoV2Json
+        private val fakeEncryption = ImportDataTest.fakeEncryption
+        private val fakeMessage = ImportDataTest.fakeMessage
+        private val fakePassword = ImportDataTest.fakePassword
+        private const val expectedPrepareDataAll = ImportDataTest.dtoV2Json
     }
 
     @Test
@@ -83,7 +83,7 @@ class ExportDataManagerTest {
         val messageRepository = FakeMessageRepository()
         val passwordRepository = FakePasswordRepository()
         val instance =
-            ExportDataManagerImpl(FakeEncryptionRepository(), FakeMessageRepository(), FakePasswordRepository())
+            ExportDataImpl(FakeEncryptionRepository(), FakeMessageRepository(), FakePasswordRepository())
         val nothingConfig = ExportConfiguration(encryptions = false, messages = false, passwords = false)
 
         val result = instance.prepareData(nothingConfig)
@@ -99,7 +99,7 @@ class ExportDataManagerTest {
         val encryptionRepository = FakeEncryptionRepository(getAllAnswer = listOf(fakeEncryption))
         val messageRepository = FakeMessageRepository(getAllAnswer = listOf(fakeMessage))
         val passwordRepository = FakePasswordRepository(getAllAnswer = listOf(fakePassword))
-        val instance = ExportDataManagerImpl(encryptionRepository, messageRepository, passwordRepository)
+        val instance = ExportDataImpl(encryptionRepository, messageRepository, passwordRepository)
 
         val config = ExportConfiguration(encryptions = false, messages = false, passwords = true)
 
@@ -116,7 +116,7 @@ class ExportDataManagerTest {
         val encryptionRepository = FakeEncryptionRepository(getAllAnswer = listOf(fakeEncryption))
         val messageRepository = FakeMessageRepository(getAllAnswer = listOf(fakeMessage))
         val passwordRepository = FakePasswordRepository(getAllAnswer = listOf(fakePassword))
-        val instance = ExportDataManagerImpl(encryptionRepository, messageRepository, passwordRepository)
+        val instance = ExportDataImpl(encryptionRepository, messageRepository, passwordRepository)
 
         val config = ExportConfiguration(encryptions = true, messages = false, passwords = false)
 
@@ -133,7 +133,7 @@ class ExportDataManagerTest {
         val encryptionRepository = FakeEncryptionRepository(getAllAnswer = listOf(fakeEncryption))
         val messageRepository = FakeMessageRepository(getAllAnswer = listOf(fakeMessage))
         val passwordRepository = FakePasswordRepository(getAllAnswer = listOf(fakePassword))
-        val instance = ExportDataManagerImpl(encryptionRepository, messageRepository, passwordRepository)
+        val instance = ExportDataImpl(encryptionRepository, messageRepository, passwordRepository)
 
         val config = ExportConfiguration(encryptions = false, messages = true, passwords = false)
 
@@ -150,7 +150,7 @@ class ExportDataManagerTest {
         val encryptionRepository = FakeEncryptionRepository(getAllAnswer = listOf(fakeEncryption))
         val messageRepository = FakeMessageRepository(getAllAnswer = listOf(fakeMessage))
         val passwordRepository = FakePasswordRepository(getAllAnswer = listOf(fakePassword))
-        val instance = ExportDataManagerImpl(encryptionRepository, messageRepository, passwordRepository)
+        val instance = ExportDataImpl(encryptionRepository, messageRepository, passwordRepository)
 
         val config = ExportConfiguration(encryptions = true, messages = true, passwords = true)
 
@@ -167,7 +167,7 @@ class ExportDataManagerTest {
         val encryptionRepository = FakeEncryptionRepository(getAllAnswer = listOf(fakeEncryption))
         val messageRepository = FakeMessageRepository(getAllAnswer = listOf(fakeMessage))
         val passwordRepository = FakePasswordRepository(getAllAnswer = listOf(fakePassword))
-        val instance = ExportDataManagerImpl(encryptionRepository, messageRepository, passwordRepository)
+        val instance = ExportDataImpl(encryptionRepository, messageRepository, passwordRepository)
 
         val result = instance.prepareDataDto()
 

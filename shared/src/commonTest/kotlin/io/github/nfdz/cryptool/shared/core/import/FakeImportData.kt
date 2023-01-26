@@ -1,8 +1,8 @@
 package io.github.nfdz.cryptool.shared.core.import
 
-class FakeImportDataManager(
+class FakeImportData(
     val consumeDataDtoError: Throwable? = null,
-) : ImportDataManager {
+) : ImportData {
     override suspend fun consumeDataV1(data: String, configuration: ImportConfiguration): ImportResult {
         TODO("Not yet implemented")
     }

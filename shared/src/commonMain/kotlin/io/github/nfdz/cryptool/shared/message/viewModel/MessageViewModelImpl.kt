@@ -8,6 +8,7 @@ import io.github.nfdz.cryptool.shared.encryption.repository.ExclusiveSourceColli
 import io.github.nfdz.cryptool.shared.message.entity.Message
 import io.github.nfdz.cryptool.shared.message.entity.MessageOwnership
 import io.github.nfdz.cryptool.shared.message.repository.MessageRepository
+import io.github.nfdz.cryptool.shared.platform.file.FileMessageSendException
 import io.github.nfdz.cryptool.shared.platform.localization.LocalizedError
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.cancellable
@@ -117,8 +118,12 @@ class MessageViewModelImpl(
     }
 
     private suspend fun sendMessage(message: String) {
-        messageRepository.sendMessage(encryptionId = activeEncryption.id, message = message)
-        emitSideEffect(MessageEffect.SentMessage)
+        try {
+            messageRepository.sendMessage(encryptionId = activeEncryption.id, message = message)
+            emitSideEffect(MessageEffect.SentMessage)
+        } catch (exception: FileMessageSendException) {
+            emitSideEffect(MessageEffect.Error(localizedError.messageSendFileError))
+        }
     }
 
     private suspend fun removeMessage(messageIds: Set<String>) {

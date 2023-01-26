@@ -8,4 +8,5 @@ interface LocalizedError {
     val messageReceiveMessage: String
     val messageUnexpected: String
     val exclusiveSourceCollision: String
+    val messageSendFileError: String
 }

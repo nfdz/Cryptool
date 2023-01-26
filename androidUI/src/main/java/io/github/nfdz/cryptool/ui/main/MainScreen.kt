@@ -180,13 +180,13 @@ internal fun MainScreenContent(
     }
     var showExportDialog by remember { mutableStateOf(false) }
     if (showExportDialog) {
-        ExportDialog(router, snackbar) {
+        ExportDialog(snackbar) {
             showExportDialog = false
         }
     }
     var showImportDialog by remember { mutableStateOf(false) }
     if (showImportDialog) {
-        ImportDialog(router, snackbar) {
+        ImportDialog(snackbar) {
             showImportDialog = false
         }
     }
