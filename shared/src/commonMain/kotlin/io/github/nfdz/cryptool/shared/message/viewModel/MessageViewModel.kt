@@ -16,6 +16,10 @@ data class MessageState(
     companion object {
         val empty = MessageState(null, emptyList(), emptySet(), true)
     }
+
+    override fun toString(): String {
+        return "$MessageState(encryptionId=${encryption?.id}, messages.size=${messages.size}, selectedMessageIds.size=${selectedMessageIds.size}, visibility=$visibility)"
+    }
 }
 
 sealed class MessageAction : Action {

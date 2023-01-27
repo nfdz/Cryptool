@@ -16,6 +16,7 @@
     <string name="version_10_name" translatable="false">3.0.0</string>
     <string name="version_10_description">• New modern user interface.
                                        \n• New cryptographic algorithms supported.
+                                       \n• New message sources: Manual, SMS, and File.
                                        \n• Multiple encryption configurations as conversations.
                                        \n• Biometric identification support.
                                        \n• Improved export\/import feature.</string>
@@ -138,7 +139,7 @@
     <string name="encryption_delete_messages_icon_description">Delete messages</string>
     <string name="encryption_message_favorite_icon_description">This message is favorite</string>
     <string name="encryption_receive_message_error">The message can not be received, check that the conversation is the correct one, password, algorithm…</string>
-    <string name="encryption_exclusive_source_error">The configured source conflicts with another encryption, and this source does not allow to be used in more than one.</string>
+    <string name="encryption_exclusive_source_error">The configured source conflicts with another encryption, and this source does not allow it.</string>
     <string name="encryption_send_message_file_error">There is a problem sending the message through the configured file, please set the message source again.</string>
     <string name="encryption_send_message_hint">Your message</string>
     <string name="encryption_send_message_icon_description">Send</string>
@@ -148,9 +149,23 @@
     <string name="encryption_message_copy_plain">Copy message</string>
     <string name="encryption_message_copy_icon_description">Copy</string>
     <string name="encryption_source_manual_title">Manual</string>
-    <string name="encryption_source_manual_description">Handle de input and output of the communication yourself.</string>
+    <string name="encryption_source_manual_description">Handle the input and output of the communication yourself.</string>
+    <string name="encryption_source_file_title">File</string>
+    <string name="encryption_source_file_description">Use two files for communication. You can sync and share the files automatically with any provider in a safe way. For example Google Drive, Dropbox, and so on.</string>
     <string name="encryption_source_sms_title">SMS</string>
     <string name="encryption_source_sms_description">Use your SMS provider. This option could have cost depending the contract with your provider.</string>
+    <string name="encryption_sms_sent_snackbar">SMS message was sent</string>
+    <string name="encryption_sms_delivered_snackbar">SMS message has been delivered</string>
+    <string name="encryption_source_sms_dialog_title">SMS source</string>
+    <string name="encryption_source_sms_dialog_phone">Phone number</string>
+    <string name="encryption_source_sms_dialog_set">Set</string>
+    <string name="encryption_permission_sms_dialog_title">SMS permission</string>
+    <string name="encryption_permission_sms_dialog_content">We need the SMS permission for the operation of the channel with SMS message source. You can grant the permission with the \'While using the app\' option. If you do not want to grant this permission, you would have to use other message source.</string>
+    <string name="encryption_permission_sms_dialog_settings">Settings</string>
+    <string name="encryption_source_file_dialog_title">File source</string>
+    <string name="encryption_source_file_dialog_input">Select file with inbox messages (from other)</string>
+    <string name="encryption_source_file_dialog_output">Select file with sent messages (from you)</string>
+    <string name="encryption_source_file_dialog_set">Set</string>
 
     <string name="about_topbar_title">About</string>
     <string name="about_official_website">Official website</string>

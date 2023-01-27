@@ -3,7 +3,6 @@ package io.github.nfdz.cryptool.ui.encryption
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FileOpen
 import androidx.compose.material.icons.filled.Message
 import androidx.compose.material.icons.filled.Task
 import androidx.compose.material.icons.filled.TouchApp
@@ -67,8 +66,8 @@ fun SourcePicker(modifier: Modifier = Modifier, onPick: (MessageSource) -> Unit)
             showSmsDialog = true
         },
         SourceOptionEntry(
-            title = "TODO File",
-            description = "TODO SMS",
+            title = stringResource(R.string.encryption_source_file_title),
+            description = stringResource(R.string.encryption_source_file_description),
             icon = Icons.Filled.Task,
         ) {
             showFileDialog = true

@@ -2,6 +2,7 @@ package io.github.nfdz.cryptool.shared.platform.file
 
 import android.content.ContentResolver
 import android.content.Context
+import android.net.Uri
 import androidx.core.net.toUri
 import io.github.aakira.napier.Napier
 import io.github.nfdz.cryptool.shared.encryption.entity.Encryption
@@ -12,6 +13,7 @@ import io.github.nfdz.cryptool.shared.message.repository.MessageRepository
 import io.github.nfdz.cryptool.shared.platform.storage.KeyValueStorage
 import kotlinx.coroutines.*
 import java.io.FileInputStream
+import java.io.FileOutputStream
 
 class FileMessageReceiverAndroid(
     private val context: Context,
@@ -25,6 +27,7 @@ class FileMessageReceiverAndroid(
         private const val lastReceivedBaselineMillisKey = "file_last_received_baseline"
         private const val lastReceivedTimestampMillisKey = "file_last_received_timestamp"
         private const val pollingPeriodInMillis = 30_000L
+        private const val maxAmountOfEntriesPerFile = 10
     }
 
     private val contentResolver: ContentResolver
@@ -91,11 +94,13 @@ class FileMessageReceiverAndroid(
         val source = encryption.source as MessageSource.File
         val uri = source.inputFilePath.toUri()
         val lastReceivedTimestamp = source.getLastReceivedTimestamp()
-
+        var fileEntries = 0
         contentResolver.openFileDescriptor(uri, "r")?.use {
             FileInputStream(it.fileDescriptor).use { input ->
                 input.bufferedReader().use { br ->
-                    br.readLines().forEach { line ->
+                    val lines = br.readLines()
+                    fileEntries = lines.size
+                    lines.forEach { line ->
                         runCatching {
                             val parts = line.split(",")
                             val timestampInMillis = parts[0].toLong()
@@ -110,7 +115,22 @@ class FileMessageReceiverAndroid(
             }
         }
 
+        if (fileEntries > maxAmountOfEntriesPerFile) {
+            Napier.d(tag = tag, message = "Clear file triggered. File entries: $fileEntries. File: '$uri'")
+            clearFile(uri)
+        }
+
         return result
+    }
+
+    private fun clearFile(uri: Uri) = runCatching {
+        contentResolver.openFileDescriptor(uri, "wt")?.use {
+            FileOutputStream(it.fileDescriptor).use { output ->
+                output.write("".toByteArray())
+            }
+        }
+    }.onFailure {
+        Napier.e(tag = tag, message = "Clear file error", throwable = it)
     }
 
     private fun MessageSource.File.getLastReceivedTimestamp(): Long {

@@ -35,7 +35,7 @@ internal fun FileSourceDialog(callback: (MessageSource.File?) -> Unit) {
 @Preview
 private fun FileSourceDialogPreview() {
     AppTheme {
-        FileSourceDialogContent() {}
+        FileSourceDialogContent {}
     }
 }
 
@@ -63,7 +63,7 @@ internal fun FileSourceDialogContent(callback: (MessageSource.File?) -> Unit) {
                 .fillMaxWidth(),
         ) {
             Text(
-                "TODO Title",
+                stringResource(R.string.encryption_source_file_dialog_title),
                 style = MaterialTheme.typography.titleLarge,
             )
             Spacer(Modifier.size(8.dp))
@@ -72,7 +72,7 @@ internal fun FileSourceDialogContent(callback: (MessageSource.File?) -> Unit) {
                 .size(40.dp), enabled = inputFilePath.isBlank(), onClick = {
                 launcherPickInputFile.launch("")
             }) {
-                Text("Pick input file")
+                Text(stringResource(R.string.encryption_source_file_dialog_input))
             }
             Spacer(Modifier.size(8.dp))
             TextButton(modifier = Modifier
@@ -80,7 +80,7 @@ internal fun FileSourceDialogContent(callback: (MessageSource.File?) -> Unit) {
                 .size(40.dp), enabled = outputFilePath.isBlank(), onClick = {
                 launcherPickOutputFile.launch("")
             }) {
-                Text("Pick output file")
+                Text(stringResource(R.string.encryption_source_file_dialog_output))
             }
             Spacer(Modifier.size(8.dp))
             Button(modifier = Modifier
@@ -95,7 +95,7 @@ internal fun FileSourceDialogContent(callback: (MessageSource.File?) -> Unit) {
                         )
                     )
                 }) {
-                Text("TODO Set")
+                Text(stringResource(R.string.encryption_source_file_dialog_set))
             }
             Spacer(Modifier.size(8.dp))
             TextButton(

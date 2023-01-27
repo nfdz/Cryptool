@@ -42,7 +42,7 @@ internal fun SmsSourceDialog(callback: (MessageSource.Sms?) -> Unit) {
     }
 
     if (explainPermissionDialog) {
-        ExplainPermissionDialog(onDismiss = {
+        SmsExplainPermissionDialog(onDismiss = {
             explainPermissionDialog = false
             callback(null)
         })
@@ -71,7 +71,15 @@ internal fun SmsSourceDialog(callback: (MessageSource.Sms?) -> Unit) {
 @Preview
 private fun SmsSourceDialogPreview() {
     AppTheme {
-        SmsSourceDialogContent() {}
+        SmsSourceDialogContent {}
+    }
+}
+
+@Composable
+@Preview
+private fun SmsExplainPermissionDialogPreview() {
+    AppTheme {
+        SmsExplainPermissionDialog {}
     }
 }
 
@@ -90,7 +98,7 @@ internal fun SmsSourceDialogContent(callback: (String?) -> Unit) {
                 .fillMaxWidth(),
         ) {
             Text(
-                "TODO Title",
+                stringResource(R.string.encryption_source_sms_dialog_title),
                 style = MaterialTheme.typography.titleLarge,
             )
             Spacer(Modifier.size(8.dp))
@@ -111,7 +119,7 @@ internal fun SmsSourceDialogContent(callback: (String?) -> Unit) {
                 .size(40.dp),
                 enabled = validPhone(phone),
                 onClick = { callback(phone) }) {
-                Text("TODO Set")
+                Text(stringResource(R.string.encryption_source_sms_dialog_set))
             }
             Spacer(Modifier.size(8.dp))
             TextButton(
@@ -144,7 +152,7 @@ private fun PhoneTextField(
         value = value,
         singleLine = true,
         onValueChange = onValueChange,
-        label = { Text("TODO SMS") },
+        label = { Text(stringResource(R.string.encryption_source_sms_dialog_phone)) },
     )
 }
 
@@ -153,7 +161,7 @@ private fun validPhone(number: String): Boolean {
 }
 
 @Composable
-private fun ExplainPermissionDialog(
+private fun SmsExplainPermissionDialog(
     onDismiss: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -163,12 +171,12 @@ private fun ExplainPermissionDialog(
             TextButton(onClick = {
                 onDismiss()
                 context.navigateToAppSystemSettings()
-            }) { Text("TODO Settings") }
+            }) { Text(stringResource(R.string.encryption_permission_sms_dialog_settings)) }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) { Text(stringResource(android.R.string.cancel)) }
         },
-        title = { Text("TODO Permission Title") },
-        text = { Text("TODO Permission text") },
+        title = { Text(stringResource(R.string.encryption_permission_sms_dialog_title)) },
+        text = { Text(stringResource(R.string.encryption_permission_sms_dialog_content)) },
     )
 }
