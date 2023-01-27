@@ -31,6 +31,8 @@ class KeyValueStorageAndroid(
 
     override fun getInt(key: String, defaultValue: Int): Int = sharedPrefs.getInt(key, defaultValue)
 
+    override fun getLong(key: String, defaultValue: Long): Long = sharedPrefs.getLong(key, defaultValue)
+
     override fun putString(key: String, value: String) {
         sharedPrefs.edit().putString(key, value).apply()
     }
@@ -41,6 +43,10 @@ class KeyValueStorageAndroid(
 
     override fun putInt(key: String, value: Int) {
         sharedPrefs.edit().putInt(key, value).apply()
+    }
+
+    override fun putLong(key: String, value: Long) {
+        sharedPrefs.edit().putLong(key, value).apply()
     }
 
     override fun clear() {

@@ -6,9 +6,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class FakeMessageRepository(
-    var getAllAnswer: List<Message> = emptyList(),
-    var observeAnswer: Flow<List<Message>> = flow { },
-    var getVisibilityAnswer: Boolean? = null,
+    private val getAllAnswer: List<Message> = emptyList(),
+    private val observeAnswer: Flow<List<Message>> = flow { },
+    private val getVisibilityAnswer: Boolean? = null,
+    private val sendMessageException: Throwable? = null,
 ) : MessageRepository {
 
     var getAllCount = 0
@@ -41,6 +42,23 @@ class FakeMessageRepository(
         receiveMessageArgEncryptedMessage = encryptedMessage
     }
 
+    var receiveMessageAsyncCount = 0
+    var receiveMessageAsyncArgEncryptionId: String? = null
+    var receiveMessageAsyncArgEncryptedMessage: String? = null
+    var receiveMessageAsyncArgTimestampInMillis: Long? = null
+    override suspend fun receiveMessageAsync(
+        encryptionId: String,
+        message: String,
+        encryptedMessage: String,
+        timestampInMillis: Long
+    ) {
+        delay(50)
+        receiveMessageAsyncCount++
+        receiveMessageAsyncArgEncryptionId = encryptionId
+        receiveMessageAsyncArgEncryptedMessage = encryptedMessage
+        receiveMessageAsyncArgTimestampInMillis = timestampInMillis
+    }
+
     var sendMessageCount = 0
     var sendMessageArgEncryptionId: String? = null
     var sendMessageArgMessage: String? = null
@@ -49,6 +67,7 @@ class FakeMessageRepository(
         sendMessageCount++
         sendMessageArgEncryptionId = encryptionId
         sendMessageArgMessage = message
+        sendMessageException?.let { throw it }
     }
 
     var deleteCount = 0

@@ -13,6 +13,7 @@
     <string name="input_minimum_length">La longitud mínima es %1$d</string>
     <string name="version_10_description">• Nueva interfaz de usuario moderna.
                                        \n• Nuevos algoritmos criptográficos soportados.
+                                       \n• Nuevas modos de conversación: Manual, SMS y Archivo.
                                        \n• Múltiples configuraciones de cifrado como conversaciones.
                                        \n• Soporte de identificación biométrica.
                                        \n• Función de exportación\/importación mejorada.
@@ -124,6 +125,8 @@
     <string name="encryption_delete_messages_icon_description">Borrar mensajes</string>
     <string name="encryption_message_favorite_icon_description">Este mensaje es favorito</string>
     <string name="encryption_receive_message_error">El mensaje no puede ser recibido, comprueba que la conversación sea la correcta, contraseña, algoritmo…</string>
+    <string name="encryption_exclusive_source_error">El modo de comunicación configurado ya está siendo usado, y este modo no lo permite.</string>
+    <string name="encryption_send_message_file_error">Hubo un problema al enviar el mensaje a través del archivo configurado, por favor vuelva a configurar el modo de comunicación.</string>
     <string name="encryption_send_message_hint">Tu mensaje</string>
     <string name="encryption_send_message_icon_description">Enviar</string>
     <string name="encryption_receive_message_hint">Mensaje de %1$s</string>
@@ -133,8 +136,22 @@
     <string name="encryption_message_copy_icon_description">Copiar</string>
     <string name="encryption_source_manual_title">Manual</string>
     <string name="encryption_source_manual_description">Eres responsable de entregar y recibir los mensajes de la comunicación.</string>
+    <string name="encryption_source_file_title">Archivo</string>
+    <string name="encryption_source_file_description">Utiliza dos archivos para la comunicación. Puedes sincronizar y compartir los archivos automáticamente con cualquier proveedor de forma segura. Por ejemplo, Google Drive, Dropbox, etc.</string>
     <string name="encryption_source_sms_title">SMS</string>
     <string name="encryption_source_sms_description">Utiliza tu proveedor de SMS. Esta opción podría tener un coste dependiendo del contrato con tu proveedor.</string>
+    <string name="encryption_sms_sent_snackbar">El SMS ha sido enviado</string>
+    <string name="encryption_sms_delivered_snackbar">El SMS ha sido entregado</string>
+    <string name="encryption_source_sms_dialog_title">Modo SMS</string>
+    <string name="encryption_source_sms_dialog_phone">Número de teléfono</string>
+    <string name="encryption_source_sms_dialog_set">Configurar</string>
+    <string name="encryption_permission_sms_dialog_title">Permiso SMS</string>
+    <string name="encryption_permission_sms_dialog_content">Necesitamos el permiso de SMS para el funcionamiento del modo de comunicación a través de SMS. Puedes conceder el permiso con la opción \"Solo si la aplicación está en uso\". Si no desea conceder este permiso, tendrá que utilizar otro modo.</string>
+    <string name="encryption_permission_sms_dialog_settings">Ajustes</string>
+    <string name="encryption_source_file_dialog_title">Modo archivo</string>
+    <string name="encryption_source_file_dialog_input">Seleccionar archivo con mensajes de entrada (de otro)</string>
+    <string name="encryption_source_file_dialog_output">Seleccionar archivo con mensajes de salida (tuyos)</string>
+    <string name="encryption_source_file_dialog_set">Configurar</string>
     <string name="about_topbar_title">Acerca de Cryptool</string>
     <string name="about_official_website">Sitio web oficial</string>
     <string name="about_source_code">Código fuente</string>

@@ -11,6 +11,7 @@
         android:layout_width="@dimen/overlay_ball_size"
         android:layout_height="@dimen/overlay_ball_size"
         android:layout_marginTop="@dimen/overlay_ball_margin_top"
+        android:alpha="0.85"
         android:background="@drawable/overlay_ball_shape"
         app:srcCompat="@drawable/ic_launcher_foreground"
         tools:ignore="ContentDescription" />
@@ -21,6 +22,8 @@
         android:layout_width="@dimen/overlay_ball_close_size"
         android:layout_height="@dimen/overlay_ball_close_size"
         android:layout_marginStart="@dimen/overlay_ball_close_margin_start"
+        android:layout_marginTop="@dimen/overlay_ball_close_margin_top"
+        android:alpha="0.85"
         android:background="@drawable/overlay_ball_close_shape"
         android:padding="@dimen/overlay_ball_close_padding"
         app:srcCompat="@drawable/overlay_ball_close_icon"

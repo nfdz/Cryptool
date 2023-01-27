@@ -16,10 +16,16 @@ data class MessageState(
     companion object {
         val empty = MessageState(null, emptyList(), emptySet(), true)
     }
+
+    override fun toString(): String {
+        return "$MessageState(encryptionId=${encryption?.id}, messages.size=${messages.size}, selectedMessageIds.size=${selectedMessageIds.size}, visibility=$visibility)"
+    }
 }
 
 sealed class MessageAction : Action {
     data class Initialize(val encryptionId: String) : MessageAction()
+    object Close : MessageAction()
+    data class AcknowledgeUnreadMessages(val encryptionId: String) : MessageAction()
     data class SetSource(val source: MessageSource?) : MessageAction()
     data class ReceiveMessage(val encryptedMessage: String) : MessageAction()
     data class SendMessage(val message: String) : MessageAction()
@@ -31,6 +37,7 @@ sealed class MessageAction : Action {
     object ToggleVisibility : MessageAction()
     object UnselectAll : MessageAction()
     object SelectAll : MessageAction()
+    data class Event(val message: String) : MessageAction()
 }
 
 sealed class MessageEffect : Effect {
@@ -41,6 +48,7 @@ sealed class MessageEffect : Effect {
     object SetFavorite : MessageEffect()
     object UnsetFavorite : MessageEffect()
     class Error(val message: String) : MessageEffect()
+    class Event(val message: String) : MessageEffect()
 }
 
 interface MessageViewModel : NanoViewModel<MessageState, MessageAction, MessageEffect>

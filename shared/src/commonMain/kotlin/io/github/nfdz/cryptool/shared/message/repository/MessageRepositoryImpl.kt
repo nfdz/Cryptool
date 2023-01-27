@@ -2,10 +2,14 @@ package io.github.nfdz.cryptool.shared.message.repository
 
 import io.github.nfdz.cryptool.shared.core.realm.RealmGateway
 import io.github.nfdz.cryptool.shared.encryption.entity.AlgorithmVersion
+import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
+import io.github.nfdz.cryptool.shared.encryption.entity.deserializeMessageSource
 import io.github.nfdz.cryptool.shared.encryption.repository.realm.EncryptionRealm
 import io.github.nfdz.cryptool.shared.message.entity.Message
 import io.github.nfdz.cryptool.shared.message.entity.MessageOwnership
 import io.github.nfdz.cryptool.shared.message.repository.realm.MessageRealm
+import io.github.nfdz.cryptool.shared.platform.file.FileMessageSender
+import io.github.nfdz.cryptool.shared.platform.sms.SmsSender
 import io.github.nfdz.cryptool.shared.platform.storage.KeyValueStorage
 import io.realm.kotlin.Realm
 import io.realm.kotlin.UpdatePolicy
@@ -16,11 +20,12 @@ import kotlinx.coroutines.flow.transform
 class MessageRepositoryImpl(
     private val realmGateway: RealmGateway,
     private val storage: KeyValueStorage,
+    private val smsSender: SmsSender,
+    private val fileMessageSender: FileMessageSender,
 ) : MessageRepository {
-
     companion object {
-        private const val visibilityKey = "preference_visibility"
-        private const val defaultVisibility = true
+        const val visibilityKey = "preference_visibility"
+        const val defaultVisibility = true
     }
 
     private val realm: Realm
@@ -28,7 +33,7 @@ class MessageRepositoryImpl(
 
     override fun getAll(): List<Message> {
         return realm.query<MessageRealm>().find().map {
-            it.toEntity(it.encryptionId)
+            it.toEntity()
         }
     }
 
@@ -52,7 +57,7 @@ class MessageRepositoryImpl(
 
     override suspend fun observe(encryptionId: String): Flow<List<Message>> {
         return realm.query<MessageRealm>("encryptionId == '${encryptionId}'").asFlow().transform { value ->
-            emit(value.list.map { it.toEntity(it.encryptionId) })
+            emit(value.list.map { it.toEntity() })
         }
     }
 
@@ -62,18 +67,54 @@ class MessageRepositoryImpl(
         val cryptography = AlgorithmVersion.valueOf(encryptionEntry.algorithm).createCryptography()
         val message = cryptography.decrypt(password = encryptionEntry.password, encryptedText = encryptedMessage)
             ?: throw IllegalStateException("Cannot receive message")
-        return realm.write {
+        receiveMessageInternal(
+            encryptionId = encryptionId,
+            message = message,
+            encryptedMessage = encryptedMessage,
+            timestampInMillis = null,
+            countUnread = false
+        )
+    }
+
+    override suspend fun receiveMessageAsync(
+        encryptionId: String,
+        message: String,
+        encryptedMessage: String,
+        timestampInMillis: Long,
+    ) {
+        receiveMessageInternal(
+            encryptionId = encryptionId,
+            message = message,
+            encryptedMessage = encryptedMessage,
+            timestampInMillis = timestampInMillis,
+            countUnread = true
+        )
+    }
+
+    private suspend fun receiveMessageInternal(
+        encryptionId: String,
+        message: String,
+        encryptedMessage: String,
+        timestampInMillis: Long?,
+        countUnread: Boolean
+    ) {
+        realm.write {
             val entry = copyToRealm(
                 MessageRealm.create(
                     encryptionId = encryptionId,
                     message = message,
                     encryptedMessage = encryptedMessage,
                     ownership = MessageOwnership.OTHER,
-                )
+                ).also { new ->
+                    timestampInMillis?.let { new.timestampInMillis = it }
+                }
             )
             query<EncryptionRealm>("id == '${encryptionId}'").find().first().apply {
                 this.lastMessage = "$name: $encryptedMessage"
                 this.lastMessageTimestamp = entry.timestampInMillis
+                if (countUnread) {
+                    this.unreadMessagesCount++
+                }
             }
         }
     }
@@ -84,6 +125,13 @@ class MessageRepositoryImpl(
         val cryptography = AlgorithmVersion.valueOf(encryptionEntry.algorithm).createCryptography()
         val encryptedMessage = cryptography.encrypt(password = encryptionEntry.password, text = message)
             ?: throw IllegalStateException("Cannot receive message")
+        val encryption = realm.query<EncryptionRealm>("id == '${encryptionId}'").find().first()
+        when (val source = encryption.source.deserializeMessageSource()) {
+            is MessageSource.Sms -> smsSender.sendMessage(source.phone, encryptedMessage)
+            is MessageSource.File -> fileMessageSender.sendMessage(source.outputFilePath, encryptedMessage)
+            MessageSource.Manual -> Unit
+        }
+
         return realm.write {
             val entry = copyToRealm(
                 MessageRealm.create(
@@ -93,6 +141,7 @@ class MessageRepositoryImpl(
                     ownership = MessageOwnership.OWN,
                 )
             )
+
             query<EncryptionRealm>("id == '${encryptionId}'").find().first().apply {
                 this.lastMessage = encryptedMessage
                 this.lastMessageTimestamp = entry.timestampInMillis

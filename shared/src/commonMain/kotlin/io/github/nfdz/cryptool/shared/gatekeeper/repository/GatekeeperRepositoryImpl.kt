@@ -4,6 +4,7 @@ import io.github.aakira.napier.Napier
 import io.github.nfdz.cryptool.shared.core.realm.RealmGateway
 import io.github.nfdz.cryptool.shared.encryption.entity.AlgorithmVersion
 import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
+import io.github.nfdz.cryptool.shared.encryption.entity.serialize
 import io.github.nfdz.cryptool.shared.encryption.repository.realm.EncryptionRealm
 import io.github.nfdz.cryptool.shared.gatekeeper.entity.LegacyMigrationData
 import io.github.nfdz.cryptool.shared.gatekeeper.entity.LegacyMigrationInformation
@@ -16,6 +17,8 @@ import io.github.nfdz.cryptool.shared.platform.biometric.BiometricContext
 import io.github.nfdz.cryptool.shared.platform.cryptography.Argon2KeyDerivation
 import io.github.nfdz.cryptool.shared.platform.cryptography.decodeBase64
 import io.github.nfdz.cryptool.shared.platform.cryptography.encodeBase64
+import io.github.nfdz.cryptool.shared.platform.file.FileMessageReceiver
+import io.github.nfdz.cryptool.shared.platform.sms.SmsReceiver
 import io.github.nfdz.cryptool.shared.platform.storage.KeyValueStorage
 import io.github.nfdz.cryptool.shared.platform.version.ChangelogProvider
 import io.github.nfdz.cryptool.shared.platform.version.VersionProvider
@@ -29,14 +32,21 @@ class GatekeeperRepositoryImpl(
     private val realmGateway: RealmGateway,
     private val legacyMigrationManager: LegacyMigrationManager,
     private val versionProvider: VersionProvider,
+    private val smsReceiver: SmsReceiver,
+    private val fileMessageReceiver: FileMessageReceiver,
 ) : GatekeeperRepository {
 
     companion object {
-        private const val codeKey = "access_code"
-        private const val codeSaltKey = "access_code_salt"
-        private const val biometricCodeKey = "access_biometric_code"
+        const val codeKey = "access_code"
+        const val codeSaltKey = "access_code_salt"
+        const val biometricCodeKey = "access_biometric_code"
 
         private const val accessValidityPeriodInSeconds = 300 // 5 min
+
+        var nowInSecondsForTesting: Long? = null
+        fun nowInSeconds(): Long {
+            return nowInSecondsForTesting ?: Clock.System.now().epochSeconds
+        }
     }
 
     private val keyDerivation = Argon2KeyDerivation()
@@ -74,10 +84,10 @@ class GatekeeperRepositoryImpl(
         storage.putString(biometricCodeKey, encryptedCode)
     }
 
-    override fun checkAccess(): Boolean {
+    override fun checkAccessChange(): Boolean {
         Napier.d(tag = "GatekeeperRepository", message = "Check access validity")
         if (activeCode == null) return false
-        val elapsedTime = Clock.System.now().epochSeconds - accessValidityTimestampInSeconds
+        val elapsedTime = nowInSeconds() - accessValidityTimestampInSeconds
         return if (elapsedTime > accessValidityPeriodInSeconds) {
             Napier.d(tag = "GatekeeperRepository", message = "Access is no longer valid")
             activeCode = null
@@ -89,13 +99,14 @@ class GatekeeperRepositoryImpl(
 
     override fun pushAccessValidity() {
         Napier.d(tag = "GatekeeperRepository", message = "Push access validity")
-        accessValidityTimestampInSeconds = Clock.System.now().epochSeconds
+        accessValidityTimestampInSeconds = nowInSeconds()
     }
 
     override fun reset() {
         activeCode = null
         storage.clear().also { acknowledgeWelcome(null) }
         realmGateway.tearDown()
+        triggerOnResetActions()
     }
 
     override suspend fun biometricAccess(context: BiometricContext): Boolean {
@@ -113,12 +124,16 @@ class GatekeeperRepositoryImpl(
     }
 
     private suspend fun setupActiveCode(code: String) {
+        val wasOpen = isOpen()
         val salt = storage.getString(codeSaltKey)?.decodeBase64() ?: throw IllegalStateException("Salt is missing")
         val key = keyDerivation.hash(code, salt, RealmGateway.keyHashLength)
         realmGateway.open(key)
         activeCode = code
         finishMigrationInProgress()
-        accessValidityTimestampInSeconds = Clock.System.now().epochSeconds
+        accessValidityTimestampInSeconds = nowInSeconds()
+        if (!wasOpen) {
+            triggerOnOpenActions()
+        }
     }
 
     override fun acknowledgeWelcome(welcomeTutorial: TutorialInformation?) {
@@ -143,9 +158,10 @@ class GatekeeperRepositoryImpl(
                         password = TutorialInformation.defaultPassword,
                         algorithm = cryptography.version,
                     ).apply {
-                        source = MessageSource.MANUAL.name
+                        source = MessageSource.Manual.serialize()
                         lastMessage = messages.first().second
                         lastMessageTimestamp = timestamp
+                        unreadMessagesCount = welcomeTutorial.messages.size
                     }
                 )
                 messages.forEachIndexed { index, message ->
@@ -214,6 +230,16 @@ class GatekeeperRepositoryImpl(
                 }
             }
         }
+    }
+
+    private fun triggerOnOpenActions() {
+        smsReceiver.receivePendingMessage()
+        fileMessageReceiver.launchMessagesPolling(::isOpen)
+    }
+
+    private fun triggerOnResetActions() {
+        smsReceiver.afterReset()
+        fileMessageReceiver.afterReset()
     }
 
 }

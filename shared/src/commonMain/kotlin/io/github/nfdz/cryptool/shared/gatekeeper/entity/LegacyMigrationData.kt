@@ -1,6 +1,6 @@
 package io.github.nfdz.cryptool.shared.gatekeeper.entity
 
-class LegacyMigrationData(
+data class LegacyMigrationData(
     val lastPassphrase: String,
     val lastOriginText: String,
     val isDecryptMode: Boolean,

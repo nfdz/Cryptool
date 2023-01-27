@@ -8,6 +8,13 @@ interface MessageRepository {
     suspend fun addAll(messages: List<Message>)
     suspend fun observe(encryptionId: String): Flow<List<Message>>
     suspend fun receiveMessage(encryptionId: String, encryptedMessage: String)
+    suspend fun receiveMessageAsync(
+        encryptionId: String,
+        message: String,
+        encryptedMessage: String,
+        timestampInMillis: Long,
+    )
+
     suspend fun sendMessage(encryptionId: String, message: String)
     suspend fun delete(messageIds: Set<String>)
     suspend fun setFavorite(messageIds: Set<String>)

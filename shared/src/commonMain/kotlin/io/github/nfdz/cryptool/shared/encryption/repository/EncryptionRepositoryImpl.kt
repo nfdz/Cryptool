@@ -4,6 +4,7 @@ import io.github.nfdz.cryptool.shared.core.realm.RealmGateway
 import io.github.nfdz.cryptool.shared.encryption.entity.AlgorithmVersion
 import io.github.nfdz.cryptool.shared.encryption.entity.Encryption
 import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
+import io.github.nfdz.cryptool.shared.encryption.entity.serialize
 import io.github.nfdz.cryptool.shared.encryption.repository.realm.EncryptionRealm
 import io.github.nfdz.cryptool.shared.message.entity.MessageOwnership
 import io.github.nfdz.cryptool.shared.message.repository.realm.MessageRealm
@@ -24,6 +25,14 @@ class EncryptionRepositoryImpl(
         return realm.query<EncryptionRealm>().find().map { it.toEntity() }
     }
 
+    override fun getAllWith(source: MessageSource): List<Encryption> {
+        return realm.query<EncryptionRealm>("source == '${source.serialize()}'").find().map { it.toEntity() }
+    }
+
+    override fun getAllWith(sourcePrefix: String): List<Encryption> {
+        return realm.query<EncryptionRealm>("source BEGINSWITH '$sourcePrefix'").find().map { it.toEntity() }
+    }
+
     override suspend fun addAll(encryptions: List<Encryption>) {
         realm.write {
             encryptions.forEach {
@@ -33,7 +42,7 @@ class EncryptionRepositoryImpl(
                         name = it.name
                         password = it.password
                         algorithm = it.algorithm.name
-                        source = it.source?.name ?: ""
+                        source = it.source?.serialize() ?: ""
                         isFavorite = it.isFavorite
                         unreadMessagesCount = it.unreadMessagesCount
                         lastMessage = it.lastMessage
@@ -127,15 +136,23 @@ class EncryptionRepositoryImpl(
 
     override suspend fun setSource(id: String, source: MessageSource?) {
         if (id.isBlank()) return
+        val serializedSource = source?.serialize() ?: ""
         realm.write {
             query<EncryptionRealm>("id == '${id}'").find().first().apply {
-                this.source = source?.name ?: ""
+                if (source != null && source.exclusive) {
+                    // avoid collisions when the source is exclusive
+                    val collision =
+                        query<EncryptionRealm>("password == '${password}' AND source == '$serializedSource'").find()
+                            .isNotEmpty()
+                    if (collision) throw ExclusiveSourceCollisionException()
+                }
+                this.source = serializedSource
             }
             if (source != null) {
                 copyToRealm(
                     MessageRealm.create(
                         encryptionId = id,
-                        message = "Message source: ${source.name}",
+                        message = "Message source: $serializedSource",
                         encryptedMessage = "",
                         ownership = MessageOwnership.SYSTEM,
                     )
@@ -144,5 +161,16 @@ class EncryptionRepositoryImpl(
         }
     }
 
+    override suspend fun acknowledgeUnreadMessages(id: String) {
+        if (id.isBlank()) return
+        realm.write {
+            query<EncryptionRealm>("id == '${id}'").find().first().apply {
+                this.unreadMessagesCount = 0
+            }
+        }
+    }
+
     private fun String.hideSensitive(): String = '\u2022'.toString().repeat(this.length)
 }
+
+class ExclusiveSourceCollisionException : Exception()

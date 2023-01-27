@@ -1,6 +1,8 @@
 package io.github.nfdz.cryptool.ui.password
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Scaffold
@@ -90,6 +92,7 @@ internal fun PasswordScreenContent(
     router: Router,
     state: PasswordState,
 ) {
+    var passwordIdsVisibility by remember { mutableStateOf(emptySet<String>()) }
     var clipboardHasAppData by remember { mutableStateOf(clipboard.hasAppData()) }
     val context = LocalContext.current
     var showCreateDialog by remember { mutableStateOf(false) }
@@ -124,49 +127,54 @@ internal fun PasswordScreenContent(
             TopAppBarCommon(stringResource(R.string.password_topbar_title), router)
         },
         content = { padding ->
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding)
-            ) {
-                val noPassword = state.initialized && state.passwords.isEmpty()
-                if (noPassword) {
-                    NoPasswordContent()
-                } else {
-                    LazyColumn(
-                        contentPadding = PaddingValues(bottom = 90.dp),
-                    ) {
-                        item {
-                            Spacer(modifier = Modifier.height(8.dp))
-                            TagsList(state.tags, state.selectedTags) { tag ->
-                                viewModel.dispatch(
-                                    if (state.selectedTags.contains(tag)) {
-                                        PasswordAction.RemoveFilter(tag)
-                                    } else {
-                                        PasswordAction.AddFilter(tag)
-                                    }
-                                )
-                            }
-                        }
-
-                        itemsIndexed(state.filteredPassword) { _, password ->
-                            PasswordItem(
-                                password,
-                                supportAdvancedFeatures = router.supportAdvancedFeatures(),
-                                onClick = {
-                                    if (router.supportAdvancedFeatures()) {
-                                        showEditDialog = password
-                                    }
-                                },
-                                onCopyPassword = {
-                                    clipboardHasAppData = true
-                                    clipboard.set(context, snackbar, password.password)
-                                },
-                                onDeletePassword = {
-                                    viewModel.dispatch(PasswordAction.Remove(password))
-                                },
+            val noPassword = state.initialized && state.passwords.isEmpty()
+            if (noPassword) {
+                NoPasswordContent(Modifier.padding(padding))
+            } else {
+                LazyColumn(
+                    contentPadding = padding,
+                ) {
+                    item {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        TagsList(state.tags, state.selectedTags) { tag ->
+                            viewModel.dispatch(
+                                if (state.selectedTags.contains(tag)) {
+                                    PasswordAction.RemoveFilter(tag)
+                                } else {
+                                    PasswordAction.AddFilter(tag)
+                                }
                             )
                         }
+                    }
+
+                    itemsIndexed(state.filteredPassword) { _, password ->
+                        PasswordItem(
+                            password,
+                            supportAdvancedFeatures = router.supportAdvancedFeatures(),
+                            isVisible = passwordIdsVisibility.contains(password.id),
+                            onToggleVisibility = {
+                                val isVisible = passwordIdsVisibility.contains(password.id)
+                                passwordIdsVisibility = passwordIdsVisibility.toMutableSet().apply {
+                                    if (isVisible) {
+                                        remove(password.id)
+                                    } else {
+                                        add(password.id)
+                                    }
+                                }
+                            },
+                            onClick = {
+                                if (router.supportAdvancedFeatures()) {
+                                    showEditDialog = password
+                                }
+                            },
+                            onCopyPassword = {
+                                clipboardHasAppData = true
+                                clipboard.set(context, snackbar, password.password)
+                            },
+                            onDeletePassword = {
+                                viewModel.dispatch(PasswordAction.Remove(password))
+                            },
+                        )
                     }
                 }
             }

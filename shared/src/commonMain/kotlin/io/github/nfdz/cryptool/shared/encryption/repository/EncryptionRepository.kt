@@ -4,10 +4,13 @@ import io.github.nfdz.cryptool.shared.encryption.entity.AlgorithmVersion
 import io.github.nfdz.cryptool.shared.encryption.entity.Encryption
 import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
 import kotlinx.coroutines.flow.Flow
+import kotlin.reflect.KClass
 
 interface EncryptionRepository {
 
     fun getAll(): List<Encryption>
+    fun getAllWith(source: MessageSource): List<Encryption>
+    fun getAllWith(sourcePrefix: String): List<Encryption>
     suspend fun addAll(encryptions: List<Encryption>)
     suspend fun observe(): Flow<List<Encryption>>
     suspend fun observe(id: String): Flow<Encryption>
@@ -23,4 +26,5 @@ interface EncryptionRepository {
     suspend fun setFavorite(ids: Set<String>)
     suspend fun unsetFavorite(ids: Set<String>)
     suspend fun setSource(id: String, source: MessageSource?)
+    suspend fun acknowledgeUnreadMessages(id: String)
 }

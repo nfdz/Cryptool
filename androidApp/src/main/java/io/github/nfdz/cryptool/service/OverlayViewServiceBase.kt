@@ -54,7 +54,7 @@ abstract class OverlayViewServiceBase : Service() {
             WindowManager.LayoutParams(
                 sizeConfig,
                 sizeConfig,
-                WindowManager.LayoutParams.TYPE_PHONE,
+                @Suppress("DEPRECATION") WindowManager.LayoutParams.TYPE_PHONE,
                 windowLayoutFlags,
                 PixelFormat.TRANSLUCENT,
             )

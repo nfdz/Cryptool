@@ -20,7 +20,9 @@ This is a non-profit open source solution and we are not interested in your data
 - Modern UI. Material You + support to light/dark theme.
 - Multiple encryption configurations as conversations.
 - Multiple message sources.
-  - Manual mode is the only one in production.
+  - Manual. Handle the input and output of the communication yourself.
+  - SMS. Use your SMS provider. This option could have cost depending the contract with your provider.
+  - File. Use two files for communication. You can sync and share the files automatically with any provider in a safe way. For example Google Drive, Dropbox, and so on.
 - Keystore.
 - Multiple algorithms and encryption configurations.
 - Interoperable encryption.
@@ -42,7 +44,7 @@ If you think something is missing from the application, please create an issue t
 
 ## Translation
 
-The application is translated by volunteers on a collaborative translation platform. You can help complete and improve the translations by joining the Crowdin project. If you would like to start the translation in a new language, contact or create an issue. Any help is greatly appreciated!
+The application is translated by volunteers on a collaborative translation platform. You can help complete and improve the translations by joining the [Crowdin](https://crowdin.com/project/cryptool) project. If you would like to start the translation in a new language, contact or create an issue. Any help is greatly appreciated!
 
 ## Download
 

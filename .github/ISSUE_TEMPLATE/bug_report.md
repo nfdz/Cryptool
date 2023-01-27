@@ -1,8 +1,7 @@
 ---
-name: Bug report
+name: Report a problem
 about: Create a report to help us improve
-title: "[BUG]"
-labels: new issue
+labels: issue, bug, new
 assignees: nfdz
 ---
 

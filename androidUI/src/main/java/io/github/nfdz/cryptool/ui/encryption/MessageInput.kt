@@ -30,7 +30,7 @@ private fun MessageInputPreview() {
     AppTheme {
         MessageInput(
             name = "Peter",
-            source = MessageSource.MANUAL,
+            source = MessageSource.Manual,
             onSendMessage = {},
             onReceiveMessage = {},
         )
@@ -49,7 +49,7 @@ fun MessageInput(
     onReceiveMessage: (String) -> Unit,
 ) {
     Column(modifier = modifier) {
-        if (source == MessageSource.MANUAL) {
+        if (source == MessageSource.Manual) {
             ReceiveMessageArea(name, onReceiveMessage)
         }
         SendMessageArea(onSendMessage)

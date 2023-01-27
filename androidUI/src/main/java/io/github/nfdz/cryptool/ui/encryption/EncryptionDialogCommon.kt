@@ -60,9 +60,13 @@ internal object EncryptionDialogCommon {
                     },
                 )
                 Spacer(Modifier.size(8.dp))
-                PasswordTextField(value = password, onValueChange = {
-                    if (password.length < maxLength) password = it.enforceSingleLine()
-                }, onDone = { onClick(DialogData(name, password, algorithm)) })
+                PasswordTextField(
+                    value = password,
+                    onValueChange = {
+                        if (password.length < maxLength) password = it.enforceSingleLine()
+                    },
+                    onDone = { onClick(DialogData(name, password, algorithm)) },
+                )
                 Text(
                     modifier = Modifier.padding(horizontal = 2.dp),
                     text = stringResource(R.string.input_minimum_length, minPasswordLength),

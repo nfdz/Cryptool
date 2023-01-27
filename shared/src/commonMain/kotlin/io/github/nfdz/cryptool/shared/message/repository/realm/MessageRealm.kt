@@ -7,7 +7,7 @@ import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
 import kotlinx.datetime.Clock
 
-internal class MessageRealm : RealmObject {
+class MessageRealm : RealmObject {
     @PrimaryKey
     var id: String = ""
     var encryptionId: String = ""
@@ -33,7 +33,7 @@ internal class MessageRealm : RealmObject {
         }
     }
 
-    fun toEntity(encryptionId: String): Message = Message(
+    fun toEntity(): Message = Message(
         id = id,
         encryptionId = encryptionId,
         message = message,

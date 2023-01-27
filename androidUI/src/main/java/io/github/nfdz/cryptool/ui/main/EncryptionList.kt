@@ -39,7 +39,7 @@ private fun EncryptionListPreview() {
             name = "My conversation $it",
             password = "123",
             algorithm = AlgorithmVersion.V1,
-            MessageSource.MANUAL,
+            MessageSource.Manual,
             unreadMessagesCount = (it - 1) * 4,
             lastMessage = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
             lastMessageTimestamp = 987688696768,

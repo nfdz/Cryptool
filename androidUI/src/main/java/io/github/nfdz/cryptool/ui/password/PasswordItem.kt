@@ -23,12 +23,13 @@ import io.github.nfdz.cryptool.ui.extension.hidePassword
 fun PasswordItem(
     key: Password,
     modifier: Modifier = Modifier,
+    isVisible: Boolean,
     supportAdvancedFeatures: Boolean,
+    onToggleVisibility: () -> Unit,
     onClick: () -> Unit,
     onCopyPassword: () -> Unit,
     onDeletePassword: () -> Unit
 ) {
-    var passwordVisibility by remember { mutableStateOf(false) }
     var deleteDialogVisibility by remember { mutableStateOf(false) }
 
     Row(
@@ -47,14 +48,14 @@ fun PasswordItem(
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 style = MaterialTheme.typography.labelMedium,
-                text = if (passwordVisibility) key.password else key.password.hidePassword(),
+                text = if (isVisible) key.password else key.password.hidePassword(),
             )
         }
         IconButton(onClick = { onCopyPassword() }) {
             Icon(Icons.Rounded.FileCopy, contentDescription = stringResource(R.string.password_copy_icon_description))
         }
-        IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
-            if (passwordVisibility) {
+        IconButton(onClick = onToggleVisibility) {
+            if (isVisible) {
                 Icon(
                     painter = painterResource(R.drawable.ic_visibility_off),
                     contentDescription = stringResource(R.string.password_hide_icon_description)

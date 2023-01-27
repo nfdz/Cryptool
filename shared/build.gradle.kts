@@ -56,6 +56,7 @@ kotlin {
             dependencies {
                 implementation(libs.bundles.androidx)
                 implementation(libs.signal.argon2)
+                implementation(libs.libphonenumber)
             }
         }
         val androidTest by getting {
@@ -74,7 +75,6 @@ android {
 
     defaultConfig {
         minSdk = libs.versions.android.min.sdk.get().toInt()
-        targetSdk = libs.versions.android.target.sdk.get().toInt()
         consumerProguardFiles("consumer-rules.pro")
     }
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")

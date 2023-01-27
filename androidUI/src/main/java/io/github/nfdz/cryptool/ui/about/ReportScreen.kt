@@ -101,7 +101,7 @@ internal fun ReportScreenContent(snackbar: SnackbarHostState, router: Router) {
                         label = stringResource(R.string.report_feedback_email),
                         iconId = R.drawable.ic_email,
                         onClick = {
-                            router.navigateToUrl(AppUrl.emailFeedback)
+                            router.navigateToUrl(AppUrl.emailIssue)
                         },
                     )
                     Spacer(modifier = Modifier.weight(1f))

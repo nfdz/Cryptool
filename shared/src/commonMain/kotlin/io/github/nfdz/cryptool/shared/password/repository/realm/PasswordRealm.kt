@@ -5,7 +5,7 @@ import io.github.nfdz.cryptool.shared.password.entity.Password
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
 
-internal class PasswordRealm : RealmObject {
+class PasswordRealm : RealmObject {
     @PrimaryKey
     var id: String = ""
     var name: String = ""

@@ -12,7 +12,7 @@ interface GatekeeperRepository {
     fun canMigrateFromLegacy(): LegacyMigrationInformation?
     suspend fun setNewCode(code: String, biometricEnabled: Boolean, context: BiometricContext?)
     fun reset()
-    fun checkAccess(): Boolean
+    fun checkAccessChange(): Boolean
     fun pushAccessValidity()
     suspend fun validateCode(code: String): Boolean
     suspend fun biometricAccess(context: BiometricContext): Boolean

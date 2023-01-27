@@ -4,6 +4,9 @@
     package="io.github.nfdz.cryptool">
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
 
     <application
         android:name=".CryptoolApp"
@@ -38,5 +41,15 @@
         <service
             android:name=".service.tool.OverlayToolService"
             android:exported="false" />
+
+        <receiver
+            android:name=".platform.broadcast.SmsBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BROADCAST_SMS">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest> 

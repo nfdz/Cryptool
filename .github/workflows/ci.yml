@@ -42,7 +42,7 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
       - name: Release dry run
-        run: ./gradlew :androidApp:assembleRelease
+        run: ./gradlew :androidApp:assembleRelease -x lint
 
 #
 #  TODO: runTest (coroutines) fails randomly

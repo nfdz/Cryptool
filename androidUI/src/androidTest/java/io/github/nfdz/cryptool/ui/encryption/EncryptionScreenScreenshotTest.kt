@@ -28,7 +28,7 @@ class EncryptionScreenScreenshotTest {
         "Joe",
         "Pw test",
         AlgorithmVersion.V2,
-        MessageSource.MANUAL,
+        MessageSource.Manual,
         false,
         0,
         "",

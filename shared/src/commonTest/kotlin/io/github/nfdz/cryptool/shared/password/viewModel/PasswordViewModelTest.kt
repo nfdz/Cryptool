@@ -125,7 +125,7 @@ class PasswordViewModelTest {
         val effect = effectRecord.first() as PasswordEffect.Removed
         assertEquals(fakePasswordA, effect.password)
         assertEquals(1, passwordRepository.removeCount)
-        assertEquals(fakePasswordA, passwordRepository.removeArgPassword)
+        assertEquals(fakePasswordA.id, passwordRepository.removeArgId)
     }
 
 }

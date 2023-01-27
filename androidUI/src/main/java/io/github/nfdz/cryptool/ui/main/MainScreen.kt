@@ -18,6 +18,8 @@ import io.github.nfdz.cryptool.shared.encryption.entity.AlgorithmVersion
 import io.github.nfdz.cryptool.shared.encryption.entity.Encryption
 import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
 import io.github.nfdz.cryptool.shared.encryption.viewModel.*
+import io.github.nfdz.cryptool.shared.message.viewModel.MessageAction
+import io.github.nfdz.cryptool.shared.message.viewModel.MessageViewModel
 import io.github.nfdz.cryptool.ui.*
 import io.github.nfdz.cryptool.ui.R
 import io.github.nfdz.cryptool.ui.common.TopAppBarCommon
@@ -32,10 +34,11 @@ import org.koin.core.context.GlobalContext
 internal fun MainScreen(
     router: Router,
     viewModel: EncryptionViewModel = GlobalContext.get().get(),
+    messageViewModel: MessageViewModel = GlobalContext.get().get(),
     clipboard: ClipboardAndroid = GlobalContext.get().get(),
     applicationManager: ApplicationManager = GlobalContext.get().get(),
 ) {
-    MainScreenLaunchedEffect(viewModel)
+    MainScreenLaunchedEffect(viewModel, messageViewModel)
     AutoOpenEncryptionEffect(viewModel, router)
     val snackbar = remember { SnackbarHostState() }
     AppMessagesEffect(snackbar)
@@ -67,7 +70,7 @@ private fun MainScreenPreview() {
                         "Joe",
                         "abc",
                         AlgorithmVersion.V1,
-                        MessageSource.MANUAL,
+                        MessageSource.Manual,
                         true,
                         12,
                         "abc",
@@ -78,7 +81,7 @@ private fun MainScreenPreview() {
                         "Mark",
                         "123",
                         AlgorithmVersion.V2,
-                        MessageSource.MANUAL,
+                        MessageSource.Manual,
                         false,
                         0,
                         "444",
@@ -109,7 +112,7 @@ private fun MainScreenSelectModePreview() {
                         "Joe",
                         "abc",
                         AlgorithmVersion.V1,
-                        MessageSource.MANUAL,
+                        MessageSource.Manual,
                         true,
                         12,
                         "abc",
@@ -120,7 +123,7 @@ private fun MainScreenSelectModePreview() {
                         "Mark",
                         "123",
                         AlgorithmVersion.V2,
-                        MessageSource.MANUAL,
+                        MessageSource.Manual,
                         false,
                         0,
                         "444",
@@ -135,9 +138,10 @@ private fun MainScreenSelectModePreview() {
 }
 
 @Composable
-private fun MainScreenLaunchedEffect(viewModel: EncryptionViewModel) {
+private fun MainScreenLaunchedEffect(viewModel: EncryptionViewModel, messageViewModel: MessageViewModel) {
     LaunchedEffect(true) {
         viewModel.dispatch(EncryptionAction.Initialize)
+        messageViewModel.dispatch(MessageAction.Close)
     }
 }
 
@@ -176,13 +180,13 @@ internal fun MainScreenContent(
     }
     var showExportDialog by remember { mutableStateOf(false) }
     if (showExportDialog) {
-        ExportDialog(router, snackbar) {
+        ExportDialog(snackbar) {
             showExportDialog = false
         }
     }
     var showImportDialog by remember { mutableStateOf(false) }
     if (showImportDialog) {
-        ImportDialog(router, snackbar) {
+        ImportDialog(snackbar) {
             showImportDialog = false
         }
     }

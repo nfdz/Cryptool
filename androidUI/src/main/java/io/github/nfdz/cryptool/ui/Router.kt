@@ -1,13 +1,10 @@
 package io.github.nfdz.cryptool.ui
 
-import androidx.compose.material3.SnackbarHostState
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import io.github.nfdz.cryptool.shared.core.export.ExportConfiguration
-import io.github.nfdz.cryptool.shared.core.import.ImportConfiguration
 import io.github.nfdz.cryptool.ui.about.*
 import io.github.nfdz.cryptool.ui.encryption.EncryptionScreen
 import io.github.nfdz.cryptool.ui.gatekeeper.ChangeAccessCodeScreen
@@ -30,8 +27,6 @@ interface Router {
     suspend fun navigateToOverlayPermission(): Boolean
     fun navigateToOverlayPermissionSettings()
     fun navigateToOverlayBall()
-    fun navigateToExportData(snackbar: SnackbarHostState, code: String?, configuration: ExportConfiguration)
-    fun navigateToImportData(snackbar: SnackbarHostState, code: String?, configuration: ImportConfiguration)
     fun navigateToUrl(url: String)
 
     fun exitOverlay()
@@ -136,8 +131,6 @@ object EmptyRouter : Router {
     override suspend fun navigateToOverlayPermission(): Boolean = false
     override fun navigateToOverlayPermissionSettings() {}
     override fun navigateToOverlayBall() {}
-    override fun navigateToExportData(snackbar: SnackbarHostState, code: String?, configuration: ExportConfiguration) {}
-    override fun navigateToImportData(snackbar: SnackbarHostState, code: String?, configuration: ImportConfiguration) {}
     override fun navigateToUrl(url: String) {}
     override fun exitOverlay() {}
 }

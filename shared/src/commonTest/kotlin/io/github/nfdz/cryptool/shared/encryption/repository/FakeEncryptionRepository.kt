@@ -8,17 +8,36 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class FakeEncryptionRepository(
-    val getAllAnswer: List<Encryption> = emptyList(),
-    val observeAnswer: Flow<List<Encryption>> = flow { },
-    val createAnswer: Encryption? = null,
-    val editAnswer: Encryption? = null,
-    val observeWithIdAnswer: Flow<Encryption> = flow { },
+    private val getAllAnswer: List<Encryption> = emptyList(),
+    private val observeAnswer: Flow<List<Encryption>> = flow { },
+    private val createAnswer: Encryption? = null,
+    private val editAnswer: Encryption? = null,
+    private val observeWithIdAnswer: Flow<Encryption> = flow { },
+    private val getAllWithSourceAnswer: List<Encryption> = emptyList(),
+    private val getAllWithPrefixAnswer: List<Encryption> = emptyList(),
+    private val setSourceException: Throwable? = null,
 ) : EncryptionRepository {
 
     var getAllCount = 0
     override fun getAll(): List<Encryption> {
         getAllCount++
         return getAllAnswer
+    }
+
+    var getAllWithSourceCount = 0
+    var getAllWithSourceArg: MessageSource? = null
+    override fun getAllWith(source: MessageSource): List<Encryption> {
+        getAllWithSourceCount++
+        getAllWithSourceArg = source
+        return getAllWithSourceAnswer
+    }
+
+    var getAllWithPrefixCount = 0
+    var getAllWithPrefixArg: String? = null
+    override fun getAllWith(sourcePrefix: String): List<Encryption> {
+        getAllWithPrefixCount++
+        getAllWithPrefixArg = sourcePrefix
+        return getAllWithPrefixAnswer
     }
 
     var addAllRegistry = mutableListOf<List<Encryption>>()
@@ -101,5 +120,14 @@ class FakeEncryptionRepository(
         setSourceCount++
         setSourceArgId = id
         setSourceArgSource = source
+        setSourceException?.let { throw it }
+    }
+
+    var acknowledgeUnreadMessagesCount = 0
+    var acknowledgeUnreadMessagesArgId: String? = null
+    override suspend fun acknowledgeUnreadMessages(id: String) {
+        acknowledgeUnreadMessagesCount++
+        acknowledgeUnreadMessagesArgId = id
+
     }
 }

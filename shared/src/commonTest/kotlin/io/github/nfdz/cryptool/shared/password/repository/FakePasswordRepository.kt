@@ -61,9 +61,9 @@ class FakePasswordRepository(
     }
 
     var removeCount = 0
-    var removeArgPassword: Password? = null
-    override suspend fun remove(password: Password) {
+    var removeArgId: String? = null
+    override suspend fun remove(id: String) {
         removeCount++
-        removeArgPassword = password
+        removeArgId = id
     }
 }

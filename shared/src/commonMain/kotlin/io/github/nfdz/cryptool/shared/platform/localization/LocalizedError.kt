@@ -7,4 +7,6 @@ interface LocalizedError {
     val gatekeeperUnexpected: String
     val messageReceiveMessage: String
     val messageUnexpected: String
+    val exclusiveSourceCollision: String
+    val messageSendFileError: String
 }

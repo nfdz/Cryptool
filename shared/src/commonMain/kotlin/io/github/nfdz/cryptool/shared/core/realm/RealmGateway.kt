@@ -6,10 +6,10 @@ import io.github.nfdz.cryptool.shared.message.repository.realm.MessageRealm
 import io.github.nfdz.cryptool.shared.password.repository.realm.PasswordRealm
 import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
+import io.realm.kotlin.ext.query
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import io.realm.kotlin.ext.query
 
 interface RealmGateway {
     fun open(key: ByteArray)
@@ -22,15 +22,15 @@ interface RealmGateway {
     }
 }
 
+val realmSchema = setOf(
+    PasswordRealm::class,
+    EncryptionRealm::class,
+    MessageRealm::class,
+)
+
 class RealmGatewayImpl : RealmGateway {
 
     companion object {
-        private val schema = setOf(
-            PasswordRealm::class,
-            EncryptionRealm::class,
-            MessageRealm::class,
-        )
-
         private const val name = "cryptool.realm"
     }
 
@@ -82,7 +82,7 @@ class RealmGatewayImpl : RealmGateway {
                 it.close()
                 Realm.deleteRealm(it.configuration)
             }
-            Realm.deleteRealm(RealmConfiguration.Builder(schema).name(name).build())
+            Realm.deleteRealm(RealmConfiguration.Builder(realmSchema).name(name).build())
         }.onFailure {
             Napier.e(tag = "RealmGateway", message = "Delete error: ${it.message}", throwable = it)
         }
@@ -90,7 +90,7 @@ class RealmGatewayImpl : RealmGateway {
     }
 
     private fun createInstance(key: ByteArray): Realm {
-        val config = RealmConfiguration.Builder(schema).name(name).encryptionKey(key).build()
+        val config = RealmConfiguration.Builder(realmSchema).name(name).encryptionKey(key).build()
         return Realm.open(config)
     }
 

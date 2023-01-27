@@ -4,9 +4,11 @@ import io.github.aakira.napier.Napier
 import io.github.nfdz.cryptool.shared.encryption.entity.Encryption
 import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
 import io.github.nfdz.cryptool.shared.encryption.repository.EncryptionRepository
+import io.github.nfdz.cryptool.shared.encryption.repository.ExclusiveSourceCollisionException
 import io.github.nfdz.cryptool.shared.message.entity.Message
 import io.github.nfdz.cryptool.shared.message.entity.MessageOwnership
 import io.github.nfdz.cryptool.shared.message.repository.MessageRepository
+import io.github.nfdz.cryptool.shared.platform.file.FileMessageSendException
 import io.github.nfdz.cryptool.shared.platform.localization.LocalizedError
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.cancellable
@@ -32,6 +34,8 @@ class MessageViewModelImpl(
         runCatching {
             when (action) {
                 is MessageAction.Initialize -> collectMessages(action.encryptionId)
+                MessageAction.Close -> close(previousState)
+                is MessageAction.AcknowledgeUnreadMessages -> acknowledgeUnreadMessages(action.encryptionId)
                 is MessageAction.SetSource -> setSource(action.source)
                 is MessageAction.ReceiveMessage -> receiveMessage(action.encryptedMessage)
                 is MessageAction.SendMessage -> sendMessage(action.message)
@@ -43,11 +47,16 @@ class MessageViewModelImpl(
                 is MessageAction.SetFavorite -> setFavorite(action.messageIds)
                 is MessageAction.UnsetFavorite -> unsetFavorite(action.messageIds)
                 MessageAction.ToggleVisibility -> toggleVisibility(previousState)
+                is MessageAction.Event -> processEvent(action.message)
             }
         }.onFailure {
             Napier.e(tag = tag, message = "processAction: $action", throwable = it)
             emitSideEffect(MessageEffect.Error(localizedError.messageUnexpected))
         }
+    }
+
+    private suspend fun acknowledgeUnreadMessages(encryptionId: String) {
+        encryptionRepository.acknowledgeUnreadMessages(encryptionId)
     }
 
     private suspend fun collectMessages(encryptionId: String) {
@@ -76,12 +85,27 @@ class MessageViewModelImpl(
         }
     }
 
+    private suspend fun close(previousState: MessageState) {
+        collectMessagesJob?.cancel()
+        collectEncryptionJob?.cancel()
+        collectMessagesJob = null
+        collectEncryptionJob = null
+        previousState.encryption?.id?.let {
+            encryptionRepository.acknowledgeUnreadMessages(it)
+        }
+        emitNewState(MessageState.empty)
+    }
+
     private val activeEncryption: Encryption
         get() = currentState.encryption ?: throw IllegalStateException("No encryption")
 
     private suspend fun setSource(source: MessageSource?) {
-        encryptionRepository.setSource(id = activeEncryption.id, source = source)
-        emitSideEffect(MessageEffect.SetSource(source))
+        try {
+            encryptionRepository.setSource(id = activeEncryption.id, source = source)
+            emitSideEffect(MessageEffect.SetSource(source))
+        } catch (collision: ExclusiveSourceCollisionException) {
+            emitSideEffect(MessageEffect.Error(localizedError.exclusiveSourceCollision))
+        }
     }
 
     private suspend fun receiveMessage(encryptedMessage: String) {
@@ -94,8 +118,12 @@ class MessageViewModelImpl(
     }
 
     private suspend fun sendMessage(message: String) {
-        messageRepository.sendMessage(encryptionId = activeEncryption.id, message = message)
-        emitSideEffect(MessageEffect.SentMessage)
+        try {
+            messageRepository.sendMessage(encryptionId = activeEncryption.id, message = message)
+            emitSideEffect(MessageEffect.SentMessage)
+        } catch (exception: FileMessageSendException) {
+            emitSideEffect(MessageEffect.Error(localizedError.messageSendFileError))
+        }
     }
 
     private suspend fun removeMessage(messageIds: Set<String>) {
@@ -151,6 +179,10 @@ class MessageViewModelImpl(
                 visibility = visibility
             )
         )
+    }
+
+    private suspend fun processEvent(message: String) {
+        emitSideEffect(MessageEffect.Event(message))
     }
 
     private fun Collection<Message>.sorted(): List<Message> {

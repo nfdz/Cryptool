@@ -14,6 +14,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import io.github.nfdz.cryptool.shared.core.import.ImportConfiguration
 import io.github.nfdz.cryptool.ui.R
 import io.github.nfdz.cryptool.ui.extension.enforceSingleLine
 
@@ -26,7 +27,13 @@ internal object ImportExportDialogCommon {
         val encryptions: Boolean,
         val messages: Boolean,
         val passwords: Boolean,
-    )
+    ) {
+        fun toConfiguration() = ImportConfiguration(
+            encryptions = encryptions,
+            messages = messages,
+            passwords = passwords,
+        )
+    }
 
     @Composable
     fun DialogContent(

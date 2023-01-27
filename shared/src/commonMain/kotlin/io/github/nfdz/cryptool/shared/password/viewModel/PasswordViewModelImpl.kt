@@ -86,7 +86,7 @@ class PasswordViewModelImpl(
     }
 
     private suspend fun removePassword(password: Password) {
-        repository.remove(password)
+        repository.remove(password.id)
         emitSideEffect(PasswordEffect.Removed(password))
     }
 

@@ -28,6 +28,7 @@ androidx_test_rules = "1.5.0"
 testify = "2.0.0-alpha01"
 javaTarget = "1.8"
 leakcanary = "2.10"
+libphonenumber = "8.12.56"
 
 [libraries]
 android_gradle_plugin = { module = "com.android.tools.build:gradle", version.ref = "android_gradle_plugin" }
@@ -62,6 +63,7 @@ androidx_test_rules = { module = "androidx.test:rules", version.ref = "androidx_
 testify_compose = { module = "dev.testify:testify-compose", version.ref = "testify" }
 testify_gradle_plugin = { module = "dev.testify:plugin", version.ref = "testify" }
 leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
+libphonenumber = { module = "com.googlecode.libphonenumber:libphonenumber", version.ref = "libphonenumber" }
 
 [plugins]
 kotlin_serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

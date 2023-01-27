@@ -1,8 +1,7 @@
 ---
 name: Feature request
 about: Suggest an idea
-title: "[FEATURE]"
-labels: enhancement, new issue
+labels: enhancement, feature, new
 assignees: nfdz
 ---
 

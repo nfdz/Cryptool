@@ -10,7 +10,19 @@ data class PasswordState(
     val passwords: List<Password>,
     val selectedTags: Set<String>,
     val tags: List<String>,
-) : State
+) : State {
+    val filteredPassword: List<Password> by lazy {
+        val validSelectedTags = selectedTags.intersect(tags.toSet())
+        if (validSelectedTags.isEmpty()) {
+            passwords
+        } else {
+            passwords.filter { password ->
+                val notSatisfiedTags = validSelectedTags.subtract(password.tags.toSet())
+                notSatisfiedTags.isEmpty()
+            }
+        }
+    }
+}
 
 sealed class PasswordAction : Action {
     object Initialize : PasswordAction()
@@ -34,16 +46,6 @@ abstract class PasswordViewModelBase : PasswordViewModel,
     NanoViewModelBase<PasswordState, PasswordAction, PasswordEffect>()
 
 fun isPasswordValid(name: String, password: String) = name.isNotEmpty() && password.isNotEmpty()
-
-val PasswordState.filteredPassword: List<Password>
-    get() {
-        val validSelectedTags = selectedTags.intersect(tags.toSet())
-        return if (validSelectedTags.isEmpty()) {
-            passwords
-        } else {
-            passwords.filter { password -> password.tags.any { tag -> validSelectedTags.contains(tag) } }
-        }
-    }
 
 object EmptyPasswordViewModel : PasswordViewModel {
     override fun observeState(): StateFlow<PasswordState> = throw IllegalStateException()
