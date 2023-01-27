@@ -35,6 +35,12 @@ internal data class EncryptionDto(
     val source: String,
     @SerialName("f")
     val isFavorite: Boolean,
+    @SerialName("uc")
+    val unreadMessagesCount: Int,
+    @SerialName("lm")
+    val lastMessage: String,
+    @SerialName("lt")
+    val lastMessageTimestamp: Long,
 ) {
     companion object {
         fun from(value: Encryption): EncryptionDto {
@@ -45,6 +51,9 @@ internal data class EncryptionDto(
                 algorithm = value.algorithm.name,
                 source = value.source?.serialize() ?: "",
                 isFavorite = value.isFavorite,
+                unreadMessagesCount = value.unreadMessagesCount,
+                lastMessage = value.lastMessage,
+                lastMessageTimestamp = value.lastMessageTimestamp,
             )
         }
     }
@@ -56,9 +65,9 @@ internal data class EncryptionDto(
         algorithm = AlgorithmVersion.valueOf(algorithm),
         source = if (source.isNotBlank()) source.deserializeMessageSource() else null,
         isFavorite = isFavorite,
-        unreadMessagesCount = 0,
-        lastMessage = "",
-        lastMessageTimestamp = 0L,
+        unreadMessagesCount = unreadMessagesCount,
+        lastMessage = lastMessage,
+        lastMessageTimestamp = lastMessageTimestamp,
     )
 }
 

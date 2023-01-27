@@ -47,16 +47,8 @@ class BiometricAndroid : Biometric {
             setBlockModes(KeyProperties.BLOCK_MODE_GCM)
             setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
             setUserAuthenticationRequired(true)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                setUserAuthenticationParameters(10, KeyProperties.AUTH_BIOMETRIC_STRONG)
-            } else {
-                // Workaround for legacy devices
-                setUserAuthenticationValidityDurationSeconds(Int.MAX_VALUE)
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                // Invalidate the keys if the user has registered a new biometric credential
-                setInvalidatedByBiometricEnrollment(true)
-            }
+            setUserAuthenticationValidityDurationCompat()
+            setInvalidatedByBiometricEnrollmentCompat()
         }.build()
         generateSecretKey(spec)
     }
@@ -172,6 +164,22 @@ class BiometricAndroid : Biometric {
     }
 
     private class BiometricTextComponents(val ivBase64: String, val tLen: Int, val encryptedCodeBase64: String)
+
+    private fun KeyGenParameterSpec.Builder.setUserAuthenticationValidityDurationCompat() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            setUserAuthenticationParameters(10, KeyProperties.AUTH_BIOMETRIC_STRONG)
+        } else {
+            // Workaround for legacy devices
+            @Suppress("DEPRECATION") setUserAuthenticationValidityDurationSeconds(Int.MAX_VALUE)
+        }
+    }
+
+    private fun KeyGenParameterSpec.Builder.setInvalidatedByBiometricEnrollmentCompat() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            // Invalidate the keys if the user has registered a new biometric credential
+            setInvalidatedByBiometricEnrollment(true)
+        }
+    }
 }
 
 class BiometricException(message: String, cause: Throwable? = null) : Exception(message, cause)

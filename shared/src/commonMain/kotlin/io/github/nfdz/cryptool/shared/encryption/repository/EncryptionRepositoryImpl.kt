@@ -29,6 +29,10 @@ class EncryptionRepositoryImpl(
         return realm.query<EncryptionRealm>("source == '${source.serialize()}'").find().map { it.toEntity() }
     }
 
+    override fun getAllWith(sourcePrefix: String): List<Encryption> {
+        return realm.query<EncryptionRealm>("source BEGINSWITH '$sourcePrefix'").find().map { it.toEntity() }
+    }
+
     override suspend fun addAll(encryptions: List<Encryption>) {
         realm.write {
             encryptions.forEach {

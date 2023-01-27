@@ -7,4 +7,9 @@ class FakeSmsReceiver : SmsReceiver {
         receivePendingMessageCount++
     }
 
+    var afterResetCount = 0
+    override fun afterReset() {
+        afterResetCount++
+    }
+
 }

@@ -75,6 +75,7 @@ class CryptoolApp : Application() {
         single<RealmGateway> { RealmGatewayImpl() }
         single<Biometric> { BiometricAndroid() }
         single<FileMessageSender> { FileMessageSenderAndroid(applicationContext) }
+        single<FileMessageReceiver> { FileMessageReceiverAndroid(applicationContext, get(), get(), get()) }
         single<SmsSender> { SmsSenderAndroid(applicationContext) }
         single<SmsReceiver> { SmsReceiverAndroid(applicationContext, get(), get(), get()) }
         single<KeyValueStorage> { KeyValueStorageAndroid(applicationContext) }
@@ -90,7 +91,7 @@ class CryptoolApp : Application() {
         single<LocalizedError> { LocalizedErrorAndroid(applicationContext) }
 
         // Repositories
-        single<GatekeeperRepository> { GatekeeperRepositoryImpl(get(), get(), get(), get(), get(), get(), get()) }
+        single<GatekeeperRepository> { GatekeeperRepositoryImpl(get(), get(), get(), get(), get(), get(), get(), get()) }
         single<EncryptionRepository> { EncryptionRepositoryImpl(get()) }
         single<MessageRepository> { MessageRepositoryImpl(get(), get(), get(), get()) }
         single<PasswordRepository> { PasswordRepositoryImpl(get()) }

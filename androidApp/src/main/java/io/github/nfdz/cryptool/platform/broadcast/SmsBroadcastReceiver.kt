@@ -7,9 +7,13 @@ import android.provider.Telephony
 import io.github.aakira.napier.Napier
 import io.github.nfdz.cryptool.shared.gatekeeper.repository.GatekeeperRepository
 import io.github.nfdz.cryptool.shared.platform.sms.SmsReceiver
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.core.context.GlobalContext
 
-class SmsBroadcastReceiver : BroadcastReceiver() {
+class SmsBroadcastReceiver : BroadcastReceiver(), CoroutineScope by CoroutineScope(Dispatchers.Default) {
 
     companion object {
         private const val tag = "SmsBroadcastReceiver"
@@ -30,8 +34,11 @@ class SmsBroadcastReceiver : BroadcastReceiver() {
             Napier.d(tag = tag, message = "Cryptool is not open")
             return
         }
-        smsReceiver.receivePendingMessage()
+        launch {
+            // Small delay to ensure that the content provider has the new entry
+            delay(2000)
+            smsReceiver.receivePendingMessage()
+        }
     }
-
 
 }

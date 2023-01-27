@@ -21,4 +21,7 @@ object FakeLocalizedError : LocalizedError {
 
     override val exclusiveSourceCollision: String
         get() = "exclusive-source-collision"
+
+    override val messageSendFileError: String
+        get() = "message-send-file-error"
 }

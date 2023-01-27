@@ -8,7 +8,10 @@ import io.github.nfdz.cryptool.shared.encryption.repository.realm.EncryptionReal
 import io.github.nfdz.cryptool.shared.message.entity.Message
 import io.github.nfdz.cryptool.shared.message.entity.MessageOwnership
 import io.github.nfdz.cryptool.shared.message.repository.realm.MessageRealm
+import io.github.nfdz.cryptool.shared.platform.file.FakeFileMessageSender
+import io.github.nfdz.cryptool.shared.platform.file.FileMessageSender
 import io.github.nfdz.cryptool.shared.platform.sms.FakeSmsSender
+import io.github.nfdz.cryptool.shared.platform.sms.SmsSender
 import io.github.nfdz.cryptool.shared.platform.storage.FakeKeyValueStorage
 import io.realm.kotlin.ext.query
 import junit.framework.TestCase.assertEquals
@@ -62,9 +65,21 @@ class MessageRepositoryTest {
         realm.tearDownTest()
     }
 
+    private fun createInstance(
+        smsSender: SmsSender = FakeSmsSender(),
+        fileMessageSender: FileMessageSender = FakeFileMessageSender(),
+    ): MessageRepository {
+        return MessageRepositoryImpl(
+            realmGateway = realm,
+            storage = keyValueStorage,
+            smsSender = smsSender,
+            fileMessageSender = fileMessageSender,
+        )
+    }
+
     @Test
     fun testGetAllEmpty() {
-        val instance = MessageRepositoryImpl(realm, keyValueStorage, FakeSmsSender())
+        val instance = createInstance()
 
         val result = instance.getAll()
 
@@ -76,7 +91,7 @@ class MessageRepositoryTest {
         realm.instance.write {
             copyToRealm(messageRealmA)
         }
-        val instance = MessageRepositoryImpl(realm, keyValueStorage, FakeSmsSender())
+        val instance = createInstance()
 
         val result = instance.getAll()
 
@@ -85,7 +100,7 @@ class MessageRepositoryTest {
 
     @Test
     fun testAddAll() = runTest {
-        val instance = MessageRepositoryImpl(realm, keyValueStorage, FakeSmsSender())
+        val instance = createInstance()
 
         instance.addAll(listOf(messageA))
 
@@ -99,7 +114,7 @@ class MessageRepositoryTest {
         realm.instance.write {
             copyToRealm(messageRealmA)
         }
-        val instance = MessageRepositoryImpl(realm, keyValueStorage, FakeSmsSender())
+        val instance = createInstance()
 
         val result = instance.observe(encryptionId = messageRealmA.encryptionId)
 
@@ -109,7 +124,7 @@ class MessageRepositoryTest {
 
     @Test(expected = java.util.NoSuchElementException::class)
     fun testReceiveMessageWithInvalidEncryption() = runTest {
-        val instance = MessageRepositoryImpl(realm, keyValueStorage, FakeSmsSender())
+        val instance = createInstance()
 
         instance.receiveMessage(encryptionId = "Invalid", encryptedMessage = messageA.encryptedMessage)
     }
@@ -119,8 +134,7 @@ class MessageRepositoryTest {
         realm.instance.write {
             copyToRealm(encryptionRealmA)
         }
-
-        val instance = MessageRepositoryImpl(realm, keyValueStorage, FakeSmsSender())
+        val instance = createInstance()
 
         instance.receiveMessage(encryptionId = messageA.encryptionId, encryptedMessage = "Invalid")
     }
@@ -130,7 +144,7 @@ class MessageRepositoryTest {
         realm.instance.write {
             copyToRealm(encryptionRealmA)
         }
-        val instance = MessageRepositoryImpl(realm, keyValueStorage, FakeSmsSender())
+        val instance = createInstance()
 
         instance.receiveMessage(encryptionId = messageA.encryptionId, encryptedMessage = messageA.encryptedMessage)
 
@@ -144,7 +158,7 @@ class MessageRepositoryTest {
 
     @Test(expected = java.util.NoSuchElementException::class)
     fun testSendMessageWithInvalidEncryption() = runTest {
-        val instance = MessageRepositoryImpl(realm, keyValueStorage, FakeSmsSender())
+        val instance = createInstance()
 
         instance.sendMessage(encryptionId = "Invalid", message = messageA.message)
     }
@@ -156,11 +170,21 @@ class MessageRepositoryTest {
             copyToRealm(encryptionRealmA)
         }
 
-        val instance = MessageRepositoryImpl(
-            realm,
-            keyValueStorage,
-            FakeSmsSender(sendMessageException = java.lang.IllegalArgumentException())
-        )
+        val instance =
+            createInstance(smsSender = FakeSmsSender(sendMessageException = java.lang.IllegalArgumentException()))
+
+        instance.sendMessage(encryptionId = messageA.encryptionId, message = messageA.message)
+    }
+
+    @Test(expected = java.lang.IllegalArgumentException::class)
+    fun testSendMessageWithFileError() = runTest {
+        encryptionRealmA.source = MessageSource.File("input-path", "output-path").serialize()
+        realm.instance.write {
+            copyToRealm(encryptionRealmA)
+        }
+
+        val fileMessageSender = FakeFileMessageSender(sendMessageException = java.lang.IllegalArgumentException())
+        val instance = createInstance(fileMessageSender = fileMessageSender)
 
         instance.sendMessage(encryptionId = messageA.encryptionId, message = messageA.message)
     }
@@ -171,7 +195,8 @@ class MessageRepositoryTest {
             copyToRealm(encryptionRealmA)
         }
         val smsSender = FakeSmsSender()
-        val instance = MessageRepositoryImpl(realm, keyValueStorage, smsSender)
+        val fileMessageSender = FakeFileMessageSender()
+        val instance = createInstance(smsSender = smsSender, fileMessageSender = fileMessageSender)
 
         instance.sendMessage(encryptionId = messageA.encryptionId, message = messageA.message)
 
@@ -181,6 +206,7 @@ class MessageRepositoryTest {
         assertEquals(messageA.message, storedMessage.message)
         assertEquals(MessageOwnership.OWN, storedMessage.ownership)
         assertEquals(0, smsSender.sendMessageCount)
+        assertEquals(0, fileMessageSender.sendMessageCount)
     }
 
     @Test
@@ -191,7 +217,7 @@ class MessageRepositoryTest {
             copyToRealm(encryptionRealmA)
         }
         val smsSender = FakeSmsSender()
-        val instance = MessageRepositoryImpl(realm, keyValueStorage, smsSender)
+        val instance = createInstance(smsSender = smsSender)
 
         instance.sendMessage(encryptionId = messageA.encryptionId, message = messageA.message)
 
@@ -205,11 +231,32 @@ class MessageRepositoryTest {
     }
 
     @Test
+    fun testSendMessageFile() = runTest {
+        val outputPath = "output-path/file"
+        encryptionRealmA.source = MessageSource.File("input-path/file", outputPath).serialize()
+        realm.instance.write {
+            copyToRealm(encryptionRealmA)
+        }
+        val fileMessageSender = FakeFileMessageSender()
+        val instance = createInstance(fileMessageSender = fileMessageSender)
+
+        instance.sendMessage(encryptionId = messageA.encryptionId, message = messageA.message)
+
+        val stored = realm.instance.query<MessageRealm>().find()
+        assertEquals(1, stored.size)
+        val storedMessage = stored.first().toEntity()
+        assertEquals(messageA.message, storedMessage.message)
+        assertEquals(MessageOwnership.OWN, storedMessage.ownership)
+        assertEquals(1, fileMessageSender.sendMessageCount)
+        assertEquals(outputPath, fileMessageSender.sendMessageArgPath)
+    }
+
+    @Test
     fun testDelete() = runTest {
         realm.instance.write {
             copyToRealm(messageRealmA)
         }
-        val instance = MessageRepositoryImpl(realm, keyValueStorage, FakeSmsSender())
+        val instance = createInstance()
 
         instance.delete(setOf(messageA.id))
 
@@ -219,7 +266,7 @@ class MessageRepositoryTest {
 
     @Test(expected = java.util.NoSuchElementException::class)
     fun testDeleteNonExisting() = runTest {
-        val instance = MessageRepositoryImpl(realm, keyValueStorage, FakeSmsSender())
+        val instance = createInstance()
 
         instance.delete(setOf(messageA.id))
     }
@@ -229,7 +276,7 @@ class MessageRepositoryTest {
         realm.instance.write {
             copyToRealm(messageRealmA)
         }
-        val instance = MessageRepositoryImpl(realm, keyValueStorage, FakeSmsSender())
+        val instance = createInstance()
 
         instance.setFavorite(setOf(messageA.id))
 
@@ -241,7 +288,7 @@ class MessageRepositoryTest {
 
     @Test(expected = java.util.NoSuchElementException::class)
     fun testSetFavoriteNonExisting() = runTest {
-        val instance = MessageRepositoryImpl(realm, keyValueStorage, FakeSmsSender())
+        val instance = createInstance()
 
         instance.setFavorite(setOf(messageA.id))
     }
@@ -251,7 +298,7 @@ class MessageRepositoryTest {
         realm.instance.write {
             copyToRealm(messageRealmA)
         }
-        val instance = MessageRepositoryImpl(realm, keyValueStorage, FakeSmsSender())
+        val instance = createInstance()
 
         instance.setFavorite(setOf(messageA.id))
         instance.setFavorite(setOf(messageA.id))
@@ -268,7 +315,7 @@ class MessageRepositoryTest {
             messageRealmA.isFavorite = true
             copyToRealm(messageRealmA)
         }
-        val instance = MessageRepositoryImpl(realm, keyValueStorage, FakeSmsSender())
+        val instance = createInstance()
 
         instance.unsetFavorite(setOf(messageA.id))
 
@@ -280,7 +327,7 @@ class MessageRepositoryTest {
 
     @Test(expected = java.util.NoSuchElementException::class)
     fun testUnsetFavoriteNonExisting() = runTest {
-        val instance = MessageRepositoryImpl(realm, keyValueStorage, FakeSmsSender())
+        val instance = createInstance()
 
         instance.unsetFavorite(setOf(messageA.id))
     }
@@ -291,7 +338,7 @@ class MessageRepositoryTest {
             messageRealmA.isFavorite = true
             copyToRealm(messageRealmA)
         }
-        val instance = MessageRepositoryImpl(realm, keyValueStorage, FakeSmsSender())
+        val instance = createInstance()
 
         instance.unsetFavorite(setOf(messageA.id))
         instance.unsetFavorite(setOf(messageA.id))
@@ -304,7 +351,7 @@ class MessageRepositoryTest {
 
     @Test
     fun testGetVisibilityPreferenceDefault() = runTest {
-        val instance = MessageRepositoryImpl(realm, keyValueStorage, FakeSmsSender())
+        val instance = createInstance()
 
         val result = instance.getVisibilityPreference()
 
@@ -315,7 +362,7 @@ class MessageRepositoryTest {
     fun testGetVisibilityPreference() = runTest {
         val visibility = false
         keyValueStorage.map[MessageRepositoryImpl.visibilityKey] = visibility
-        val instance = MessageRepositoryImpl(realm, keyValueStorage, FakeSmsSender())
+        val instance = createInstance()
 
         val result = instance.getVisibilityPreference()
 
@@ -324,7 +371,7 @@ class MessageRepositoryTest {
 
     @Test
     fun testSetVisibilityPreference() = runTest {
-        val instance = MessageRepositoryImpl(realm, keyValueStorage, FakeSmsSender())
+        val instance = createInstance()
 
         val visibility = false
         instance.setVisibilityPreference(visibility)

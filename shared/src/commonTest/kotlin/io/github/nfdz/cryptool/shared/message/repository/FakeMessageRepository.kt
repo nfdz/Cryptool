@@ -6,9 +6,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class FakeMessageRepository(
-    var getAllAnswer: List<Message> = emptyList(),
-    var observeAnswer: Flow<List<Message>> = flow { },
-    var getVisibilityAnswer: Boolean? = null,
+    private val getAllAnswer: List<Message> = emptyList(),
+    private val observeAnswer: Flow<List<Message>> = flow { },
+    private val getVisibilityAnswer: Boolean? = null,
+    private val sendMessageException: Throwable? = null,
 ) : MessageRepository {
 
     var getAllCount = 0
@@ -66,6 +67,7 @@ class FakeMessageRepository(
         sendMessageCount++
         sendMessageArgEncryptionId = encryptionId
         sendMessageArgMessage = message
+        sendMessageException?.let { throw it }
     }
 
     var deleteCount = 0

@@ -17,6 +17,7 @@ import io.github.nfdz.cryptool.shared.platform.biometric.BiometricContext
 import io.github.nfdz.cryptool.shared.platform.cryptography.Argon2KeyDerivation
 import io.github.nfdz.cryptool.shared.platform.cryptography.decodeBase64
 import io.github.nfdz.cryptool.shared.platform.cryptography.encodeBase64
+import io.github.nfdz.cryptool.shared.platform.file.FileMessageReceiver
 import io.github.nfdz.cryptool.shared.platform.sms.SmsReceiver
 import io.github.nfdz.cryptool.shared.platform.storage.KeyValueStorage
 import io.github.nfdz.cryptool.shared.platform.version.ChangelogProvider
@@ -32,6 +33,7 @@ class GatekeeperRepositoryImpl(
     private val legacyMigrationManager: LegacyMigrationManager,
     private val versionProvider: VersionProvider,
     private val smsReceiver: SmsReceiver,
+    private val fileMessageReceiver: FileMessageReceiver,
 ) : GatekeeperRepository {
 
     companion object {
@@ -104,6 +106,7 @@ class GatekeeperRepositoryImpl(
         activeCode = null
         storage.clear().also { acknowledgeWelcome(null) }
         realmGateway.tearDown()
+        triggerOnResetActions()
     }
 
     override suspend fun biometricAccess(context: BiometricContext): Boolean {
@@ -121,13 +124,16 @@ class GatekeeperRepositoryImpl(
     }
 
     private suspend fun setupActiveCode(code: String) {
+        val wasOpen = isOpen()
         val salt = storage.getString(codeSaltKey)?.decodeBase64() ?: throw IllegalStateException("Salt is missing")
         val key = keyDerivation.hash(code, salt, RealmGateway.keyHashLength)
         realmGateway.open(key)
         activeCode = code
         finishMigrationInProgress()
         accessValidityTimestampInSeconds = nowInSeconds()
-        triggerOnOpenActions()
+        if (!wasOpen) {
+            triggerOnOpenActions()
+        }
     }
 
     override fun acknowledgeWelcome(welcomeTutorial: TutorialInformation?) {
@@ -228,6 +234,12 @@ class GatekeeperRepositoryImpl(
 
     private fun triggerOnOpenActions() {
         smsReceiver.receivePendingMessage()
+        fileMessageReceiver.launchMessagesPolling(::isOpen)
+    }
+
+    private fun triggerOnResetActions() {
+        smsReceiver.afterReset()
+        fileMessageReceiver.afterReset()
     }
 
 }

@@ -2,9 +2,11 @@ package io.github.nfdz.cryptool.shared.message.viewModel
 
 import io.github.nfdz.cryptool.shared.encryption.entity.FakeEncryption
 import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
+import io.github.nfdz.cryptool.shared.encryption.repository.ExclusiveSourceCollisionException
 import io.github.nfdz.cryptool.shared.encryption.repository.FakeEncryptionRepository
 import io.github.nfdz.cryptool.shared.message.entity.FakeMessage
 import io.github.nfdz.cryptool.shared.message.repository.FakeMessageRepository
+import io.github.nfdz.cryptool.shared.platform.file.FileMessageSendException
 import io.github.nfdz.cryptool.shared.platform.localization.FakeLocalizedError
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.take
@@ -73,6 +75,34 @@ class MessageViewModelTest {
 
         val effect = effectsRecord.first() as MessageEffect.SetSource
         assertEquals(source, effect.source)
+    }
+
+    @Test
+    fun testSetSourceCollision() = runTest {
+        val encryptionRepository = FakeEncryptionRepository(
+            observeWithIdAnswer = flowOf(fakeEncryption1),
+            setSourceException = ExclusiveSourceCollisionException()
+        )
+        val messageRepository = FakeMessageRepository(
+            observeAnswer = flowOf(fakeMessageList),
+            getVisibilityAnswer = true
+        )
+        val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
+
+        instance.dispatch(MessageAction.Initialize(fakeEncryption1.id))
+        instance.observeState().take(3).toList()
+
+        val source = MessageSource.Manual
+        instance.dispatch(MessageAction.SetSource(source))
+
+        val effectsRecord = instance.observeSideEffect().take(1).toList()
+
+        assertEquals(1, encryptionRepository.setSourceCount)
+        assertEquals(source, encryptionRepository.setSourceArgSource)
+        assertEquals(fakeEncryption1.id, encryptionRepository.setSourceArgId)
+
+        val effect = effectsRecord.first() as MessageEffect.Error
+        assertEquals(FakeLocalizedError.exclusiveSourceCollision, effect.message)
     }
 
     @Test
@@ -180,6 +210,34 @@ class MessageViewModelTest {
         assertEquals(message, messageRepository.sendMessageArgMessage)
 
         assertEquals(true, effectsRecord.first() is MessageEffect.SentMessage)
+    }
+
+    @Test
+    fun testSendMessageWithFileException() = runTest {
+        val encryptionRepository = FakeEncryptionRepository(
+            observeWithIdAnswer = flowOf(fakeEncryption1)
+        )
+        val messageRepository = FakeMessageRepository(
+            sendMessageException = FileMessageSendException(IllegalStateException()),
+            observeAnswer = flowOf(fakeMessageList),
+            getVisibilityAnswer = true
+        )
+        val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
+
+        instance.dispatch(MessageAction.Initialize(fakeEncryption1.id))
+        instance.observeState().take(3).toList()
+
+        val message = "abc"
+        instance.dispatch(MessageAction.SendMessage(message))
+
+        val effectsRecord = instance.observeSideEffect().take(1).toList()
+
+        assertEquals(1, messageRepository.sendMessageCount)
+        assertEquals(fakeEncryption1.id, messageRepository.sendMessageArgEncryptionId)
+        assertEquals(message, messageRepository.sendMessageArgMessage)
+
+        val effect = effectsRecord.first() as MessageEffect.Error
+        assertEquals(FakeLocalizedError.messageSendFileError, effect.message)
     }
 
     @Test

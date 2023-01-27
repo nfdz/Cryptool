@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FileOpen
 import androidx.compose.material.icons.filled.Message
+import androidx.compose.material.icons.filled.Task
 import androidx.compose.material.icons.filled.TouchApp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -68,7 +69,7 @@ fun SourcePicker(modifier: Modifier = Modifier, onPick: (MessageSource) -> Unit)
         SourceOptionEntry(
             title = "TODO File",
             description = "TODO SMS",
-            icon = Icons.Filled.FileOpen,
+            icon = Icons.Filled.Task,
         ) {
             showFileDialog = true
         },
@@ -114,15 +115,10 @@ private fun SourcePickerGrid(sources: List<SourceOptionEntry>) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
-                val left = row[0]
-                SourceOption(
-                    modifier = Modifier.weight(1f),
-                    entry = left,
-                )
-                row.getOrNull(1)?.let { right ->
+                row.forEach {
                     SourceOption(
                         modifier = Modifier.weight(1f),
-                        entry = right,
+                        entry = it,
                     )
                 }
             }
@@ -150,6 +146,7 @@ private fun SourceOption(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        Spacer(Modifier.width(8.dp))
         Icon(
             entry.icon,
             modifier = Modifier
@@ -164,9 +161,10 @@ private fun SourceOption(
             Text(
                 entry.description,
                 style = MaterialTheme.typography.labelMedium,
-                modifier = Modifier.width(220.dp),
+                modifier = Modifier.widthIn(max = 220.dp),
             )
         }
+        Spacer(Modifier.width(8.dp))
     }
 }
 

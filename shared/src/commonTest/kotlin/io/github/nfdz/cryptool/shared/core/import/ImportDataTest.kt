@@ -52,7 +52,10 @@ class ImportDataTest {
          "p":"test 1",
          "a":"V2",
          "s":"MANUAL",
-         "f":false
+         "f":false,
+         "uc":0,
+         "lm":"",
+         "lt":0
       }
    ],
    "m":[
