@@ -1,0 +1,26 @@
+Cryptool möchte Ihnen helfen, die Informationen zu schützen, die Ihnen am wichtigsten sind. Wir verstecken nichts, was unter der Haube vor sich geht, wir zeigen die Algorithmen und die Dateneingabe/-ausgabe so, wie sie sind.
+
+Dies ist eine gemeinnützige Open-Source-Lösung und wir sind nicht an Ihren Daten interessiert. Wie auch immer, wir bitten Sie nicht zu vertrauen, wir bitten Sie, den Internetzugang zu **blockieren**, den Code zu **überprüfen** oder sogar die App selbst zu **erstellen**.
+
+Haupteigenschaften:
+
+- Leichte Anwendung.
+- Moderne Benutzeroberfläche. Material You + Unterstützung für helle/dunkle Themen.
+- Mehrere Verschlüsselungskonfigurationen als Gespräche.
+- Mehrere Nachrichtenquellen.
+   - Handbuch. Behandeln Sie den Input und Output der Kommunikation selbst.
+   - SMS. Verwenden Sie Ihren SMS-Anbieter. Diese Option kann je nach Vertrag mit Ihrem Anbieter Kosten verursacht haben.
+   - Datei. Verwenden Sie zwei Dateien für die Kommunikation. Sie können die Dateien auf sichere Weise automatisch mit jedem Anbieter synchronisieren und freigeben. Zum Beispiel Google Drive, Dropbox und so weiter.
+- Schlüsselspeicher.
+- Mehrere Algorithmen und Verschlüsselungskonfigurationen.
+- Interoperable Verschlüsselung.
+- Steuerung der Zwischenablage.
+- Export Import:
+   - Benutzerdefinierter Codeschutz.
+   - Daten filtern.
+- Zugangscodeschutz:
+   - Vergessen/Zurücksetzen.
+   - Ändern.
+   - Biometrische Identifizierung.
+
+Erfahren Sie mehr: https://github.com/nfdz/Cryptool

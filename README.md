@@ -34,9 +34,6 @@ This is a non-profit open source solution and we are not interested in your data
   - Forget/Reset.
   - Change.
   - Biometric identification.
-- Supported languages:
-  - English
-  - Spanish
 
 ## Contributing
 

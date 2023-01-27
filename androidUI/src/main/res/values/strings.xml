@@ -40,9 +40,8 @@
     <string name="welcome_tutorial_title">Tutorial</string>
     <string name="welcome_tutorial_message_1">Welcome to your first encrypted conversation</string>
     <string name="welcome_tutorial_message_2">Everything you write here is encrypted with the cryptographic configuration</string>
-    <string name="welcome_tutorial_message_3">For now, there is only the Manual mode but we are going to add more options soon</string>
-    <string name="welcome_tutorial_message_4">All the application data is encrypted and protected with your access code</string>
-    <string name="welcome_tutorial_message_5">Even so, we recommend being especially careful with the clipboard and stopping the application when you no longer use it</string>
+    <string name="welcome_tutorial_message_3">All the application data is encrypted and protected with your access code</string>
+    <string name="welcome_tutorial_message_4">Even so, we recommend being especially careful with the clipboard and stopping the application when you no longer use it</string>
 
     <string name="gatekeeper_open_action">Open</string>
     <string name="gatekeeper_open_biometrics_icon_description">Use biometrics to open</string>

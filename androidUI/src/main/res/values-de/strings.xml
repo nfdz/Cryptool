@@ -32,9 +32,8 @@
     <string name="welcome_tutorial_title">Tutorial</string>
     <string name="welcome_tutorial_message_1">Willkommen zu Ihrer ersten verschlüsselten Konversation</string>
     <string name="welcome_tutorial_message_2">Alles, was Sie hier schreiben, wird mit der kryptographischen Konfiguration verschlüsselt</string>
-    <string name="welcome_tutorial_message_3">Im Moment gibt es nur den Manual Modus, aber wir werden bald weitere Optionen hinzufügen</string>
-    <string name="welcome_tutorial_message_4">Alle Anwendungsdaten sind verschlüsselt und mit Ihrem Zugangscode geschützt</string>
-    <string name="welcome_tutorial_message_5">Trotzdem empfehlen wir, besonders vorsichtig mit der Zwischenablage zu sein und die Anwendung zu stoppen, wenn Sie sie nicht mehr verwenden</string>
+    <string name="welcome_tutorial_message_3">Alle Anwendungsdaten sind verschlüsselt und mit Ihrem Zugangscode geschützt</string>
+    <string name="welcome_tutorial_message_4">Trotzdem empfehlen wir, besonders vorsichtig mit der Zwischenablage zu sein und die Anwendung zu stoppen, wenn Sie sie nicht mehr verwenden</string>
     <string name="gatekeeper_open_action">Offen</string>
     <string name="gatekeeper_open_biometrics_icon_description">Verwenden Sie Biometrie zum Öffnen</string>
     <string name="gatekeeper_hide_icon_description">Code ausblenden</string>
