@@ -76,7 +76,7 @@ fun SourcePicker(modifier: Modifier = Modifier, router: Router, onPick: (Message
             if (BuildConfig.SMS_FEATURE) {
                 showSmsDialog = true
             } else {
-                router.navigateToUrl(AppUrl.downloadFromGithub)
+                router.navigateToUrl(AppUrl.googlePlayLimitation)
             }
         },
     )

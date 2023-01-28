@@ -94,6 +94,8 @@
     <string name="main_bottombar_open_full_icon_description">Open in full screen mode</string>
     <string name="main_open_overlay_permission_error">If you want to use the overlay mode, you have to grant the \'Display Over Other Apps\' permission.</string>
     <string name="main_open_overlay_permission_action">Settings</string>
+    <string name="main_notify_new_github_version">There is a new version of Cryptool available on GitHub</string>
+    <string name="main_notify_new_github_version_download">Download</string>
 
     <string name="algorithms_topbar_title">Encryption algorithms</string>
     <string name="algorithms_see_source_code_action">See the source code</string>

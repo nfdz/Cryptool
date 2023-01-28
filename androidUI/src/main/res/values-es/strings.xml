@@ -84,6 +84,8 @@
     <string name="main_bottombar_open_full_icon_description">Abrir en pantalla completa</string>
     <string name="main_open_overlay_permission_error">Si quieres usar el modo superpuesto, tienes que conceder el permiso de \"Mostrar sobre otras aplicaciones\".</string>
     <string name="main_open_overlay_permission_action">Ajustes</string>
+    <string name="main_notify_new_github_version">Hay una nueva versión de Cryptool disponible en GitHub</string>
+    <string name="main_notify_new_github_version_download">Descargar</string>
     <string name="algorithms_topbar_title">Algoritmos de cifrado</string>
     <string name="algorithms_see_source_code_action">Ver el código fuente</string>
     <string name="algorithms_introduction">Aprenda más sobre cómo funcionan los algoritmos de cifrado. Cryptool utiliza algoritmos de cifrado comunes, por lo que nos referiremos siempre a la documentación oficial de cada uno. Queremos aumentar el número de algoritmos disponibles para que puedas usar el que quieras.</string>
@@ -137,6 +139,7 @@
     <string name="encryption_source_manual_description">Eres responsable de entregar y recibir los mensajes de la comunicación.</string>
     <string name="encryption_source_file_title">Archivo</string>
     <string name="encryption_source_file_description">Utiliza dos archivos para la comunicación. Puedes sincronizar y compartir los archivos automáticamente con cualquier proveedor de forma segura. Por ejemplo, Google Drive, Dropbox, etc.</string>
+    <string name="encryption_source_sms_not_available">No se puede ofrecer esta función debido a las restricciones de Google Play. Seleccione esta opción para saber más.</string>
     <string name="encryption_source_sms_title">SMS</string>
     <string name="encryption_source_sms_description">Utiliza tu proveedor de SMS. Esta opción podría tener un coste dependiendo del contrato con tu proveedor.</string>
     <string name="encryption_sms_sent_snackbar">El SMS ha sido enviado</string>

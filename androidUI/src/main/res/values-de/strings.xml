@@ -83,6 +83,8 @@
     <string name="main_bottombar_open_full_icon_description">Im Vollbildmodus öffnen</string>
     <string name="main_open_overlay_permission_error">Wenn Sie den Overlay-Modus verwenden möchten, müssen Sie die Berechtigung \"Über andere Apps anzeigen\" erteilen.</string>
     <string name="main_open_overlay_permission_action">Einstellungen</string>
+    <string name="main_notify_new_github_version">Auf GitHub ist eine neue Version von Cryptool verfügbar</string>
+    <string name="main_notify_new_github_version_download">Herunterladen</string>
     <string name="algorithms_topbar_title">Verschlüsselungsalgorithmen</string>
     <string name="algorithms_see_source_code_action">Den Quellcode ansehen</string>
     <string name="algorithms_introduction">Erfahren Sie mehr darüber, wie die Verschlüsselungsalgorithmen funktionieren. Cryptool verwendet gängige Verschlüsselungsalgorithmen, daher verweisen wir auf die offizielle Dokumentation der einzelnen. Wir möchten die Anzahl der verfügbaren Algorithmen erhöhen, damit Sie verwenden können, was Sie wollen.</string>
@@ -136,6 +138,7 @@
     <string name="encryption_source_manual_description">Behandeln Sie den Input und Output der Kommunikation selbst.</string>
     <string name="encryption_source_file_title">Datei</string>
     <string name="encryption_source_file_description">Verwenden Sie zwei Dateien für die Kommunikation. Sie können die Dateien automatisch mit jedem Anbieter abgleichen und teilen. Zum Beispiel Google Drive, Dropbox und so weiter.</string>
+    <string name="encryption_source_sms_not_available">Diese Funktion kann aufgrund von Google Play-Einschränkungen nicht angeboten werden. Wählen Sie diese Option, um mehr zu erfahren.</string>
     <string name="encryption_source_sms_title">SMS</string>
     <string name="encryption_source_sms_description">Verwenden Sie Ihren SMS-Anbieter. Diese Option könnte je nach Vertrag mit Ihrem Anbieter Kosten verursacht haben.</string>
     <string name="encryption_sms_sent_snackbar">SMS wurde gesendet</string>

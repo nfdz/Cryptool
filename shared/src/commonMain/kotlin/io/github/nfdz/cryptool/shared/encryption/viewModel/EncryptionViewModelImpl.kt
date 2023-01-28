@@ -18,7 +18,6 @@ class EncryptionViewModelImpl(
         get() = EncryptionState(false, emptyList(), emptySet())
 
     private var collectJob: Job? = null
-
     override suspend fun processAction(action: EncryptionAction) {
         val previousState = currentState
         runCatching {
