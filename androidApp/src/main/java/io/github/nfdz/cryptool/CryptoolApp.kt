@@ -92,7 +92,7 @@ class CryptoolApp : Application() {
 
         // Repositories
         single<GatekeeperRepository> { GatekeeperRepositoryImpl(get(), get(), get(), get(), get(), get(), get(), get()) }
-        single<EncryptionRepository> { EncryptionRepositoryImpl(get()) }
+        single<EncryptionRepository> { EncryptionRepositoryImpl(get(), get()) }
         single<MessageRepository> { MessageRepositoryImpl(get(), get(), get(), get()) }
         single<PasswordRepository> { PasswordRepositoryImpl(get()) }
 

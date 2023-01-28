@@ -16,7 +16,7 @@ abstract class OverlayViewServiceBase : Service() {
 
     companion object {
         fun closeAll(context: Context) {
-            context.sendBroadcast(Intent(closeAction))
+            context.sendBroadcast(Intent(closeAction).setPackage(context.packageName))
         }
 
         private const val closeAction = "io.github.nfdz.cryptool.CLOSE_FLOATING_WINDOWS"
@@ -26,6 +26,7 @@ abstract class OverlayViewServiceBase : Service() {
     protected val layoutParams: WindowManager.LayoutParams by lazy { buildLayoutParams() }
     private val bcReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
+            if (context?.packageName != intent?.`package`) return
             closeOverlay()
         }
     }

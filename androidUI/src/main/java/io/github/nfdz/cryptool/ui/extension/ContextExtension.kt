@@ -17,7 +17,6 @@ fun Context.getTutorialInformation(): TutorialInformation {
             getString(R.string.welcome_tutorial_message_2),
             getString(R.string.welcome_tutorial_message_3),
             getString(R.string.welcome_tutorial_message_4),
-            getString(R.string.welcome_tutorial_message_5),
         ),
     )
 }

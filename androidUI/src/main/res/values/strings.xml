@@ -40,9 +40,8 @@
     <string name="welcome_tutorial_title">Tutorial</string>
     <string name="welcome_tutorial_message_1">Welcome to your first encrypted conversation</string>
     <string name="welcome_tutorial_message_2">Everything you write here is encrypted with the cryptographic configuration</string>
-    <string name="welcome_tutorial_message_3">For now, there is only the Manual mode but we are going to add more options soon</string>
-    <string name="welcome_tutorial_message_4">All the application data is encrypted and protected with your access code</string>
-    <string name="welcome_tutorial_message_5">Even so, we recommend being especially careful with the clipboard and stopping the application when you no longer use it</string>
+    <string name="welcome_tutorial_message_3">All the application data is encrypted and protected with your access code</string>
+    <string name="welcome_tutorial_message_4">Even so, we recommend being especially careful with the clipboard and stopping the application when you no longer use it</string>
 
     <string name="gatekeeper_open_action">Open</string>
     <string name="gatekeeper_open_biometrics_icon_description">Use biometrics to open</string>
@@ -95,6 +94,8 @@
     <string name="main_bottombar_open_full_icon_description">Open in full screen mode</string>
     <string name="main_open_overlay_permission_error">If you want to use the overlay mode, you have to grant the \'Display Over Other Apps\' permission.</string>
     <string name="main_open_overlay_permission_action">Settings</string>
+    <string name="main_notify_new_github_version">There is a new version of Cryptool available on GitHub</string>
+    <string name="main_notify_new_github_version_download">Download</string>
 
     <string name="algorithms_topbar_title">Encryption algorithms</string>
     <string name="algorithms_see_source_code_action">See the source code</string>
@@ -152,6 +153,7 @@
     <string name="encryption_source_manual_description">Handle the input and output of the communication yourself.</string>
     <string name="encryption_source_file_title">File</string>
     <string name="encryption_source_file_description">Use two files for communication. You can sync and share the files automatically with any provider in a safe way. For example Google Drive, Dropbox, and so on.</string>
+    <string name="encryption_source_sms_not_available">Cannot offer this feature due to Google Play restrictions. Select this option to know more.</string>
     <string name="encryption_source_sms_title">SMS</string>
     <string name="encryption_source_sms_description">Use your SMS provider. This option could have cost depending the contract with your provider.</string>
     <string name="encryption_sms_sent_snackbar">SMS message was sent</string>
@@ -163,8 +165,8 @@
     <string name="encryption_permission_sms_dialog_content">We need the SMS permission for the operation of the channel with SMS message source. You can grant the permission with the \'While using the app\' option. If you do not want to grant this permission, you would have to use other message source.</string>
     <string name="encryption_permission_sms_dialog_settings">Settings</string>
     <string name="encryption_source_file_dialog_title">File source</string>
-    <string name="encryption_source_file_dialog_input">Select file with inbox messages (from other)</string>
-    <string name="encryption_source_file_dialog_output">Select file with sent messages (from you)</string>
+    <string name="encryption_source_file_dialog_input">File with inbox messages (from other)</string>
+    <string name="encryption_source_file_dialog_output">File with sent messages (from you)</string>
     <string name="encryption_source_file_dialog_set">Set</string>
 
     <string name="about_topbar_title">About</string>

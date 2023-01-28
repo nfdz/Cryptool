@@ -8,14 +8,20 @@ import io.github.nfdz.cryptool.shared.encryption.entity.serialize
 import io.github.nfdz.cryptool.shared.encryption.repository.realm.EncryptionRealm
 import io.github.nfdz.cryptool.shared.message.entity.MessageOwnership
 import io.github.nfdz.cryptool.shared.message.repository.realm.MessageRealm
+import io.github.nfdz.cryptool.shared.platform.file.FileMessageReceiverPreferences
+import io.github.nfdz.cryptool.shared.platform.sms.SmsReceiverPreferences
+import io.github.nfdz.cryptool.shared.platform.storage.KeyValueStorage
+import io.realm.kotlin.MutableRealm
 import io.realm.kotlin.Realm
 import io.realm.kotlin.UpdatePolicy
 import io.realm.kotlin.ext.query
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.transform
+import kotlinx.datetime.Clock
 
 class EncryptionRepositoryImpl(
     private val realmGateway: RealmGateway,
+    private val storage: KeyValueStorage,
 ) : EncryptionRepository {
 
     private val realm: Realm
@@ -139,13 +145,8 @@ class EncryptionRepositoryImpl(
         val serializedSource = source?.serialize() ?: ""
         realm.write {
             query<EncryptionRealm>("id == '${id}'").find().first().apply {
-                if (source != null && source.exclusive) {
-                    // avoid collisions when the source is exclusive
-                    val collision =
-                        query<EncryptionRealm>("password == '${password}' AND source == '$serializedSource'").find()
-                            .isNotEmpty()
-                    if (collision) throw ExclusiveSourceCollisionException()
-                }
+                ensureExclusivity(source, serializedSource)
+                triggerOnSetSourceActions(source)
                 this.source = serializedSource
             }
             if (source != null) {
@@ -158,6 +159,31 @@ class EncryptionRepositoryImpl(
                     )
                 )
             }
+        }
+    }
+
+    private fun MutableRealm.ensureExclusivity(source: MessageSource?, serializedSource: String) {
+        // avoid collisions when the source is exclusive
+        if (source != null && source.exclusive) {
+            val collision =
+                query<EncryptionRealm>("source == '$serializedSource'").find()
+                    .isNotEmpty()
+            if (collision) throw ExclusiveSourceCollisionException()
+        }
+    }
+
+    private fun triggerOnSetSourceActions(source: MessageSource?) {
+        when (source) {
+            is MessageSource.Sms -> SmsReceiverPreferences.setLastReceivedTimestamp(
+                storage,
+                Clock.System.now().toEpochMilliseconds()
+            )
+            is MessageSource.File -> FileMessageReceiverPreferences.setLastReceivedTimestamp(
+                storage,
+                source,
+                Clock.System.now().toEpochMilliseconds()
+            )
+            else -> Unit
         }
     }
 

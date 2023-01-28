@@ -7,7 +7,6 @@ import androidx.core.net.toUri
 import io.github.aakira.napier.Napier
 import io.github.nfdz.cryptool.shared.encryption.entity.Encryption
 import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
-import io.github.nfdz.cryptool.shared.encryption.entity.serialize
 import io.github.nfdz.cryptool.shared.encryption.repository.EncryptionRepository
 import io.github.nfdz.cryptool.shared.message.repository.MessageRepository
 import io.github.nfdz.cryptool.shared.platform.storage.KeyValueStorage
@@ -19,13 +18,11 @@ class FileMessageReceiverAndroid(
     private val context: Context,
     private val encryptionRepository: EncryptionRepository,
     private val messageRepository: MessageRepository,
-    private val keyValueStorage: KeyValueStorage,
+    private val storage: KeyValueStorage,
 ) : FileMessageReceiver, CoroutineScope by CoroutineScope(Dispatchers.Default) {
 
     companion object {
         private const val tag = "FileMessageReceiver"
-        private const val lastReceivedBaselineMillisKey = "file_last_received_baseline"
-        private const val lastReceivedTimestampMillisKey = "file_last_received_timestamp"
         private const val pollingPeriodInMillis = 30_000L
         private const val maxAmountOfEntriesPerFile = 10
     }
@@ -51,11 +48,8 @@ class FileMessageReceiverAndroid(
 
     override fun afterReset() {
         pullFilesJob?.cancel()
-        // Set this baseline to avoid capturing old file entries
-        keyValueStorage.putLong(lastReceivedBaselineMillisKey, System.currentTimeMillis())
+        FileMessageReceiverPreferences.setBaseline(storage)
     }
-
-    private fun getBaselineInMillis(): Long = keyValueStorage.getLong(lastReceivedBaselineMillisKey, 0)
 
     private suspend fun fetchMessages() {
         val encryptions = encryptionRepository.getAllWith(MessageSource.filePrefix)
@@ -67,7 +61,11 @@ class FileMessageReceiverAndroid(
                         receiveMessageInternal(encryption, data)
                     }
                     val lastEntry = result.last()
-                    lastEntry.source.setLastReceivedTimestamp(lastEntry.timestampInMillis)
+                    FileMessageReceiverPreferences.setLastReceivedTimestamp(
+                        storage,
+                        lastEntry.source,
+                        lastEntry.timestampInMillis
+                    )
                 }
             }.onFailure {
                 Napier.e(tag = tag, message = "Error receiving pending file message", throwable = it)
@@ -93,7 +91,7 @@ class FileMessageReceiverAndroid(
         val result = mutableListOf<MessageToReceive>()
         val source = encryption.source as MessageSource.File
         val uri = source.inputFilePath.toUri()
-        val lastReceivedTimestamp = source.getLastReceivedTimestamp()
+        val lastReceivedTimestamp = FileMessageReceiverPreferences.getLastReceivedTimestamp(storage, source)
         var fileEntries = 0
         contentResolver.openFileDescriptor(uri, "r")?.use {
             FileInputStream(it.fileDescriptor).use { input ->
@@ -131,18 +129,6 @@ class FileMessageReceiverAndroid(
         }
     }.onFailure {
         Napier.e(tag = tag, message = "Clear file error", throwable = it)
-    }
-
-    private fun MessageSource.File.getLastReceivedTimestamp(): Long {
-        return keyValueStorage.getLong(getLastReceivedTimestampKey(), getBaselineInMillis())
-    }
-
-    private fun MessageSource.File.setLastReceivedTimestamp(value: Long) {
-        keyValueStorage.putLong(getLastReceivedTimestampKey(), value)
-    }
-
-    private fun MessageSource.File.getLastReceivedTimestampKey(): String {
-        return "${lastReceivedTimestampMillisKey}_${serialize()}"
     }
 }
 

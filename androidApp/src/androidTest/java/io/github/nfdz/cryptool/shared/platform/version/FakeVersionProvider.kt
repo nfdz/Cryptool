@@ -17,4 +17,8 @@ class FakeVersionProvider(
             storedVersionArgValue = value
         }
 
+    override suspend fun getRemoteNewVersion(): String? {
+        TODO("Not yet implemented")
+    }
+
 }

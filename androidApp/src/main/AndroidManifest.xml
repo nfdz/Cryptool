@@ -3,10 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="io.github.nfdz.cryptool">
 
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.SEND_SMS" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />
-    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" android:required="false" />
+    <!-- The only usage: check if there is a new version on GitHub, check VersionProviderAndroid.kt -->
+    <uses-permission android:name="android.permission.INTERNET" android:required="false" />
+    <!-- Comment this when gradle.properties/appSmsFeature is false -->
+    <uses-permission android:name="android.permission.SEND_SMS" android:required="false" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" android:required="false" />
+    <uses-permission android:name="android.permission.READ_SMS" android:required="false" />
 
     <application
         android:name=".CryptoolApp"
@@ -42,6 +45,7 @@
             android:name=".service.tool.OverlayToolService"
             android:exported="false" />
 
+        <!-- Comment this when gradle.properties/appSmsFeature is false -->
         <receiver
             android:name=".platform.broadcast.SmsBroadcastReceiver"
             android:enabled="true"

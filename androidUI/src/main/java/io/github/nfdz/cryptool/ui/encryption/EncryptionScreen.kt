@@ -254,6 +254,7 @@ internal fun EncryptionScreenContent(
                 if (source == null) {
                     SourcePicker(
                         modifier = Modifier.padding(padding),
+                        router = router,
                     ) {
                         viewModel.dispatch(MessageAction.SetSource(it))
                     }

@@ -35,11 +35,11 @@ class AppActivity : FragmentActivity(), CoroutineScope by CoroutineScope(Dispatc
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        MessageEventBroadcast.registerReceiver(this, msgEventReceiver)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
         if (!launchShortcut(intent)) {
             OverlayViewServiceBase.closeAll(this)
-            MessageEventBroadcast.registerReceiver(this, msgEventReceiver)
-            WindowCompat.setDecorFitsSystemWindows(window, false)
-            window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
             updateShortcut()
             setContent {
                 val navController = rememberNavController()
@@ -60,6 +60,7 @@ class AppActivity : FragmentActivity(), CoroutineScope by CoroutineScope(Dispatc
     }
 
     private fun launchShortcut(intent: Intent?): Boolean {
+        if (packageName != intent?.`package`) return false
         return if (ShortcutAndroid.shouldOpen(intent)) {
             OverlayBallService.start(this)
             finishAffinity()
