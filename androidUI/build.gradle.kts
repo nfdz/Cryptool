@@ -17,9 +17,11 @@ android {
     }
 
     val appVersionName: String by project
+    val appSmsFeature: String by project
     buildTypes {
         forEach {
             it.buildConfigField("String", "VERSION_NAME", "\"$appVersionName\"")
+            it.buildConfigField("Boolean", "SMS_FEATURE", appSmsFeature)
         }
     }
     compileOptions {

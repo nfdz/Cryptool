@@ -43,11 +43,15 @@ If you think something is missing from the application, please create an issue t
 
 The application is translated by volunteers on a collaborative translation platform. You can help complete and improve the translations by joining the [Crowdin](https://crowdin.com/project/cryptool) project. If you would like to start the translation in a new language, contact or create an issue. Any help is greatly appreciated!
 
+## Google Play Limitation
+
+Google Play does not allow the use of SMS data if it is not selected as the default SMS application of the system. As Cryptool does not want to be an application of this type, the Google Play version has this feature disabled. If you want to use it you will have to use the GitHub version, or build the application yourself.
+
 ## Download
 
 <p align="center">
   <a href="https://play.google.com/store/apps/details?id=io.github.nfdz.cryptool"><img width="250" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png?raw=true" alt="Get it on Google Play"/></a>
-  <a href="https://github.com/nfdz/Cryptool/releases"><img width="250" src=".github/dev/githubBadge.png?raw=true" alt="Get it on Github"/></a>
+  <a href="https://github.com/nfdz/Cryptool/releases/latest/download/androidApp-release.apk"><img width="250" src=".github/dev/get-it-on-github.png?raw=true" alt="Get it on GitHub"/></a>
 </p>
 
 ## Screenshots
@@ -65,4 +69,4 @@ The application is translated by volunteers on a collaborative translation platf
 
 > *Google Play and the Google Play logo are trademarks of Google Inc.*
 
-> *Github and the Github logo are trademarks of Github Inc.*
+> *GitHub and the GitHub logo are trademarks of GitHub Inc.*

@@ -57,6 +57,7 @@ class ChangelogProviderAndroid(val context: Context) : ChangelogProvider {
 
     override fun summary(fromVersion: Int): String {
         val versions = buildVersionsMap().filter { it.key > fromVersion }
+        if (versions.isEmpty()) return ""
         val bld = StringBuilder()
         versions.values.forEach {
             bld.append(it())

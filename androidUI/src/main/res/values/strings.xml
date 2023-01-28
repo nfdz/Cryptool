@@ -151,6 +151,7 @@
     <string name="encryption_source_manual_description">Handle the input and output of the communication yourself.</string>
     <string name="encryption_source_file_title">File</string>
     <string name="encryption_source_file_description">Use two files for communication. You can sync and share the files automatically with any provider in a safe way. For example Google Drive, Dropbox, and so on.</string>
+    <string name="encryption_source_sms_not_available">Cannot offer this feature due to Google Play restrictions. Select this option to know more.</string>
     <string name="encryption_source_sms_title">SMS</string>
     <string name="encryption_source_sms_description">Use your SMS provider. This option could have cost depending the contract with your provider.</string>
     <string name="encryption_sms_sent_snackbar">SMS message was sent</string>

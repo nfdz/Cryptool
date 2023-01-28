@@ -17,20 +17,21 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import io.github.nfdz.cryptool.shared.core.constant.AppUrl
 import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
-import io.github.nfdz.cryptool.ui.AppTheme
+import io.github.nfdz.cryptool.ui.*
 import io.github.nfdz.cryptool.ui.R
 
 @Composable
 @Preview
 private fun SourcePickerPreview() {
     AppTheme {
-        SourcePicker {}
+        SourcePicker(router = EmptyRouter) {}
     }
 }
 
 @Composable
-fun SourcePicker(modifier: Modifier = Modifier, onPick: (MessageSource) -> Unit) {
+fun SourcePicker(modifier: Modifier = Modifier, router: Router, onPick: (MessageSource) -> Unit) {
     var showSmsDialog by remember { mutableStateOf(false) }
     if (showSmsDialog) {
         SmsSourceDialog { source ->
@@ -59,18 +60,24 @@ fun SourcePicker(modifier: Modifier = Modifier, onPick: (MessageSource) -> Unit)
             onPick(MessageSource.Manual)
         },
         SourceOptionEntry(
-            title = stringResource(R.string.encryption_source_sms_title),
-            description = stringResource(R.string.encryption_source_sms_description),
-            icon = Icons.Filled.Message,
-        ) {
-            showSmsDialog = true
-        },
-        SourceOptionEntry(
             title = stringResource(R.string.encryption_source_file_title),
             description = stringResource(R.string.encryption_source_file_description),
             icon = Icons.Filled.Task,
         ) {
             showFileDialog = true
+        },
+        SourceOptionEntry(
+            title = stringResource(R.string.encryption_source_sms_title),
+            description = stringResource(R.string.encryption_source_sms_description),
+            icon = Icons.Filled.Message,
+            disabled = BuildConfig.SMS_FEATURE.not(),
+            disabledReason = if (BuildConfig.SMS_FEATURE.not()) stringResource(R.string.encryption_source_sms_not_available) else null
+        ) {
+            if (BuildConfig.SMS_FEATURE) {
+                showSmsDialog = true
+            } else {
+                router.navigateToUrl(AppUrl.downloadFromGithub)
+            }
         },
     )
     BoxWithConstraints(modifier = modifier, contentAlignment = Alignment.Center) {
@@ -133,15 +140,7 @@ private fun SourceOption(
     Row(
         modifier = modifier
             .fillMaxSize()
-            .run {
-                if (entry.enabled) {
-                    clickable {
-                        entry.onPick()
-                    }
-                } else {
-                    alpha(0.4f)
-                }
-            },
+            .clickable(onClick = entry.onPick),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -150,25 +149,41 @@ private fun SourceOption(
             entry.icon,
             modifier = Modifier
                 .size(55.dp)
-                .alpha(0.7f),
+                .disabledAlpha(entry.disabled),
             contentDescription = null,
             tint = MaterialTheme.colorScheme.primary,
         )
         Spacer(Modifier.width(8.dp))
         Column {
-            Text(entry.title, style = MaterialTheme.typography.titleLarge)
-            Text(
-                entry.description,
-                style = MaterialTheme.typography.labelMedium,
-                modifier = Modifier.widthIn(max = 220.dp),
-            )
+            Text(entry.title, Modifier.disabledAlpha(entry.disabled), style = MaterialTheme.typography.titleLarge)
+            if (entry.disabledReason == null) {
+                Text(
+                    entry.description,
+                    style = MaterialTheme.typography.labelMedium,
+                    modifier = Modifier.widthIn(max = 220.dp),
+                )
+            } else {
+                Text(
+                    entry.disabledReason,
+                    style = MaterialTheme.typography.labelMedium,
+                    modifier = Modifier.widthIn(max = 220.dp),
+                )
+            }
         }
         Spacer(Modifier.width(8.dp))
     }
 }
 
+private fun Modifier.disabledAlpha(disabled: Boolean): Modifier {
+    return if (disabled) {
+        alpha(0.4f)
+    } else this
+}
+
+
 private class SourceOptionEntry(
-    val enabled: Boolean = true,
+    val disabled: Boolean = false,
+    val disabledReason: String? = null,
     val title: String,
     val description: String,
     val icon: ImageVector,
