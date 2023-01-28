@@ -18,7 +18,7 @@ object ShortcutAndroid {
             .setShortLabel(context.getString(R.string.shortcut_title))
             .setLongLabel(context.getString(R.string.shortcut_description))
             .setIcon(IconCompat.createWithResource(context, R.drawable.ic_open_overlay))
-            .setIntent(Intent(openAction))
+            .setIntent(Intent(openAction).setPackage(context.packageName))
             .build()
         ShortcutManagerCompat.pushDynamicShortcut(context, shortcut)
     }.onFailure {

@@ -162,8 +162,8 @@
     <string name="encryption_permission_sms_dialog_content">We need the SMS permission for the operation of the channel with SMS message source. You can grant the permission with the \'While using the app\' option. If you do not want to grant this permission, you would have to use other message source.</string>
     <string name="encryption_permission_sms_dialog_settings">Settings</string>
     <string name="encryption_source_file_dialog_title">File source</string>
-    <string name="encryption_source_file_dialog_input">Select file with inbox messages (from other)</string>
-    <string name="encryption_source_file_dialog_output">Select file with sent messages (from you)</string>
+    <string name="encryption_source_file_dialog_input">File with inbox messages (from other)</string>
+    <string name="encryption_source_file_dialog_output">File with sent messages (from you)</string>
     <string name="encryption_source_file_dialog_set">Set</string>
 
     <string name="about_topbar_title">About</string>

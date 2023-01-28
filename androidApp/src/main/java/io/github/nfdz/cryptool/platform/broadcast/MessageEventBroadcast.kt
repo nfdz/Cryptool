@@ -39,6 +39,7 @@ class MessageEventBroadcastReceiver(private val messageViewModel: MessageViewMod
 
     override fun onReceive(context: Context?, intent: Intent?) {
         context ?: return
+        if (context.packageName != intent?.`package`) return
         Napier.d(tag = "MessageEventBroadcastReceiver", message = "Received event: ${intent?.action}")
         val message = actionToMessage(context, intent?.action) ?: return
         messageViewModel.dispatch(MessageAction.Event(message))

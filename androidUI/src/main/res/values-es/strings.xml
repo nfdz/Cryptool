@@ -148,8 +148,8 @@
     <string name="encryption_permission_sms_dialog_content">Necesitamos el permiso de SMS para el funcionamiento del modo de comunicación a través de SMS. Puedes conceder el permiso con la opción \"Solo si la aplicación está en uso\". Si no desea conceder este permiso, tendrá que utilizar otro modo.</string>
     <string name="encryption_permission_sms_dialog_settings">Ajustes</string>
     <string name="encryption_source_file_dialog_title">Modo archivo</string>
-    <string name="encryption_source_file_dialog_input">Seleccionar archivo con mensajes de entrada (de otro)</string>
-    <string name="encryption_source_file_dialog_output">Seleccionar archivo con mensajes de salida (tuyos)</string>
+    <string name="encryption_source_file_dialog_input">Archivo con mensajes de entrada (de otro)</string>
+    <string name="encryption_source_file_dialog_output">Archivo con mensajes de salida (tuyos)</string>
     <string name="encryption_source_file_dialog_set">Configurar</string>
     <string name="about_topbar_title">Acerca de Cryptool</string>
     <string name="about_official_website">Sitio web oficial</string>

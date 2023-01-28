@@ -147,8 +147,8 @@
     <string name="encryption_permission_sms_dialog_content">Wir benötigen die SMS-Berechtigung für den Betrieb des Kanals mit SMS-Nachrichtenquelle. Sie können die Berechtigung mit der Option \'Während Sie die App verwenden\' erteilen. Wenn Sie diese Berechtigung nicht erteilen möchten, müssen Sie eine andere Nachrichtenquelle verwenden.</string>
     <string name="encryption_permission_sms_dialog_settings">Einstellungen</string>
     <string name="encryption_source_file_dialog_title">Datei-Quelle</string>
-    <string name="encryption_source_file_dialog_input">Datei mit Posteingangsnachrichten auswählen (von anderen)</string>
-    <string name="encryption_source_file_dialog_output">Datei mit gesendeten Nachrichten (von Ihnen) auswählen</string>
+    <string name="encryption_source_file_dialog_input">Datei mit Posteingangsnachrichten (von anderen)</string>
+    <string name="encryption_source_file_dialog_output">Datei mit gesendeten Nachrichten (von Ihnen)</string>
     <string name="encryption_source_file_dialog_set">Einstellen</string>
     <string name="about_topbar_title">Über</string>
     <string name="about_official_website">Offizielle Website</string>

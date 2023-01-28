@@ -9,7 +9,6 @@ import io.github.aakira.napier.Napier
 import io.github.nfdz.cryptool.shared.encryption.entity.Encryption
 import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
 import io.github.nfdz.cryptool.shared.encryption.repository.EncryptionRepository
-import io.github.nfdz.cryptool.shared.extension.getPackageInfoCompat
 import io.github.nfdz.cryptool.shared.extension.hasPermission
 import io.github.nfdz.cryptool.shared.message.repository.MessageRepository
 import io.github.nfdz.cryptool.shared.platform.storage.KeyValueStorage
@@ -21,13 +20,11 @@ class SmsReceiverAndroid(
     private val context: Context,
     private val encryptionRepository: EncryptionRepository,
     private val messageRepository: MessageRepository,
-    private val keyValueStorage: KeyValueStorage,
+    private val storage: KeyValueStorage,
 ) : SmsReceiver, CoroutineScope by CoroutineScope(Dispatchers.Default) {
 
     companion object {
         private const val tag = "SmsReceiver"
-        private const val lastReceivedBaselineMillisKey = "sms_last_received_baseline"
-        private const val lastReceivedTimestampMillisKey = "sms_last_received_timestamp"
         private val inbox = Uri.parse("content://sms/inbox")
         private val projection = arrayOf(Sms.DATE, Sms.ADDRESS, Sms.BODY)
         private const val dateIndex = 0
@@ -54,32 +51,24 @@ class SmsReceiverAndroid(
                         Napier.e(tag = tag, message = "Error processing pending SMS", throwable = it)
                     }
                 }
-                keyValueStorage.putLong(lastReceivedTimestampMillisKey, result.last().timestampInMillis)
+                SmsReceiverPreferences.setLastReceivedTimestamp(storage, result.last().timestampInMillis)
             }
         }
     }
 
     override fun afterReset() {
-        // Set this baseline to avoid capturing old SMSs
-        keyValueStorage.putLong(lastReceivedBaselineMillisKey, System.currentTimeMillis())
+        SmsReceiverPreferences.setBaseline(storage)
     }
-
-    private fun getBaselineInMillis(): Long =
-        keyValueStorage.getLong(lastReceivedBaselineMillisKey, getDefaultBaselineInMillis())
-
-    private fun getDefaultBaselineInMillis(): Long = runCatching {
-        context.getPackageInfoCompat(context.packageName).firstInstallTime
-    }.getOrElse { 0L }
 
     private fun getPendingFromContentResolver(): List<MessageToReceive> = runCatching {
         val result = mutableListOf<MessageToReceive>()
-        val lastCheckTimestampMillis = keyValueStorage.getLong(lastReceivedTimestampMillisKey, getBaselineInMillis())
-        val selection = "${Sms.DATE} > '${lastCheckTimestampMillis - 1000L}'"
+        val lastReceivedTimestampMillis = SmsReceiverPreferences.getLastReceivedTimestamp(storage)
+        val selection = "${Sms.DATE} > '${lastReceivedTimestampMillis - 1000L}'"
         context.contentResolver.query(inbox, projection, selection, null, null)?.use {
             if (it.moveToFirst()) {
                 do {
                     val timestampInMillis = it.getString(dateIndex).toLong()
-                    if (timestampInMillis > lastCheckTimestampMillis) {
+                    if (timestampInMillis > lastReceivedTimestampMillis) {
                         val phone = it.getString(addressIndex)
                         val encryptedMessage = it.getString(bodyIndex)
                         result.add(

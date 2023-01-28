@@ -37,7 +37,7 @@ class SmsSenderAndroid(private val context: Context) : SmsSender {
         return PendingIntent.getBroadcast(
             context,
             randomRequestCode(),
-            Intent(action),
+            Intent(action).setPackage(context.packageName),
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
         )
     }

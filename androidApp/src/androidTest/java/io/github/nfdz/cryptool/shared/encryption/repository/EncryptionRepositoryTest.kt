@@ -6,6 +6,8 @@ import io.github.nfdz.cryptool.shared.encryption.entity.Encryption
 import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
 import io.github.nfdz.cryptool.shared.encryption.entity.serialize
 import io.github.nfdz.cryptool.shared.encryption.repository.realm.EncryptionRealm
+import io.github.nfdz.cryptool.shared.platform.sms.SmsReceiverPreferences
+import io.github.nfdz.cryptool.shared.platform.storage.FakeKeyValueStorage
 import io.realm.kotlin.ext.query
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.take
@@ -34,6 +36,12 @@ class EncryptionRepositoryTest {
         lastMessage = "",
         lastMessageTimestamp = 0L,
     )
+    private val encryptionRealmB = EncryptionRealm().also { new ->
+        new.id = "B"
+        new.name = "Encryption B"
+        new.password = "Password B"
+        new.algorithm = AlgorithmVersion.V1.name
+    }
     private val encryptionB = Encryption(
         id = "B",
         name = "Encryption B",
@@ -59,7 +67,7 @@ class EncryptionRepositoryTest {
 
     @Test
     fun testGetAllEmpty() {
-        val instance = EncryptionRepositoryImpl(realm)
+        val instance = EncryptionRepositoryImpl(realm, FakeKeyValueStorage())
 
         val result = instance.getAll()
 
@@ -71,7 +79,7 @@ class EncryptionRepositoryTest {
         realm.instance.write {
             copyToRealm(encryptionRealmA)
         }
-        val instance = EncryptionRepositoryImpl(realm)
+        val instance = EncryptionRepositoryImpl(realm, FakeKeyValueStorage())
 
         val result = instance.getAll()
 
@@ -80,7 +88,7 @@ class EncryptionRepositoryTest {
 
     @Test
     fun testAddAll() = runTest {
-        val instance = EncryptionRepositoryImpl(realm)
+        val instance = EncryptionRepositoryImpl(realm, FakeKeyValueStorage())
 
         instance.addAll(listOf(encryptionA))
 
@@ -94,7 +102,7 @@ class EncryptionRepositoryTest {
         realm.instance.write {
             copyToRealm(encryptionRealmA)
         }
-        val instance = EncryptionRepositoryImpl(realm)
+        val instance = EncryptionRepositoryImpl(realm, FakeKeyValueStorage())
 
         val result = instance.observe()
 
@@ -107,7 +115,7 @@ class EncryptionRepositoryTest {
         realm.instance.write {
             copyToRealm(encryptionRealmA)
         }
-        val instance = EncryptionRepositoryImpl(realm)
+        val instance = EncryptionRepositoryImpl(realm, FakeKeyValueStorage())
 
         val result = instance.observe(id = encryptionRealmA.id)
 
@@ -117,7 +125,7 @@ class EncryptionRepositoryTest {
 
     @Test
     fun testCreate() = runTest {
-        val instance = EncryptionRepositoryImpl(realm)
+        val instance = EncryptionRepositoryImpl(realm, FakeKeyValueStorage())
 
         instance.create(name = encryptionA.name, password = encryptionA.password, algorithm = encryptionA.algorithm)
 
@@ -131,7 +139,7 @@ class EncryptionRepositoryTest {
 
     @Test
     fun testCreateTwice() = runTest {
-        val instance = EncryptionRepositoryImpl(realm)
+        val instance = EncryptionRepositoryImpl(realm, FakeKeyValueStorage())
 
         instance.create(name = encryptionA.name, password = encryptionA.password, algorithm = encryptionA.algorithm)
         instance.create(name = encryptionA.name, password = encryptionA.password, algorithm = encryptionA.algorithm)
@@ -145,7 +153,7 @@ class EncryptionRepositoryTest {
         realm.instance.write {
             copyToRealm(encryptionRealmA)
         }
-        val instance = EncryptionRepositoryImpl(realm)
+        val instance = EncryptionRepositoryImpl(realm, FakeKeyValueStorage())
 
         instance.edit(
             encryptionToEdit = encryptionA,
@@ -164,7 +172,7 @@ class EncryptionRepositoryTest {
 
     @Test(expected = java.util.NoSuchElementException::class)
     fun testEditNonExisting() = runTest {
-        val instance = EncryptionRepositoryImpl(realm)
+        val instance = EncryptionRepositoryImpl(realm, FakeKeyValueStorage())
 
         instance.edit(
             encryptionToEdit = encryptionA,
@@ -179,7 +187,7 @@ class EncryptionRepositoryTest {
         realm.instance.write {
             copyToRealm(encryptionRealmA)
         }
-        val instance = EncryptionRepositoryImpl(realm)
+        val instance = EncryptionRepositoryImpl(realm, FakeKeyValueStorage())
 
         instance.delete(setOf(encryptionA.id))
 
@@ -189,7 +197,7 @@ class EncryptionRepositoryTest {
 
     @Test(expected = java.util.NoSuchElementException::class)
     fun testDeleteNonExisting() = runTest {
-        val instance = EncryptionRepositoryImpl(realm)
+        val instance = EncryptionRepositoryImpl(realm, FakeKeyValueStorage())
 
         instance.delete(setOf(encryptionA.id))
     }
@@ -199,7 +207,7 @@ class EncryptionRepositoryTest {
         realm.instance.write {
             copyToRealm(encryptionRealmA)
         }
-        val instance = EncryptionRepositoryImpl(realm)
+        val instance = EncryptionRepositoryImpl(realm, FakeKeyValueStorage())
 
         instance.setFavorite(setOf(encryptionA.id))
 
@@ -211,7 +219,7 @@ class EncryptionRepositoryTest {
 
     @Test(expected = java.util.NoSuchElementException::class)
     fun testSetFavoriteNonExisting() = runTest {
-        val instance = EncryptionRepositoryImpl(realm)
+        val instance = EncryptionRepositoryImpl(realm, FakeKeyValueStorage())
 
         instance.setFavorite(setOf(encryptionA.id))
     }
@@ -221,7 +229,7 @@ class EncryptionRepositoryTest {
         realm.instance.write {
             copyToRealm(encryptionRealmA)
         }
-        val instance = EncryptionRepositoryImpl(realm)
+        val instance = EncryptionRepositoryImpl(realm, FakeKeyValueStorage())
 
         instance.setFavorite(setOf(encryptionA.id))
         instance.setFavorite(setOf(encryptionA.id))
@@ -238,7 +246,7 @@ class EncryptionRepositoryTest {
             encryptionRealmA.isFavorite = true
             copyToRealm(encryptionRealmA)
         }
-        val instance = EncryptionRepositoryImpl(realm)
+        val instance = EncryptionRepositoryImpl(realm, FakeKeyValueStorage())
 
         instance.unsetFavorite(setOf(encryptionA.id))
 
@@ -250,7 +258,7 @@ class EncryptionRepositoryTest {
 
     @Test(expected = java.util.NoSuchElementException::class)
     fun testUnsetFavoriteNonExisting() = runTest {
-        val instance = EncryptionRepositoryImpl(realm)
+        val instance = EncryptionRepositoryImpl(realm, FakeKeyValueStorage())
 
         instance.unsetFavorite(setOf(encryptionA.id))
     }
@@ -261,7 +269,7 @@ class EncryptionRepositoryTest {
             encryptionRealmA.isFavorite = true
             copyToRealm(encryptionRealmA)
         }
-        val instance = EncryptionRepositoryImpl(realm)
+        val instance = EncryptionRepositoryImpl(realm, FakeKeyValueStorage())
 
         instance.unsetFavorite(setOf(encryptionA.id))
         instance.unsetFavorite(setOf(encryptionA.id))
@@ -277,7 +285,8 @@ class EncryptionRepositoryTest {
         realm.instance.write {
             copyToRealm(encryptionRealmA)
         }
-        val instance = EncryptionRepositoryImpl(realm)
+        val storage = FakeKeyValueStorage()
+        val instance = EncryptionRepositoryImpl(realm, storage)
 
         val source = MessageSource.Manual
         instance.setSource(encryptionA.id, source)
@@ -286,11 +295,44 @@ class EncryptionRepositoryTest {
         assertEquals(1, stored.size)
         val storedEncryption = stored.first().toEntity()
         assertEquals(source, storedEncryption.source)
+        assertEquals(0, SmsReceiverPreferences.getLastReceivedTimestamp(storage))
+    }
+
+    @Test
+    fun testSetSourceSms() = runTest {
+        realm.instance.write {
+            copyToRealm(encryptionRealmA)
+        }
+        val storage = FakeKeyValueStorage()
+        val instance = EncryptionRepositoryImpl(realm, storage)
+
+        val source = MessageSource.Sms("123456789")
+        instance.setSource(encryptionA.id, source)
+
+        val stored = realm.instance.query<EncryptionRealm>().find()
+        assertEquals(1, stored.size)
+        val storedEncryption = stored.first().toEntity()
+        assertEquals(source, storedEncryption.source)
+        assertEquals(true, SmsReceiverPreferences.getLastReceivedTimestamp(storage) > 0)
+    }
+
+    @Test(expected = ExclusiveSourceCollisionException::class)
+    fun testSetSourceExclusiveTwice() = runTest {
+        val source = MessageSource.Sms("123456789")
+        encryptionRealmA.source = source.serialize()
+        realm.instance.write {
+            copyToRealm(encryptionRealmA)
+            copyToRealm(encryptionRealmB)
+        }
+
+        val instance = EncryptionRepositoryImpl(realm, FakeKeyValueStorage())
+
+        instance.setSource(encryptionB.id, source)
     }
 
     @Test(expected = java.util.NoSuchElementException::class)
     fun testSetSourceNonExisting() = runTest {
-        val instance = EncryptionRepositoryImpl(realm)
+        val instance = EncryptionRepositoryImpl(realm, FakeKeyValueStorage())
 
         instance.setSource(encryptionA.id, MessageSource.Manual)
     }
@@ -301,7 +343,7 @@ class EncryptionRepositoryTest {
             encryptionRealmA.source = MessageSource.Manual.serialize()
             copyToRealm(encryptionRealmA)
         }
-        val instance = EncryptionRepositoryImpl(realm)
+        val instance = EncryptionRepositoryImpl(realm, FakeKeyValueStorage())
 
         instance.setSource(encryptionA.id, null)
 

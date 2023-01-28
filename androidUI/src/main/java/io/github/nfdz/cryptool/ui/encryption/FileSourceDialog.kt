@@ -68,18 +68,20 @@ internal fun FileSourceDialogContent(callback: (MessageSource.File?) -> Unit) {
             )
             Spacer(Modifier.size(8.dp))
             TextButton(modifier = Modifier
-                .fillMaxWidth()
-                .size(40.dp), enabled = inputFilePath.isBlank(), onClick = {
-                launcherPickInputFile.launch("")
-            }) {
+                .fillMaxWidth(),
+                enabled = inputFilePath.isBlank(),
+                onClick = {
+                    launcherPickInputFile.launch("")
+                }) {
                 Text(stringResource(R.string.encryption_source_file_dialog_input))
             }
             Spacer(Modifier.size(8.dp))
             TextButton(modifier = Modifier
-                .fillMaxWidth()
-                .size(40.dp), enabled = outputFilePath.isBlank(), onClick = {
-                launcherPickOutputFile.launch("")
-            }) {
+                .fillMaxWidth(),
+                enabled = outputFilePath.isBlank(),
+                onClick = {
+                    launcherPickOutputFile.launch("")
+                }) {
                 Text(stringResource(R.string.encryption_source_file_dialog_output))
             }
             Spacer(Modifier.size(8.dp))
