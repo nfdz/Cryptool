@@ -27,19 +27,11 @@ class VersionProviderAndroid(
         get() = storage.getInt(versionKey, VersionProvider.noVersion)
         set(value) = storage.putInt(versionKey, value)
 
-    // Disclaimer: this is the only site of the application that uses the internet. Feel free to delete it.
+    // Disclaimer: this is the only site of the application that uses internet. Feel free to delete it.
     override suspend fun getRemoteNewVersion(): String? = withContext(Dispatchers.IO) {
         if (BuildConfig.CHECK_NEW_VERSION_GITHUB) {
             runCatching {
-                val connection = URL(VersionProvider.latestGithubVersonApi).openConnection() as HttpURLConnection
-                val removeVersion: String
-                try {
-                    val data = connection.inputStream.bufferedReader().use { it.readText() }
-                    removeVersion = Json.parseToJsonElement(data).jsonObject["name"]!!.jsonPrimitive.content
-                } finally {
-                    connection.disconnect()
-                }
-                if (BuildConfig.VERSION_NAME != removeVersion) removeVersion else null
+                if (BuildConfig.VERSION_NAME != remoteVersion) remoteVersion else null
             }.onFailure {
                 Napier.e(
                     tag = "VersionProvider",
@@ -50,6 +42,18 @@ class VersionProviderAndroid(
         } else {
             null
         }
+    }
+
+    private val remoteVersion: String by lazy {
+        val connection = URL(VersionProvider.latestGithubVersonApi).openConnection() as HttpURLConnection
+        val removeVersion: String
+        try {
+            val data = connection.inputStream.bufferedReader().use { it.readText() }
+            removeVersion = Json.parseToJsonElement(data).jsonObject["name"]!!.jsonPrimitive.content
+        } finally {
+            connection.disconnect()
+        }
+        removeVersion
     }
 
 }
