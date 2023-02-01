@@ -20,7 +20,7 @@ class AboutScreenScreenshotTest {
     fun light() {
         rule.setCompose {
             TestEntry(colorScheme = LightColorScheme) {
-                AboutScreenContent(snackbar = SnackbarHostState(), router = EmptyRouter)
+                AboutScreenContent(snackbar = SnackbarHostState(), router = EmptyRouter, versionName = "3.0.0-rc")
             }
         }.assertSame()
     }
@@ -30,7 +30,7 @@ class AboutScreenScreenshotTest {
     fun dark() {
         rule.setCompose {
             TestEntry(colorScheme = DarkColorScheme) {
-                AboutScreenContent(snackbar = SnackbarHostState(), router = EmptyRouter)
+                AboutScreenContent(snackbar = SnackbarHostState(), router = EmptyRouter, versionName = "3.0.0-rc")
             }
         }.assertSame()
     }
