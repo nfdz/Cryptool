@@ -26,7 +26,7 @@ class FakeMessageRepository(
     var observeCount = 0
     var observeArgEncryptionId: String? = null
     override suspend fun observe(encryptionId: String): Flow<List<Message>> {
-        delay(50)
+        delay(150)
         observeCount++
         observeArgEncryptionId = encryptionId
         return observeAnswer

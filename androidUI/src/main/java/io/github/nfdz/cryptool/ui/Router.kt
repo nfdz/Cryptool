@@ -1,12 +1,15 @@
 package io.github.nfdz.cryptool.ui
 
+import android.content.Context
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import io.github.aakira.napier.Napier
 import io.github.nfdz.cryptool.ui.about.*
 import io.github.nfdz.cryptool.ui.encryption.EncryptionScreen
+import io.github.nfdz.cryptool.ui.extension.openUrl
 import io.github.nfdz.cryptool.ui.gatekeeper.ChangeAccessCodeScreen
 import io.github.nfdz.cryptool.ui.main.MainScreen
 import io.github.nfdz.cryptool.ui.password.PasswordScreen
@@ -28,7 +31,6 @@ interface Router {
     fun navigateToOverlayPermissionSettings()
     fun navigateToOverlayBall()
     fun navigateToUrl(url: String)
-
     fun exitOverlay()
 }
 
@@ -47,6 +49,7 @@ private object RouterPaths {
 }
 
 abstract class RouterBase(
+    private val context: Context,
     private val navController: NavController,
 ) : Router {
 

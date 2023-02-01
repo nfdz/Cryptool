@@ -27,33 +27,33 @@ class VersionProviderAndroid(
         get() = storage.getInt(versionKey, VersionProvider.noVersion)
         set(value) = storage.putInt(versionKey, value)
 
-    // Disclaimer: this is the only site of the application that uses internet. Feel free to delete it.
     override suspend fun getRemoteNewVersion(): String? = withContext(Dispatchers.IO) {
         if (BuildConfig.CHECK_NEW_VERSION_GITHUB) {
-            runCatching {
-                if (BuildConfig.VERSION_NAME != remoteVersion) remoteVersion else null
-            }.onFailure {
-                Napier.e(
-                    tag = "VersionProvider",
-                    message = "Error fetching remoteNewVersion: ${it.message}",
-                    throwable = it
-                )
-            }.getOrNull()
+            remoteVersion
         } else {
             null
         }
     }
 
-    private val remoteVersion: String by lazy {
-        val connection = URL(VersionProvider.latestGithubVersonApi).openConnection() as HttpURLConnection
-        val removeVersion: String
-        try {
-            val data = connection.inputStream.bufferedReader().use { it.readText() }
-            removeVersion = Json.parseToJsonElement(data).jsonObject["name"]!!.jsonPrimitive.content
-        } finally {
-            connection.disconnect()
-        }
-        removeVersion
+    // Disclaimer: this is the only internet request of the application. Feel free to delete it.
+    private val remoteVersion: String? by lazy {
+        runCatching {
+            val connection = URL(VersionProvider.latestGithubVersonApi).openConnection() as HttpURLConnection
+            val removeVersion: String
+            try {
+                val data = connection.inputStream.bufferedReader().use { it.readText() }
+                removeVersion = Json.parseToJsonElement(data).jsonObject["name"]!!.jsonPrimitive.content
+            } finally {
+                connection.disconnect()
+            }
+            removeVersion
+        }.onFailure {
+            Napier.e(
+                tag = "VersionProvider",
+                message = "Error fetching remoteNewVersion: ${it.message}",
+                throwable = it
+            )
+        }.getOrNull()
     }
 
 }

@@ -1,7 +1,9 @@
 package io.github.nfdz.cryptool
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.compose.setContent
@@ -11,8 +13,8 @@ import androidx.navigation.compose.rememberNavController
 import io.github.nfdz.cryptool.platform.broadcast.MessageEventBroadcast
 import io.github.nfdz.cryptool.platform.permission.OverlayPermissionImpl
 import io.github.nfdz.cryptool.platform.shortcut.ShortcutAndroid
-import io.github.nfdz.cryptool.service.OverlayViewServiceBase
 import io.github.nfdz.cryptool.service.ball.OverlayBallService
+import io.github.nfdz.cryptool.service.tool.OverlayToolService
 import io.github.nfdz.cryptool.shared.gatekeeper.viewModel.GatekeeperAction
 import io.github.nfdz.cryptool.shared.gatekeeper.viewModel.GatekeeperViewModel
 import io.github.nfdz.cryptool.ui.AppEntryPoint
@@ -27,19 +29,32 @@ class AppActivity : FragmentActivity(), CoroutineScope by CoroutineScope(Dispatc
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             })
         }
+
+        fun close(context: Context) {
+            context.sendBroadcast(Intent(closeAction).setPackage(context.packageName))
+        }
+
+        private const val closeAction = "io.github.nfdz.cryptool.CLOSE_ACTIVITY"
     }
 
     private val overlayPermission = OverlayPermissionImpl(this)
     private val gatekeeperViewModel: GatekeeperViewModel by inject()
     private val msgEventReceiver = MessageEventBroadcast.createReceiver(get())
+    private val closeReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (context?.packageName != intent?.`package`) return
+            finishAffinity()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        registerReceiver(closeReceiver, IntentFilter(closeAction))
         MessageEventBroadcast.registerReceiver(this, msgEventReceiver)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
         if (!launchShortcut(intent)) {
-            OverlayViewServiceBase.closeAll(this)
+            closeOverlay()
             updateShortcut()
             setContent {
                 val navController = rememberNavController()
@@ -50,6 +65,7 @@ class AppActivity : FragmentActivity(), CoroutineScope by CoroutineScope(Dispatc
     }
 
     override fun onDestroy() {
+        unregisterReceiver(closeReceiver)
         MessageEventBroadcast.unregisterReceiver(this, msgEventReceiver)
         super.onDestroy()
     }
@@ -63,7 +79,6 @@ class AppActivity : FragmentActivity(), CoroutineScope by CoroutineScope(Dispatc
         if (packageName != intent?.`package`) return false
         return if (ShortcutAndroid.shouldOpen(intent)) {
             OverlayBallService.start(this)
-            finishAffinity()
             true
         } else {
             false
@@ -76,6 +91,11 @@ class AppActivity : FragmentActivity(), CoroutineScope by CoroutineScope(Dispatc
         } else {
             ShortcutAndroid.delete(this)
         }
+    }
+
+    private fun closeOverlay() {
+        OverlayBallService.close(this)
+        OverlayToolService.close(this)
     }
 
     override fun onStart() {

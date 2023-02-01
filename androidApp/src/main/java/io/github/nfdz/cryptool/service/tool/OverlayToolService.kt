@@ -1,7 +1,9 @@
 package io.github.nfdz.cryptool.service.tool
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.view.View
 import android.view.WindowManager
 import androidx.compose.animation.Crossfade
@@ -30,6 +32,7 @@ import io.github.nfdz.cryptool.extension.fadeOut
 import io.github.nfdz.cryptool.extension.noRippleClickable
 import io.github.nfdz.cryptool.platform.broadcast.MessageEventBroadcast
 import io.github.nfdz.cryptool.service.OverlayComposeViewServiceBase
+import io.github.nfdz.cryptool.service.ball.OverlayBallService
 import io.github.nfdz.cryptool.shared.gatekeeper.viewModel.GatekeeperAction
 import io.github.nfdz.cryptool.shared.gatekeeper.viewModel.GatekeeperViewModel
 import io.github.nfdz.cryptool.ui.AppTheme
@@ -44,10 +47,22 @@ class OverlayToolService : OverlayComposeViewServiceBase() {
         fun start(context: Context) {
             context.startService(Intent(context, OverlayToolService::class.java))
         }
+
+        fun close(context: Context) {
+            context.sendBroadcast(Intent(closeAction).setPackage(context.packageName))
+        }
+
+        private const val closeAction = "io.github.nfdz.cryptool.CLOSE_OVERLAY_TOOL"
     }
 
     private val gatekeeperViewModel: GatekeeperViewModel by inject()
     private val msgEventReceiver = MessageEventBroadcast.createReceiver(get())
+    private val closeReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (context?.packageName != intent?.`package`) return
+            closeOverlay()
+        }
+    }
 
     override val overlayFullScreen: Boolean
         get() = true
@@ -57,18 +72,21 @@ class OverlayToolService : OverlayComposeViewServiceBase() {
 
     override fun onCreate() {
         super.onCreate()
+        registerReceiver(closeReceiver, IntentFilter(closeAction))
         MessageEventBroadcast.registerReceiver(this, msgEventReceiver)
+        OverlayBallService.close(this)
     }
 
     override fun onDestroy() {
+        unregisterReceiver(closeReceiver)
         MessageEventBroadcast.unregisterReceiver(this, msgEventReceiver)
         super.onDestroy()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (startId > 1) {
-            view.visibility = View.VISIBLE
-            view.fadeIn()
+            restoreOverlay()
+            OverlayBallService.close(this)
         }
         return super.onStartCommand(intent, flags, startId)
     }
@@ -80,7 +98,6 @@ class OverlayToolService : OverlayComposeViewServiceBase() {
             navController = navController,
             context = this,
             minimizeOverlay = ::minimizeOverlay,
-            closeOverlay = ::closeOverlay,
         )
         val darkShadow = Color(0xFF191818)
         val largeRadialGradient = object : ShaderBrush() {
@@ -149,7 +166,12 @@ class OverlayToolService : OverlayComposeViewServiceBase() {
         }
     }
 
-    override fun closeOverlay() {
+    private fun restoreOverlay() {
+        view.visibility = View.VISIBLE
+        view.fadeIn()
+    }
+
+    private fun closeOverlay() {
         gatekeeperViewModel.dispatch(GatekeeperAction.PushAccessValidity)
         view.fadeOut {
             stopSelf()

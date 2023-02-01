@@ -1,10 +1,13 @@
 package io.github.nfdz.cryptool.service.ball
 
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.IBinder
 import android.view.*
+import io.github.nfdz.cryptool.AppActivity
 import io.github.nfdz.cryptool.R
 import io.github.nfdz.cryptool.extension.fadeOut
 import io.github.nfdz.cryptool.extension.themed
@@ -25,12 +28,24 @@ class OverlayBallService : OverlayViewServiceBase() {
             context.startService(Intent(context, OverlayBallService::class.java))
         }
 
+        fun close(context: Context) {
+            context.sendBroadcast(Intent(closeAction).setPackage(context.packageName))
+        }
+
+        private const val closeAction = "io.github.nfdz.cryptool.CLOSE_OVERLAY_BALL"
+
         private const val lastPositionXKey = "ball_last_position_x"
         private const val lastPositionYKey = "ball_last_position_y"
     }
 
     private val gatekeeperViewModel: GatekeeperViewModel by inject()
     private val storage: KeyValueStorage by inject()
+    private val closeReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (context?.packageName != intent?.`package`) return
+            closeOverlay(stopService = true)
+        }
+    }
 
     override val view: View by lazy {
         LayoutInflater.from(this.themed()).inflate(R.layout.overlay_ball, null)
@@ -54,13 +69,20 @@ class OverlayBallService : OverlayViewServiceBase() {
 
     override fun onCreate() {
         super.onCreate()
+        registerReceiver(closeReceiver, IntentFilter(closeAction))
         setupView()
+        AppActivity.close(this)
+    }
+
+    override fun onDestroy() {
+        unregisterReceiver(closeReceiver)
+        super.onDestroy()
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setupView() {
         view.findViewById<View>(R.id.ball_icon).setOnTouchListener { _, event -> handleTouchEvent(event) }
-        view.findViewById<View>(R.id.ball_close).setOnClickListener { closeBall(stopApp = true) }
+        view.findViewById<View>(R.id.ball_close).setOnClickListener { closeOverlay(stopApp = true) }
     }
 
     private fun handleTouchEvent(event: MotionEvent): Boolean {
@@ -73,7 +95,7 @@ class OverlayBallService : OverlayViewServiceBase() {
             }
             MotionEvent.ACTION_UP -> {
                 if (lastAction == MotionEvent.ACTION_DOWN || initialTouchPosition == TouchPosition(event)) {
-                    closeBall(openOverlayTool = true)
+                    closeOverlay(openOverlayTool = true)
                 }
                 lastAction = event.action
                 true
@@ -89,16 +111,14 @@ class OverlayBallService : OverlayViewServiceBase() {
         }
     }
 
-    override fun closeOverlay() = closeBall()
-
-    private fun closeBall(openOverlayTool: Boolean = false, stopApp: Boolean = false) {
+    private fun closeOverlay(openOverlayTool: Boolean = false, stopApp: Boolean = false, stopService: Boolean = false) {
         gatekeeperViewModel.dispatch(GatekeeperAction.PushAccessValidity)
         saveLastPosition()
         view.fadeOut {
-            stopSelf()
             when {
                 openOverlayTool -> OverlayToolService.start(this)
                 stopApp -> ApplicationManagerImpl.stopApp()
+                stopService -> stopSelf()
             }
         }
     }
