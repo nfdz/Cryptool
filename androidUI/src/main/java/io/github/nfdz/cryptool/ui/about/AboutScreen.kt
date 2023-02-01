@@ -28,19 +28,19 @@ import io.github.nfdz.cryptool.ui.common.TopAppBarCommon
 internal fun AboutScreen(router: Router) {
     val snackbar = remember { SnackbarHostState() }
     AppMessagesEffect(snackbar)
-    AboutScreenContent(snackbar, router)
+    AboutScreenContent(snackbar, router, versionName = BuildConfig.VERSION_NAME)
 }
 
 @Composable
 @Preview
 private fun AboutScreenPreview() {
     AppTheme {
-        AboutScreenContent(SnackbarHostState(), EmptyRouter)
+        AboutScreenContent(SnackbarHostState(), EmptyRouter, versionName = "3.0.0")
     }
 }
 
 @Composable
-internal fun AboutScreenContent(snackbar: SnackbarHostState, router: Router) {
+internal fun AboutScreenContent(snackbar: SnackbarHostState, router: Router, versionName: String) {
     Scaffold(
         snackbarHost = { SnackbarHost(snackbar) },
         topBar = {
@@ -79,7 +79,7 @@ internal fun AboutScreenContent(snackbar: SnackbarHostState, router: Router) {
                         contentAlignment = Alignment.Center,
                     ) {
                         Text(
-                            BuildConfig.VERSION_NAME,
+                            versionName,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(vertical = 8.dp, horizontal = 24.dp),

@@ -119,7 +119,6 @@ class MessageViewModelTest {
         instance.dispatch(MessageAction.Initialize(fakeEncryption1.id))
         instance.observeState().take(3).toList()
 
-        val source = MessageSource.Manual
         instance.dispatch(MessageAction.Close)
 
         instance.observeState().take(2).toList()

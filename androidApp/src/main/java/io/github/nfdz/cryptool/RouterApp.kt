@@ -1,17 +1,18 @@
 package io.github.nfdz.cryptool
 
+import android.content.Context
 import androidx.navigation.NavHostController
 import io.github.aakira.napier.Napier
-import io.github.nfdz.cryptool.extension.openUrl
 import io.github.nfdz.cryptool.platform.permission.OverlayPermission
 import io.github.nfdz.cryptool.service.ball.OverlayBallService
 import io.github.nfdz.cryptool.ui.RouterBase
+import io.github.nfdz.cryptool.ui.extension.openUrl
 
 class RouterApp(
     navController: NavHostController,
-    private val activity: AppActivity,
+    private val context: Context,
     private val overlayPermission: OverlayPermission,
-) : RouterBase(navController) {
+) : RouterBase(context, navController) {
 
     override val isOverlayMode: Boolean = false
 
@@ -24,8 +25,7 @@ class RouterApp(
     }
 
     override fun navigateToOverlayBall() {
-        OverlayBallService.start(activity)
-        activity.finishAffinity()
+        OverlayBallService.start(context)
     }
 
     override fun exitOverlay() {
@@ -34,7 +34,7 @@ class RouterApp(
 
     override fun navigateToUrl(url: String) {
         assert(url.isNotBlank()) { "Empty URL" }
-        activity.openUrl(url).onFailure {
+        context.openUrl(url).onFailure {
             Napier.e(tag = "Router", message = "Open URL error: $url", throwable = it)
         }
     }

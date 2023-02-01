@@ -1,10 +1,7 @@
 package io.github.nfdz.cryptool.service
 
 import android.app.Service
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.graphics.PixelFormat
 import android.os.Build
 import android.os.IBinder
@@ -14,28 +11,13 @@ import io.github.nfdz.cryptool.extension.fadeIn
 
 abstract class OverlayViewServiceBase : Service() {
 
-    companion object {
-        fun closeAll(context: Context) {
-            context.sendBroadcast(Intent(closeAction).setPackage(context.packageName))
-        }
-
-        private const val closeAction = "io.github.nfdz.cryptool.CLOSE_FLOATING_WINDOWS"
-    }
-
     protected val windowManager: WindowManager by lazy { getSystemService(WINDOW_SERVICE) as WindowManager }
     protected val layoutParams: WindowManager.LayoutParams by lazy { buildLayoutParams() }
-    private val bcReceiver: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            if (context?.packageName != intent?.`package`) return
-            closeOverlay()
-        }
-    }
 
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onCreate() {
         super.onCreate()
-        registerReceiver(bcReceiver, IntentFilter(closeAction))
         windowManager.addView(view, layoutParams)
         view.fadeIn()
     }
@@ -66,12 +48,10 @@ abstract class OverlayViewServiceBase : Service() {
 
     override fun onDestroy() {
         windowManager.removeView(view)
-        unregisterReceiver(bcReceiver)
         super.onDestroy()
     }
 
     abstract val view: View
-    abstract fun closeOverlay()
     open fun optionalSetupLayoutParams(params: WindowManager.LayoutParams) {}
     open val overlayFullScreen: Boolean
         get() = false

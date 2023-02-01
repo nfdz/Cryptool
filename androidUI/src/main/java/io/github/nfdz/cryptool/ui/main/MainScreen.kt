@@ -70,26 +70,10 @@ private fun MainScreenPreview() {
             state = EncryptionState(
                 encryptions = listOf(
                     Encryption(
-                        "1",
-                        "Joe",
-                        "abc",
-                        AlgorithmVersion.V1,
-                        MessageSource.Manual,
-                        true,
-                        12,
-                        "abc",
-                        987688696768
+                        "1", "Joe", "abc", AlgorithmVersion.V1, MessageSource.Manual, true, 12, "abc", 987688696768
                     ),
                     Encryption(
-                        "2",
-                        "Mark",
-                        "123",
-                        AlgorithmVersion.V2,
-                        MessageSource.Manual,
-                        false,
-                        0,
-                        "444",
-                        2345
+                        "2", "Mark", "123", AlgorithmVersion.V2, MessageSource.Manual, false, 0, "444", 2345
                     ),
                 ),
                 selectedEncryptionIds = setOf(),
@@ -112,26 +96,10 @@ private fun MainScreenSelectModePreview() {
             state = EncryptionState(
                 encryptions = listOf(
                     Encryption(
-                        "1",
-                        "Joe",
-                        "abc",
-                        AlgorithmVersion.V1,
-                        MessageSource.Manual,
-                        true,
-                        12,
-                        "abc",
-                        987688696768
+                        "1", "Joe", "abc", AlgorithmVersion.V1, MessageSource.Manual, true, 12, "abc", 987688696768
                     ),
                     Encryption(
-                        "2",
-                        "Mark",
-                        "123",
-                        AlgorithmVersion.V2,
-                        MessageSource.Manual,
-                        false,
-                        0,
-                        "444",
-                        2345
+                        "2", "Mark", "123", AlgorithmVersion.V2, MessageSource.Manual, false, 0, "444", 2345
                     ),
                 ),
                 selectedEncryptionIds = setOf("1"),
@@ -165,6 +133,7 @@ private fun NotifyNewVersionEffect(router: Router, versionProvider: VersionProvi
             val result = snackbar.showSnackbar(
                 context.getString(R.string.main_notify_new_github_version),
                 actionLabel = context.getString(R.string.main_notify_new_github_version_download),
+                duration = SnackbarDuration.Long,
             )
             if (result == SnackbarResult.ActionPerformed) {
                 router.navigateToUrl(AppUrl.downloadGithubLatestVersion)
@@ -182,8 +151,7 @@ private fun AutoOpenEncryptionEffect(
     LaunchedEffect(effect) {
         if (effect is EncryptionEffect.Created) {
             router.navigateToEncryption(
-                encryptionId = effect.encryption.id,
-                encryptionName = effect.encryption.name
+                encryptionId = effect.encryption.id, encryptionName = effect.encryption.name
             )
         }
     }
@@ -241,27 +209,19 @@ internal fun MainScreenContent(
             )
         },
         bottomBar = {
-            MainScreenBottomBar(
-                router,
-                applicationManager,
-                snackbar,
-                clipboardHasAppData,
-                onCreateClick = {
-                    showCreateDialog = true
-                },
-                onClearClipboard = {
-                    clipboardHasAppData = false
-                    clipboard.clear(context, snackbar)
-                }
-            )
+            MainScreenBottomBar(router, applicationManager, snackbar, clipboardHasAppData, onCreateClick = {
+                showCreateDialog = true
+            }, onClearClipboard = {
+                clipboardHasAppData = false
+                clipboard.clear(context, snackbar)
+            })
         },
         content = { padding ->
             val noEncryption = state.initialized && state.encryptions.isEmpty()
             if (noEncryption) {
                 NoEncryptionContent()
             } else {
-                EncryptionList(
-                    modifier = Modifier.padding(padding),
+                EncryptionList(modifier = Modifier.padding(padding),
                     encryptions = state.encryptions,
                     selectedEncryptionIds = state.selectedEncryptionIds,
                     onClick = {
@@ -276,8 +236,7 @@ internal fun MainScreenContent(
                     },
                     onLongClick = {
                         viewModel.handleSelect(state.selectedEncryptionIds, it.id)
-                    }
-                )
+                    })
             }
         },
     )
@@ -349,12 +308,9 @@ private fun MainActions(router: Router, onExportClick: () -> Unit, onImportClick
     }) {
         Icon(Icons.Default.MoreVert, contentDescription = stringResource(R.string.more_options_icon_description))
     }
-    DropdownMenu(
-        expanded = showMenu,
-        onDismissRequest = {
-            showMenu = false
-        }
-    ) {
+    DropdownMenu(expanded = showMenu, onDismissRequest = {
+        showMenu = false
+    }) {
         DropdownMenuItem(
             text = { Text(stringResource(R.string.main_import_dialog_title)) },
             onClick = {
@@ -423,8 +379,7 @@ private fun SelectModeActions(viewModel: EncryptionViewModel, router: Router, st
             viewModel.dispatch(EncryptionAction.UnselectAll)
         }) {
             Icon(
-                Icons.Default.Star,
-                contentDescription = stringResource(R.string.main_set_favorites_icon_description)
+                Icons.Default.Star, contentDescription = stringResource(R.string.main_set_favorites_icon_description)
             )
         }
     }
@@ -439,10 +394,7 @@ private fun SelectModeActions(viewModel: EncryptionViewModel, router: Router, st
         IconButton(onClick = { showMenu = !showMenu }) {
             Icon(Icons.Default.MoreVert, contentDescription = stringResource(R.string.more_options_icon_description))
         }
-        DropdownMenu(
-            expanded = showMenu,
-            onDismissRequest = { showMenu = false }
-        ) {
+        DropdownMenu(expanded = showMenu, onDismissRequest = { showMenu = false }) {
             val allSelected = state.selectedEncryptionIds.size == state.encryptions.size
             if (allSelected) {
                 DropdownMenuItem(
