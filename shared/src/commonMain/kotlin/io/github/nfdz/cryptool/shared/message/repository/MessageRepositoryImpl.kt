@@ -1,7 +1,9 @@
 package io.github.nfdz.cryptool.shared.message.repository
 
+import io.github.aakira.napier.Napier
 import io.github.nfdz.cryptool.shared.core.realm.RealmGateway
 import io.github.nfdz.cryptool.shared.encryption.entity.AlgorithmVersion
+import io.github.nfdz.cryptool.shared.encryption.entity.Encryption
 import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
 import io.github.nfdz.cryptool.shared.encryption.entity.deserializeMessageSource
 import io.github.nfdz.cryptool.shared.encryption.repository.realm.EncryptionRealm
@@ -24,6 +26,7 @@ class MessageRepositoryImpl(
     private val fileMessageSender: FileMessageSender,
 ) : MessageRepository {
     companion object {
+        private const val tag = "MessageRepository"
         const val visibilityKey = "preference_visibility"
         const val defaultVisibility = true
     }
@@ -77,13 +80,16 @@ class MessageRepositoryImpl(
     }
 
     override suspend fun receiveMessageAsync(
-        encryptionId: String,
-        message: String,
+        encryption: Encryption,
         encryptedMessage: String,
         timestampInMillis: Long,
     ) {
+        Napier.d(tag = tag, message = "Message from '${encryption.name}: '${encryptedMessage}")
+        val cryptography = encryption.algorithm.createCryptography()
+        val message = cryptography.decrypt(encryption.password, encryptedMessage)
+            ?: return Napier.d(tag = tag, message = "Cannot process the message")
         receiveMessageInternal(
-            encryptionId = encryptionId,
+            encryptionId = encryption.id,
             message = message,
             encryptedMessage = encryptedMessage,
             timestampInMillis = timestampInMillis,

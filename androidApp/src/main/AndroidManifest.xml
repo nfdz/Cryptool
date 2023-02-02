@@ -3,13 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="io.github.nfdz.cryptool">
 
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" android:required="false" />
+    <uses-permission
+        android:name="android.permission.SYSTEM_ALERT_WINDOW"
+        android:required="false" />
     <!-- [GITHUB_UPDATE_FEATURE_FLAG] -->
-    <uses-permission android:name="android.permission.INTERNET" android:required="false" />
+    <uses-permission
+        android:name="android.permission.INTERNET"
+        android:required="false" />
     <!-- [SMS_FEATURE_FLAG] -->
-    <uses-permission android:name="android.permission.SEND_SMS" android:required="false" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS" android:required="false" />
-    <uses-permission android:name="android.permission.READ_SMS" android:required="false" />
+    <uses-permission
+        android:name="android.permission.SEND_SMS"
+        android:required="false" />
+    <uses-permission
+        android:name="android.permission.RECEIVE_SMS"
+        android:required="false" />
+    <uses-permission
+        android:name="android.permission.READ_SMS"
+        android:required="false" />
 
     <application
         android:name=".CryptoolApp"

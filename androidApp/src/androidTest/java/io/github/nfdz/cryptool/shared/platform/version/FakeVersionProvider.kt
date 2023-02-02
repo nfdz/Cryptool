@@ -21,4 +21,8 @@ class FakeVersionProvider(
         TODO("Not yet implemented")
     }
 
+    override fun setNotifiedRemoteVersion(version: String) {
+        TODO("Not yet implemented")
+    }
+
 }

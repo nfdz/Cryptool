@@ -9,4 +9,5 @@ interface VersionProvider {
     val appVersion: Int
     var storedVersion: Int
     suspend fun getRemoteNewVersion(): String?
+    fun setNotifiedRemoteVersion(version: String)
 }

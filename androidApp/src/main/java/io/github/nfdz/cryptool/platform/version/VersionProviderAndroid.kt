@@ -18,18 +18,31 @@ class VersionProviderAndroid(
 
     companion object {
         private const val versionKey = "version"
+        private const val notifiedRemoteVersionKey = "notified_remote_version"
     }
 
     override val appVersion: Int
         get() = BuildConfig.VERSION_CODE
 
+    private val appVersionName: String
+        get() = BuildConfig.VERSION_NAME
+
     override var storedVersion: Int
         get() = storage.getInt(versionKey, VersionProvider.noVersion)
         set(value) = storage.putInt(versionKey, value)
 
+    private val notifiedRemoteVersion: String
+        get() = storage.getString(notifiedRemoteVersionKey) ?: ""
+
+    override fun setNotifiedRemoteVersion(version: String) {
+        storage.putString(notifiedRemoteVersionKey, version)
+    }
+
     override suspend fun getRemoteNewVersion(): String? = withContext(Dispatchers.IO) {
         if (BuildConfig.CHECK_NEW_VERSION_GITHUB) {
-            remoteVersion
+            val differentVersion = appVersionName != remoteVersion
+            val notNotified = notifiedRemoteVersion != remoteVersion
+            if (differentVersion && notNotified) remoteVersion else null
         } else {
             null
         }
