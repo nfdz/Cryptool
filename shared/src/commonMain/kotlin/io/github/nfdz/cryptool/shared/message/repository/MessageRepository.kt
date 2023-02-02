@@ -1,5 +1,6 @@
 package io.github.nfdz.cryptool.shared.message.repository
 
+import io.github.nfdz.cryptool.shared.encryption.entity.Encryption
 import io.github.nfdz.cryptool.shared.message.entity.Message
 import kotlinx.coroutines.flow.Flow
 
@@ -9,8 +10,7 @@ interface MessageRepository {
     suspend fun observe(encryptionId: String): Flow<List<Message>>
     suspend fun receiveMessage(encryptionId: String, encryptedMessage: String)
     suspend fun receiveMessageAsync(
-        encryptionId: String,
-        message: String,
+        encryption: Encryption,
         encryptedMessage: String,
         timestampInMillis: Long,
     )

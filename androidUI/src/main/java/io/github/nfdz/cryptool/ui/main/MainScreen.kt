@@ -14,14 +14,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import io.github.nfdz.cryptool.shared.core.constant.AppUrl
 import io.github.nfdz.cryptool.shared.encryption.entity.AlgorithmVersion
 import io.github.nfdz.cryptool.shared.encryption.entity.Encryption
 import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
 import io.github.nfdz.cryptool.shared.encryption.viewModel.*
 import io.github.nfdz.cryptool.shared.message.viewModel.MessageAction
 import io.github.nfdz.cryptool.shared.message.viewModel.MessageViewModel
-import io.github.nfdz.cryptool.shared.platform.version.VersionProvider
 import io.github.nfdz.cryptool.ui.*
 import io.github.nfdz.cryptool.ui.R
 import io.github.nfdz.cryptool.ui.common.TopAppBarCommon
@@ -39,13 +37,11 @@ internal fun MainScreen(
     messageViewModel: MessageViewModel = GlobalContext.get().get(),
     clipboard: ClipboardAndroid = GlobalContext.get().get(),
     applicationManager: ApplicationManager = GlobalContext.get().get(),
-    versionProvider: VersionProvider = GlobalContext.get().get(),
 ) {
-    MainScreenLaunchedEffect(viewModel, messageViewModel, versionProvider)
+    MainScreenLaunchedEffect(viewModel, messageViewModel)
     AutoOpenEncryptionEffect(viewModel, router)
     val snackbar = remember { SnackbarHostState() }
     AppMessagesEffect(snackbar)
-    NotifyNewVersionEffect(router, versionProvider, snackbar)
     val state = viewModel.observeState().collectAsState()
     MainScreenContent(
         viewModel = viewModel,
@@ -113,32 +109,10 @@ private fun MainScreenSelectModePreview() {
 private fun MainScreenLaunchedEffect(
     viewModel: EncryptionViewModel,
     messageViewModel: MessageViewModel,
-    versionProvider: VersionProvider,
 ) {
     LaunchedEffect(true) {
         viewModel.dispatch(EncryptionAction.Initialize)
         messageViewModel.dispatch(MessageAction.Close)
-    }
-}
-
-var notifiedNewVersion = false
-
-@Composable
-private fun NotifyNewVersionEffect(router: Router, versionProvider: VersionProvider, snackbar: SnackbarHostState) {
-    if (notifiedNewVersion) return
-    val context = LocalContext.current
-    LaunchedEffect(true) {
-        versionProvider.getRemoteNewVersion()?.let {
-            notifiedNewVersion = true
-            val result = snackbar.showSnackbar(
-                context.getString(R.string.main_notify_new_github_version),
-                actionLabel = context.getString(R.string.main_notify_new_github_version_download),
-                duration = SnackbarDuration.Long,
-            )
-            if (result == SnackbarResult.ActionPerformed) {
-                router.navigateToUrl(AppUrl.downloadGithubLatestVersion)
-            }
-        }
     }
 }
 

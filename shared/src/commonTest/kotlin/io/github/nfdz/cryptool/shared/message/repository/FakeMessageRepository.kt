@@ -1,5 +1,6 @@
 package io.github.nfdz.cryptool.shared.message.repository
 
+import io.github.nfdz.cryptool.shared.encryption.entity.Encryption
 import io.github.nfdz.cryptool.shared.message.entity.Message
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -43,18 +44,17 @@ class FakeMessageRepository(
     }
 
     var receiveMessageAsyncCount = 0
-    var receiveMessageAsyncArgEncryptionId: String? = null
+    var receiveMessageAsyncArgEncryption: Encryption? = null
     var receiveMessageAsyncArgEncryptedMessage: String? = null
     var receiveMessageAsyncArgTimestampInMillis: Long? = null
     override suspend fun receiveMessageAsync(
-        encryptionId: String,
-        message: String,
+        encryption: Encryption,
         encryptedMessage: String,
         timestampInMillis: Long
     ) {
         delay(50)
         receiveMessageAsyncCount++
-        receiveMessageAsyncArgEncryptionId = encryptionId
+        receiveMessageAsyncArgEncryption = encryption
         receiveMessageAsyncArgEncryptedMessage = encryptedMessage
         receiveMessageAsyncArgTimestampInMillis = timestampInMillis
     }

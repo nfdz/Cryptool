@@ -46,7 +46,13 @@ class SmsReceiverAndroid(
             if (result.isNotEmpty()) {
                 result.forEach { data ->
                     runCatching {
-                        receiveMessageInternal(data)
+                        val encryption = findEncryption(data.phone)
+                            ?: throw IllegalStateException("Cannot find an encryption for this message")
+                        messageRepository.receiveMessageAsync(
+                            encryption = encryption,
+                            encryptedMessage = data.encryptedMessage,
+                            timestampInMillis = data.timestampInMillis,
+                        )
                     }.onFailure {
                         Napier.e(tag = tag, message = "Error processing pending SMS", throwable = it)
                     }
@@ -86,21 +92,6 @@ class SmsReceiverAndroid(
     }.onFailure {
         Napier.e(tag = tag, message = "Error receiving pending SMSs", throwable = it)
     }.getOrElse { emptyList() }
-
-    private suspend fun receiveMessageInternal(data: MessageToReceive) {
-        Napier.d(tag = tag, message = "Message from ${data.phone}: '${data.encryptedMessage}'")
-        val encryption = findEncryption(data.phone)
-            ?: return Napier.d(tag = tag, message = "Cannot find an encryption for this message")
-        val cryptography = encryption.algorithm.createCryptography()
-        val message = cryptography.decrypt(encryption.password, data.encryptedMessage)
-            ?: return Napier.d(tag = tag, message = "Cannot process the message")
-        messageRepository.receiveMessageAsync(
-            encryptionId = encryption.id,
-            message = message,
-            encryptedMessage = data.encryptedMessage,
-            timestampInMillis = data.timestampInMillis,
-        )
-    }
 
     private fun findEncryption(phone: String): Encryption? {
         val hasCountryCode = phone.contains('+')

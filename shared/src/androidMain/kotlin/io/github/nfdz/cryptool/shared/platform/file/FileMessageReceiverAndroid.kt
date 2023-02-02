@@ -58,7 +58,11 @@ class FileMessageReceiverAndroid(
                 val result = getMessagesFor(encryption).sortedBy { it.timestampInMillis }
                 if (result.isNotEmpty()) {
                     result.forEach { data ->
-                        receiveMessageInternal(encryption, data)
+                        messageRepository.receiveMessageAsync(
+                            encryption = encryption,
+                            encryptedMessage = data.encryptedMessage,
+                            timestampInMillis = data.timestampInMillis,
+                        )
                     }
                     val lastEntry = result.last()
                     FileMessageReceiverPreferences.setLastReceivedTimestamp(
@@ -71,19 +75,6 @@ class FileMessageReceiverAndroid(
                 Napier.e(tag = tag, message = "Error receiving pending file message", throwable = it)
             }
         }
-    }
-
-    private suspend fun receiveMessageInternal(encryption: Encryption, data: MessageToReceive) {
-        Napier.d(tag = tag, message = "Message from '${encryption.name}: '${data.encryptedMessage}")
-        val cryptography = encryption.algorithm.createCryptography()
-        val message = cryptography.decrypt(encryption.password, data.encryptedMessage)
-            ?: return Napier.d(tag = tag, message = "Cannot process the message")
-        messageRepository.receiveMessageAsync(
-            encryptionId = encryption.id,
-            message = message,
-            encryptedMessage = data.encryptedMessage,
-            timestampInMillis = data.timestampInMillis,
-        )
     }
 
     private fun getMessagesFor(encryption: Encryption): List<MessageToReceive> {
