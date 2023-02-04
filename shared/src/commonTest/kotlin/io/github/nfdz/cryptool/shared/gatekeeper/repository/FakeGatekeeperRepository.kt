@@ -93,4 +93,12 @@ class FakeGatekeeperRepository(
     override suspend fun decryptWithAccessCode(encryptedText: String): String? {
         TODO("Not yet implemented")
     }
+
+    override fun addOnOpenAction(action: () -> Unit) {
+        TODO("Not yet implemented")
+    }
+
+    override fun addOnResetAction(action: () -> Unit) {
+        TODO("Not yet implemented")
+    }
 }

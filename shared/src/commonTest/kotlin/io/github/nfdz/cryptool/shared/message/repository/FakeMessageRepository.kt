@@ -1,6 +1,7 @@
 package io.github.nfdz.cryptool.shared.message.repository
 
 import io.github.nfdz.cryptool.shared.encryption.entity.Encryption
+import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
 import io.github.nfdz.cryptool.shared.message.entity.Message
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -102,5 +103,9 @@ class FakeMessageRepository(
     override suspend fun setVisibilityPreference(value: Boolean) {
         setVisibilityCount++
         setVisibilityArg = value
+    }
+
+    override fun addOnSendMessageAction(action: (source: MessageSource, encryptedMessage: String) -> Unit) {
+        TODO("Not yet implemented")
     }
 }

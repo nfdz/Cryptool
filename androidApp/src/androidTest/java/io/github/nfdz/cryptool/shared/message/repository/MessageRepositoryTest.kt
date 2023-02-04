@@ -3,15 +3,12 @@ package io.github.nfdz.cryptool.shared.message.repository
 import io.github.nfdz.cryptool.shared.core.realm.FakeRealmGateway
 import io.github.nfdz.cryptool.shared.encryption.entity.AlgorithmVersion
 import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
+import io.github.nfdz.cryptool.shared.encryption.entity.deserializeMessageSource
 import io.github.nfdz.cryptool.shared.encryption.entity.serialize
 import io.github.nfdz.cryptool.shared.encryption.repository.realm.EncryptionRealm
 import io.github.nfdz.cryptool.shared.message.entity.Message
 import io.github.nfdz.cryptool.shared.message.entity.MessageOwnership
 import io.github.nfdz.cryptool.shared.message.repository.realm.MessageRealm
-import io.github.nfdz.cryptool.shared.platform.file.FakeFileMessageSender
-import io.github.nfdz.cryptool.shared.platform.file.FileMessageSender
-import io.github.nfdz.cryptool.shared.platform.sms.FakeSmsSender
-import io.github.nfdz.cryptool.shared.platform.sms.SmsSender
 import io.github.nfdz.cryptool.shared.platform.storage.FakeKeyValueStorage
 import io.realm.kotlin.ext.query
 import junit.framework.TestCase.assertEquals
@@ -54,6 +51,10 @@ class MessageRepositoryTest {
 
     private lateinit var realm: FakeRealmGateway
     private val keyValueStorage = FakeKeyValueStorage()
+    private var onSendMessageActionCount = 0
+    private var onSendMessageActionArgMsg: String? = null
+    private var onSendMessageActionArgSource: MessageSource? = null
+    private var onSendMessageActionException: Throwable? = null
 
     @Before
     fun beforeTest() {
@@ -65,16 +66,18 @@ class MessageRepositoryTest {
         realm.tearDownTest()
     }
 
-    private fun createInstance(
-        smsSender: SmsSender = FakeSmsSender(),
-        fileMessageSender: FileMessageSender = FakeFileMessageSender(),
-    ): MessageRepository {
+    private fun createInstance(): MessageRepository {
         return MessageRepositoryImpl(
             realmGateway = realm,
             storage = keyValueStorage,
-            smsSender = smsSender,
-            fileMessageSender = fileMessageSender,
-        )
+        ).also {
+            it.addOnSendMessageAction { source, encryptedMessage ->
+                onSendMessageActionCount++
+                onSendMessageActionArgSource = source
+                onSendMessageActionArgMsg = encryptedMessage
+                onSendMessageActionException?.let { ex -> throw ex }
+            }
+        }
     }
 
     @Test
@@ -170,21 +173,8 @@ class MessageRepositoryTest {
             copyToRealm(encryptionRealmA)
         }
 
-        val instance =
-            createInstance(smsSender = FakeSmsSender(sendMessageException = java.lang.IllegalArgumentException()))
-
-        instance.sendMessage(encryptionId = messageA.encryptionId, message = messageA.message)
-    }
-
-    @Test(expected = java.lang.IllegalArgumentException::class)
-    fun testSendMessageWithFileError() = runTest {
-        encryptionRealmA.source = MessageSource.File("input-path", "output-path").serialize()
-        realm.instance.write {
-            copyToRealm(encryptionRealmA)
-        }
-
-        val fileMessageSender = FakeFileMessageSender(sendMessageException = java.lang.IllegalArgumentException())
-        val instance = createInstance(fileMessageSender = fileMessageSender)
+        onSendMessageActionException = java.lang.IllegalArgumentException()
+        val instance = createInstance()
 
         instance.sendMessage(encryptionId = messageA.encryptionId, message = messageA.message)
     }
@@ -194,9 +184,7 @@ class MessageRepositoryTest {
         realm.instance.write {
             copyToRealm(encryptionRealmA)
         }
-        val smsSender = FakeSmsSender()
-        val fileMessageSender = FakeFileMessageSender()
-        val instance = createInstance(smsSender = smsSender, fileMessageSender = fileMessageSender)
+        val instance = createInstance()
 
         instance.sendMessage(encryptionId = messageA.encryptionId, message = messageA.message)
 
@@ -205,50 +193,9 @@ class MessageRepositoryTest {
         val storedMessage = stored.first().toEntity()
         assertEquals(messageA.message, storedMessage.message)
         assertEquals(MessageOwnership.OWN, storedMessage.ownership)
-        assertEquals(0, smsSender.sendMessageCount)
-        assertEquals(0, fileMessageSender.sendMessageCount)
-    }
-
-    @Test
-    fun testSendMessageSms() = runTest {
-        val phone = "1234"
-        encryptionRealmA.source = MessageSource.Sms(phone).serialize()
-        realm.instance.write {
-            copyToRealm(encryptionRealmA)
-        }
-        val smsSender = FakeSmsSender()
-        val instance = createInstance(smsSender = smsSender)
-
-        instance.sendMessage(encryptionId = messageA.encryptionId, message = messageA.message)
-
-        val stored = realm.instance.query<MessageRealm>().find()
-        assertEquals(1, stored.size)
-        val storedMessage = stored.first().toEntity()
-        assertEquals(messageA.message, storedMessage.message)
-        assertEquals(MessageOwnership.OWN, storedMessage.ownership)
-        assertEquals(1, smsSender.sendMessageCount)
-        assertEquals(phone, smsSender.sendMessageArgPhone)
-    }
-
-    @Test
-    fun testSendMessageFile() = runTest {
-        val outputPath = "output-path/file"
-        encryptionRealmA.source = MessageSource.File("input-path/file", outputPath).serialize()
-        realm.instance.write {
-            copyToRealm(encryptionRealmA)
-        }
-        val fileMessageSender = FakeFileMessageSender()
-        val instance = createInstance(fileMessageSender = fileMessageSender)
-
-        instance.sendMessage(encryptionId = messageA.encryptionId, message = messageA.message)
-
-        val stored = realm.instance.query<MessageRealm>().find()
-        assertEquals(1, stored.size)
-        val storedMessage = stored.first().toEntity()
-        assertEquals(messageA.message, storedMessage.message)
-        assertEquals(MessageOwnership.OWN, storedMessage.ownership)
-        assertEquals(1, fileMessageSender.sendMessageCount)
-        assertEquals(outputPath, fileMessageSender.sendMessageArgPath)
+        assertEquals(1, onSendMessageActionCount)
+        assertEquals(encryptionRealmA.source.deserializeMessageSource(), onSendMessageActionArgSource)
+        assertEquals(storedMessage.encryptedMessage, onSendMessageActionArgMsg)
     }
 
     @Test

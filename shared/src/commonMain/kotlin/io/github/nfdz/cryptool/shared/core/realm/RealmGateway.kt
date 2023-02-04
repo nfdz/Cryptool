@@ -1,6 +1,7 @@
 package io.github.nfdz.cryptool.shared.core.realm
 
 import io.github.aakira.napier.Napier
+import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
 import io.github.nfdz.cryptool.shared.encryption.repository.realm.EncryptionRealm
 import io.github.nfdz.cryptool.shared.message.repository.realm.MessageRealm
 import io.github.nfdz.cryptool.shared.password.repository.realm.PasswordRealm
@@ -34,7 +35,10 @@ class RealmGatewayImpl : RealmGateway {
         private const val name = "cryptool.realm"
     }
 
-    private var onOpenCallback: suspend (Realm) -> Unit = ::purgeOrphanMessages
+    private var onOpenCallback: suspend (Realm) -> Unit = {
+        purgeInvalidLanSources(it)
+        purgeOrphanMessages(it)
+    }
     private var _instance: Realm? = null
     override val instance: Realm
         get() = _instance ?: throw IllegalStateException("Realm instance is not ready")
@@ -73,6 +77,20 @@ class RealmGatewayImpl : RealmGateway {
             }
         }.onFailure {
             Napier.e(tag = "RealmGateway", message = "Purge orphan messages error: ${it.message}", throwable = it)
+        }
+    }
+
+    private suspend fun purgeInvalidLanSources(realm: Realm) {
+        runCatching {
+            realm.write {
+                val lanEncryptions = query<EncryptionRealm>("source BEGINSWITH '${MessageSource.lanPrefix}'").find()
+                lanEncryptions.forEach {
+                    it.source = ""
+                }
+                Napier.i(tag = "RealmGateway", message = "Purged invalid lan sources: ${lanEncryptions.size}")
+            }
+        }.onFailure {
+            Napier.e(tag = "RealmGateway", message = "Purge invalid lan sources error: ${it.message}", throwable = it)
         }
     }
 

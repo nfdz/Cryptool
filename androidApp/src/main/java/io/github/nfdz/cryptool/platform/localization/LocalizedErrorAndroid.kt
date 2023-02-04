@@ -30,4 +30,7 @@ class LocalizedErrorAndroid(private val context: Context) : LocalizedError {
     override val messageSendFileError: String
         get() = context.getString(R.string.encryption_send_message_file_error)
 
+    override val messageSendLanError: String
+        get() = context.getString(R.string.encryption_send_message_lan_error)
+
 }

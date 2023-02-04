@@ -1,6 +1,7 @@
 package io.github.nfdz.cryptool.shared.message.repository
 
 import io.github.nfdz.cryptool.shared.encryption.entity.Encryption
+import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
 import io.github.nfdz.cryptool.shared.message.entity.Message
 import kotlinx.coroutines.flow.Flow
 
@@ -21,4 +22,6 @@ interface MessageRepository {
     suspend fun unsetFavorite(messageIds: Set<String>)
     suspend fun getVisibilityPreference(): Boolean
     suspend fun setVisibilityPreference(value: Boolean)
+
+    fun addOnSendMessageAction(action: (source: MessageSource, encryptedMessage: String) -> Unit)
 }

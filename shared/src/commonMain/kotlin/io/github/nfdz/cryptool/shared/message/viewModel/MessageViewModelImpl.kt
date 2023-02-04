@@ -10,6 +10,7 @@ import io.github.nfdz.cryptool.shared.message.entity.MessageOwnership
 import io.github.nfdz.cryptool.shared.message.repository.MessageRepository
 import io.github.nfdz.cryptool.shared.platform.file.FileMessageSendException
 import io.github.nfdz.cryptool.shared.platform.localization.LocalizedError
+import io.github.nfdz.cryptool.shared.platform.network.LanSendException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.launch
@@ -123,6 +124,8 @@ class MessageViewModelImpl(
             emitSideEffect(MessageEffect.SentMessage)
         } catch (exception: FileMessageSendException) {
             emitSideEffect(MessageEffect.Error(localizedError.messageSendFileError))
+        } catch (exception: LanSendException) {
+            emitSideEffect(MessageEffect.Error(localizedError.messageSendLanError))
         }
     }
 

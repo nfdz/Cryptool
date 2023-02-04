@@ -9,4 +9,5 @@ interface LocalizedError {
     val messageUnexpected: String
     val exclusiveSourceCollision: String
     val messageSendFileError: String
+    val messageSendLanError: String
 }

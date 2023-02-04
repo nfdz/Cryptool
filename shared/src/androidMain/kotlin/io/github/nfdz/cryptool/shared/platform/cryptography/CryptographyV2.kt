@@ -3,6 +3,8 @@ package io.github.nfdz.cryptool.shared.platform.cryptography
 import android.security.keystore.KeyProperties
 import io.github.aakira.napier.Napier
 import io.github.nfdz.cryptool.shared.encryption.entity.AlgorithmVersion
+import io.github.nfdz.cryptool.shared.extension.generateIV
+import java.security.SecureRandom
 import javax.crypto.Cipher
 import javax.crypto.SecretKey
 import javax.crypto.spec.GCMParameterSpec
@@ -11,6 +13,7 @@ import javax.crypto.spec.SecretKeySpec
 actual class CryptographyV2 actual constructor() : Cryptography {
     companion object {
         private const val keyHashLength = 32
+        private const val gcmTagLength = 128
     }
 
     private val argon2 = Argon2KeyDerivation()
@@ -23,10 +26,10 @@ actual class CryptographyV2 actual constructor() : Cryptography {
         val keyBytes = argon2.hash(password, salt, keyHashLength)
         val key: SecretKey = SecretKeySpec(keyBytes, 0, keyBytes.size, KeyProperties.KEY_ALGORITHM_AES)
 
-        val cipher = getCipher().apply {
-            init(Cipher.ENCRYPT_MODE, key)
-        }
-        val gcmParams = cipher.parameters.getParameterSpec(GCMParameterSpec::class.java)
+        val cipher = getCipher()
+        val gcmParams = GCMParameterSpec(gcmTagLength, SecureRandom().generateIV(cipher.blockSize))
+        cipher.init(Cipher.ENCRYPT_MODE, key, gcmParams)
+
         val encryptedText = cipher.doFinal(text.compressGzip())
         join(
             ivBase64 = gcmParams.iv.encodeBase64(),
@@ -51,7 +54,7 @@ actual class CryptographyV2 actual constructor() : Cryptography {
         val encryptedTextBytes = encryptedTextComponents.encryptedTextBase64.decodeBase64()
         cipher.doFinal(encryptedTextBytes).decompressGzip()
     }.onFailure {
-        Napier.e(tag = "CryptographyV2", message = "encrypt($password, $encryptedText): ${it.message}", throwable = it)
+        Napier.e(tag = "CryptographyV2", message = "decrypt($password, $encryptedText): ${it.message}", throwable = it)
     }.getOrNull()
 
     private fun getCipher(): Cipher {

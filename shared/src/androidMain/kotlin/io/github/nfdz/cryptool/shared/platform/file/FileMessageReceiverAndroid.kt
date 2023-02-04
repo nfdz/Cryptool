@@ -8,8 +8,10 @@ import io.github.aakira.napier.Napier
 import io.github.nfdz.cryptool.shared.encryption.entity.Encryption
 import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
 import io.github.nfdz.cryptool.shared.encryption.repository.EncryptionRepository
+import io.github.nfdz.cryptool.shared.gatekeeper.repository.GatekeeperRepository
 import io.github.nfdz.cryptool.shared.message.repository.MessageRepository
 import io.github.nfdz.cryptool.shared.platform.storage.KeyValueStorage
+import io.github.nfdz.cryptool.shared.platform.time.Clock
 import kotlinx.coroutines.*
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -17,6 +19,7 @@ import java.io.FileOutputStream
 class FileMessageReceiverAndroid(
     private val context: Context,
     private val encryptionRepository: EncryptionRepository,
+    private val gatekeeperRepository: GatekeeperRepository,
     private val messageRepository: MessageRepository,
     private val storage: KeyValueStorage,
 ) : FileMessageReceiver, CoroutineScope by CoroutineScope(Dispatchers.Default) {
@@ -32,21 +35,35 @@ class FileMessageReceiverAndroid(
 
     private var pullFilesJob: Job? = null
 
-    override fun launchMessagesPolling(isOpen: () -> Boolean) {
-        pullFilesJob?.cancel()
-        pullFilesJob = launch {
-            val jobId = pullFilesJob?.hashCode().toString()
-            while (true) {
-                if (isOpen()) {
-                    Napier.d(tag = tag, message = "[$jobId] Polling file messages...")
-                    fetchMessages()
-                    delay(pollingPeriodInMillis)
-                }
+    init {
+        gatekeeperRepository.addOnOpenAction(::launchMessagesPolling)
+        gatekeeperRepository.addOnResetAction(::afterReset)
+        encryptionRepository.addOnSetSourceAction { source ->
+            if (source is MessageSource.File) {
+                FileMessageReceiverPreferences.setLastReceivedTimestamp(
+                    storage,
+                    source,
+                    Clock.nowInMillis()
+                )
             }
         }
     }
 
-    override fun afterReset() {
+    private fun launchMessagesPolling() {
+        pullFilesJob?.cancel()
+        pullFilesJob = launch {
+            val jobId = pullFilesJob?.hashCode().toString()
+            while (true) {
+                if (gatekeeperRepository.isOpen()) {
+                    Napier.d(tag = tag, message = "[$jobId] Polling file messages...")
+                    fetchMessages()
+                }
+                delay(pollingPeriodInMillis)
+            }
+        }
+    }
+
+    private fun afterReset() {
         pullFilesJob?.cancel()
         FileMessageReceiverPreferences.setBaseline(storage)
     }
@@ -78,7 +95,7 @@ class FileMessageReceiverAndroid(
     }
 
     private fun getMessagesFor(encryption: Encryption): List<MessageToReceive> {
-        Napier.d(tag = tag, message = "Get messages for '${encryption.name}'")
+        Napier.d(tag = tag, message = "Getting messages from '${encryption.name}'")
         val result = mutableListOf<MessageToReceive>()
         val source = encryption.source as MessageSource.File
         val uri = source.inputFilePath.toUri()
@@ -97,7 +114,10 @@ class FileMessageReceiverAndroid(
                                 result.add(MessageToReceive(source, parts[1], timestampInMillis))
                             }
                         }.onFailure {
-                            Napier.e(tag = tag, message = "Get messages for '${encryption.name}' - Invalid line: $line")
+                            Napier.e(
+                                tag = tag,
+                                message = "Getting messages from '${encryption.name}' - Invalid line: $line"
+                            )
                         }
                     }
                 }

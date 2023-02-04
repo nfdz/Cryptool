@@ -3,12 +3,9 @@ package io.github.nfdz.cryptool.shared.platform.file
 import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
 import io.github.nfdz.cryptool.shared.encryption.entity.serialize
 import io.github.nfdz.cryptool.shared.platform.storage.KeyValueStorage
-import kotlinx.datetime.Clock
+import io.github.nfdz.cryptool.shared.platform.time.Clock
 
-interface FileMessageReceiver {
-    fun launchMessagesPolling(isOpen: () -> Boolean)
-    fun afterReset()
-}
+interface FileMessageReceiver {}
 
 object FileMessageReceiverPreferences {
 
@@ -16,7 +13,7 @@ object FileMessageReceiverPreferences {
     private const val lastReceivedTimestampMillisKey = "file_last_received_timestamp"
 
     fun setBaseline(storage: KeyValueStorage) {
-        storage.putLong(lastReceivedBaselineMillisKey, Clock.System.now().toEpochMilliseconds())
+        storage.putLong(lastReceivedBaselineMillisKey, Clock.nowInMillis())
     }
 
     fun getBaseline(storage: KeyValueStorage): Long = storage.getLong(lastReceivedBaselineMillisKey, 0)

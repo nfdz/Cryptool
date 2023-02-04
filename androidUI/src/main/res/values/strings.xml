@@ -13,6 +13,9 @@
     <string name="unexpected_error">Unexpected error, please report the problem if any</string>
     <string name="input_minimum_length">Minimum length is %1$d</string>
 
+    <string name="version_15_name" translatable="false">3.0.1</string>
+    <string name="version_15_description">• New message source: Local Area Network (LAN).
+                                       \n• Fix stability issues on some Android versions.</string>
     <string name="version_10_name" translatable="false">3.0.0</string>
     <string name="version_10_description">• New modern user interface.
                                        \n• New cryptographic algorithms supported.
@@ -142,6 +145,7 @@
     <string name="encryption_receive_message_error">The message can not be received, check that the conversation is the correct one, password, algorithm…</string>
     <string name="encryption_exclusive_source_error">The configured source conflicts with another encryption, and this source does not allow it.</string>
     <string name="encryption_send_message_file_error">There is a problem sending the message through the configured file, please set the message source again.</string>
+    <string name="encryption_send_message_lan_error">There is a problem sending the message through the LAN network, please set the message source again.</string>
     <string name="encryption_send_message_hint">Your message</string>
     <string name="encryption_send_message_icon_description">Send</string>
     <string name="encryption_receive_message_hint">%1$s\'s message</string>
@@ -151,13 +155,23 @@
     <string name="encryption_message_copy_icon_description">Copy</string>
     <string name="encryption_source_manual_title">Manual</string>
     <string name="encryption_source_manual_description">Handle the input and output of the communication yourself.</string>
+    <string name="encryption_source_lan_title">LAN</string>
+    <string name="encryption_source_lan_description">Communication within the connected Local Area Network.</string>
     <string name="encryption_source_file_title">File</string>
-    <string name="encryption_source_file_description">Use two files for communication. You can sync and share the files automatically with any provider in a safe way. For example Google Drive, Dropbox, and so on.</string>
+    <string name="encryption_source_file_description">Use two files for communication. You can auto-sync and share the files for real time communication.</string>
     <string name="encryption_source_sms_not_available">Cannot offer this feature due to Google Play restrictions. Select this option to know more.</string>
     <string name="encryption_source_sms_title">SMS</string>
     <string name="encryption_source_sms_description">Use your SMS provider. This option could have cost depending the contract with your provider.</string>
     <string name="encryption_sms_sent_snackbar">SMS message was sent</string>
     <string name="encryption_sms_delivered_snackbar">SMS message has been delivered</string>
+    <string name="encryption_source_lan_dialog_title">LAN source</string>
+    <string name="encryption_source_lan_dialog_you_section">Your address</string>
+    <string name="encryption_source_lan_dialog_you_port">%1$d (port)</string>
+    <string name="encryption_source_lan_dialog_you_slot">%1$d (slot)</string>
+    <string name="encryption_source_lan_dialog_other_section">Destination address</string>
+    <string name="encryption_source_lan_dialog_other_address">Address</string>
+    <string name="encryption_source_lan_dialog_other_port">Port</string>
+    <string name="encryption_source_lan_dialog_other_slot">Slot</string>
     <string name="encryption_source_sms_dialog_title">SMS source</string>
     <string name="encryption_source_sms_dialog_phone">Phone number</string>
     <string name="encryption_source_sms_dialog_set">Set</string>

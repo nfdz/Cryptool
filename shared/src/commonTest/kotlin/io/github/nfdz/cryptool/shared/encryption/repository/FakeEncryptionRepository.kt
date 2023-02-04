@@ -130,4 +130,8 @@ class FakeEncryptionRepository(
         acknowledgeUnreadMessagesArgId = id
 
     }
+
+    override fun addOnSetSourceAction(action: (MessageSource?) -> Unit) {
+        TODO("Not yet implemented")
+    }
 }

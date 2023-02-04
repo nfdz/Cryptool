@@ -37,6 +37,7 @@ import io.github.nfdz.cryptool.shared.password.viewModel.PasswordViewModelImpl
 import io.github.nfdz.cryptool.shared.platform.biometric.Biometric
 import io.github.nfdz.cryptool.shared.platform.file.*
 import io.github.nfdz.cryptool.shared.platform.localization.LocalizedError
+import io.github.nfdz.cryptool.shared.platform.network.*
 import io.github.nfdz.cryptool.shared.platform.sms.SmsReceiver
 import io.github.nfdz.cryptool.shared.platform.sms.SmsReceiverAndroid
 import io.github.nfdz.cryptool.shared.platform.sms.SmsSender
@@ -74,10 +75,6 @@ class CryptoolApp : Application() {
         // Platform + Core
         single<RealmGateway> { RealmGatewayImpl() }
         single<Biometric> { BiometricAndroid() }
-        single<FileMessageSender> { FileMessageSenderAndroid(applicationContext) }
-        single<FileMessageReceiver> { FileMessageReceiverAndroid(applicationContext, get(), get(), get()) }
-        single<SmsSender> { SmsSenderAndroid(applicationContext) }
-        single<SmsReceiver> { SmsReceiverAndroid(applicationContext, get(), get(), get()) }
         single<KeyValueStorage> { KeyValueStorageAndroid(applicationContext) }
         single<ChangelogProvider> { ChangelogProviderAndroid(applicationContext) }
         single<LegacyPinCodeManager> { LegacyPinCodeManagerImpl }
@@ -90,10 +87,23 @@ class CryptoolApp : Application() {
         single<ImportData> { ImportDataImpl(get(), get(), get()) }
         single<LocalizedError> { LocalizedErrorAndroid(applicationContext) }
 
+        // Sender + Receivers
+        single<LanReceiver>(createdAtStart = true) { LanReceiverAndroid(get(), get(), get(), get()) }
+        single<LanSender>(createdAtStart = true) { LanSenderAndroid(get()) }
+        single<LanDiscovery> { LanDiscoveryAndroid(applicationContext) }
+        single<FileMessageSender>(createdAtStart = true) { FileMessageSenderAndroid(applicationContext, get()) }
+        single<FileMessageReceiver>(createdAtStart = true) {
+            FileMessageReceiverAndroid(applicationContext, get(), get(), get(), get())
+        }
+        single<SmsSender>(createdAtStart = true) { SmsSenderAndroid(applicationContext, get()) }
+        single<SmsReceiver>(createdAtStart = true) {
+            SmsReceiverAndroid(applicationContext, get(), get(), get(), get())
+        }
+
         // Repositories
-        single<GatekeeperRepository> { GatekeeperRepositoryImpl(get(), get(), get(), get(), get(), get(), get(), get()) }
-        single<EncryptionRepository> { EncryptionRepositoryImpl(get(), get()) }
-        single<MessageRepository> { MessageRepositoryImpl(get(), get(), get(), get()) }
+        single<GatekeeperRepository> { GatekeeperRepositoryImpl(get(), get(), get(), get(), get(), get()) }
+        single<EncryptionRepository> { EncryptionRepositoryImpl(get()) }
+        single<MessageRepository> { MessageRepositoryImpl(get(), get()) }
         single<PasswordRepository> { PasswordRepositoryImpl(get()) }
 
         // View Models

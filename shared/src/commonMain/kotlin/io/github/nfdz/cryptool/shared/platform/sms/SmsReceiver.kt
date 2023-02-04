@@ -1,11 +1,10 @@
 package io.github.nfdz.cryptool.shared.platform.sms
 
 import io.github.nfdz.cryptool.shared.platform.storage.KeyValueStorage
-import kotlinx.datetime.Clock
+import io.github.nfdz.cryptool.shared.platform.time.Clock
 
 interface SmsReceiver {
     fun receivePendingMessage()
-    fun afterReset()
 }
 
 object SmsReceiverPreferences {
@@ -17,7 +16,7 @@ object SmsReceiverPreferences {
     }
 
     fun setBaseline(storage: KeyValueStorage) {
-        storage.putLong(lastReceivedBaselineMillisKey, Clock.System.now().toEpochMilliseconds())
+        storage.putLong(lastReceivedBaselineMillisKey, Clock.nowInMillis())
     }
 
     fun getLastReceivedTimestamp(storage: KeyValueStorage): Long {

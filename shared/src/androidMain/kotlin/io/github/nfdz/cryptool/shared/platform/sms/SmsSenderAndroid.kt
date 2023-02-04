@@ -5,9 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import io.github.aakira.napier.Napier
+import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
+import io.github.nfdz.cryptool.shared.message.repository.MessageRepository
 import kotlin.random.Random
 
-class SmsSenderAndroid(private val context: Context) : SmsSender {
+class SmsSenderAndroid(
+    private val context: Context,
+    messageRepository: MessageRepository
+) : SmsSender {
 
     companion object {
         private const val tag = "SmsSender"
@@ -22,12 +27,19 @@ class SmsSenderAndroid(private val context: Context) : SmsSender {
             android.telephony.SmsManager.getDefault()
         }
 
-    override fun sendMessage(phone: String, value: String) {
-        Napier.d(tag = tag, message = "Send message to $phone: '$value'")
+    init {
+        messageRepository.addOnSendMessageAction { source, encryptedMessage ->
+            val smsSource = source as? MessageSource.Sms ?: return@addOnSendMessageAction
+            sendMessage(smsSource.phone, encryptedMessage)
+        }
+    }
+
+    override fun sendMessage(phone: String, encryptedMessage: String) {
+        Napier.d(tag = tag, message = "Send message to $phone: '$encryptedMessage'")
         smsManager.sendTextMessage(
             phone,
             null,
-            value,
+            encryptedMessage,
             createPendingIntent(smsSentAction),
             createPendingIntent(smsDeliveredAction)
         )

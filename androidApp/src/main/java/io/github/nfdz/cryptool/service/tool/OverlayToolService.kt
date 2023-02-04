@@ -4,11 +4,13 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.res.Configuration
 import android.view.View
 import android.view.WindowManager
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RadialGradientShader
 import androidx.compose.ui.graphics.Shader
 import androidx.compose.ui.graphics.ShaderBrush
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -122,15 +125,32 @@ class OverlayToolService : OverlayComposeViewServiceBase() {
                         router.navigateToOverlayBall()
                     }
             )
-            Box(
+            ResponsiveContainer(
                 modifier = Modifier
                     .align(Alignment.Center)
-                    .size(width = 300.dp, height = 400.dp)
                     .clip(RoundedCornerShape(10.dp))
             ) {
                 AppTheme {
                     ToolEntryPoint(router, navController)
                 }
+            }
+        }
+    }
+
+    @Composable
+    private fun ResponsiveContainer(modifier: Modifier, content: @Composable BoxScope.() -> Unit) {
+        when (LocalConfiguration.current.orientation) {
+            Configuration.ORIENTATION_LANDSCAPE -> {
+                Box(
+                    modifier = modifier.size(width = 400.dp, height = 300.dp),
+                    content = content,
+                )
+            }
+            else -> {
+                Box(
+                    modifier = modifier.size(width = 300.dp, height = 400.dp),
+                    content = content,
+                )
             }
         }
     }

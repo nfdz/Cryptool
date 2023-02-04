@@ -8,24 +8,21 @@ import io.github.nfdz.cryptool.shared.encryption.entity.serialize
 import io.github.nfdz.cryptool.shared.encryption.repository.realm.EncryptionRealm
 import io.github.nfdz.cryptool.shared.message.entity.MessageOwnership
 import io.github.nfdz.cryptool.shared.message.repository.realm.MessageRealm
-import io.github.nfdz.cryptool.shared.platform.file.FileMessageReceiverPreferences
-import io.github.nfdz.cryptool.shared.platform.sms.SmsReceiverPreferences
-import io.github.nfdz.cryptool.shared.platform.storage.KeyValueStorage
 import io.realm.kotlin.MutableRealm
 import io.realm.kotlin.Realm
 import io.realm.kotlin.UpdatePolicy
 import io.realm.kotlin.ext.query
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.transform
-import kotlinx.datetime.Clock
 
 class EncryptionRepositoryImpl(
     private val realmGateway: RealmGateway,
-    private val storage: KeyValueStorage,
 ) : EncryptionRepository {
 
     private val realm: Realm
         get() = realmGateway.instance
+
+    private val onSetSourceActions = mutableListOf<(MessageSource?) -> Unit>()
 
     override fun getAll(): List<Encryption> {
         return realm.query<EncryptionRealm>().find().map { it.toEntity() }
@@ -146,7 +143,7 @@ class EncryptionRepositoryImpl(
         realm.write {
             query<EncryptionRealm>("id == '${id}'").find().first().apply {
                 ensureExclusivity(source, serializedSource)
-                triggerOnSetSourceActions(source)
+                onSetSourceActions.forEach { it(source) }
                 this.source = serializedSource
             }
             if (source != null) {
@@ -172,21 +169,6 @@ class EncryptionRepositoryImpl(
         }
     }
 
-    private fun triggerOnSetSourceActions(source: MessageSource?) {
-        when (source) {
-            is MessageSource.Sms -> SmsReceiverPreferences.setLastReceivedTimestamp(
-                storage,
-                Clock.System.now().toEpochMilliseconds()
-            )
-            is MessageSource.File -> FileMessageReceiverPreferences.setLastReceivedTimestamp(
-                storage,
-                source,
-                Clock.System.now().toEpochMilliseconds()
-            )
-            else -> Unit
-        }
-    }
-
     override suspend fun acknowledgeUnreadMessages(id: String) {
         if (id.isBlank()) return
         realm.write {
@@ -194,6 +176,10 @@ class EncryptionRepositoryImpl(
                 this.unreadMessagesCount = 0
             }
         }
+    }
+
+    override fun addOnSetSourceAction(action: (MessageSource?) -> Unit) {
+        onSetSourceActions.add(action)
     }
 
     private fun String.hideSensitive(): String = '\u2022'.toString().repeat(this.length)
