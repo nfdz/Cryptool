@@ -7,7 +7,9 @@
 # Cryptool
 
 <p align="left">
-  [![Crowdin](https://badges.crowdin.net/cryptool/localized.svg)](https://crowdin.com/project/cryptool)
+  <a href="https://crowdin.com/project/cryptool">
+    <img src="https://badges.crowdin.net/cryptool/localized.svg" alt="Crowdin translation platform">
+  </a>
   <a href="https://github.com/nfdz/Cryptool/actions/workflows/ci.yml">
     <img alt="build and test status" src="https://github.com/nfdz/Cryptool/actions/workflows/ci.yml/badge.svg">
   </a>
