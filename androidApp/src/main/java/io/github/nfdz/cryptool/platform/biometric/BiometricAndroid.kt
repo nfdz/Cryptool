@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.security.crypto.MasterKey
 import io.github.aakira.napier.Napier
 import io.github.nfdz.cryptool.R
+import io.github.nfdz.cryptool.shared.extension.generateIV
 import io.github.nfdz.cryptool.shared.platform.biometric.Biometric
 import io.github.nfdz.cryptool.shared.platform.biometric.BiometricContext
 import io.github.nfdz.cryptool.shared.platform.cryptography.decodeBase64
@@ -19,6 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import java.security.KeyStore
+import java.security.SecureRandom
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
@@ -30,6 +32,7 @@ class BiometricAndroid : Biometric {
 
     companion object {
         private const val keystoreAlias = "cryptool_biometric_access_keystore"
+        private const val gcmTagLength = 128
     }
 
     override suspend fun setup(code: String, context: BiometricContext): String {
@@ -56,10 +59,10 @@ class BiometricAndroid : Biometric {
     private suspend fun encrypt(code: String, context: BiometricContext): String {
         promptAuthenticate(context, getPromptInfo(context))
 
-        val cipher = getCipher().apply {
-            init(Cipher.ENCRYPT_MODE, getSecretKey())
-        }
-        val gcmParams = cipher.parameters.getParameterSpec(GCMParameterSpec::class.java)
+        val cipher = getCipher()
+        val gcmParams = GCMParameterSpec(gcmTagLength, SecureRandom().generateIV(cipher.blockSize))
+        cipher.init(Cipher.ENCRYPT_MODE, getSecretKey(), gcmParams)
+
         val encryptedCode = cipher.doFinal(code.toByteArray()) ?: throw BiometricException("Cipher is not present")
         return join(
             encryptedCodeBase64 = encryptedCode.encodeBase64(),
@@ -108,7 +111,9 @@ class BiometricAndroid : Biometric {
 
     private fun getCipher(): Cipher {
         return Cipher.getInstance(
-            KeyProperties.KEY_ALGORITHM_AES + "/" + KeyProperties.BLOCK_MODE_GCM + "/" + KeyProperties.ENCRYPTION_PADDING_NONE
+            KeyProperties.KEY_ALGORITHM_AES + "/" +
+                    KeyProperties.BLOCK_MODE_GCM + "/" +
+                    KeyProperties.ENCRYPTION_PADDING_NONE
         )
     }
 

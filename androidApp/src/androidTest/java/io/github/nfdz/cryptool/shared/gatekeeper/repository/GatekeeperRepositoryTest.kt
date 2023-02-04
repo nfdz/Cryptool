@@ -5,11 +5,8 @@ import io.github.nfdz.cryptool.shared.gatekeeper.entity.LegacyMigrationData
 import io.github.nfdz.cryptool.shared.gatekeeper.entity.TutorialInformation
 import io.github.nfdz.cryptool.shared.platform.biometric.Biometric
 import io.github.nfdz.cryptool.shared.platform.biometric.FakeBiometric
-import io.github.nfdz.cryptool.shared.platform.file.FakeFileMessageReceiver
-import io.github.nfdz.cryptool.shared.platform.file.FileMessageReceiver
-import io.github.nfdz.cryptool.shared.platform.sms.FakeSmsReceiver
-import io.github.nfdz.cryptool.shared.platform.sms.SmsReceiver
 import io.github.nfdz.cryptool.shared.platform.storage.FakeKeyValueStorage
+import io.github.nfdz.cryptool.shared.platform.time.Clock
 import io.github.nfdz.cryptool.shared.platform.version.ChangelogProvider
 import io.github.nfdz.cryptool.shared.platform.version.FakeChangelogProvider
 import io.github.nfdz.cryptool.shared.platform.version.FakeVersionProvider
@@ -33,6 +30,9 @@ class GatekeeperRepositoryTest {
     private lateinit var realm: FakeRealmGateway
     private val keyValueStorage = FakeKeyValueStorage()
 
+    private var onOpenActionCount = 0
+    private var onResetAction = 0
+
     @Before
     fun beforeTest() {
         realm = FakeRealmGateway()
@@ -48,8 +48,6 @@ class GatekeeperRepositoryTest {
         changelogProvider: ChangelogProvider = FakeChangelogProvider(),
         legacyMigrationManager: LegacyMigrationManager = FakeLegacyMigrationManager(),
         versionProvider: VersionProvider = FakeVersionProvider(),
-        smsReceiver: SmsReceiver = FakeSmsReceiver(),
-        fileMessageReceiver: FileMessageReceiver = FakeFileMessageReceiver(),
     ): GatekeeperRepository {
         return GatekeeperRepositoryImpl(
             storage = keyValueStorage,
@@ -58,9 +56,14 @@ class GatekeeperRepositoryTest {
             realmGateway = realm,
             legacyMigrationManager = legacyMigrationManager,
             versionProvider = versionProvider,
-            smsReceiver = smsReceiver,
-            fileMessageReceiver = fileMessageReceiver,
-        )
+        ).also {
+            it.addOnOpenAction {
+                onOpenActionCount++
+            }
+            it.addOnResetAction {
+                onResetAction++
+            }
+        }
     }
 
     @Test
@@ -133,9 +136,7 @@ class GatekeeperRepositoryTest {
 
     @Test
     fun testSetNewCode() = runTest {
-        val smsReceiver = FakeSmsReceiver()
-        val fileMessageReceiver = FakeFileMessageReceiver()
-        val instance = createInstance(smsReceiver = smsReceiver, fileMessageReceiver = fileMessageReceiver)
+        val instance = createInstance()
 
         instance.setNewCode(code = code, biometricEnabled = false, null)
 
@@ -145,25 +146,23 @@ class GatekeeperRepositoryTest {
         assertEquals(false, (storedSalt as String).isEmpty())
         assertEquals(1, realm.openCount)
         assertEquals(false, realm.openArgKey!!.isEmpty())
-        assertEquals(1, smsReceiver.receivePendingMessageCount)
-        assertEquals(1, fileMessageReceiver.launchMessagesPollingCount)
+        assertEquals(1, onOpenActionCount)
+        assertEquals(0, onResetAction)
 
         assertEquals(true, instance.isOpen())
     }
 
     @Test
     fun testSetNewCodeTwice() = runTest {
-        val smsReceiver = FakeSmsReceiver()
-        val fileMessageReceiver = FakeFileMessageReceiver()
-        val instance = createInstance(smsReceiver = smsReceiver, fileMessageReceiver = fileMessageReceiver)
+        val instance = createInstance()
 
         instance.setNewCode(code = code, biometricEnabled = false, null)
         instance.setNewCode(code = code, biometricEnabled = false, null)
 
         assertEquals(2, realm.openCount)
         assertEquals(true, instance.isOpen())
-        assertEquals(1, smsReceiver.receivePendingMessageCount)
-        assertEquals(1, fileMessageReceiver.launchMessagesPollingCount)
+        assertEquals(1, onOpenActionCount)
+        assertEquals(0, onResetAction)
     }
 
     @Test
@@ -172,12 +171,8 @@ class GatekeeperRepositoryTest {
         val versionProvider = FakeVersionProvider(appVersionAnswer = version)
         val garbageKey = "garbageKey"
         keyValueStorage.map[garbageKey] = "abc"
-        val smsReceiver = FakeSmsReceiver()
-        val fileMessageReceiver = FakeFileMessageReceiver()
         val instance = createInstance(
             versionProvider = versionProvider,
-            smsReceiver = smsReceiver,
-            fileMessageReceiver = fileMessageReceiver,
         )
 
         instance.reset()
@@ -186,8 +181,8 @@ class GatekeeperRepositoryTest {
         assertEquals(1, realm.tearDownCount)
         assertEquals(1, versionProvider.storedVersionCount)
         assertEquals(version, versionProvider.storedVersionArgValue)
-        assertEquals(1, smsReceiver.afterResetCount)
-        assertEquals(1, fileMessageReceiver.afterResetCount)
+        assertEquals(0, onOpenActionCount)
+        assertEquals(1, onResetAction)
     }
 
     @Test
@@ -213,11 +208,11 @@ class GatekeeperRepositoryTest {
     fun testCheckAccessWhenExpired() = runTest {
         val instance = createInstance()
 
-        GatekeeperRepositoryImpl.nowInSecondsForTesting = 0
+        Clock.nowInMillisForTesting = 0
 
         instance.setNewCode(code = code, biometricEnabled = false, null)
 
-        GatekeeperRepositoryImpl.nowInSecondsForTesting = 301
+        Clock.nowInMillisForTesting = 301_000
 
         val anyChange = instance.checkAccessChange()
 
@@ -228,11 +223,11 @@ class GatekeeperRepositoryTest {
     fun testPushAccessValidity() = runTest {
         val instance = createInstance()
 
-        GatekeeperRepositoryImpl.nowInSecondsForTesting = 0
+        Clock.nowInMillisForTesting = 0
 
         instance.setNewCode(code = code, biometricEnabled = false, null)
 
-        GatekeeperRepositoryImpl.nowInSecondsForTesting = 1000
+        Clock.nowInMillisForTesting = 1_000_000
 
         instance.pushAccessValidity()
 
@@ -254,14 +249,9 @@ class GatekeeperRepositoryTest {
 
     @Test
     fun testValidateCodeWithValidCode() = runTest {
-        val smsReceiver = FakeSmsReceiver()
-        val fileMessageReceiver = FakeFileMessageReceiver()
         keyValueStorage.map[GatekeeperRepositoryImpl.codeKey] = encryptedCode
         keyValueStorage.map[GatekeeperRepositoryImpl.codeSaltKey] = saltBase64
-        val instance = createInstance(
-            smsReceiver = smsReceiver,
-            fileMessageReceiver = fileMessageReceiver,
-        )
+        val instance = createInstance()
 
         val result = instance.validateCode(code = code)
 
@@ -270,8 +260,8 @@ class GatekeeperRepositoryTest {
 
         assertEquals(true, result)
         assertEquals(true, instance.isOpen())
-        assertEquals(1, smsReceiver.receivePendingMessageCount)
-        assertEquals(1, fileMessageReceiver.launchMessagesPollingCount)
+        assertEquals(1, onOpenActionCount)
+        assertEquals(0, onResetAction)
     }
 
     @Test

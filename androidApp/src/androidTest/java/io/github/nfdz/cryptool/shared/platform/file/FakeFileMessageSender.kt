@@ -7,10 +7,10 @@ class FakeFileMessageSender(
     var sendMessageCount = 0
     var sendMessageArgPath: String? = null
     var sendMessageArgValue: String? = null
-    override fun sendMessage(outputFilePath: String, value: String) {
+    override fun sendMessage(outputFilePath: String, encryptedMessage: String) {
         sendMessageCount++
         sendMessageArgPath = outputFilePath
-        sendMessageArgValue = value
+        sendMessageArgValue = encryptedMessage
         sendMessageException?.let { throw it }
     }
 

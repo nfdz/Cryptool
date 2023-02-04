@@ -10,8 +10,10 @@ import io.github.nfdz.cryptool.shared.encryption.entity.Encryption
 import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
 import io.github.nfdz.cryptool.shared.encryption.repository.EncryptionRepository
 import io.github.nfdz.cryptool.shared.extension.hasPermission
+import io.github.nfdz.cryptool.shared.gatekeeper.repository.GatekeeperRepository
 import io.github.nfdz.cryptool.shared.message.repository.MessageRepository
 import io.github.nfdz.cryptool.shared.platform.storage.KeyValueStorage
+import io.github.nfdz.cryptool.shared.platform.time.Clock
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,6 +21,7 @@ import kotlinx.coroutines.launch
 class SmsReceiverAndroid(
     private val context: Context,
     private val encryptionRepository: EncryptionRepository,
+    gatekeeperRepository: GatekeeperRepository,
     private val messageRepository: MessageRepository,
     private val storage: KeyValueStorage,
 ) : SmsReceiver, CoroutineScope by CoroutineScope(Dispatchers.Default) {
@@ -34,6 +37,19 @@ class SmsReceiverAndroid(
 
     private val telephonyManager
         get() = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+
+    init {
+        gatekeeperRepository.addOnOpenAction(::receivePendingMessage)
+        gatekeeperRepository.addOnResetAction(::afterReset)
+        encryptionRepository.addOnSetSourceAction { source ->
+            if (source is MessageSource.Sms) {
+                SmsReceiverPreferences.setLastReceivedTimestamp(
+                    storage,
+                    Clock.nowInMillis()
+                )
+            }
+        }
+    }
 
     override fun receivePendingMessage() {
         if (!context.hasPermission(smsPermissions)) {
@@ -62,7 +78,7 @@ class SmsReceiverAndroid(
         }
     }
 
-    override fun afterReset() {
+    private fun afterReset() {
         SmsReceiverPreferences.setBaseline(storage)
     }
 

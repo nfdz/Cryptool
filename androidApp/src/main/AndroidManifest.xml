@@ -55,7 +55,7 @@
             android:name=".service.tool.OverlayToolService"
             android:exported="false" />
 
-        <!-- [SMS_FEATURE_FLAG] Comment this when gradle.properties/appSmsFeature is false -->
+        <!-- [SMS_FEATURE_FLAG] -->
         <receiver
             android:name=".platform.broadcast.SmsBroadcastReceiver"
             android:enabled="true"

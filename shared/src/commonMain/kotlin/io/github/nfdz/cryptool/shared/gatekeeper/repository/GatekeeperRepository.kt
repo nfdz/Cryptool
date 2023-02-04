@@ -21,4 +21,6 @@ interface GatekeeperRepository {
     suspend fun launchMigration()
     suspend fun encryptWithAccessCode(text: String): String?
     suspend fun decryptWithAccessCode(encryptedText: String): String?
+    fun addOnOpenAction(action: () -> Unit)
+    fun addOnResetAction(action: () -> Unit)
 }

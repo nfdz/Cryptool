@@ -10,8 +10,6 @@ import io.github.nfdz.cryptool.shared.encryption.repository.realm.EncryptionReal
 import io.github.nfdz.cryptool.shared.message.entity.Message
 import io.github.nfdz.cryptool.shared.message.entity.MessageOwnership
 import io.github.nfdz.cryptool.shared.message.repository.realm.MessageRealm
-import io.github.nfdz.cryptool.shared.platform.file.FileMessageSender
-import io.github.nfdz.cryptool.shared.platform.sms.SmsSender
 import io.github.nfdz.cryptool.shared.platform.storage.KeyValueStorage
 import io.realm.kotlin.Realm
 import io.realm.kotlin.UpdatePolicy
@@ -22,8 +20,6 @@ import kotlinx.coroutines.flow.transform
 class MessageRepositoryImpl(
     private val realmGateway: RealmGateway,
     private val storage: KeyValueStorage,
-    private val smsSender: SmsSender,
-    private val fileMessageSender: FileMessageSender,
 ) : MessageRepository {
     companion object {
         private const val tag = "MessageRepository"
@@ -33,6 +29,7 @@ class MessageRepositoryImpl(
 
     private val realm: Realm
         get() = realmGateway.instance
+    private val onSendMessageActions = mutableListOf<(source: MessageSource, encryptedMessage: String) -> Unit>()
 
     override fun getAll(): List<Message> {
         return realm.query<MessageRealm>().find().map {
@@ -132,11 +129,8 @@ class MessageRepositoryImpl(
         val encryptedMessage = cryptography.encrypt(password = encryptionEntry.password, text = message)
             ?: throw IllegalStateException("Cannot receive message")
         val encryption = realm.query<EncryptionRealm>("id == '${encryptionId}'").find().first()
-        when (val source = encryption.source.deserializeMessageSource()) {
-            is MessageSource.Sms -> smsSender.sendMessage(source.phone, encryptedMessage)
-            is MessageSource.File -> fileMessageSender.sendMessage(source.outputFilePath, encryptedMessage)
-            MessageSource.Manual -> Unit
-        }
+        val source = encryption.source.deserializeMessageSource()
+        onSendMessageActions.forEach { it(source, encryptedMessage) }
 
         return realm.write {
             val entry = copyToRealm(
@@ -183,6 +177,10 @@ class MessageRepositoryImpl(
 
     override suspend fun setVisibilityPreference(value: Boolean) {
         storage.putBoolean(visibilityKey, value)
+    }
+
+    override fun addOnSendMessageAction(action: (source: MessageSource, encryptedMessage: String) -> Unit) {
+        onSendMessageActions.add(action)
     }
 
 }

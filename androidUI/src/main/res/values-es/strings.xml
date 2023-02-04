@@ -11,6 +11,8 @@
     <string name="shortcut_description">Abrir Cryptool en modo superpuesto</string>
     <string name="unexpected_error">Error inesperado, por favor reporta cualquier problema que tengas</string>
     <string name="input_minimum_length">La longitud mínima es %1$d</string>
+    <string name="version_15_description">• Nuevas modos de conversación: Red de Área Local (LAN).
+                                       \n• Corregir problemas de estabilidad en algunas versiones de Android.</string>
     <string name="version_10_description">• Nueva interfaz de usuario moderna.
                                        \n• Nuevos algoritmos criptográficos soportados.
                                        \n• Nuevas modos de conversación: Manual, SMS y Archivo.
@@ -128,6 +130,7 @@
     <string name="encryption_receive_message_error">El mensaje no puede ser recibido, comprueba que la conversación sea la correcta, contraseña, algoritmo…</string>
     <string name="encryption_exclusive_source_error">El modo de comunicación configurado ya está siendo usado, y este modo no lo permite.</string>
     <string name="encryption_send_message_file_error">Hubo un problema al enviar el mensaje a través del archivo configurado, por favor vuelva a configurar el modo de comunicación.</string>
+    <string name="encryption_send_message_lan_error">Hubo un problema al enviar el mensaje a través de la red LAN, por favor vuelva a configurar el modo de comunicación.</string>
     <string name="encryption_send_message_hint">Tu mensaje</string>
     <string name="encryption_send_message_icon_description">Enviar</string>
     <string name="encryption_receive_message_hint">Mensaje de %1$s</string>
@@ -137,13 +140,23 @@
     <string name="encryption_message_copy_icon_description">Copiar</string>
     <string name="encryption_source_manual_title">Manual</string>
     <string name="encryption_source_manual_description">Eres responsable de entregar y recibir los mensajes de la comunicación.</string>
+    <string name="encryption_source_lan_title">LAN</string>
+    <string name="encryption_source_lan_description">Comunicación dentro de la Red de Área Local conectada. Es olvidado cuando la aplicación se detiene.</string>
     <string name="encryption_source_file_title">Archivo</string>
-    <string name="encryption_source_file_description">Utiliza dos archivos para la comunicación. Puedes sincronizar y compartir los archivos automáticamente con cualquier proveedor de forma segura. Por ejemplo, Google Drive, Dropbox, etc.</string>
+    <string name="encryption_source_file_description">Usa dos archivos para comunicarte. Puedes sincronizar automáticamente y compartir los archivos para comunicarte en tiempo real.</string>
     <string name="encryption_source_sms_not_available">No se puede ofrecer esta función debido a las restricciones de Google Play. Seleccione esta opción para saber más.</string>
     <string name="encryption_source_sms_title">SMS</string>
     <string name="encryption_source_sms_description">Utiliza tu proveedor de SMS. Esta opción podría tener un coste dependiendo del contrato con tu proveedor.</string>
     <string name="encryption_sms_sent_snackbar">El SMS ha sido enviado</string>
     <string name="encryption_sms_delivered_snackbar">El SMS ha sido entregado</string>
+    <string name="encryption_source_lan_dialog_title">Modo LAN</string>
+    <string name="encryption_source_lan_dialog_you_section">Tu dirección</string>
+    <string name="encryption_source_lan_dialog_you_port">%1$d (puerto)</string>
+    <string name="encryption_source_lan_dialog_you_slot">%1$d (vacante)</string>
+    <string name="encryption_source_lan_dialog_other_section">Dirección de destino</string>
+    <string name="encryption_source_lan_dialog_other_address">Dirección</string>
+    <string name="encryption_source_lan_dialog_other_port">Puerto</string>
+    <string name="encryption_source_lan_dialog_other_slot">Vacante</string>
     <string name="encryption_source_sms_dialog_title">Modo SMS</string>
     <string name="encryption_source_sms_dialog_phone">Número de teléfono</string>
     <string name="encryption_source_sms_dialog_set">Configurar</string>

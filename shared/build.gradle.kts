@@ -39,7 +39,6 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(libs.kotlin.coroutines)
-                implementation(libs.kotlin.datetime)
                 implementation(libs.kotlin.serialization.json)
                 implementation(libs.napier)
                 implementation(libs.realm)

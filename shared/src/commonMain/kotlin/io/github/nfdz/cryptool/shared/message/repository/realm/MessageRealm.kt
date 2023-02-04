@@ -3,9 +3,9 @@ package io.github.nfdz.cryptool.shared.message.repository.realm
 import io.github.nfdz.cryptool.shared.core.realm.RealmId
 import io.github.nfdz.cryptool.shared.message.entity.Message
 import io.github.nfdz.cryptool.shared.message.entity.MessageOwnership
+import io.github.nfdz.cryptool.shared.platform.time.Clock
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
-import kotlinx.datetime.Clock
 
 class MessageRealm : RealmObject {
     @PrimaryKey
@@ -28,7 +28,7 @@ class MessageRealm : RealmObject {
             new.encryptionId = encryptionId
             new.message = message
             new.encryptedMessage = encryptedMessage
-            new.timestampInMillis = Clock.System.now().toEpochMilliseconds()
+            new.timestampInMillis = Clock.nowInMillis()
             new.ownership = ownership.name
         }
     }

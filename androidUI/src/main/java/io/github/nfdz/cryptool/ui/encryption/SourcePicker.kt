@@ -1,8 +1,10 @@
 package io.github.nfdz.cryptool.ui.encryption
 
+import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lan
 import androidx.compose.material.icons.filled.Message
 import androidx.compose.material.icons.filled.Task
 import androidx.compose.material.icons.filled.TouchApp
@@ -14,11 +16,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.nfdz.cryptool.shared.core.constant.AppUrl
 import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
+import io.github.nfdz.cryptool.shared.platform.network.LanDiscoveryAndroid
 import io.github.nfdz.cryptool.ui.*
 import io.github.nfdz.cryptool.ui.R
 
@@ -50,49 +54,75 @@ fun SourcePicker(modifier: Modifier = Modifier, router: Router, onPick: (Message
             }
         }
     }
-
-    val sources = listOf(
-        SourceOptionEntry(
+    var showLanDialog by remember { mutableStateOf(false) }
+    if (showLanDialog) {
+        LanSourceDialog { source ->
+            showLanDialog = false
+            if (source != null) {
+                onPick(source)
+            }
+        }
+    }
+    LanSourceEffect()
+    val sources = mutableListOf<SourceOptionEntry>().apply {
+        add(SourceOptionEntry(
             title = stringResource(R.string.encryption_source_manual_title),
             description = stringResource(R.string.encryption_source_manual_description),
             icon = Icons.Filled.TouchApp,
         ) {
             onPick(MessageSource.Manual)
-        },
-        SourceOptionEntry(
-            title = stringResource(R.string.encryption_source_file_title),
-            description = stringResource(R.string.encryption_source_file_description),
-            icon = Icons.Filled.Task,
-        ) {
-            showFileDialog = true
-        },
-        SourceOptionEntry(
+        })
+        if (LanDiscoveryAndroid.supported) {
+            add(SourceOptionEntry(
+                title = stringResource(R.string.encryption_source_lan_title),
+                description = stringResource(R.string.encryption_source_lan_description),
+                icon = Icons.Filled.Lan,
+                disabled = router.supportAdvancedFeatures().not()
+            ) {
+                if (router.supportAdvancedFeatures().not()) return@SourceOptionEntry
+                showLanDialog = true
+            })
+        }
+        add(
+            SourceOptionEntry(
+                title = stringResource(R.string.encryption_source_file_title),
+                description = stringResource(R.string.encryption_source_file_description),
+                icon = Icons.Filled.Task,
+                disabled = router.supportAdvancedFeatures().not()
+            ) {
+                if (router.supportAdvancedFeatures().not()) return@SourceOptionEntry
+                showFileDialog = true
+            }
+        )
+        add(SourceOptionEntry(
             title = stringResource(R.string.encryption_source_sms_title),
             description = stringResource(R.string.encryption_source_sms_description),
             icon = Icons.Filled.Message,
-            disabled = BuildConfig.SMS_FEATURE.not(),
+            disabled = router.supportAdvancedFeatures().not() || BuildConfig.SMS_FEATURE.not(),
             disabledReason = if (BuildConfig.SMS_FEATURE.not()) stringResource(R.string.encryption_source_sms_not_available) else null
         ) {
             if (BuildConfig.SMS_FEATURE) {
+                if (router.supportAdvancedFeatures().not()) return@SourceOptionEntry
                 showSmsDialog = true
             } else {
                 router.navigateToUrl(AppUrl.googlePlayLimitation)
             }
-        },
-    )
-    BoxWithConstraints(modifier = modifier, contentAlignment = Alignment.Center) {
-        if (maxWidth < 600.dp) {
-            SourcePickerColumn(sources)
-        } else {
-            SourcePickerGrid(sources)
+        })
+    }
+    when (LocalConfiguration.current.orientation) {
+        Configuration.ORIENTATION_LANDSCAPE -> {
+            SourcePickerGrid(modifier, sources)
+        }
+        else -> {
+            SourcePickerColumn(modifier, sources)
         }
     }
 }
 
 @Composable
-private fun SourcePickerColumn(sources: List<SourceOptionEntry>) {
+private fun SourcePickerColumn(modifier: Modifier, sources: List<SourceOptionEntry>) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -106,13 +136,13 @@ private fun SourcePickerColumn(sources: List<SourceOptionEntry>) {
 }
 
 @Composable
-private fun SourcePickerGrid(sources: List<SourceOptionEntry>) {
+private fun SourcePickerGrid(modifier: Modifier, sources: List<SourceOptionEntry>) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        val sourcesRows = sources.chunked(3)
+        val sourcesRows = sources.chunked(2)
         sourcesRows.forEach { row ->
             Row(
                 modifier = Modifier
@@ -160,7 +190,9 @@ private fun SourceOption(
                 Text(
                     entry.description,
                     style = MaterialTheme.typography.labelMedium,
-                    modifier = Modifier.widthIn(max = 220.dp),
+                    modifier = Modifier
+                        .widthIn(max = 220.dp)
+                        .disabledAlpha(entry.disabled),
                 )
             } else {
                 Text(
