@@ -141,7 +141,7 @@
     <string name="encryption_source_manual_title">Manual</string>
     <string name="encryption_source_manual_description">Eres responsable de entregar y recibir los mensajes de la comunicación.</string>
     <string name="encryption_source_lan_title">LAN</string>
-    <string name="encryption_source_lan_description">Comunicación dentro de la Red de Área Local conectada.</string>
+    <string name="encryption_source_lan_description">Comunicación dentro de la Red de Área Local conectada. Es olvidado cuando la aplicación se detiene.</string>
     <string name="encryption_source_file_title">Archivo</string>
     <string name="encryption_source_file_description">Usa dos archivos para comunicarte. Puedes sincronizar automáticamente y compartir los archivos para comunicarte en tiempo real.</string>
     <string name="encryption_source_sms_not_available">No se puede ofrecer esta función debido a las restricciones de Google Play. Seleccione esta opción para saber más.</string>

@@ -140,7 +140,7 @@
     <string name="encryption_source_manual_title">Manuell</string>
     <string name="encryption_source_manual_description">Behandeln Sie den Input und Output der Kommunikation selbst.</string>
     <string name="encryption_source_lan_title">LAN</string>
-    <string name="encryption_source_lan_description">Kommunikation innerhalb des angeschlossenen Local Area Network.</string>
+    <string name="encryption_source_lan_description">Kommunikation innerhalb des angeschlossenen Local Area Network. Es wird vergessen, wenn die App stoppt</string>
     <string name="encryption_source_file_title">Datei</string>
     <string name="encryption_source_file_description">Verwenden Sie zwei Dateien für die Kommunikation. Sie können die Dateien für die Echtzeitkommunikation automatisch synchronisieren und freigeben.</string>
     <string name="encryption_source_sms_not_available">Diese Funktion kann aufgrund von Google Play-Einschränkungen nicht angeboten werden. Wählen Sie diese Option, um mehr zu erfahren.</string>
