@@ -74,6 +74,13 @@ class OverlayBallService : OverlayViewServiceBase() {
         AppActivity.close(this)
     }
 
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if (startId > 1) {
+            AppActivity.close(this)
+        }
+        return super.onStartCommand(intent, flags, startId)
+    }
+
     override fun onDestroy() {
         unregisterReceiver(closeReceiver)
         super.onDestroy()

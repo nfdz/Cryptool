@@ -27,4 +27,7 @@ object FakeLocalizedError : LocalizedError {
 
     override val messageSendLanError: String
         get() = "message-send-lan-error"
+
+    override val messageReceiveLanError: String
+        get() = "messageR=-receive-lan-error"
 }

@@ -88,7 +88,7 @@ class CryptoolApp : Application() {
         single<LocalizedError> { LocalizedErrorAndroid(applicationContext) }
 
         // Sender + Receivers
-        single<LanReceiver>(createdAtStart = true) { LanReceiverAndroid(get(), get(), get(), get()) }
+        single<LanReceiver>(createdAtStart = true) { LanReceiverAndroid(get(), get(), get(), get(), get(), get()) }
         single<LanSender>(createdAtStart = true) { LanSenderAndroid(get()) }
         single<LanDiscovery> { LanDiscoveryAndroid(applicationContext) }
         single<FileMessageSender>(createdAtStart = true) { FileMessageSenderAndroid(applicationContext, get()) }

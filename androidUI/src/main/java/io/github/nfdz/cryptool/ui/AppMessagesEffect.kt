@@ -1,9 +1,11 @@
 package io.github.nfdz.cryptool.ui
 
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.platform.LocalContext
 import io.github.nfdz.cryptool.shared.gatekeeper.viewModel.GatekeeperEffect
 import io.github.nfdz.cryptool.shared.gatekeeper.viewModel.GatekeeperViewModel
 import io.github.nfdz.cryptool.shared.message.viewModel.MessageEffect
@@ -22,11 +24,23 @@ private fun MessageSideEffect(
     snackbar: SnackbarHostState,
     messageViewModel: MessageViewModel = GlobalContext.get().get()
 ) {
+    val context = LocalContext.current
     val effect = messageViewModel.observeSideEffect().collectAsState(null).value ?: return
     LaunchedEffect(effect) {
         when (effect) {
             is MessageEffect.Event -> snackbar.showSnackbarAsync(effect.message)
-            is MessageEffect.Error -> snackbar.showSnackbarAsync(effect.message)
+            is MessageEffect.Error -> {
+                val retryAction = effect.retry
+                if (retryAction != null) {
+                    val result =
+                        snackbar.showSnackbar(effect.message, actionLabel = context.getString(R.string.snackbar_retry))
+                    if (result == SnackbarResult.ActionPerformed) {
+                        messageViewModel.dispatch(retryAction)
+                    }
+                } else {
+                    snackbar.showSnackbarAsync(effect.message)
+                }
+            }
             else -> Unit
         }
     }

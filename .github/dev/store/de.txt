@@ -9,8 +9,9 @@ Haupteigenschaften:
 - Mehrere Verschlüsselungskonfigurationen als Gespräche.
 - Mehrere Nachrichtenquellen.
    - Handbuch. Behandeln Sie den Input und Output der Kommunikation selbst.
+   - LAN. Kommunikation innerhalb des angeschlossenen Local Area Network. Es wird vergessen, wenn die App stoppt.
+   - Datei. Verwenden Sie zwei Dateien für die Kommunikation. Sie können die Dateien für die Echtzeitkommunikation automatisch synchronisieren und freigeben.
    - SMS. Verwenden Sie Ihren SMS-Anbieter. Diese Option kann je nach Vertrag mit Ihrem Anbieter Kosten verursacht haben.
-   - Datei. Verwenden Sie zwei Dateien für die Kommunikation. Sie können die Dateien auf sichere Weise automatisch mit jedem Anbieter synchronisieren und freigeben. Zum Beispiel Google Drive, Dropbox und so weiter.
 - Schlüsselspeicher.
 - Mehrere Algorithmen und Verschlüsselungskonfigurationen.
 - Interoperable Verschlüsselung.

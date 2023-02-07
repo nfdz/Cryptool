@@ -6,6 +6,9 @@ import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
 import io.github.nfdz.cryptool.shared.encryption.repository.EncryptionRepository
 import io.github.nfdz.cryptool.shared.gatekeeper.repository.GatekeeperRepository
 import io.github.nfdz.cryptool.shared.message.repository.MessageRepository
+import io.github.nfdz.cryptool.shared.message.viewModel.MessageAction
+import io.github.nfdz.cryptool.shared.message.viewModel.MessageViewModel
+import io.github.nfdz.cryptool.shared.platform.localization.LocalizedError
 import io.github.nfdz.cryptool.shared.platform.storage.KeyValueStorage
 import io.github.nfdz.cryptool.shared.platform.time.Clock
 import kotlinx.coroutines.*
@@ -15,6 +18,8 @@ import java.net.SocketTimeoutException
 import kotlin.random.Random
 
 class LanReceiverAndroid(
+    private val localizedError: LocalizedError,
+    private val messageViewModel: MessageViewModel,
     private val encryptionRepository: EncryptionRepository,
     private val gatekeeperRepository: GatekeeperRepository,
     private val messageRepository: MessageRepository,
@@ -41,28 +46,19 @@ class LanReceiverAndroid(
 
     private fun ensureServerIsUp() {
         serverJob?.cancel()
-
         serverJob = launch {
             val jobId = serverJob?.hashCode().toString()
             Napier.d(tag = tag, message = "[$jobId] Launch server")
-            while (true) {
-                if (gatekeeperRepository.isOpen()) {
-                    setupServer()
-                    if (!isServerNeeded()) {
-                        Napier.d(tag = tag, message = "LAN server is not needed anymore (no sources)")
-                        serverJob?.cancel()
-                    }
-                } else {
-                    Napier.d(tag = tag, message = "LAN server is not needed anymore (close)")
-                    serverJob?.cancel()
-                }
-            }
+            do {
+                setupServer()
+            } while (isServerNeeded())
+            Napier.d(tag = tag, message = "LAN server is not needed anymore")
         }
     }
 
-    private fun isServerNeeded(): Boolean {
-        return encryptionRepository.getAllWith(MessageSource.lanPrefix).isNotEmpty()
-    }
+    private fun isServerNeeded(): Boolean = runCatching {
+        encryptionRepository.getAllWith(MessageSource.lanPrefix).isNotEmpty()
+    }.getOrElse { false }
 
     private suspend fun setupServer() = runCatching {
         ServerSocket(getPort()).use { serverSocket ->
@@ -104,6 +100,7 @@ class LanReceiverAndroid(
         )
     }.onFailure {
         Napier.e(tag = tag, message = "Cannot process incoming text", throwable = it)
+        messageViewModel.dispatch(MessageAction.Event(localizedError.messageReceiveLanError))
     }
 
     private fun findEncryption(slot: String): Encryption {

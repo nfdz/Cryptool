@@ -373,7 +373,7 @@ private fun SelectModeTopBar(viewModel: MessageViewModel, router: Router, state:
         title = {
             Text(
                 state.selectedMessageIds.size.toString(),
-                style = MaterialTheme.typography.headlineMedium,
+                style = MaterialTheme.typography.topAppBar,
             )
         },
         navigationIcon = {

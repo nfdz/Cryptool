@@ -4,12 +4,15 @@
     <string name="dialog_create">Erstellen</string>
     <string name="dialog_edit">Editieren</string>
     <string name="dialog_cancel">Abbrechen</string>
+    <string name="snackbar_retry">Wiederholen</string>
     <string name="select_all">Alles auswählen</string>
     <string name="unselect_all">Alle abwählen</string>
     <string name="more_options_icon_description">Mehr Optionen</string>
     <string name="shortcut_title">Cryptool Overlay</string>
     <string name="shortcut_description">Öffne Cryptool im Overlay-Modus</string>
     <string name="unexpected_error">Unerwarteter Fehler, bitte melden Sie das Problem falls vorhanden</string>
+    <string name="service_permission_error">Der Overlay-Modus kann nicht gestartet werden, da er keine Berechtigung hat</string>
+    <string name="service_unexpected_error">Beim Öffnen des Overlay-Modus ist ein Fehler aufgetreten, bitte melden Sie den Fehler</string>
     <string name="input_minimum_length">Mindestlänge beträgt %1$d</string>
     <string name="version_15_description">• Neue Nachrichtenquelle: Local Area Network (LAN).
                                        \n• Stabilitätsprobleme bei einigen Android-Versionen beheben.</string>
@@ -126,10 +129,11 @@
     <string name="encryption_unset_favorites_icon_description">Nachrichten als keine Favoriten festlegen</string>
     <string name="encryption_delete_messages_icon_description">Nachrichten löschen</string>
     <string name="encryption_message_favorite_icon_description">Diese Nachricht ist Favorit</string>
-    <string name="encryption_receive_message_error">Die Nachricht kann nicht empfangen werden, überprüfen Sie, ob die Unterhaltung das richtige ist, Passwort, Algorithmus…</string>
+    <string name="encryption_receive_message_error">Die Nachricht kann nicht empfangen werden, überprüfen Sie das Passwort, den Algorithmus…</string>
     <string name="encryption_exclusive_source_error">Die konfigurierte Quelle steht in Konflikt mit einer anderen Verschlüsselung, und diese Quelle lässt sie nicht zu.</string>
-    <string name="encryption_send_message_file_error">Es gibt ein Problem beim Senden der Nachricht durch die konfigurierte Datei, bitte setzen Sie die Nachrichtenquelle erneut.</string>
-    <string name="encryption_send_message_lan_error">Beim Senden der Nachricht über das LAN-Netzwerk ist ein Problem aufgetreten, bitte stellen Sie die Nachrichtenquelle erneut ein.</string>
+    <string name="encryption_send_message_file_error">Die Nachricht konnte nicht über die konfigurierte Datei gesendet werden.</string>
+    <string name="encryption_send_message_lan_error">Die Nachricht konnte nicht über das LAN-Netzwerk gesendet werden.</string>
+    <string name="encryption_receive_message_lan_error">Nachricht von \'%1$s\' wurde empfangen, kann aber nicht verarbeitet werden, überprüfen Sie das Passwort, den Algorithmus…</string>
     <string name="encryption_send_message_hint">Ihre Nachricht</string>
     <string name="encryption_send_message_icon_description">Absenden</string>
     <string name="encryption_receive_message_hint">%1$sNachricht</string>
@@ -156,6 +160,10 @@
     <string name="encryption_source_lan_dialog_other_address">Adresse</string>
     <string name="encryption_source_lan_dialog_other_port">Port</string>
     <string name="encryption_source_lan_dialog_other_slot">Slot</string>
+    <string name="encryption_source_lan_dialog_qr_mode">QR-Modus</string>
+    <string name="encryption_source_lan_dialog_manual_mode">Manueller Modus</string>
+    <string name="encryption_source_lan_dialog_qr_scan">QR scannen</string>
+    <string name="encryption_source_lan_dialog_qr_scan_error">Im Bild wurde kein QR mit gültiger Konfiguration gefunden</string>
     <string name="encryption_source_sms_dialog_title">SMS-Quelle</string>
     <string name="encryption_source_sms_dialog_phone">Telefonnummer</string>
     <string name="encryption_source_sms_dialog_set">Einstellen</string>

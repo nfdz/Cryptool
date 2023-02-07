@@ -84,6 +84,7 @@ class GatekeeperRepositoryImpl(
         return if (elapsedTime > accessValidityPeriodInSeconds) {
             Napier.d(tag = "GatekeeperRepository", message = "Access is no longer valid")
             activeCode = null
+            realmGateway.close()
             true
         } else {
             false

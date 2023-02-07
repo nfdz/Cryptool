@@ -33,4 +33,7 @@ class LocalizedErrorAndroid(private val context: Context) : LocalizedError {
     override val messageSendLanError: String
         get() = context.getString(R.string.encryption_send_message_lan_error)
 
+    override val messageReceiveLanError: String
+        get() = context.getString(R.string.encryption_receive_message_lan_error)
+
 }

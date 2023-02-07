@@ -19,7 +19,7 @@ class LanSourceDialogScreenshotTest {
 
     @ScreenshotInstrumentation
     @Test
-    fun light() {
+    fun lightManual() {
         rule.setCompose {
             TestEntry(colorScheme = LightColorScheme) {
                 LanSourceDialogContent(networkAddresses, serverPort, serverSlot) {}
@@ -29,7 +29,7 @@ class LanSourceDialogScreenshotTest {
 
     @ScreenshotInstrumentation
     @Test
-    fun dark() {
+    fun darkManual() {
         rule.setCompose {
             TestEntry(colorScheme = DarkColorScheme) {
                 LanSourceDialogContent(networkAddresses, serverPort, serverSlot) {}

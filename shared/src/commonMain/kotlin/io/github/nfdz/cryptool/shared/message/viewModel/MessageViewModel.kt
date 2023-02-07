@@ -47,7 +47,7 @@ sealed class MessageEffect : Effect {
     object RemovedMessage : MessageEffect()
     object SetFavorite : MessageEffect()
     object UnsetFavorite : MessageEffect()
-    class Error(val message: String) : MessageEffect()
+    class Error(val message: String, val retry: MessageAction? = null) : MessageEffect()
     class Event(val message: String) : MessageEffect()
 }
 

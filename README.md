@@ -28,8 +28,9 @@ This is a non-profit open source solution and we are not interested in your data
 - Multiple encryption configurations as conversations.
 - Multiple message sources.
   - Manual. Handle the input and output of the communication yourself.
+  - LAN. Communication within the connected Local Area Network. It is forgotten when the app stops.
+  - File. Use two files for communication. You can auto-sync and share the files for real time communication.
   - SMS. Use your SMS provider. This option could have cost depending the contract with your provider.
-  - File. Use two files for communication. You can sync and share the files automatically with any provider in a safe way. For example Google Drive, Dropbox, and so on.
 - Keystore.
 - Multiple algorithms and encryption configurations.
 - Interoperable encryption.

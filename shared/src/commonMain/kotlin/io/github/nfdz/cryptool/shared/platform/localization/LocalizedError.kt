@@ -10,4 +10,5 @@ interface LocalizedError {
     val exclusiveSourceCollision: String
     val messageSendFileError: String
     val messageSendLanError: String
+    val messageReceiveLanError: String
 }

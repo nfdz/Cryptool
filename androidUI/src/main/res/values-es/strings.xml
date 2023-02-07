@@ -4,12 +4,15 @@
     <string name="dialog_create">Crear</string>
     <string name="dialog_edit">Editar</string>
     <string name="dialog_cancel">Cancelar</string>
+    <string name="snackbar_retry">Reintentar</string>
     <string name="select_all">Seleccionar todo</string>
     <string name="unselect_all">Deshacer selección</string>
     <string name="more_options_icon_description">Más opciones</string>
     <string name="shortcut_title">Cryptool Superpuesto</string>
     <string name="shortcut_description">Abrir Cryptool en modo superpuesto</string>
     <string name="unexpected_error">Error inesperado, por favor reporta cualquier problema que tengas</string>
+    <string name="service_permission_error">El modo superpuesto no se puede iniciar porque no tiene permiso</string>
+    <string name="service_unexpected_error">Hubo un error al abrir el modo superpuesto, por favor reporte el error</string>
     <string name="input_minimum_length">La longitud mínima es %1$d</string>
     <string name="version_15_description">• Nuevas modos de conversación: Red de Área Local (LAN).
                                        \n• Corregir problemas de estabilidad en algunas versiones de Android.</string>
@@ -127,10 +130,11 @@
     <string name="encryption_unset_favorites_icon_description">Definir mensajes como no favoritos</string>
     <string name="encryption_delete_messages_icon_description">Borrar mensajes</string>
     <string name="encryption_message_favorite_icon_description">Este mensaje es favorito</string>
-    <string name="encryption_receive_message_error">El mensaje no puede ser recibido, comprueba que la conversación sea la correcta, contraseña, algoritmo…</string>
+    <string name="encryption_receive_message_error">El mensaje no puede ser recibido, compruebe la contraseña, el algoritmo…</string>
     <string name="encryption_exclusive_source_error">El modo de comunicación configurado ya está siendo usado, y este modo no lo permite.</string>
-    <string name="encryption_send_message_file_error">Hubo un problema al enviar el mensaje a través del archivo configurado, por favor vuelva a configurar el modo de comunicación.</string>
-    <string name="encryption_send_message_lan_error">Hubo un problema al enviar el mensaje a través de la red LAN, por favor vuelva a configurar el modo de comunicación.</string>
+    <string name="encryption_send_message_file_error">No fue posible enviar el mensaje a través del archivo configurado.</string>
+    <string name="encryption_send_message_lan_error">No fue posible enviar el mensaje a través de la red LAN.</string>
+    <string name="encryption_receive_message_lan_error">El mensaje de \'%1$s\' ha sido recibido pero no puede ser procesado, compruebe la contraseña, algoritmo…</string>
     <string name="encryption_send_message_hint">Tu mensaje</string>
     <string name="encryption_send_message_icon_description">Enviar</string>
     <string name="encryption_receive_message_hint">Mensaje de %1$s</string>
@@ -157,6 +161,10 @@
     <string name="encryption_source_lan_dialog_other_address">Dirección</string>
     <string name="encryption_source_lan_dialog_other_port">Puerto</string>
     <string name="encryption_source_lan_dialog_other_slot">Vacante</string>
+    <string name="encryption_source_lan_dialog_qr_mode">Modo QR</string>
+    <string name="encryption_source_lan_dialog_manual_mode">Modo manual</string>
+    <string name="encryption_source_lan_dialog_qr_scan">Escanear QR</string>
+    <string name="encryption_source_lan_dialog_qr_scan_error">No se ha encontrado ningún QR con configuración válida en la imagen</string>
     <string name="encryption_source_sms_dialog_title">Modo SMS</string>
     <string name="encryption_source_sms_dialog_phone">Número de teléfono</string>
     <string name="encryption_source_sms_dialog_set">Configurar</string>
