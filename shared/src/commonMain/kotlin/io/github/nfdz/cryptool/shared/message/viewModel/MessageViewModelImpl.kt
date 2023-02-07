@@ -39,7 +39,7 @@ class MessageViewModelImpl(
                 is MessageAction.AcknowledgeUnreadMessages -> acknowledgeUnreadMessages(action.encryptionId)
                 is MessageAction.SetSource -> setSource(action.source)
                 is MessageAction.ReceiveMessage -> receiveMessage(action.encryptedMessage)
-                is MessageAction.SendMessage -> sendMessage(action.message)
+                is MessageAction.SendMessage -> sendMessage(action)
                 is MessageAction.Remove -> removeMessage(action.messageIds)
                 is MessageAction.Select -> selectMessage(previousState, action.messageId)
                 is MessageAction.Unselect -> unselectMessage(previousState, action.messageId)
@@ -118,14 +118,14 @@ class MessageViewModelImpl(
         }
     }
 
-    private suspend fun sendMessage(message: String) {
+    private suspend fun sendMessage(action: MessageAction.SendMessage) {
         try {
-            messageRepository.sendMessage(encryptionId = activeEncryption.id, message = message)
+            messageRepository.sendMessage(encryptionId = activeEncryption.id, message = action.message)
             emitSideEffect(MessageEffect.SentMessage)
         } catch (exception: FileMessageSendException) {
-            emitSideEffect(MessageEffect.Error(localizedError.messageSendFileError))
+            emitSideEffect(MessageEffect.Error(localizedError.messageSendFileError, retry = action))
         } catch (exception: LanSendException) {
-            emitSideEffect(MessageEffect.Error(localizedError.messageSendLanError))
+            emitSideEffect(MessageEffect.Error(localizedError.messageSendLanError, retry = action))
         }
     }
 

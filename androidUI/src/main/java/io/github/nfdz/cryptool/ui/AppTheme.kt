@@ -61,9 +61,9 @@ private val Nunito = FontFamily(
 
 private val CustomTypography = Typography().let {
     it.copy(
-        headlineLarge = it.headlineLarge.copy(fontFamily = Nunito, fontSize = 30.sp),
-        headlineMedium = it.headlineMedium.copy(fontFamily = Nunito, fontSize = 22.sp),
-        headlineSmall = it.headlineSmall.copy(fontFamily = Nunito, fontSize = 14.sp),
+        headlineLarge = it.headlineLarge.copy(fontFamily = Nunito, fontSize = 30.sp, lineHeight = 38.0.sp),
+        headlineMedium = it.headlineMedium.copy(fontFamily = Nunito, fontSize = 22.sp, lineHeight = 30.0.sp),
+        headlineSmall = it.headlineSmall.copy(fontFamily = Nunito, fontSize = 14.sp, lineHeight = 22.0.sp),
         titleLarge = it.titleLarge.copy(fontSize = 18.sp, fontWeight = FontWeight.SemiBold),
         titleMedium = it.titleMedium.copy(fontSize = 15.sp, fontWeight = FontWeight.SemiBold),
         titleSmall = it.titleSmall.copy(fontSize = 12.5.sp, fontWeight = FontWeight.SemiBold),
@@ -75,9 +75,9 @@ private val CustomTypography = Typography().let {
         labelSmall = it.labelSmall.copy(fontSize = 8.sp),
     )
 }
-//
-//val Typography.bodyTiny
-//    get() = body1.copy(fontSize = 8.sp)
+
+val Typography.topAppBar
+    get() = headlineMedium.copy(lineHeight = 22.sp)
 
 @Composable
 fun AppTheme(

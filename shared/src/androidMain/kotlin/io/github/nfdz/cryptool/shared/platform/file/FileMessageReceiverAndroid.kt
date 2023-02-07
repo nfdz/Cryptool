@@ -19,7 +19,7 @@ import java.io.FileOutputStream
 class FileMessageReceiverAndroid(
     private val context: Context,
     private val encryptionRepository: EncryptionRepository,
-    private val gatekeeperRepository: GatekeeperRepository,
+    gatekeeperRepository: GatekeeperRepository,
     private val messageRepository: MessageRepository,
     private val storage: KeyValueStorage,
 ) : FileMessageReceiver, CoroutineScope by CoroutineScope(Dispatchers.Default) {
@@ -27,7 +27,7 @@ class FileMessageReceiverAndroid(
     companion object {
         private const val tag = "FileMessageReceiver"
         private const val pollingPeriodInMillis = 30_000L
-        private const val maxAmountOfEntriesPerFile = 10
+        private const val maxAmountOfEntriesPerFile = 15
     }
 
     private val contentResolver: ContentResolver
@@ -36,10 +36,15 @@ class FileMessageReceiverAndroid(
     private var pullFilesJob: Job? = null
 
     init {
-        gatekeeperRepository.addOnOpenAction(::launchMessagesPolling)
+        gatekeeperRepository.addOnOpenAction {
+            if (isPollingNeeded()) {
+                ensurePolling()
+            }
+        }
         gatekeeperRepository.addOnResetAction(::afterReset)
         encryptionRepository.addOnSetSourceAction { source ->
             if (source is MessageSource.File) {
+                ensurePolling()
                 FileMessageReceiverPreferences.setLastReceivedTimestamp(
                     storage,
                     source,
@@ -49,17 +54,17 @@ class FileMessageReceiverAndroid(
         }
     }
 
-    private fun launchMessagesPolling() {
+    private fun ensurePolling() {
         pullFilesJob?.cancel()
         pullFilesJob = launch {
             val jobId = pullFilesJob?.hashCode().toString()
-            while (true) {
-                if (gatekeeperRepository.isOpen()) {
-                    Napier.d(tag = tag, message = "[$jobId] Polling file messages...")
-                    fetchMessages()
-                }
+            Napier.d(tag = tag, message = "[$jobId] Launch file messages polling")
+            do {
+                Napier.d(tag = tag, message = "[$jobId] Polling file messages...")
+                fetchMessages()
                 delay(pollingPeriodInMillis)
-            }
+            } while (isPollingNeeded())
+            Napier.d(tag = tag, message = "File messages polling is not needed anymore")
         }
     }
 
@@ -93,6 +98,10 @@ class FileMessageReceiverAndroid(
             }
         }
     }
+
+    private fun isPollingNeeded(): Boolean = runCatching {
+        return encryptionRepository.getAllWith(MessageSource.filePrefix).isNotEmpty()
+    }.getOrElse { false }
 
     private fun getMessagesFor(encryption: Encryption): List<MessageToReceive> {
         Napier.d(tag = tag, message = "Getting messages from '${encryption.name}'")

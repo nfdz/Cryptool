@@ -30,6 +30,11 @@ class FakeRealmGateway() : RealmGateway {
         openArgKey = key
     }
 
+    var closeCount = 0
+    override fun close() {
+        closeCount++
+    }
+
     var executeOnOpenCount = 0
     var executeOnOpenArg: suspend (Realm) -> Unit = {}
     override fun executeOnOpen(callback: suspend (Realm) -> Unit) {

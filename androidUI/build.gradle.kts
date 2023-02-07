@@ -69,6 +69,7 @@ dependencies {
     implementation(libs.koin)
     implementation(libs.koin.android)
     implementation(libs.napier)
+    implementation(libs.zxing)
 
     testImplementation(libs.bundles.android.test.unit)
     androidTestImplementation(libs.bundles.android.test.instrumentation)

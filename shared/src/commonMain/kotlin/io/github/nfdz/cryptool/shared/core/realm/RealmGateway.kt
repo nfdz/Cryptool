@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 
 interface RealmGateway {
     fun open(key: ByteArray)
+    fun close()
     fun tearDown()
     val instance: Realm
     fun executeOnOpen(callback: suspend (Realm) -> Unit)
@@ -35,10 +36,11 @@ class RealmGatewayImpl : RealmGateway {
         private const val name = "cryptool.realm"
     }
 
-    private var onOpenCallback: suspend (Realm) -> Unit = {
+    private val defaultOnOpenCallback: suspend (Realm) -> Unit = {
         purgeInvalidLanSources(it)
         purgeOrphanMessages(it)
     }
+    private var onOpenCallback = defaultOnOpenCallback
     private var _instance: Realm? = null
     override val instance: Realm
         get() = _instance ?: throw IllegalStateException("Realm instance is not ready")
@@ -92,6 +94,16 @@ class RealmGatewayImpl : RealmGateway {
         }.onFailure {
             Napier.e(tag = "RealmGateway", message = "Purge invalid lan sources error: ${it.message}", throwable = it)
         }
+    }
+
+    override fun close() {
+        runCatching {
+            _instance?.close()
+        }.onFailure {
+            Napier.e(tag = "RealmGateway", message = "Close error: ${it.message}", throwable = it)
+        }
+        onOpenCallback = defaultOnOpenCallback
+        _instance = null
     }
 
     override fun tearDown() {

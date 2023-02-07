@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.compose.rememberNavController
+import io.github.nfdz.cryptool.extension.hasOverlayPermission
 import io.github.nfdz.cryptool.platform.broadcast.MessageEventBroadcast
 import io.github.nfdz.cryptool.platform.permission.OverlayPermissionImpl
 import io.github.nfdz.cryptool.platform.shortcut.ShortcutAndroid
@@ -83,7 +84,7 @@ class AppActivity : FragmentActivity(), CoroutineScope by CoroutineScope(Dispatc
 
     private fun launchShortcut(intent: Intent?): Boolean {
         if (packageName != intent?.`package`) return false
-        return if (ShortcutAndroid.shouldOpen(intent)) {
+        return if (ShortcutAndroid.shouldOpen(intent) && hasOverlayPermission()) {
             OverlayBallService.start(this)
             true
         } else {
@@ -92,7 +93,7 @@ class AppActivity : FragmentActivity(), CoroutineScope by CoroutineScope(Dispatc
     }
 
     private fun updateShortcut() {
-        if (overlayPermission.hasPermission()) {
+        if (hasOverlayPermission()) {
             ShortcutAndroid.create(this)
         } else {
             ShortcutAndroid.delete(this)

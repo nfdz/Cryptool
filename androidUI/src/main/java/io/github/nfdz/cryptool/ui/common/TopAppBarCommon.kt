@@ -7,6 +7,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.style.TextOverflow
 import io.github.nfdz.cryptool.ui.Router
+import io.github.nfdz.cryptool.ui.topAppBar
 
 @Composable
 fun TopAppBarCommon(
@@ -25,7 +26,7 @@ fun TopAppBarCommon(
         title = {
             Text(
                 title,
-                style = MaterialTheme.typography.headlineMedium,
+                style = MaterialTheme.typography.topAppBar,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )

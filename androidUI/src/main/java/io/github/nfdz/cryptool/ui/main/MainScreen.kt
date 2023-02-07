@@ -261,7 +261,7 @@ private fun SelectModeTopBar(viewModel: EncryptionViewModel, router: Router, sta
         title = {
             Text(
                 state.selectedEncryptionIds.size.toString(),
-                style = MaterialTheme.typography.headlineMedium,
+                style = MaterialTheme.typography.topAppBar,
             )
         },
         navigationIcon = {

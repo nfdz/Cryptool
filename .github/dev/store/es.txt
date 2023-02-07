@@ -9,8 +9,9 @@ Principales características:
 - Múltiples configuraciones de cifrado como conversaciones.
 - Múltiples fuentes de mensajes.
    - Manual. Eres responsable de entregar y recibir los mensajes de la comunicación.
+   - LAN. Comunicación dentro de la Red de Área Local conectada. Es olvidado cuando la aplicación se detiene.
+   - Archivo. Usa dos archivos para comunicarte. Puedes sincronizar automáticamente y compartir los archivos para comunicarte en tiempo real.
    - SMS. Utiliza tu proveedor de SMS. Esta opción podría tener un coste dependiendo del contrato con tu proveedor.
-   - Archivo. Utiliza dos archivos para la comunicación. Puedes sincronizar y compartir los archivos automáticamente con cualquier proveedor de forma segura. Por ejemplo, Google Drive, Dropbox, etc.
 - Almacenamiento de contraseñas.
 - Múltiples algoritmos y configuraciones de cifrado.
 - Cifrado interoperable.

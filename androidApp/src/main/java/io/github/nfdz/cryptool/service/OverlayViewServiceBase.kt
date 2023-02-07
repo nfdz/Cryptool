@@ -7,7 +7,11 @@ import android.os.Build
 import android.os.IBinder
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
+import io.github.aakira.napier.Napier
+import io.github.nfdz.cryptool.R
 import io.github.nfdz.cryptool.extension.fadeIn
+import io.github.nfdz.cryptool.extension.hasOverlayPermission
 
 abstract class OverlayViewServiceBase : Service() {
 
@@ -18,8 +22,22 @@ abstract class OverlayViewServiceBase : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        windowManager.addView(view, layoutParams)
-        view.fadeIn()
+        if (!hasOverlayPermission()) {
+            showErrorToast(getString(R.string.service_permission_error))
+            stopSelf()
+            return
+        }
+        runCatching {
+            windowManager.addView(view, layoutParams)
+            view.fadeIn()
+        }.onFailure {
+            showErrorToast(getString(R.string.service_unexpected_error))
+            stopSelf()
+        }
+    }
+
+    private fun showErrorToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
     private fun buildLayoutParams(): WindowManager.LayoutParams {
@@ -47,7 +65,9 @@ abstract class OverlayViewServiceBase : Service() {
     }
 
     override fun onDestroy() {
-        windowManager.removeView(view)
+        runCatching { windowManager.removeView(view) }.onFailure {
+            Napier.e(tag = "OverlayViewServiceBase", message = "onDestroy error", throwable = it)
+        }
         super.onDestroy()
     }
 

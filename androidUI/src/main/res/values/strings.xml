@@ -5,12 +5,15 @@
     <string name="dialog_create">Create</string>
     <string name="dialog_edit">Edit</string>
     <string name="dialog_cancel">Cancel</string>
+    <string name="snackbar_retry">Retry</string>
     <string name="select_all">Select all</string>
     <string name="unselect_all">Unselect all</string>
     <string name="more_options_icon_description">More options</string>
     <string name="shortcut_title">Cryptool Overlay</string>
     <string name="shortcut_description">Open Cryptool in overlay mode</string>
     <string name="unexpected_error">Unexpected error, please report the problem if any</string>
+    <string name="service_permission_error">The overlay mode can\'t start because it doesn\'t have permission</string>
+    <string name="service_unexpected_error">There was an error when opening the overlay mode, please report the error</string>
     <string name="input_minimum_length">Minimum length is %1$d</string>
 
     <string name="version_15_name" translatable="false">3.0.1</string>
@@ -142,10 +145,11 @@
     <string name="encryption_unset_favorites_icon_description">Set messages as not favorites</string>
     <string name="encryption_delete_messages_icon_description">Delete messages</string>
     <string name="encryption_message_favorite_icon_description">This message is favorite</string>
-    <string name="encryption_receive_message_error">The message can not be received, check that the conversation is the correct one, password, algorithm…</string>
+    <string name="encryption_receive_message_error">The message can not be received, check the password, algorithm…</string>
     <string name="encryption_exclusive_source_error">The configured source conflicts with another encryption, and this source does not allow it.</string>
-    <string name="encryption_send_message_file_error">There is a problem sending the message through the configured file, please set the message source again.</string>
-    <string name="encryption_send_message_lan_error">There is a problem sending the message through the LAN network, please set the message source again.</string>
+    <string name="encryption_send_message_file_error">It was not possible to send the message through the configured file.</string>
+    <string name="encryption_send_message_lan_error">It was not possible to send the message through the LAN network.</string>
+    <string name="encryption_receive_message_lan_error">Message from \'%1$s\' has been received but cannot be processed, check the password, algorithm…</string>
     <string name="encryption_send_message_hint">Your message</string>
     <string name="encryption_send_message_icon_description">Send</string>
     <string name="encryption_receive_message_hint">%1$s\'s message</string>
@@ -172,6 +176,10 @@
     <string name="encryption_source_lan_dialog_other_address">Address</string>
     <string name="encryption_source_lan_dialog_other_port">Port</string>
     <string name="encryption_source_lan_dialog_other_slot">Slot</string>
+    <string name="encryption_source_lan_dialog_qr_mode">QR mode</string>
+    <string name="encryption_source_lan_dialog_manual_mode">Manual mode</string>
+    <string name="encryption_source_lan_dialog_qr_scan">Scan QR</string>
+    <string name="encryption_source_lan_dialog_qr_scan_error">No QR with valid configuration has been found in the image</string>
     <string name="encryption_source_sms_dialog_title">SMS source</string>
     <string name="encryption_source_sms_dialog_phone">Phone number</string>
     <string name="encryption_source_sms_dialog_set">Set</string>

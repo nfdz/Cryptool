@@ -192,6 +192,8 @@ class GatekeeperRepositoryTest {
         val anyChange = instance.checkAccessChange()
 
         assertEquals(false, anyChange)
+        assertEquals(0, realm.closeCount)
+        assertEquals(false, instance.isOpen())
     }
 
     @Test
@@ -202,6 +204,8 @@ class GatekeeperRepositoryTest {
         val anyChange = instance.checkAccessChange()
 
         assertEquals(false, anyChange)
+        assertEquals(0, realm.closeCount)
+        assertEquals(true, instance.isOpen())
     }
 
     @Test
@@ -217,6 +221,8 @@ class GatekeeperRepositoryTest {
         val anyChange = instance.checkAccessChange()
 
         assertEquals(true, anyChange)
+        assertEquals(1, realm.closeCount)
+        assertEquals(false, instance.isOpen())
     }
 
     @Test
@@ -234,6 +240,8 @@ class GatekeeperRepositoryTest {
         val anyChange = instance.checkAccessChange()
 
         assertEquals(false, anyChange)
+        assertEquals(0, realm.closeCount)
+        assertEquals(true, instance.isOpen())
     }
 
     @Test
