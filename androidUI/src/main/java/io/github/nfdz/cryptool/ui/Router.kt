@@ -1,15 +1,12 @@
 package io.github.nfdz.cryptool.ui
 
-import android.content.Context
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import io.github.aakira.napier.Napier
 import io.github.nfdz.cryptool.ui.about.*
 import io.github.nfdz.cryptool.ui.encryption.EncryptionScreen
-import io.github.nfdz.cryptool.ui.extension.openUrl
 import io.github.nfdz.cryptool.ui.gatekeeper.ChangeAccessCodeScreen
 import io.github.nfdz.cryptool.ui.main.MainScreen
 import io.github.nfdz.cryptool.ui.password.PasswordScreen
@@ -19,6 +16,7 @@ interface Router {
     val isOverlayMode: Boolean
     fun applyConfiguration(navBuilder: NavGraphBuilder)
     fun popBackStack()
+    fun popBackStackToRoot()
     fun navigateToPasswords()
     fun navigateToChangeAccessCode()
     fun navigateToReport()
@@ -49,7 +47,6 @@ private object RouterPaths {
 }
 
 abstract class RouterBase(
-    private val context: Context,
     private val navController: NavController,
 ) : Router {
 
@@ -83,6 +80,10 @@ abstract class RouterBase(
 
     override fun popBackStack() {
         navController.popBackStack()
+    }
+
+    override fun popBackStackToRoot() {
+        navController.popBackStack(startDestination, inclusive = false)
     }
 
     override fun navigateToPasswords() {
@@ -123,6 +124,7 @@ object EmptyRouter : Router {
     override val isOverlayMode: Boolean = false
     override fun applyConfiguration(navBuilder: NavGraphBuilder) {}
     override fun popBackStack() {}
+    override fun popBackStackToRoot() {}
     override fun navigateToPasswords() {}
     override fun navigateToChangeAccessCode() {}
     override fun navigateToReport() {}

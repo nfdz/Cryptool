@@ -7,6 +7,7 @@ import io.github.nfdz.cryptool.shared.encryption.repository.EncryptionRepository
 import io.github.nfdz.cryptool.shared.encryption.repository.ExclusiveSourceCollisionException
 import io.github.nfdz.cryptool.shared.message.entity.Message
 import io.github.nfdz.cryptool.shared.message.entity.MessageOwnership
+import io.github.nfdz.cryptool.shared.message.repository.MessageReceiver
 import io.github.nfdz.cryptool.shared.message.repository.MessageRepository
 import io.github.nfdz.cryptool.shared.platform.file.FileMessageSendException
 import io.github.nfdz.cryptool.shared.platform.localization.LocalizedError
@@ -19,6 +20,7 @@ class MessageViewModelImpl(
     private val messageRepository: MessageRepository,
     private val encryptionRepository: EncryptionRepository,
     private val localizedError: LocalizedError,
+    private val messageReceiver: MessageReceiver,
 ) : MessageViewModelBase() {
 
     override val tag: String
@@ -111,7 +113,11 @@ class MessageViewModelImpl(
 
     private suspend fun receiveMessage(encryptedMessage: String) {
         runCatching {
-            messageRepository.receiveMessage(encryptionId = activeEncryption.id, encryptedMessage = encryptedMessage)
+            messageReceiver.receive(
+                encryptionId = activeEncryption.id,
+                encryptedMessage = encryptedMessage,
+                isRead = true,
+            )
             emitSideEffect(MessageEffect.ReceivedMessage)
         }.onFailure {
             emitSideEffect(MessageEffect.Error(localizedError.messageReceiveMessage))

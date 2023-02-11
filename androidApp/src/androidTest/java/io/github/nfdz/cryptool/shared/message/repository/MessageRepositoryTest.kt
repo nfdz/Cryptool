@@ -126,40 +126,6 @@ class MessageRepositoryTest {
     }
 
     @Test(expected = java.util.NoSuchElementException::class)
-    fun testReceiveMessageWithInvalidEncryption() = runTest {
-        val instance = createInstance()
-
-        instance.receiveMessage(encryptionId = "Invalid", encryptedMessage = messageA.encryptedMessage)
-    }
-
-    @Test(expected = java.lang.IllegalStateException::class)
-    fun testReceiveMessageWithInvalidMessage() = runTest {
-        realm.instance.write {
-            copyToRealm(encryptionRealmA)
-        }
-        val instance = createInstance()
-
-        instance.receiveMessage(encryptionId = messageA.encryptionId, encryptedMessage = "Invalid")
-    }
-
-    @Test
-    fun testReceiveMessage() = runTest {
-        realm.instance.write {
-            copyToRealm(encryptionRealmA)
-        }
-        val instance = createInstance()
-
-        instance.receiveMessage(encryptionId = messageA.encryptionId, encryptedMessage = messageA.encryptedMessage)
-
-        val stored = realm.instance.query<MessageRealm>().find()
-        assertEquals(1, stored.size)
-        val storedMessage = stored.first().toEntity()
-        assertEquals(MessageOwnership.OTHER, storedMessage.ownership)
-        assertEquals(messageA.message, storedMessage.message)
-        assertEquals(messageA.encryptedMessage, storedMessage.encryptedMessage)
-    }
-
-    @Test(expected = java.util.NoSuchElementException::class)
     fun testSendMessageWithInvalidEncryption() = runTest {
         val instance = createInstance()
 

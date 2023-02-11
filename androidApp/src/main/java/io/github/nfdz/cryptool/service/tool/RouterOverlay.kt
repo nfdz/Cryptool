@@ -13,7 +13,7 @@ class RouterOverlay(
     navController: NavController,
     private val context: Context,
     private val minimizeOverlay: () -> Unit,
-) : RouterBase(context, navController) {
+) : RouterBase(navController) {
 
     override val isOverlayMode: Boolean = true
 

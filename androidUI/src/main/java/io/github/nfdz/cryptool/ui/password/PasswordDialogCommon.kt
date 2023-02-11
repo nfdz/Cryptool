@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Gesture
 import androidx.compose.material.icons.filled.ShuffleOn
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -146,7 +147,7 @@ internal object PasswordDialogCommon {
                             onValueChange(PasswordGenerator.generate())
                         }
                     }) {
-                        Icon(Icons.Filled.ShuffleOn, stringResource(R.string.password_random_icon_description))
+                        Icon(Icons.Filled.Gesture, stringResource(R.string.password_random_icon_description))
                     }
                     IconButton(onClick = {
                         passwordVisibility = !passwordVisibility

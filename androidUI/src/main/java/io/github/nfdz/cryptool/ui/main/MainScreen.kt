@@ -74,6 +74,7 @@ private fun MainScreenPreview() {
                 ),
                 selectedEncryptionIds = setOf(),
                 initialized = true,
+                incomingData = null,
             ),
         )
     }
@@ -100,6 +101,7 @@ private fun MainScreenSelectModePreview() {
                 ),
                 selectedEncryptionIds = setOf("1"),
                 initialized = true,
+                incomingData = null,
             ),
         )
     }
@@ -165,6 +167,12 @@ internal fun MainScreenContent(
         BackHandler(state.selectedEncryptionIds.isNotEmpty()) {
             viewModel.dispatch(EncryptionAction.UnselectAll)
         }
+
+        if (state.initialized && state.incomingData?.isNotEmpty() == true) {
+            PickEncryptionDialog(state.incomingData ?: "", state.encryptions) {
+                viewModel.dispatch(EncryptionAction.ResolveIncomingData(it?.id))
+            }
+        }
     }
     Scaffold(
         snackbarHost = { SnackbarHost(snackbar) },
@@ -195,6 +203,7 @@ internal fun MainScreenContent(
             if (noEncryption) {
                 NoEncryptionContent()
             } else {
+
                 EncryptionList(modifier = Modifier.padding(padding),
                     encryptions = state.encryptions,
                     selectedEncryptionIds = state.selectedEncryptionIds,

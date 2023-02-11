@@ -26,6 +26,8 @@ import io.github.nfdz.cryptool.shared.gatekeeper.repository.LegacyMigrationManag
 import io.github.nfdz.cryptool.shared.gatekeeper.repository.LegacyMigrationManagerImpl
 import io.github.nfdz.cryptool.shared.gatekeeper.viewModel.GatekeeperViewModel
 import io.github.nfdz.cryptool.shared.gatekeeper.viewModel.GatekeeperViewModelImpl
+import io.github.nfdz.cryptool.shared.message.repository.MessageReceiver
+import io.github.nfdz.cryptool.shared.message.repository.MessageReceiverImpl
 import io.github.nfdz.cryptool.shared.message.repository.MessageRepository
 import io.github.nfdz.cryptool.shared.message.repository.MessageRepositoryImpl
 import io.github.nfdz.cryptool.shared.message.viewModel.MessageViewModel
@@ -86,6 +88,7 @@ class CryptoolApp : Application() {
         single<ExportData> { ExportDataImpl(get(), get(), get()) }
         single<ImportData> { ImportDataImpl(get(), get(), get()) }
         single<LocalizedError> { LocalizedErrorAndroid(applicationContext) }
+        single<MessageReceiver> { MessageReceiverImpl(get()) }
 
         // Sender + Receivers
         single<LanReceiver>(createdAtStart = true) { LanReceiverAndroid(get(), get(), get(), get(), get(), get()) }
@@ -108,8 +111,8 @@ class CryptoolApp : Application() {
 
         // View Models
         single<PasswordViewModel> { PasswordViewModelImpl(get()) }
-        single<EncryptionViewModel> { EncryptionViewModelImpl(get()) }
-        single<MessageViewModel> { MessageViewModelImpl(get(), get(), get()) }
+        single<EncryptionViewModel> { EncryptionViewModelImpl(get(), get(), get()) }
+        single<MessageViewModel> { MessageViewModelImpl(get(), get(), get(), get()) }
         single<GatekeeperViewModel> { GatekeeperViewModelImpl(get(), get(), get(), get()) }
 
         // Legacy

@@ -34,32 +34,6 @@ class FakeMessageRepository(
         return observeAnswer
     }
 
-    var receiveMessageCount = 0
-    var receiveMessageArgEncryptionId: String? = null
-    var receiveMessageArgEncryptedMessage: String? = null
-    override suspend fun receiveMessage(encryptionId: String, encryptedMessage: String) {
-        delay(50)
-        receiveMessageCount++
-        receiveMessageArgEncryptionId = encryptionId
-        receiveMessageArgEncryptedMessage = encryptedMessage
-    }
-
-    var receiveMessageAsyncCount = 0
-    var receiveMessageAsyncArgEncryption: Encryption? = null
-    var receiveMessageAsyncArgEncryptedMessage: String? = null
-    var receiveMessageAsyncArgTimestampInMillis: Long? = null
-    override suspend fun receiveMessageAsync(
-        encryption: Encryption,
-        encryptedMessage: String,
-        timestampInMillis: Long
-    ) {
-        delay(50)
-        receiveMessageAsyncCount++
-        receiveMessageAsyncArgEncryption = encryption
-        receiveMessageAsyncArgEncryptedMessage = encryptedMessage
-        receiveMessageAsyncArgTimestampInMillis = timestampInMillis
-    }
-
     var sendMessageCount = 0
     var sendMessageArgEncryptionId: String? = null
     var sendMessageArgMessage: String? = null

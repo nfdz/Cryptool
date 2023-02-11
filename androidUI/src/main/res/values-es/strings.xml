@@ -14,6 +14,9 @@
     <string name="service_permission_error">El modo superpuesto no se puede iniciar porque no tiene permiso</string>
     <string name="service_unexpected_error">Hubo un error al abrir el modo superpuesto, por favor reporte el error</string>
     <string name="input_minimum_length">La longitud mínima es %1$d</string>
+    <string name="version_18_description">• Soporte para que otras aplicaciones compartan datos con Cryptool.
+                                       \n• Implementar sugerencias de los usuarios.
+                                       \n• Corregir problemas de estabilidad.</string>
     <string name="version_15_description">• Nuevas modos de conversación: Red de Área Local (LAN).
                                        \n• Corregir problemas de estabilidad en algunas versiones de Android.</string>
     <string name="version_10_description">• Nueva interfaz de usuario moderna.

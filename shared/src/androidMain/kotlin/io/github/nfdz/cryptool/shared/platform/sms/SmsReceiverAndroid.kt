@@ -11,7 +11,7 @@ import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
 import io.github.nfdz.cryptool.shared.encryption.repository.EncryptionRepository
 import io.github.nfdz.cryptool.shared.extension.hasPermission
 import io.github.nfdz.cryptool.shared.gatekeeper.repository.GatekeeperRepository
-import io.github.nfdz.cryptool.shared.message.repository.MessageRepository
+import io.github.nfdz.cryptool.shared.message.repository.MessageReceiver
 import io.github.nfdz.cryptool.shared.platform.storage.KeyValueStorage
 import io.github.nfdz.cryptool.shared.platform.time.Clock
 import kotlinx.coroutines.CoroutineScope
@@ -22,7 +22,7 @@ class SmsReceiverAndroid(
     private val context: Context,
     private val encryptionRepository: EncryptionRepository,
     gatekeeperRepository: GatekeeperRepository,
-    private val messageRepository: MessageRepository,
+    private val messageReceiver: MessageReceiver,
     private val storage: KeyValueStorage,
 ) : SmsReceiver, CoroutineScope by CoroutineScope(Dispatchers.Default) {
 
@@ -64,10 +64,11 @@ class SmsReceiverAndroid(
                     runCatching {
                         val encryption = findEncryption(data.phone)
                             ?: throw IllegalStateException("Cannot find an encryption for this message")
-                        messageRepository.receiveMessageAsync(
+                        messageReceiver.receive(
                             encryption = encryption,
                             encryptedMessage = data.encryptedMessage,
                             timestampInMillis = data.timestampInMillis,
+                            isRead = false,
                         )
                     }.onFailure {
                         Napier.e(tag = tag, message = "Error processing pending SMS", throwable = it)
