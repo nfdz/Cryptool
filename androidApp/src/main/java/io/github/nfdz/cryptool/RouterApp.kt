@@ -12,7 +12,7 @@ class RouterApp(
     navController: NavHostController,
     private val context: Context,
     private val overlayPermission: OverlayPermission,
-) : RouterBase(context, navController) {
+) : RouterBase(navController) {
 
     override val isOverlayMode: Boolean = false
 

@@ -18,6 +18,8 @@ import io.github.nfdz.cryptool.platform.shortcut.ShortcutAndroid
 import io.github.nfdz.cryptool.service.ball.OverlayBallService
 import io.github.nfdz.cryptool.service.tool.OverlayToolService
 import io.github.nfdz.cryptool.shared.core.constant.AppUrl
+import io.github.nfdz.cryptool.shared.encryption.viewModel.EncryptionAction
+import io.github.nfdz.cryptool.shared.encryption.viewModel.EncryptionViewModel
 import io.github.nfdz.cryptool.shared.gatekeeper.viewModel.GatekeeperAction
 import io.github.nfdz.cryptool.shared.gatekeeper.viewModel.GatekeeperViewModel
 import io.github.nfdz.cryptool.shared.platform.version.VersionProvider
@@ -45,6 +47,7 @@ class AppActivity : FragmentActivity(), CoroutineScope by CoroutineScope(Dispatc
     private val versionProvider: VersionProvider by inject()
     private val overlayPermission = OverlayPermissionImpl(this)
     private val gatekeeperViewModel: GatekeeperViewModel by inject()
+    private val encryptionViewModel: EncryptionViewModel by inject()
     private val msgEventReceiver = MessageEventBroadcast.createReceiver(get())
     private val closeReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -52,6 +55,7 @@ class AppActivity : FragmentActivity(), CoroutineScope by CoroutineScope(Dispatc
             finishAffinity()
         }
     }
+    private var router: RouterApp? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,14 +63,15 @@ class AppActivity : FragmentActivity(), CoroutineScope by CoroutineScope(Dispatc
         MessageEventBroadcast.registerReceiver(this, msgEventReceiver)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
-        if (!launchShortcut(intent)) {
+        handleShareInputIfNeeded(intent)
+        if (!launchShortcutIfNeeded(intent)) {
             closeOverlay()
             updateShortcut()
             askThis()
             setContent {
                 val navController = rememberNavController()
-                val router = RouterApp(navController, this, overlayPermission)
-                AppEntryPoint(this, router, navController, gatekeeperViewModel)
+                router = RouterApp(navController, this, overlayPermission)
+                AppEntryPoint(this, router!!, navController, gatekeeperViewModel)
             }
         }
     }
@@ -79,10 +84,18 @@ class AppActivity : FragmentActivity(), CoroutineScope by CoroutineScope(Dispatc
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        launchShortcut(intent)
+        launchShortcutIfNeeded(intent)
+        handleShareInputIfNeeded(intent)
     }
 
-    private fun launchShortcut(intent: Intent?): Boolean {
+    private fun handleShareInputIfNeeded(intent: Intent?) {
+        if (intent?.action != Intent.ACTION_SEND) return
+        val text = intent.getStringExtra(Intent.EXTRA_TEXT)?.ifEmpty { null } ?: return
+        encryptionViewModel.dispatch(EncryptionAction.AskAboutIncomingData(text))
+        router?.popBackStackToRoot()
+    }
+
+    private fun launchShortcutIfNeeded(intent: Intent?): Boolean {
         if (packageName != intent?.`package`) return false
         return if (ShortcutAndroid.shouldOpen(intent) && hasOverlayPermission()) {
             OverlayBallService.start(this)

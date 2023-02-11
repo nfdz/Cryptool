@@ -24,7 +24,7 @@ class SmsSenderAndroid(
         get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             context.getSystemService(android.telephony.SmsManager::class.java)
         } else {
-            android.telephony.SmsManager.getDefault()
+            @Suppress("DEPRECATION") android.telephony.SmsManager.getDefault()
         }
 
     init {

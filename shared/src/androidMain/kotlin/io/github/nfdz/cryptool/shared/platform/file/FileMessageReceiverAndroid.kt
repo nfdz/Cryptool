@@ -9,7 +9,7 @@ import io.github.nfdz.cryptool.shared.encryption.entity.Encryption
 import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
 import io.github.nfdz.cryptool.shared.encryption.repository.EncryptionRepository
 import io.github.nfdz.cryptool.shared.gatekeeper.repository.GatekeeperRepository
-import io.github.nfdz.cryptool.shared.message.repository.MessageRepository
+import io.github.nfdz.cryptool.shared.message.repository.MessageReceiver
 import io.github.nfdz.cryptool.shared.platform.storage.KeyValueStorage
 import io.github.nfdz.cryptool.shared.platform.time.Clock
 import kotlinx.coroutines.*
@@ -20,7 +20,7 @@ class FileMessageReceiverAndroid(
     private val context: Context,
     private val encryptionRepository: EncryptionRepository,
     gatekeeperRepository: GatekeeperRepository,
-    private val messageRepository: MessageRepository,
+    private val messageReceiver: MessageReceiver,
     private val storage: KeyValueStorage,
 ) : FileMessageReceiver, CoroutineScope by CoroutineScope(Dispatchers.Default) {
 
@@ -80,11 +80,16 @@ class FileMessageReceiverAndroid(
                 val result = getMessagesFor(encryption).sortedBy { it.timestampInMillis }
                 if (result.isNotEmpty()) {
                     result.forEach { data ->
-                        messageRepository.receiveMessageAsync(
-                            encryption = encryption,
-                            encryptedMessage = data.encryptedMessage,
-                            timestampInMillis = data.timestampInMillis,
-                        )
+                        runCatching {
+                            messageReceiver.receive(
+                                encryption = encryption,
+                                encryptedMessage = data.encryptedMessage,
+                                timestampInMillis = data.timestampInMillis,
+                                isRead = false,
+                            )
+                        }.onFailure {
+                            Napier.e(tag = tag, message = "Error receiving message", throwable = it)
+                        }
                     }
                     val lastEntry = result.last()
                     FileMessageReceiverPreferences.setLastReceivedTimestamp(
@@ -94,7 +99,7 @@ class FileMessageReceiverAndroid(
                     )
                 }
             }.onFailure {
-                Napier.e(tag = tag, message = "Error receiving pending file message", throwable = it)
+                Napier.e(tag = tag, message = "Error receiving pending file messages", throwable = it)
             }
         }
     }

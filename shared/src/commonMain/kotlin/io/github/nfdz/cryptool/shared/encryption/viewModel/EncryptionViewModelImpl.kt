@@ -3,20 +3,25 @@ package io.github.nfdz.cryptool.shared.encryption.viewModel
 import io.github.aakira.napier.Napier
 import io.github.nfdz.cryptool.shared.encryption.entity.Encryption
 import io.github.nfdz.cryptool.shared.encryption.repository.EncryptionRepository
+import io.github.nfdz.cryptool.shared.message.repository.MessageReceiver
+import io.github.nfdz.cryptool.shared.platform.localization.LocalizedError
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.launch
 
 class EncryptionViewModelImpl(
     private val repository: EncryptionRepository,
+    private val localizedError: LocalizedError,
+    private val messageReceiver: MessageReceiver,
 ) : EncryptionViewModelBase() {
 
     override val tag: String
         get() = "EncryptionViewModel"
 
     override val initialState: EncryptionState
-        get() = EncryptionState(false, emptyList(), emptySet())
+        get() = EncryptionState(false, emptyList(), emptySet(), null)
 
+    private var incomingData: String? = null
     private var collectJob: Job? = null
     override suspend fun processAction(action: EncryptionAction) {
         val previousState = currentState
@@ -32,6 +37,8 @@ class EncryptionViewModelImpl(
                 EncryptionAction.SelectAll -> selectAll(previousState)
                 is EncryptionAction.SetFavorite -> setFavorite(action.encryptionIds)
                 is EncryptionAction.UnsetFavorite -> unsetFavorite(action.encryptionIds)
+                is EncryptionAction.AskAboutIncomingData -> askAboutIncomingData(action.data)
+                is EncryptionAction.ResolveIncomingData -> resolveIncomingData(action.encryptionId)
             }
         }.onFailure {
             Napier.e(tag = tag, message = "processAction: $action", throwable = it)
@@ -117,6 +124,29 @@ class EncryptionViewModelImpl(
     private suspend fun unsetFavorite(ids: Set<String>) {
         repository.unsetFavorite(ids)
         emitSideEffect(EncryptionEffect.UnsetFavorite(ids))
+    }
+
+    private fun askAboutIncomingData(data: String) {
+        incomingData = data
+        emitNewState(currentState.copy(incomingData = data))
+    }
+
+    private suspend fun resolveIncomingData(encryptionId: String?) {
+        val data = incomingData
+        if (data != null && encryptionId != null) {
+            runCatching {
+                messageReceiver.receive(encryptionId = encryptionId, encryptedMessage = data, isRead = false)
+            }.onFailure {
+                emitSideEffect(
+                    EncryptionEffect.Error(
+                        localizedError.messageReceiveMessage,
+                        retry = EncryptionAction.AskAboutIncomingData(data),
+                    )
+                )
+            }
+        }
+        incomingData = null
+        emitNewState(currentState.copy(incomingData = null))
     }
 
     private fun Collection<Encryption>.sorted(): List<Encryption> {

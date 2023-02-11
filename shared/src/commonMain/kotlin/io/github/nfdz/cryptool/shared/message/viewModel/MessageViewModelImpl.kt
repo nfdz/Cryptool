@@ -7,6 +7,7 @@ import io.github.nfdz.cryptool.shared.encryption.repository.EncryptionRepository
 import io.github.nfdz.cryptool.shared.encryption.repository.ExclusiveSourceCollisionException
 import io.github.nfdz.cryptool.shared.message.entity.Message
 import io.github.nfdz.cryptool.shared.message.entity.MessageOwnership
+import io.github.nfdz.cryptool.shared.message.repository.MessageReceiver
 import io.github.nfdz.cryptool.shared.message.repository.MessageRepository
 import io.github.nfdz.cryptool.shared.platform.file.FileMessageSendException
 import io.github.nfdz.cryptool.shared.platform.localization.LocalizedError
@@ -19,6 +20,7 @@ class MessageViewModelImpl(
     private val messageRepository: MessageRepository,
     private val encryptionRepository: EncryptionRepository,
     private val localizedError: LocalizedError,
+    private val messageReceiver: MessageReceiver,
 ) : MessageViewModelBase() {
 
     override val tag: String
@@ -39,7 +41,8 @@ class MessageViewModelImpl(
                 is MessageAction.AcknowledgeUnreadMessages -> acknowledgeUnreadMessages(action.encryptionId)
                 is MessageAction.SetSource -> setSource(action.source)
                 is MessageAction.ReceiveMessage -> receiveMessage(action.encryptedMessage)
-                is MessageAction.SendMessage -> sendMessage(action)
+                is MessageAction.SendMessage -> sendMessage(action.message, null)
+                is MessageAction.RetrySendMessage -> sendMessage(action.message, action.encryptionId)
                 is MessageAction.Remove -> removeMessage(action.messageIds)
                 is MessageAction.Select -> selectMessage(previousState, action.messageId)
                 is MessageAction.Unselect -> unselectMessage(previousState, action.messageId)
@@ -111,21 +114,28 @@ class MessageViewModelImpl(
 
     private suspend fun receiveMessage(encryptedMessage: String) {
         runCatching {
-            messageRepository.receiveMessage(encryptionId = activeEncryption.id, encryptedMessage = encryptedMessage)
+            messageReceiver.receive(
+                encryptionId = activeEncryption.id,
+                encryptedMessage = encryptedMessage,
+                isRead = true,
+            )
             emitSideEffect(MessageEffect.ReceivedMessage)
         }.onFailure {
             emitSideEffect(MessageEffect.Error(localizedError.messageReceiveMessage))
         }
     }
 
-    private suspend fun sendMessage(action: MessageAction.SendMessage) {
+    private suspend fun sendMessage(message: String, retryId: String?) {
+        val encryptionId = retryId ?: activeEncryption.id
         try {
-            messageRepository.sendMessage(encryptionId = activeEncryption.id, message = action.message)
+            messageRepository.sendMessage(encryptionId = encryptionId, message = message)
             emitSideEffect(MessageEffect.SentMessage)
         } catch (exception: FileMessageSendException) {
-            emitSideEffect(MessageEffect.Error(localizedError.messageSendFileError, retry = action))
+            val retry = MessageAction.RetrySendMessage(encryptionId, message)
+            emitSideEffect(MessageEffect.Error(localizedError.messageSendFileError, retry = retry))
         } catch (exception: LanSendException) {
-            emitSideEffect(MessageEffect.Error(localizedError.messageSendLanError, retry = action))
+            val retry = MessageAction.RetrySendMessage(encryptionId, message)
+            emitSideEffect(MessageEffect.Error(localizedError.messageSendLanError, retry = retry))
         }
     }
 

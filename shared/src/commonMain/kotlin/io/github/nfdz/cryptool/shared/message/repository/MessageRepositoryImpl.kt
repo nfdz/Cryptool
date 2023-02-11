@@ -1,9 +1,7 @@
 package io.github.nfdz.cryptool.shared.message.repository
 
-import io.github.aakira.napier.Napier
 import io.github.nfdz.cryptool.shared.core.realm.RealmGateway
 import io.github.nfdz.cryptool.shared.encryption.entity.AlgorithmVersion
-import io.github.nfdz.cryptool.shared.encryption.entity.Encryption
 import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
 import io.github.nfdz.cryptool.shared.encryption.entity.deserializeMessageSource
 import io.github.nfdz.cryptool.shared.encryption.repository.realm.EncryptionRealm
@@ -22,7 +20,6 @@ class MessageRepositoryImpl(
     private val storage: KeyValueStorage,
 ) : MessageRepository {
     companion object {
-        private const val tag = "MessageRepository"
         const val visibilityKey = "preference_visibility"
         const val defaultVisibility = true
     }
@@ -58,67 +55,6 @@ class MessageRepositoryImpl(
     override suspend fun observe(encryptionId: String): Flow<List<Message>> {
         return realm.query<MessageRealm>("encryptionId == '${encryptionId}'").asFlow().transform { value ->
             emit(value.list.map { it.toEntity() })
-        }
-    }
-
-    override suspend fun receiveMessage(encryptionId: String, encryptedMessage: String) {
-        if (encryptionId.isBlank()) return
-        val encryptionEntry = realm.query<EncryptionRealm>("id == '${encryptionId}'").find().first()
-        val cryptography = AlgorithmVersion.valueOf(encryptionEntry.algorithm).createCryptography()
-        val message = cryptography.decrypt(password = encryptionEntry.password, encryptedText = encryptedMessage)
-            ?: throw IllegalStateException("Cannot receive message")
-        receiveMessageInternal(
-            encryptionId = encryptionId,
-            message = message,
-            encryptedMessage = encryptedMessage,
-            timestampInMillis = null,
-            countUnread = false
-        )
-    }
-
-    override suspend fun receiveMessageAsync(
-        encryption: Encryption,
-        encryptedMessage: String,
-        timestampInMillis: Long,
-    ) {
-        Napier.d(tag = tag, message = "Message from '${encryption.name}: '${encryptedMessage}")
-        val cryptography = encryption.algorithm.createCryptography()
-        val message = cryptography.decrypt(encryption.password, encryptedMessage)
-            ?: return Napier.d(tag = tag, message = "Cannot process the message")
-        receiveMessageInternal(
-            encryptionId = encryption.id,
-            message = message,
-            encryptedMessage = encryptedMessage,
-            timestampInMillis = timestampInMillis,
-            countUnread = true
-        )
-    }
-
-    private suspend fun receiveMessageInternal(
-        encryptionId: String,
-        message: String,
-        encryptedMessage: String,
-        timestampInMillis: Long?,
-        countUnread: Boolean
-    ) {
-        realm.write {
-            val entry = copyToRealm(
-                MessageRealm.create(
-                    encryptionId = encryptionId,
-                    message = message,
-                    encryptedMessage = encryptedMessage,
-                    ownership = MessageOwnership.OTHER,
-                ).also { new ->
-                    timestampInMillis?.let { new.timestampInMillis = it }
-                }
-            )
-            query<EncryptionRealm>("id == '${encryptionId}'").find().first().apply {
-                this.lastMessage = "$name: $encryptedMessage"
-                this.lastMessageTimestamp = entry.timestampInMillis
-                if (countUnread) {
-                    this.unreadMessagesCount++
-                }
-            }
         }
     }
 

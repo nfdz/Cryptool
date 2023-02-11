@@ -63,6 +63,7 @@ class MainScreenScreenshotTest {
                         encryptions = encryptions,
                         selectedEncryptionIds = setOf(),
                         initialized = true,
+                        incomingData = null,
                     ),
                 )
             }
@@ -84,6 +85,7 @@ class MainScreenScreenshotTest {
                         encryptions = encryptions,
                         selectedEncryptionIds = setOf(),
                         initialized = true,
+                        incomingData = null,
                     ),
                 )
             }
@@ -105,6 +107,7 @@ class MainScreenScreenshotTest {
                         encryptions = encryptions,
                         selectedEncryptionIds = selectedEncryptionIds,
                         initialized = true,
+                        incomingData = null,
                     ),
                 )
             }
@@ -126,6 +129,7 @@ class MainScreenScreenshotTest {
                         encryptions = encryptions,
                         selectedEncryptionIds = selectedEncryptionIds,
                         initialized = true,
+                        incomingData = null,
                     ),
                 )
             }
@@ -147,6 +151,7 @@ class MainScreenScreenshotTest {
                         encryptions = listOf(),
                         selectedEncryptionIds = setOf(),
                         initialized = true,
+                        incomingData = null,
                     ),
                 )
             }
@@ -168,6 +173,7 @@ class MainScreenScreenshotTest {
                         encryptions = listOf(),
                         selectedEncryptionIds = setOf(),
                         initialized = true,
+                        incomingData = null,
                     ),
                 )
             }

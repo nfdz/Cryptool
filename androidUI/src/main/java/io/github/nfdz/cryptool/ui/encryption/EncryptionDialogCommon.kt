@@ -5,6 +5,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Gesture
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -12,10 +14,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.unit.dp
+import io.github.nfdz.cryptool.shared.core.password.PasswordGenerator
 import io.github.nfdz.cryptool.shared.encryption.entity.AlgorithmVersion
 import io.github.nfdz.cryptool.shared.encryption.entity.minPasswordLength
 import io.github.nfdz.cryptool.ui.R
 import io.github.nfdz.cryptool.ui.extension.enforceSingleLine
+import kotlinx.coroutines.launch
 
 internal object EncryptionDialogCommon {
 
@@ -118,6 +122,7 @@ internal object EncryptionDialogCommon {
     private fun PasswordTextField(
         value: String, onValueChange: (String) -> Unit, onDone: (() -> Unit)
     ) {
+        val scope = rememberCoroutineScope()
         var passwordVisibility by remember { mutableStateOf(false) }
 
         OutlinedTextField(modifier = Modifier.fillMaxWidth(),
@@ -131,19 +136,28 @@ internal object EncryptionDialogCommon {
             onValueChange = onValueChange,
             label = { Text(stringResource(R.string.encryption_password_hint)) },
             trailingIcon = {
-                IconButton(onClick = {
-                    passwordVisibility = !passwordVisibility
-                }) {
-                    if (passwordVisibility) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_visibility_off),
-                            stringResource(R.string.encryption_hide_password_icon_description)
-                        )
-                    } else {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_visibility),
-                            stringResource(R.string.encryption_show_password_icon_description)
-                        )
+                Row {
+                    IconButton(onClick = {
+                        scope.launch {
+                            onValueChange(PasswordGenerator.generate())
+                        }
+                    }) {
+                        Icon(Icons.Filled.Gesture, stringResource(R.string.password_random_icon_description))
+                    }
+                    IconButton(onClick = {
+                        passwordVisibility = !passwordVisibility
+                    }) {
+                        if (passwordVisibility) {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_visibility_off),
+                                stringResource(R.string.encryption_hide_password_icon_description)
+                            )
+                        } else {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_visibility),
+                                stringResource(R.string.encryption_show_password_icon_description)
+                            )
+                        }
                     }
                 }
             })

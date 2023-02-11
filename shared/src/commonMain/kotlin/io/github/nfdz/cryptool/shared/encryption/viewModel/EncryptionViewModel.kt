@@ -10,6 +10,7 @@ data class EncryptionState(
     val initialized: Boolean,
     val encryptions: List<Encryption>,
     val selectedEncryptionIds: Set<String>,
+    val incomingData: String?,
 ) : State
 
 sealed class EncryptionAction : Action {
@@ -29,6 +30,8 @@ sealed class EncryptionAction : Action {
     data class Unselect(val encryptionId: String) : EncryptionAction()
     object SelectAll : EncryptionAction()
     object UnselectAll : EncryptionAction()
+    data class AskAboutIncomingData(val data: String) : EncryptionAction()
+    data class ResolveIncomingData(val encryptionId: String?) : EncryptionAction()
 }
 
 sealed class EncryptionEffect : Effect {
@@ -37,6 +40,7 @@ sealed class EncryptionEffect : Effect {
     data class Removed(val ids: Set<String>) : EncryptionEffect()
     data class SetFavorite(val ids: Set<String>) : EncryptionEffect()
     data class UnsetFavorite(val ids: Set<String>) : EncryptionEffect()
+    class Error(val message: String, val retry: EncryptionAction? = null) : EncryptionEffect()
 }
 
 interface EncryptionViewModel : NanoViewModel<EncryptionState, EncryptionAction, EncryptionEffect>

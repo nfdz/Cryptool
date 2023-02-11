@@ -5,12 +5,11 @@ import io.github.nfdz.cryptool.shared.encryption.entity.Encryption
 import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
 import io.github.nfdz.cryptool.shared.encryption.repository.EncryptionRepository
 import io.github.nfdz.cryptool.shared.gatekeeper.repository.GatekeeperRepository
-import io.github.nfdz.cryptool.shared.message.repository.MessageRepository
+import io.github.nfdz.cryptool.shared.message.repository.MessageReceiver
 import io.github.nfdz.cryptool.shared.message.viewModel.MessageAction
 import io.github.nfdz.cryptool.shared.message.viewModel.MessageViewModel
 import io.github.nfdz.cryptool.shared.platform.localization.LocalizedError
 import io.github.nfdz.cryptool.shared.platform.storage.KeyValueStorage
-import io.github.nfdz.cryptool.shared.platform.time.Clock
 import kotlinx.coroutines.*
 import java.net.BindException
 import java.net.ServerSocket
@@ -22,7 +21,7 @@ class LanReceiverAndroid(
     private val messageViewModel: MessageViewModel,
     private val encryptionRepository: EncryptionRepository,
     private val gatekeeperRepository: GatekeeperRepository,
-    private val messageRepository: MessageRepository,
+    private val messageReceiver: MessageReceiver,
     private val storage: KeyValueStorage,
 ) : LanReceiver, CoroutineScope by CoroutineScope(Dispatchers.IO) {
 
@@ -93,10 +92,11 @@ class LanReceiverAndroid(
         val encryptedMessage = parts[1]
         val encryption = findEncryption(slot)
 
-        messageRepository.receiveMessageAsync(
+        messageReceiver.receive(
             encryption = encryption,
             encryptedMessage = encryptedMessage,
-            timestampInMillis = Clock.nowInMillis(),
+            timestampInMillis = null,
+            isRead = false,
         )
     }.onFailure {
         Napier.e(tag = tag, message = "Cannot process incoming text", throwable = it)

@@ -14,6 +14,9 @@
     <string name="service_permission_error">Der Overlay-Modus kann nicht gestartet werden, da er keine Berechtigung hat</string>
     <string name="service_unexpected_error">Beim Öffnen des Overlay-Modus ist ein Fehler aufgetreten, bitte melden Sie den Fehler</string>
     <string name="input_minimum_length">Mindestlänge beträgt %1$d</string>
+    <string name="version_18_description">• Unterstützen Sie andere Apps, die Daten mit Cryptool teilen.
+                                       \n• Feedback von Benutzern.
+                                       \n• Stabilitätsprobleme beheben.</string>
     <string name="version_15_description">• Neue Nachrichtenquelle: Local Area Network (LAN).
                                        \n• Stabilitätsprobleme bei einigen Android-Versionen beheben.</string>
     <string name="version_10_description">• Neue moderne Benutzeroberfläche.

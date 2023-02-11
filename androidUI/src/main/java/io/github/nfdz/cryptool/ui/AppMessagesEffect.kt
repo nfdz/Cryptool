@@ -6,6 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
+import io.github.nfdz.cryptool.shared.encryption.viewModel.EncryptionEffect
+import io.github.nfdz.cryptool.shared.encryption.viewModel.EncryptionViewModel
 import io.github.nfdz.cryptool.shared.gatekeeper.viewModel.GatekeeperEffect
 import io.github.nfdz.cryptool.shared.gatekeeper.viewModel.GatekeeperViewModel
 import io.github.nfdz.cryptool.shared.message.viewModel.MessageEffect
@@ -15,8 +17,35 @@ import org.koin.core.context.GlobalContext
 
 @Composable
 fun AppMessagesEffect(snackbar: SnackbarHostState) {
+    EncryptionSideEffect(snackbar)
     MessageSideEffect(snackbar)
     GatekeeperSideEffect(snackbar)
+}
+
+@Composable
+private fun EncryptionSideEffect(
+    snackbar: SnackbarHostState,
+    encryptionViewModel: EncryptionViewModel = GlobalContext.get().get()
+) {
+    val context = LocalContext.current
+    val effect = encryptionViewModel.observeSideEffect().collectAsState(null).value ?: return
+    LaunchedEffect(effect) {
+        when (effect) {
+            is EncryptionEffect.Error -> {
+                val retryAction = effect.retry
+                if (retryAction != null) {
+                    val result =
+                        snackbar.showSnackbar(effect.message, actionLabel = context.getString(R.string.snackbar_retry))
+                    if (result == SnackbarResult.ActionPerformed) {
+                        encryptionViewModel.dispatch(retryAction)
+                    }
+                } else {
+                    snackbar.showSnackbarAsync(effect.message)
+                }
+            }
+            else -> Unit
+        }
+    }
 }
 
 @Composable

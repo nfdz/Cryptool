@@ -3,6 +3,7 @@ package io.github.nfdz.cryptool.ui.encryption
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.InetAddresses
 import android.os.Build
@@ -315,7 +316,7 @@ private fun Context.showScanQrErrorToast() {
 }
 
 private fun Context.canScanQr(): Boolean {
-    return Intent(MediaStore.ACTION_IMAGE_CAPTURE).resolveActivity(packageManager) != null
+    return packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
 }
 
 @Composable

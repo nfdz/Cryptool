@@ -5,6 +5,7 @@ import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
 import io.github.nfdz.cryptool.shared.encryption.repository.ExclusiveSourceCollisionException
 import io.github.nfdz.cryptool.shared.encryption.repository.FakeEncryptionRepository
 import io.github.nfdz.cryptool.shared.message.entity.FakeMessage
+import io.github.nfdz.cryptool.shared.message.repository.FakeMessageReceiver
 import io.github.nfdz.cryptool.shared.message.repository.FakeMessageRepository
 import io.github.nfdz.cryptool.shared.platform.file.FileMessageSendException
 import io.github.nfdz.cryptool.shared.platform.localization.FakeLocalizedError
@@ -33,7 +34,8 @@ class MessageViewModelTest {
             observeAnswer = flowOf(fakeMessageList),
             getVisibilityAnswer = true
         )
-        val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
+        val instance =
+            MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError, FakeMessageReceiver())
 
         instance.dispatch(MessageAction.Initialize(fakeEncryption1.id))
 
@@ -59,7 +61,8 @@ class MessageViewModelTest {
             observeAnswer = flowOf(fakeMessageList),
             getVisibilityAnswer = true
         )
-        val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
+        val instance =
+            MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError, FakeMessageReceiver())
 
         instance.dispatch(MessageAction.Initialize(fakeEncryption1.id))
         instance.observeState().take(3).toList()
@@ -87,7 +90,8 @@ class MessageViewModelTest {
             observeAnswer = flowOf(fakeMessageList),
             getVisibilityAnswer = true
         )
-        val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
+        val instance =
+            MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError, FakeMessageReceiver())
 
         instance.dispatch(MessageAction.Initialize(fakeEncryption1.id))
         instance.observeState().take(3).toList()
@@ -114,7 +118,8 @@ class MessageViewModelTest {
             observeAnswer = flowOf(fakeMessageList),
             getVisibilityAnswer = true
         )
-        val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
+        val instance =
+            MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError, FakeMessageReceiver())
 
         instance.dispatch(MessageAction.Initialize(fakeEncryption1.id))
         instance.observeState().take(3).toList()
@@ -131,7 +136,8 @@ class MessageViewModelTest {
     fun testSetSourceWithNoEncryption() = runTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
-        val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
+        val instance =
+            MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError, FakeMessageReceiver())
 
         val source = MessageSource.Manual
         instance.dispatch(MessageAction.SetSource(source))
@@ -152,7 +158,9 @@ class MessageViewModelTest {
             observeAnswer = flowOf(fakeMessageList),
             getVisibilityAnswer = true
         )
-        val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
+        val messageReceiver = FakeMessageReceiver()
+        val instance =
+            MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError, messageReceiver)
 
         instance.dispatch(MessageAction.Initialize(fakeEncryption1.id))
         instance.observeState().take(3).toList()
@@ -162,9 +170,10 @@ class MessageViewModelTest {
 
         val effectsRecord = instance.observeSideEffect().take(1).toList()
 
-        assertEquals(1, messageRepository.receiveMessageCount)
-        assertEquals(fakeEncryption1.id, messageRepository.receiveMessageArgEncryptionId)
-        assertEquals(encryptedMessage, messageRepository.receiveMessageArgEncryptedMessage)
+        assertEquals(1, messageReceiver.receive1Count)
+        assertEquals(fakeEncryption1.id, messageReceiver.receive1ArgEncryptionId)
+        assertEquals(encryptedMessage, messageReceiver.receive1ArgEncryptedMessage)
+        assertEquals(true, messageReceiver.receive1ArgIsRead)
 
         assertEquals(true, effectsRecord.first() is MessageEffect.ReceivedMessage)
     }
@@ -173,14 +182,16 @@ class MessageViewModelTest {
     fun testReceiveMessageWithNoEncryption() = runTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
-        val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
+        val messageReceiver = FakeMessageReceiver()
+        val instance =
+            MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError, messageReceiver)
 
         val encryptedMessage = "abc"
         instance.dispatch(MessageAction.ReceiveMessage(encryptedMessage))
 
         val effectsRecord = instance.observeSideEffect().take(1).toList()
 
-        assertEquals(0, messageRepository.receiveMessageCount)
+        assertEquals(0, messageReceiver.receive1Count)
         val effect = effectsRecord.first() as MessageEffect.Error
         assertEquals(FakeLocalizedError.messageReceiveMessage, effect.message)
     }
@@ -194,7 +205,8 @@ class MessageViewModelTest {
             observeAnswer = flowOf(fakeMessageList),
             getVisibilityAnswer = true
         )
-        val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
+        val instance =
+            MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError, FakeMessageReceiver())
 
         instance.dispatch(MessageAction.Initialize(fakeEncryption1.id))
         instance.observeState().take(3).toList()
@@ -221,7 +233,8 @@ class MessageViewModelTest {
             observeAnswer = flowOf(fakeMessageList),
             getVisibilityAnswer = true
         )
-        val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
+        val instance =
+            MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError, FakeMessageReceiver())
 
         instance.dispatch(MessageAction.Initialize(fakeEncryption1.id))
         instance.observeState().take(3).toList()
@@ -237,13 +250,15 @@ class MessageViewModelTest {
 
         val effect = effectsRecord.first() as MessageEffect.Error
         assertEquals(FakeLocalizedError.messageSendFileError, effect.message)
+        assertEquals(MessageAction.RetrySendMessage(fakeEncryption1.id, message), effect.retry)
     }
 
     @Test
     fun testSendMessageWithNoEncryption() = runTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
-        val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
+        val instance =
+            MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError, FakeMessageReceiver())
 
         val message = "abc"
         instance.dispatch(MessageAction.SendMessage(message))
@@ -259,7 +274,8 @@ class MessageViewModelTest {
     fun testRemove() = runTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
-        val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
+        val instance =
+            MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError, FakeMessageReceiver())
 
         instance.dispatch(MessageAction.Remove(fakeMessageIds))
 
@@ -275,7 +291,8 @@ class MessageViewModelTest {
     fun testSelect() = runTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
-        val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
+        val instance =
+            MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError, FakeMessageReceiver())
 
         val id = "abc"
         instance.dispatch(MessageAction.Select(id))
@@ -289,7 +306,8 @@ class MessageViewModelTest {
     fun testUnselect() = runTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
-        val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
+        val instance =
+            MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError, FakeMessageReceiver())
 
         val id = "abc"
         instance.dispatch(MessageAction.Select(id))
@@ -306,7 +324,8 @@ class MessageViewModelTest {
     fun testUnselectAll() = runTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
-        val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
+        val instance =
+            MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError, FakeMessageReceiver())
 
         val id = "abc"
         instance.dispatch(MessageAction.Select(id))
@@ -328,7 +347,8 @@ class MessageViewModelTest {
             observeAnswer = flowOf(fakeMessageList),
             getVisibilityAnswer = true
         )
-        val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
+        val instance =
+            MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError, FakeMessageReceiver())
 
         instance.dispatch(MessageAction.Initialize(fakeEncryption1.id))
         instance.observeState().take(3).toList()
@@ -344,7 +364,8 @@ class MessageViewModelTest {
     fun testSetFavorite() = runTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
-        val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
+        val instance =
+            MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError, FakeMessageReceiver())
 
         instance.dispatch(MessageAction.SetFavorite(fakeMessageIds))
 
@@ -359,7 +380,8 @@ class MessageViewModelTest {
     fun testUnsetFavorite() = runTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
-        val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
+        val instance =
+            MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError, FakeMessageReceiver())
 
         instance.dispatch(MessageAction.UnsetFavorite(fakeMessageIds))
 
@@ -374,7 +396,8 @@ class MessageViewModelTest {
     fun testToggleVisibility() = runTest {
         val encryptionRepository = FakeEncryptionRepository()
         val messageRepository = FakeMessageRepository()
-        val instance = MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError)
+        val instance =
+            MessageViewModelImpl(messageRepository, encryptionRepository, FakeLocalizedError, FakeMessageReceiver())
 
         instance.dispatch(MessageAction.ToggleVisibility)
 
