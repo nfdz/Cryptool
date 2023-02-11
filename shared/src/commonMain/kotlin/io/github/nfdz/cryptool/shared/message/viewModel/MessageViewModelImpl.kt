@@ -41,7 +41,8 @@ class MessageViewModelImpl(
                 is MessageAction.AcknowledgeUnreadMessages -> acknowledgeUnreadMessages(action.encryptionId)
                 is MessageAction.SetSource -> setSource(action.source)
                 is MessageAction.ReceiveMessage -> receiveMessage(action.encryptedMessage)
-                is MessageAction.SendMessage -> sendMessage(action)
+                is MessageAction.SendMessage -> sendMessage(action.message, null)
+                is MessageAction.RetrySendMessage -> sendMessage(action.message, action.encryptionId)
                 is MessageAction.Remove -> removeMessage(action.messageIds)
                 is MessageAction.Select -> selectMessage(previousState, action.messageId)
                 is MessageAction.Unselect -> unselectMessage(previousState, action.messageId)
@@ -124,14 +125,17 @@ class MessageViewModelImpl(
         }
     }
 
-    private suspend fun sendMessage(action: MessageAction.SendMessage) {
+    private suspend fun sendMessage(message: String, retryId: String?) {
+        val encryptionId = retryId ?: activeEncryption.id
         try {
-            messageRepository.sendMessage(encryptionId = activeEncryption.id, message = action.message)
+            messageRepository.sendMessage(encryptionId = encryptionId, message = message)
             emitSideEffect(MessageEffect.SentMessage)
         } catch (exception: FileMessageSendException) {
-            emitSideEffect(MessageEffect.Error(localizedError.messageSendFileError, retry = action))
+            val retry = MessageAction.RetrySendMessage(encryptionId, message)
+            emitSideEffect(MessageEffect.Error(localizedError.messageSendFileError, retry = retry))
         } catch (exception: LanSendException) {
-            emitSideEffect(MessageEffect.Error(localizedError.messageSendLanError, retry = action))
+            val retry = MessageAction.RetrySendMessage(encryptionId, message)
+            emitSideEffect(MessageEffect.Error(localizedError.messageSendLanError, retry = retry))
         }
     }
 

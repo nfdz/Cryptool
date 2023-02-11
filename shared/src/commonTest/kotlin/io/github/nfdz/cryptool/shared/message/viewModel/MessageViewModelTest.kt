@@ -250,6 +250,7 @@ class MessageViewModelTest {
 
         val effect = effectsRecord.first() as MessageEffect.Error
         assertEquals(FakeLocalizedError.messageSendFileError, effect.message)
+        assertEquals(MessageAction.RetrySendMessage(fakeEncryption1.id, message), effect.retry)
     }
 
     @Test

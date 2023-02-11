@@ -29,6 +29,7 @@ sealed class MessageAction : Action {
     data class SetSource(val source: MessageSource?) : MessageAction()
     data class ReceiveMessage(val encryptedMessage: String) : MessageAction()
     data class SendMessage(val message: String) : MessageAction()
+    data class RetrySendMessage(val encryptionId: String, val message: String) : MessageAction()
     data class Remove(val messageIds: Set<String>) : MessageAction()
     data class SetFavorite(val messageIds: Set<String>) : MessageAction()
     data class UnsetFavorite(val messageIds: Set<String>) : MessageAction()
