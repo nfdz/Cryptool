@@ -4,6 +4,7 @@ interface LocalizedError {
     val gatekeeperInvalidOldAccessCode: String
     val gatekeeperChangeAccessCode: String
     val gatekeeperInvalidAccessCode: String
+    val gatekeeperBiometricTooManyAttempts: String
     val gatekeeperUnexpected: String
     val messageReceiveMessage: String
     val messageUnexpected: String

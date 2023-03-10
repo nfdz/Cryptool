@@ -6,6 +6,7 @@ import io.github.nfdz.cryptool.shared.core.import.ImportData
 import io.github.nfdz.cryptool.shared.gatekeeper.entity.TutorialInformation
 import io.github.nfdz.cryptool.shared.gatekeeper.repository.GatekeeperRepository
 import io.github.nfdz.cryptool.shared.platform.biometric.BiometricContext
+import io.github.nfdz.cryptool.shared.platform.biometric.TooManyAttemptsException
 import io.github.nfdz.cryptool.shared.platform.localization.LocalizedError
 
 class GatekeeperViewModelImpl(
@@ -70,10 +71,16 @@ class GatekeeperViewModelImpl(
     private suspend fun accessWithBiometric(biometricContext: BiometricContext) {
         loadingAccess = true
         emitNewState(refreshState())
-        val validCode = runCatching {
+        val result= runCatching {
             repository.biometricAccess(biometricContext)
-        }.getOrNull()
-        if (validCode != true) emitSideEffect(GatekeeperEffect.Error(localizedError.gatekeeperInvalidAccessCode))
+        }
+        if (result.getOrNull() != true) {
+            if (result.exceptionOrNull() is TooManyAttemptsException) {
+                emitSideEffect(GatekeeperEffect.Error(localizedError.gatekeeperBiometricTooManyAttempts))
+            } else {
+                emitSideEffect(GatekeeperEffect.Error(localizedError.gatekeeperInvalidAccessCode))
+            }
+        }
 
         loadingAccess = false
         emitNewState(refreshState())

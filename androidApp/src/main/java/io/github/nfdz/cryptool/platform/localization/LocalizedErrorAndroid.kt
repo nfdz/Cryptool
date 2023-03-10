@@ -15,6 +15,9 @@ class LocalizedErrorAndroid(private val context: Context) : LocalizedError {
     override val gatekeeperInvalidAccessCode: String
         get() = context.getString(R.string.gatekeeper_access_invalid_error)
 
+    override val gatekeeperBiometricTooManyAttempts: String
+        get() = "TODO"
+
     override val gatekeeperUnexpected: String
         get() = context.getString(R.string.unexpected_error)
 

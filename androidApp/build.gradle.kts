@@ -5,8 +5,6 @@ plugins {
     kotlin("android")
     alias(libs.plugins.jaredsburrows.license)
     alias(libs.plugins.kotlin.serialization)
-//
-//    alias(libs.plugins.paparazzi)
 }
 
 android {
