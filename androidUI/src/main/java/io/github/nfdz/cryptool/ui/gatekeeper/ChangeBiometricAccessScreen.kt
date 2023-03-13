@@ -80,29 +80,27 @@ internal fun ChangeBiometricAccessScreenContent(
                     .padding(padding)
                     .verticalScroll(rememberScrollState())
             ) {
-                Column(
+                Row(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(PaddingValues(28.dp)),
-                    verticalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            stringResource(R.string.gatekeeper_enable_biometrics),
-                            modifier = Modifier.padding(bottom = 2.dp, end = 8.dp),
-                            style = MaterialTheme.typography.bodyMedium,
-                        )
-                        Switch(
-                            checked = state.canUseBiometricAccess,
-                            onCheckedChange = {
-                                viewModel.dispatch(
-                                    GatekeeperAction.ChangeBiometricAccess(
-                                        biometricEnabled = it,
-                                    )
+                    Text(
+                        stringResource(R.string.gatekeeper_enable_biometrics),
+                        modifier = Modifier.padding(bottom = 2.dp, end = 8.dp),
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                    Switch(
+                        checked = state.canUseBiometricAccess,
+                        onCheckedChange = {
+                            viewModel.dispatch(
+                                GatekeeperAction.ChangeBiometricAccess(
+                                    biometricEnabled = it,
                                 )
-                            },
-                        )
-                    }
+                            )
+                        },
+                    )
                 }
             }
         },
