@@ -14,6 +14,8 @@
     <string name="service_permission_error">Der Overlay-Modus kann nicht gestartet werden, da er keine Berechtigung hat</string>
     <string name="service_unexpected_error">Beim Öffnen des Overlay-Modus ist ein Fehler aufgetreten, bitte melden Sie den Fehler</string>
     <string name="input_minimum_length">Mindestlänge beträgt %1$d</string>
+    <string name="version_19_description">• Neue Hauptmenü-Option, um biometrischen Zugriff zu aktivieren/deaktivieren.
+                                       \n• Biometrischer Zugriff reparieren. Möglicherweise müssen Sie ihn erneut aktivieren.</string>
     <string name="version_18_description">• Unterstützen Sie andere Apps, die Daten mit Cryptool teilen.
                                        \n• Feedback von Benutzern.
                                        \n• Stabilitätsprobleme beheben.</string>
@@ -54,11 +56,12 @@
     <string name="gatekeeper_delete_code_dialog_description">Sie sind dabei, alle gespeicherten Daten zu löschen und von Anfang an wieder zu beginnen. Möchten Sie fortfahren?</string>
     <string name="gatekeeper_delete_code_dialog_action">Löschen</string>
     <string name="gatekeeper_access_invalid_error">Zugriff verweigert</string>
+    <string name="gatekeeper_access_biometric_too_many_attempts_error">Sie haben zu oft erfolglos versucht, Zugang zu erhalten, und müssen jetzt warten, bis Sie den biometrischen Zugang erneut verwenden können</string>
+    <string name="change_biometric_topbar_title">Biometrischen Zugriff ändern</string>
     <string name="change_access_topbar_title">Zugangsschlüssel ändern</string>
     <string name="change_access_description">Wir müssen alle Ihre Daten neu verschlüsseln, um den Zugangscode zu ändern. Wir empfehlen Ihnen, vorher ein Backup zu exportieren. Dieser Prozess kann einige Sekunden dauern, bitte schließen Sie den Bildschirm während dieser Zeit nicht.\n\nWenn Sie biometrischen Zugriff verwenden, müssen Sie ihn möglicherweise verwenden.\n</string>
     <string name="change_access_old_code_hint">Aktueller Zugangscode</string>
     <string name="change_access_new_code_hint">Neuer Zugangscode</string>
-    <string name="change_access_enable_biometrics">Verwenden Sie Biometrie zum Öffnen:</string>
     <string name="change_access_change_action">Ändern</string>
     <string name="change_access_old_code_error">Ungültiger aktueller Zugangscode</string>
     <string name="change_access_error">Es gab einen unerwarteten Fehler beim Ändern des Codes, bitte überprüfen Sie, ob alles in Ordnung ist, und versuchen Sie es erneut</string>

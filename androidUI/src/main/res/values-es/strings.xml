@@ -14,6 +14,8 @@
     <string name="service_permission_error">El modo superpuesto no se puede iniciar porque no tiene permiso</string>
     <string name="service_unexpected_error">Hubo un error al abrir el modo superpuesto, por favor reporte el error</string>
     <string name="input_minimum_length">La longitud mínima es %1$d</string>
+    <string name="version_19_description">• Nueva opción en el menú principal para activar/desactivar el acceso biométrico.
+                                       \n• Corregir el acceso biométrico. Es posible que tengas que activarlo de nuevo.</string>
     <string name="version_18_description">• Soporte para que otras aplicaciones compartan datos con Cryptool.
                                        \n• Implementar sugerencias de los usuarios.
                                        \n• Corregir problemas de estabilidad.</string>
@@ -55,11 +57,12 @@
     <string name="gatekeeper_delete_code_dialog_description">Estás a punto de eliminar todos los datos almacenados y empezar de nuevo desde el principio. ¿Quieres continuar?</string>
     <string name="gatekeeper_delete_code_dialog_action">Eliminar</string>
     <string name="gatekeeper_access_invalid_error">Acceso denegado</string>
+    <string name="gatekeeper_access_biometric_too_many_attempts_error">Has intentado acceder demasiadas veces sin éxito y ahora tienes que esperar para usar el acceso biométrico</string>
+    <string name="change_biometric_topbar_title">Cambiar Acceso Biométrico</string>
     <string name="change_access_topbar_title">Cambiar Código de Acceso</string>
     <string name="change_access_description">Necesitamos volver a cifrar todos tus datos para cambiar el código de acceso, te recomendamos que tengas una copia de seguridad exportada de antemano por si acaso. Este proceso puede tardar algunos segundos, por favor no cierres la pantalla durante ese tiempo.\n\nSi tienes el acceso biométrico habilitado, puede que se te solicite.\n</string>
     <string name="change_access_old_code_hint">Código de acceso actual</string>
     <string name="change_access_new_code_hint">Nuevo código de acceso</string>
-    <string name="change_access_enable_biometrics">Usar identificación biométrica para acceder:</string>
     <string name="change_access_change_action">Cambiar</string>
     <string name="change_access_old_code_error">Código de acceso actual incorrecto</string>
     <string name="change_access_error">Se ha producido un error inesperado al cambiar el código, por favor comprueba que todo está bien e inténtalo de nuevo</string>
