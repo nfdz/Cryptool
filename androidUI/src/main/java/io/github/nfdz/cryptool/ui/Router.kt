@@ -8,6 +8,7 @@ import androidx.navigation.navArgument
 import io.github.nfdz.cryptool.ui.about.*
 import io.github.nfdz.cryptool.ui.encryption.EncryptionScreen
 import io.github.nfdz.cryptool.ui.gatekeeper.ChangeAccessCodeScreen
+import io.github.nfdz.cryptool.ui.gatekeeper.ChangeBiometricAccessScreen
 import io.github.nfdz.cryptool.ui.main.MainScreen
 import io.github.nfdz.cryptool.ui.password.PasswordScreen
 
@@ -19,6 +20,7 @@ interface Router {
     fun popBackStackToRoot()
     fun navigateToPasswords()
     fun navigateToChangeAccessCode()
+    fun navigateToChangeBiometricAccess()
     fun navigateToReport()
     fun navigateToAlgorithms()
     fun navigateToAbout()
@@ -38,6 +40,7 @@ private object RouterPaths {
     const val main = "main"
     const val passwords = "passwords"
     const val changeCode = "change-access"
+    const val changeBiometric = "change-biometric"
     const val report = "report"
     const val about = "about"
     const val algorithms = "algorithms"
@@ -71,6 +74,7 @@ abstract class RouterBase(
         }
         composable(RouterPaths.passwords) { PasswordScreen(this@RouterBase) }
         composable(RouterPaths.changeCode) { ChangeAccessCodeScreen(this@RouterBase) }
+        composable(RouterPaths.changeBiometric) { ChangeBiometricAccessScreen(this@RouterBase) }
         composable(RouterPaths.report) { ReportScreen(this@RouterBase) }
         composable(RouterPaths.about) { AboutScreen(this@RouterBase) }
         composable(RouterPaths.algorithms) { AlgorithmsScreen(this@RouterBase) }
@@ -92,6 +96,10 @@ abstract class RouterBase(
 
     override fun navigateToChangeAccessCode() {
         navController.navigate(RouterPaths.changeCode)
+    }
+
+    override fun navigateToChangeBiometricAccess() {
+        navController.navigate(RouterPaths.changeBiometric)
     }
 
     override fun navigateToReport() {
@@ -127,6 +135,7 @@ object EmptyRouter : Router {
     override fun popBackStackToRoot() {}
     override fun navigateToPasswords() {}
     override fun navigateToChangeAccessCode() {}
+    override fun navigateToChangeBiometricAccess() {}
     override fun navigateToReport() {}
     override fun navigateToAlgorithms() {}
     override fun navigateToAbout() {}

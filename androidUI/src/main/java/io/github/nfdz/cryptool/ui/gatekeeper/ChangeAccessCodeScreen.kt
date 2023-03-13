@@ -75,16 +75,9 @@ internal fun ChangeAccessCodeScreenContent(
     router: Router,
     state: GatekeeperState,
 ) {
-    var biometricEnabled by remember { mutableStateOf(state.canUseBiometricAccess) }
     var oldAccessCode by remember { mutableStateOf("") }
     var newAccessCode by remember { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
-    val context = LocalContext.current
-
-    val canAuthenticateWithBiometrics = runCatching {
-        val biometricManager = BiometricManager.from(context)
-        biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG) == BiometricManager.BIOMETRIC_SUCCESS
-    }.getOrElse { false }
 
     if (router.supportAdvancedFeatures()) {
         BackHandler(state.loadingAccess) {
@@ -97,8 +90,6 @@ internal fun ChangeAccessCodeScreenContent(
             GatekeeperAction.ChangeAccessCode(
                 oldCode = oldAccessCode,
                 newCode = newAccessCode,
-                biometricContext = context as FragmentActivity,
-                biometricEnabled = biometricEnabled,
             )
         )
         focusManager.clearFocus()
@@ -152,20 +143,6 @@ internal fun ChangeAccessCodeScreenContent(
                         enabled = !state.loadingAccess,
                     )
                     Spacer(modifier = Modifier.size(8.dp))
-                    if (canAuthenticateWithBiometrics) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text(
-                                stringResource(R.string.change_access_enable_biometrics),
-                                modifier = Modifier.padding(bottom = 2.dp, end = 8.dp),
-                                style = MaterialTheme.typography.bodyMedium,
-                            )
-                            Switch(
-                                enabled = !state.loadingAccess,
-                                checked = biometricEnabled,
-                                onCheckedChange = { biometricEnabled = it },
-                            )
-                        }
-                    }
                     Button(
                         modifier = Modifier.fillMaxWidth(),
                         onClick = handleChangeCode,

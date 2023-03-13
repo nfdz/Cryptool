@@ -16,6 +16,9 @@
     <string name="service_unexpected_error">There was an error when opening the overlay mode, please report the error</string>
     <string name="input_minimum_length">Minimum length is %1$d</string>
 
+    <string name="version_19_name" translatable="false">3.1.1</string>
+    <string name="version_19_description">• New main menu option to enable/disable biometric access.
+                                       \n• Fix biometric access. You may have to enable it again.</string>
     <string name="version_18_name" translatable="false">3.1.0</string>
     <string name="version_18_description">• Support other apps sharing data with Cryptool.
                                        \n• Implement user feedback.
@@ -65,11 +68,12 @@
     <string name="gatekeeper_delete_code_dialog_description">You are about to delete all stored data and start again from the beginning. Do you want to continue?</string>
     <string name="gatekeeper_delete_code_dialog_action">Delete</string>
     <string name="gatekeeper_access_invalid_error">Access denied</string>
+    <string name="gatekeeper_access_biometric_too_many_attempts_error">You have tried to access too many times without success and now you have to wait to use biometric access again</string>
+    <string name="change_biometric_topbar_title">Change Biometric Access</string>
     <string name="change_access_topbar_title">Change Access Code</string>
     <string name="change_access_description">We need to reencrypt all your data to change the access code, we recommend that you have a backup exported beforehand. This process could take some seconds, please do not close the screen during that time.\n\nIf you use biometric access, you may be required to use it.\n</string>
     <string name="change_access_old_code_hint">Current access code</string>
     <string name="change_access_new_code_hint">New access code</string>
-    <string name="change_access_enable_biometrics">Use biometrics to access:</string>
     <string name="change_access_change_action">Change</string>
     <string name="change_access_old_code_error">Invalid current access code</string>
     <string name="change_access_error">There was an unexpected error changing the code, please check that everything is fine, and try again</string>

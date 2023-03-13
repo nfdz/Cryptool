@@ -1,7 +1,5 @@
 package io.github.nfdz.cryptool.ui.gatekeeper
 
-import androidx.biometric.BiometricManager
-import androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -26,6 +24,7 @@ import io.github.nfdz.cryptool.ui.AppMessagesEffect
 import io.github.nfdz.cryptool.ui.AppTheme
 import io.github.nfdz.cryptool.ui.R
 import io.github.nfdz.cryptool.ui.extension.enforceSingleLine
+import io.github.nfdz.cryptool.ui.extension.supportBiometrics
 
 @Composable
 @Preview
@@ -159,7 +158,7 @@ private fun AskCode(
             }
         }
         Spacer(modifier = Modifier.weight(0.5f))
-        if (canUseBiometricAccess && supportBiometrics(activity)) {
+        if (activity != null && canUseBiometricAccess && activity.supportBiometrics()) {
             Box(
                 Modifier.fillMaxWidth()
             ) {
@@ -168,7 +167,7 @@ private fun AskCode(
                         .size(90.dp)
                         .align(Alignment.Center)
                         .padding(8.dp),
-                    onClick = { activity?.let { viewModel.dispatch(GatekeeperAction.AccessWithBiometric(it)) } },
+                    onClick = { viewModel.dispatch(GatekeeperAction.AccessWithBiometric(activity)) },
                     enabled = !loadingAccess
                 ) {
                     Icon(
@@ -235,7 +234,7 @@ private fun CreateCode(
             text = stringResource(R.string.input_minimum_length, minCodeLength),
             style = MaterialTheme.typography.labelMedium,
         )
-        if (supportBiometrics(activity)) {
+        if (activity != null && activity.supportBiometrics()) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     stringResource(R.string.gatekeeper_enable_biometrics),
@@ -250,7 +249,7 @@ private fun CreateCode(
             enabled = isCodeValid(textInput),
             onClick = {
                 if (isCodeValid(textInput)) {
-                    viewModel.dispatch(GatekeeperAction.Create(textInput, biometricEnabled, activity))
+                    viewModel.dispatch(GatekeeperAction.Create(textInput, biometricEnabled))
                     focusManager.clearFocus()
                 }
             },
@@ -260,11 +259,6 @@ private fun CreateCode(
         Spacer(modifier = Modifier.weight(0.8f))
     }
 }
-
-private fun supportBiometrics(activity: FragmentActivity?): Boolean = runCatching {
-    val biometricManager = BiometricManager.from(activity!!)
-    biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG) == BIOMETRIC_SUCCESS
-}.getOrElse { false }
 
 @Composable
 private fun CodeTextField(

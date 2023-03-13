@@ -26,13 +26,14 @@ class GatekeeperViewModelImpl(
     override suspend fun processAction(action: GatekeeperAction) {
         runCatching {
             when (action) {
-                is GatekeeperAction.Create -> create(action.code, action.biometricEnabled, action.biometricContext)
+                is GatekeeperAction.Create -> create(action.code, action.biometricEnabled)
                 is GatekeeperAction.AccessWithCode -> accessWithCode(action.code)
                 is GatekeeperAction.AccessWithBiometric -> accessWithBiometric(action.biometricContext)
                 GatekeeperAction.Delete -> delete()
                 is GatekeeperAction.AcknowledgeWelcome -> acknowledgeWelcome(action.welcomeTutorial)
                 is GatekeeperAction.AcknowledgeLegacyMigration -> acknowledgeLegacyMigration(action)
                 is GatekeeperAction.ChangeAccessCode -> changeAccessCode(action)
+                is GatekeeperAction.ChangeBiometricAccess -> changeBiometricAccess(action)
                 GatekeeperAction.CheckAccess -> checkAccess()
                 GatekeeperAction.PushAccessValidity -> pushAccessValidity()
             }
@@ -51,8 +52,8 @@ class GatekeeperViewModelImpl(
         loadingAccess = loadingAccess,
     )
 
-    private suspend fun create(code: String, biometricEnabled: Boolean, biometricContext: BiometricContext?) {
-        repository.setNewCode(code, biometricEnabled, biometricContext)
+    private suspend fun create(code: String, biometricEnabled: Boolean) {
+        repository.setNewCode(code, biometricEnabled)
         emitNewState(refreshState())
     }
 
@@ -71,7 +72,7 @@ class GatekeeperViewModelImpl(
     private suspend fun accessWithBiometric(biometricContext: BiometricContext) {
         loadingAccess = true
         emitNewState(refreshState())
-        val result= runCatching {
+        val result = runCatching {
             repository.biometricAccess(biometricContext)
         }
         if (result.getOrNull() != true) {
@@ -119,7 +120,7 @@ class GatekeeperViewModelImpl(
         repository.reset()
 
         runCatching {
-            repository.setNewCode(action.newCode, action.biometricEnabled, action.biometricContext)
+            repository.setNewCode(action.newCode, false)
             importData.consumeDataDto(data)
             emitSideEffect(GatekeeperEffect.ChangedCode)
         }.onFailure {
@@ -127,6 +128,11 @@ class GatekeeperViewModelImpl(
         }
 
         loadingAccess = false
+        emitNewState(refreshState())
+    }
+
+    private fun changeBiometricAccess(action: GatekeeperAction.ChangeBiometricAccess) {
+        repository.setBiometricAccess(action.biometricEnabled)
         emitNewState(refreshState())
     }
 

@@ -52,7 +52,7 @@ class GatekeeperRepositoryImpl(
 
     override fun hasCode(): Boolean = storage.getString(codeKey) != null
 
-    override fun canUseBiometricAccess(): Boolean = storage.getString(biometricCodeKey) != null
+    override fun canUseBiometricAccess(): Boolean = storage.getString(biometricCodeKey).isNullOrBlank().not()
 
     override fun canMigrateFromLegacy(): LegacyMigrationInformation? {
         return if (migrationInProgress == null && legacyMigrationManager.canMigrate()) {
@@ -62,23 +62,26 @@ class GatekeeperRepositoryImpl(
         }
     }
 
-    override suspend fun setNewCode(
-        code: String,
-        biometricEnabled: Boolean,
-        context: BiometricContext?
-    ) {
+    override suspend fun setNewCode(code: String, biometricEnabled: Boolean, ) {
         val encryptedCode = cryptography.encrypt(password = code, text = code) ?: return
-        if (context != null && biometricEnabled) {
-            setupBiometric(code, context)
-        }
+        setBiometricAccess(code, biometricEnabled)
         storage.putString(codeKey, encryptedCode)
         storage.putString(codeSaltKey, keyDerivation.generateSalt().encodeBase64())
         setupActiveCode(code)
     }
 
-    private suspend fun setupBiometric(code: String, context: BiometricContext) {
-        biometric.authenticate(context)
-        storage.putString(biometricCodeKey, code)
+    override fun setBiometricAccess(enabled: Boolean) {
+        activeCode?.let {
+            setBiometricAccess(it, enabled)
+        }
+    }
+
+    private fun setBiometricAccess(code: String, enabled: Boolean) {
+        if (enabled) {
+            storage.putString(biometricCodeKey, code)
+        } else {
+            storage.putString(biometricCodeKey, "")
+        }
     }
 
     override fun checkAccessChange(): Boolean {
