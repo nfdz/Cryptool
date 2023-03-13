@@ -35,7 +35,7 @@ class GatekeeperRepositoryImpl(
     companion object {
         const val codeKey = "access_code"
         const val codeSaltKey = "access_code_salt"
-        const val biometricCodeKey = "access_biometric_code"
+        const val biometricCodeKey = "access_biometric_code_v2"
 
         private const val accessValidityPeriodInSeconds = 300 // 5 min
     }
@@ -52,7 +52,7 @@ class GatekeeperRepositoryImpl(
 
     override fun hasCode(): Boolean = storage.getString(codeKey) != null
 
-    override fun canUseBiometricAccess(): Boolean = storage.getString(biometricCodeKey) != null
+    override fun canUseBiometricAccess(): Boolean = storage.getString(biometricCodeKey).isNullOrBlank().not()
 
     override fun canMigrateFromLegacy(): LegacyMigrationInformation? {
         return if (migrationInProgress == null && legacyMigrationManager.canMigrate()) {
@@ -62,19 +62,26 @@ class GatekeeperRepositoryImpl(
         }
     }
 
-    override suspend fun setNewCode(code: String, biometricEnabled: Boolean, context: BiometricContext?) {
+    override suspend fun setNewCode(code: String, biometricEnabled: Boolean, ) {
         val encryptedCode = cryptography.encrypt(password = code, text = code) ?: return
-        if (context != null && biometricEnabled) {
-            setupBiometric(code, context)
-        }
+        setBiometricAccess(code, biometricEnabled)
         storage.putString(codeKey, encryptedCode)
         storage.putString(codeSaltKey, keyDerivation.generateSalt().encodeBase64())
         setupActiveCode(code)
     }
 
-    private suspend fun setupBiometric(code: String, context: BiometricContext) {
-        val encryptedCode = biometric.setup(code, context)
-        storage.putString(biometricCodeKey, encryptedCode)
+    override fun setBiometricAccess(enabled: Boolean) {
+        activeCode?.let {
+            setBiometricAccess(it, enabled)
+        }
+    }
+
+    private fun setBiometricAccess(code: String, enabled: Boolean) {
+        if (enabled) {
+            storage.putString(biometricCodeKey, code)
+        } else {
+            storage.putString(biometricCodeKey, "")
+        }
     }
 
     override fun checkAccessChange(): Boolean {
@@ -104,14 +111,15 @@ class GatekeeperRepositoryImpl(
     }
 
     override suspend fun biometricAccess(context: BiometricContext): Boolean {
-        val encryptedCode = storage.getString(biometricCodeKey) ?: return false
-        val code = runCatching { biometric.access(encryptedCode, context) }.getOrNull() ?: return false
+        biometric.authenticate(context)
+        val code = storage.getString(biometricCodeKey) ?: return false
         return validateCode(code)
     }
 
     override suspend fun validateCode(code: String): Boolean {
         val encryptedCode = storage.getString(codeKey) ?: return false
-        val plainCode = cryptography.decrypt(password = code, encryptedText = encryptedCode) ?: return false
+        val plainCode =
+            cryptography.decrypt(password = code, encryptedText = encryptedCode) ?: return false
         val isValid = code == plainCode
         if (isValid) setupActiveCode(code)
         return isValid
@@ -119,7 +127,8 @@ class GatekeeperRepositoryImpl(
 
     private suspend fun setupActiveCode(code: String) {
         val wasOpen = isOpen()
-        val salt = storage.getString(codeSaltKey)?.decodeBase64() ?: throw IllegalStateException("Salt is missing")
+        val salt = storage.getString(codeSaltKey)?.decodeBase64()
+            ?: throw IllegalStateException("Salt is missing")
         val key = keyDerivation.hash(code, salt, RealmGateway.keyHashLength)
         realmGateway.open(key)
         activeCode = code
@@ -172,7 +181,11 @@ class GatekeeperRepositoryImpl(
                 }
             }
         }.onFailure {
-            Napier.e(tag = "GatekeeperRepository", message = "Inject tutorial error: ${it.message}", throwable = it)
+            Napier.e(
+                tag = "GatekeeperRepository",
+                message = "Inject tutorial error: ${it.message}",
+                throwable = it
+            )
         }
     }
 

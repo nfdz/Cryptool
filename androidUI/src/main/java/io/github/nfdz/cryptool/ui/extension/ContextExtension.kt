@@ -5,6 +5,8 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.Browser
 import android.provider.Settings
+import androidx.biometric.BiometricManager
+import androidx.fragment.app.FragmentActivity
 import io.github.nfdz.cryptool.shared.gatekeeper.entity.TutorialInformation
 import io.github.nfdz.cryptool.ui.R
 
@@ -31,3 +33,8 @@ fun Context.openUrl(url: String, extraFlags: Int? = null): Result<Unit> = runCat
         }
     )
 }
+
+fun Context.supportBiometrics(): Boolean = runCatching {
+    val biometricManager = BiometricManager.from(this)
+    biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG) == BiometricManager.BIOMETRIC_SUCCESS
+}.getOrElse { false }

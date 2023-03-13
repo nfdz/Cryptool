@@ -1,6 +1,7 @@
 package io.github.nfdz.cryptool.ui.main
 
 import androidx.activity.compose.BackHandler
+import androidx.biometric.BiometricManager
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -24,6 +25,7 @@ import io.github.nfdz.cryptool.ui.*
 import io.github.nfdz.cryptool.ui.R
 import io.github.nfdz.cryptool.ui.common.TopAppBarCommon
 import io.github.nfdz.cryptool.ui.encryption.CreateEncryptionDialog
+import io.github.nfdz.cryptool.ui.extension.supportBiometrics
 import io.github.nfdz.cryptool.ui.platform.ApplicationManager
 import io.github.nfdz.cryptool.ui.platform.ClipboardAndroid
 import io.github.nfdz.cryptool.ui.platform.EmptyApplicationManager
@@ -285,6 +287,8 @@ private fun SelectModeTopBar(viewModel: EncryptionViewModel, router: Router, sta
 @Composable
 private fun MainActions(router: Router, onExportClick: () -> Unit, onImportClick: () -> Unit) {
     var showMenu by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+    val canAuthenticateWithBiometrics = context.supportBiometrics()
 
     IconButton(onClick = {
         showMenu = !showMenu
@@ -315,6 +319,15 @@ private fun MainActions(router: Router, onExportClick: () -> Unit, onImportClick
                 showMenu = false
             },
         )
+        if(canAuthenticateWithBiometrics) {
+            DropdownMenuItem(
+                text = { Text(stringResource(R.string.change_biometric_topbar_title)) },
+                onClick = {
+                    router.navigateToChangeBiometricAccess()
+                    showMenu = false
+                },
+            )
+        }
         DropdownMenuItem(
             text = { Text(stringResource(R.string.algorithms_topbar_title)) },
             onClick = {

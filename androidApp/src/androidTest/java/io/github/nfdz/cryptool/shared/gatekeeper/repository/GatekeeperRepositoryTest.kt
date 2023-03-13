@@ -138,7 +138,7 @@ class GatekeeperRepositoryTest {
     fun testSetNewCode() = runTest {
         val instance = createInstance()
 
-        instance.setNewCode(code = code, biometricEnabled = false, null)
+        instance.setNewCode(code = code, biometricEnabled = false)
 
         val storedEncryptedCode = keyValueStorage.map[GatekeeperRepositoryImpl.codeKey]
         val storedSalt = keyValueStorage.map[GatekeeperRepositoryImpl.codeSaltKey]
@@ -156,8 +156,8 @@ class GatekeeperRepositoryTest {
     fun testSetNewCodeTwice() = runTest {
         val instance = createInstance()
 
-        instance.setNewCode(code = code, biometricEnabled = false, null)
-        instance.setNewCode(code = code, biometricEnabled = false, null)
+        instance.setNewCode(code = code, biometricEnabled = false)
+        instance.setNewCode(code = code, biometricEnabled = false)
 
         assertEquals(2, realm.openCount)
         assertEquals(true, instance.isOpen())
@@ -200,7 +200,7 @@ class GatekeeperRepositoryTest {
     fun testCheckAccessWhenValid() = runTest {
         val instance = createInstance()
 
-        instance.setNewCode(code = code, biometricEnabled = false, null)
+        instance.setNewCode(code = code, biometricEnabled = false)
         val anyChange = instance.checkAccessChange()
 
         assertEquals(false, anyChange)
@@ -214,7 +214,7 @@ class GatekeeperRepositoryTest {
 
         Clock.nowInMillisForTesting = 0
 
-        instance.setNewCode(code = code, biometricEnabled = false, null)
+        instance.setNewCode(code = code, biometricEnabled = false)
 
         Clock.nowInMillisForTesting = 301_000
 
@@ -231,7 +231,7 @@ class GatekeeperRepositoryTest {
 
         Clock.nowInMillisForTesting = 0
 
-        instance.setNewCode(code = code, biometricEnabled = false, null)
+        instance.setNewCode(code = code, biometricEnabled = false)
 
         Clock.nowInMillisForTesting = 1_000_000
 
@@ -407,7 +407,7 @@ class GatekeeperRepositoryTest {
         assertEquals(0, legacyMigrationManager.setDidMigrationCount)
         assertEquals(false, instance.isOpen())
 
-        instance.setNewCode(code = code, biometricEnabled = false, null)
+        instance.setNewCode(code = code, biometricEnabled = false)
 
         assertEquals(1, legacyMigrationManager.setDidMigrationCount)
         assertEquals(1, legacyMigrationManager.doMigrationCount)
@@ -433,7 +433,7 @@ class GatekeeperRepositoryTest {
     fun testEncryptWithAccessCode() = runTest {
         val instance = createInstance()
 
-        instance.setNewCode(code = code, biometricEnabled = false, null)
+        instance.setNewCode(code = code, biometricEnabled = false)
 
         val result = instance.encryptWithAccessCode(code)
 
@@ -445,7 +445,7 @@ class GatekeeperRepositoryTest {
     fun testDecryptWithAccessCode() = runTest {
         val instance = createInstance()
 
-        instance.setNewCode(code = code, biometricEnabled = false, null)
+        instance.setNewCode(code = code, biometricEnabled = false)
 
         val result = instance.decryptWithAccessCode(encryptedCode)
 

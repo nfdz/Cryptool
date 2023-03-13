@@ -9,6 +9,18 @@ class ChangelogProviderAndroid(val context: Context) : ChangelogProvider {
 
     private fun buildVersionsMap(): Map<Int, () -> VersionInformation> {
         return linkedMapOf(
+            19 to {
+                VersionInformation(
+                    context.getString(R.string.version_19_name),
+                    context.getString(R.string.version_19_description)
+                )
+            },
+            18 to {
+                VersionInformation(
+                    context.getString(R.string.version_18_name),
+                    context.getString(R.string.version_18_description)
+                )
+            },
             15 to {
                 VersionInformation(
                     context.getString(R.string.version_15_name),

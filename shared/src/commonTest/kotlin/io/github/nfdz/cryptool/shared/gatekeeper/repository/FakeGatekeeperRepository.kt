@@ -36,9 +36,16 @@ class FakeGatekeeperRepository(
 
     var setNewCodeCount = 0
     var setNewCodeArgCode: String? = null
-    override suspend fun setNewCode(code: String, biometricEnabled: Boolean, context: BiometricContext?) {
+    override suspend fun setNewCode(code: String, biometricEnabled: Boolean) {
         setNewCodeCount++
         setNewCodeArgCode = code
+    }
+
+    var setBiometricAccessCount = 0
+    var setBiometricAccessArg: Boolean? = null
+    override fun setBiometricAccess(enabled: Boolean) {
+        setBiometricAccessCount++
+        setBiometricAccessArg = enabled
     }
 
     var resetCount = 0

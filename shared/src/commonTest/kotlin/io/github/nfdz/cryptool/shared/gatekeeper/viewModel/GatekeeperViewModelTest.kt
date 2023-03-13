@@ -5,6 +5,7 @@ import io.github.nfdz.cryptool.shared.core.import.FakeImportData
 import io.github.nfdz.cryptool.shared.gatekeeper.entity.TutorialInformation
 import io.github.nfdz.cryptool.shared.gatekeeper.repository.FakeGatekeeperRepository
 import io.github.nfdz.cryptool.shared.platform.localization.FakeLocalizedError
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
@@ -31,7 +32,7 @@ class GatekeeperViewModelTest {
         )
 
         val code = "abc"
-        instance.dispatch(GatekeeperAction.Create(code, false, null))
+        instance.dispatch(GatekeeperAction.Create(code, false))
 
         val statesRecord = instance.observeState().take(2).toList()
 
@@ -219,7 +220,7 @@ class GatekeeperViewModelTest {
 
         val oldCode = "abc"
         val newCode = "123"
-        instance.dispatch(GatekeeperAction.ChangeAccessCode(oldCode, newCode, false, null))
+        instance.dispatch(GatekeeperAction.ChangeAccessCode(oldCode, newCode))
 
         val statesRecord = instance.observeState().take(3).toList()
 
@@ -254,7 +255,7 @@ class GatekeeperViewModelTest {
 
         val oldCode = "abc"
         val newCode = "123"
-        instance.dispatch(GatekeeperAction.ChangeAccessCode(oldCode, newCode, false, null))
+        instance.dispatch(GatekeeperAction.ChangeAccessCode(oldCode, newCode))
 
         val effectsRecord = instance.observeSideEffect().take(1).toList()
         val effect = effectsRecord.first() as GatekeeperEffect.Error
@@ -290,7 +291,7 @@ class GatekeeperViewModelTest {
 
         val oldCode = "abc"
         val newCode = "123"
-        instance.dispatch(GatekeeperAction.ChangeAccessCode(oldCode, newCode, false, null))
+        instance.dispatch(GatekeeperAction.ChangeAccessCode(oldCode, newCode))
 
         val effectsRecord = instance.observeSideEffect().take(1).toList()
         val effect = effectsRecord.first() as GatekeeperEffect.Error
@@ -303,5 +304,29 @@ class GatekeeperViewModelTest {
         assertEquals(1, exportData.prepareDataDtoCount)
         assertEquals(1, importData.consumeDataDtoCount)
         assertEquals(fakeDto, importData.consumeDataDtoArgData)
+    }
+
+    @Test
+    fun testChangeBiometricAccess() = runTest {
+        val gatekeeperRepository = FakeGatekeeperRepository(
+            isOpenAnswer = listOf(false, false, true),
+            hasCodeAnswer = true,
+            validateCodeAnswer = true,
+        )
+        val instance = GatekeeperViewModelImpl(
+            repository = gatekeeperRepository,
+            exportData = FakeExportData(),
+            importData = FakeImportData(),
+            localizedError = FakeLocalizedError,
+        )
+
+        val biometricEnabled = true
+        instance.dispatch(GatekeeperAction.ChangeBiometricAccess(biometricEnabled))
+
+        delay(100) // workaround
+        instance.observeState().take(1).toList()
+
+        assertEquals(1, gatekeeperRepository.setBiometricAccessCount)
+        assertEquals(biometricEnabled, gatekeeperRepository.setBiometricAccessArg)
     }
 }

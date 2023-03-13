@@ -20,15 +20,11 @@ data class GatekeeperState(
 sealed class GatekeeperAction : Action {
     data class AccessWithCode(val code: String) : GatekeeperAction()
     data class AccessWithBiometric(val biometricContext: BiometricContext) : GatekeeperAction()
-    data class Create(val code: String, val biometricEnabled: Boolean, val biometricContext: BiometricContext?) :
-        GatekeeperAction()
+    data class Create(val code: String, val biometricEnabled: Boolean) : GatekeeperAction()
 
-    data class ChangeAccessCode(
-        val oldCode: String,
-        val newCode: String,
-        val biometricEnabled: Boolean,
-        val biometricContext: BiometricContext?
-    ) : GatekeeperAction()
+    data class ChangeAccessCode(val oldCode: String, val newCode: String) : GatekeeperAction()
+
+    data class ChangeBiometricAccess(val biometricEnabled: Boolean) : GatekeeperAction()
 
     object Delete : GatekeeperAction()
     data class AcknowledgeWelcome(val welcomeTutorial: TutorialInformation?) : GatekeeperAction()

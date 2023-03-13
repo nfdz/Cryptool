@@ -10,7 +10,8 @@ interface GatekeeperRepository {
     fun hasCode(): Boolean
     fun canUseBiometricAccess(): Boolean
     fun canMigrateFromLegacy(): LegacyMigrationInformation?
-    suspend fun setNewCode(code: String, biometricEnabled: Boolean, context: BiometricContext?)
+    suspend fun setNewCode(code: String, biometricEnabled: Boolean)
+    fun setBiometricAccess(enabled: Boolean)
     fun reset()
     fun checkAccessChange(): Boolean
     fun pushAccessValidity()
