@@ -59,6 +59,7 @@ Google Play does not allow the use of SMS data if it is not selected as the defa
 
 <p align="center">
   <a href="https://play.google.com/store/apps/details?id=io.github.nfdz.cryptool"><img width="250" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png?raw=true" alt="Get it on Google Play"/></a>
+  <a href="https://apt.izzysoft.de/fdroid/index/apk/io.github.nfdz.cryptool"><img width="250" src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" alt="Get it on IzzyOnDroid"/></a>
   <a href="https://github.com/nfdz/Cryptool/releases/latest/download/CryptoolApp-release.apk"><img width="250" src=".github/dev/get-it-on-github.png?raw=true" alt="Get it on GitHub"/></a>
 </p>
 
