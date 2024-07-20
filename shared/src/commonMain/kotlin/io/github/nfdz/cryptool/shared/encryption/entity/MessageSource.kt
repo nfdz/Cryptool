@@ -8,7 +8,7 @@ sealed class MessageSource(val exclusive: Boolean) {
         const val lanPrefix = "LAN:"
     }
 
-    object Manual : MessageSource(false)
+    data object Manual : MessageSource(false)
     data class Sms(val phone: String) : MessageSource(true)
     data class File(val inputFilePath: String, val outputFilePath: String) : MessageSource(true)
     data class Lan(val address: String, val port: String, val slot: String) : MessageSource(true)

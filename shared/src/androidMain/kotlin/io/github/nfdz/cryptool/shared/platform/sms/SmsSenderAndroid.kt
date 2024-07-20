@@ -35,14 +35,23 @@ class SmsSenderAndroid(
     }
 
     override fun sendMessage(phone: String, encryptedMessage: String) {
-        Napier.d(tag = tag, message = "Send message to $phone: '$encryptedMessage'")
-        smsManager.sendTextMessage(
-            phone,
-            null,
-            encryptedMessage,
-            createPendingIntent(smsSentAction),
-            createPendingIntent(smsDeliveredAction)
-        )
+        runCatching {
+            Napier.d(tag = tag, message = "Send message to $phone: '$encryptedMessage'")
+            val messagesToSend = smsManager.divideMessage(encryptedMessage)
+            val sentPendingIntent =
+                ArrayList(messagesToSend.map { createPendingIntent(smsSentAction) })
+            val deliveredPendingIntent =
+                ArrayList(messagesToSend.map { createPendingIntent(smsDeliveredAction) })
+            smsManager.sendMultipartTextMessage(
+                phone,
+                null,
+                messagesToSend,
+                sentPendingIntent,
+                deliveredPendingIntent,
+            )
+        }.onFailure {
+            Napier.e(tag = tag, message = "Error sending SMS", throwable = it)
+        }
     }
 
     private fun createPendingIntent(action: String): PendingIntent {
