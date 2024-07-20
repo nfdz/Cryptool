@@ -1,8 +1,8 @@
 package io.github.nfdz.cryptool.platform.localization
 
 import android.content.Context
-import io.github.nfdz.cryptool.R
 import io.github.nfdz.cryptool.shared.platform.localization.LocalizedError
+import io.github.nfdz.cryptool.ui.R
 
 class LocalizedErrorAndroid(private val context: Context) : LocalizedError {
 

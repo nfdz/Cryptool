@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.compose.rememberNavController
@@ -25,9 +26,14 @@ import io.github.nfdz.cryptool.shared.gatekeeper.viewModel.GatekeeperViewModel
 import io.github.nfdz.cryptool.shared.platform.version.VersionProvider
 import io.github.nfdz.cryptool.ui.AppEntryPoint
 import io.github.nfdz.cryptool.ui.extension.openUrl
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
+import io.github.nfdz.cryptool.ui.R
 
 class AppActivity : FragmentActivity(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
     companion object {
@@ -59,7 +65,12 @@ class AppActivity : FragmentActivity(), CoroutineScope by CoroutineScope(Dispatc
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        registerReceiver(closeReceiver, IntentFilter(closeAction))
+        ContextCompat.registerReceiver(
+            this,
+            closeReceiver,
+            IntentFilter(closeAction),
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
         MessageEventBroadcast.registerReceiver(this, msgEventReceiver)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
@@ -82,21 +93,21 @@ class AppActivity : FragmentActivity(), CoroutineScope by CoroutineScope(Dispatc
         super.onDestroy()
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         launchShortcutIfNeeded(intent)
         handleShareInputIfNeeded(intent)
     }
 
-    private fun handleShareInputIfNeeded(intent: Intent?) {
-        if (intent?.action != Intent.ACTION_SEND) return
+    private fun handleShareInputIfNeeded(intent: Intent) {
+        if (intent.action != Intent.ACTION_SEND) return
         val text = intent.getStringExtra(Intent.EXTRA_TEXT)?.ifEmpty { null } ?: return
         encryptionViewModel.dispatch(EncryptionAction.AskAboutIncomingData(text))
         router?.popBackStackToRoot()
     }
 
-    private fun launchShortcutIfNeeded(intent: Intent?): Boolean {
-        if (packageName != intent?.`package`) return false
+    private fun launchShortcutIfNeeded(intent: Intent): Boolean {
+        if (packageName != intent.`package`) return false
         return if (ShortcutAndroid.shouldOpen(intent) && hasOverlayPermission()) {
             OverlayBallService.start(this)
             true

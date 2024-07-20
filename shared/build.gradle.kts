@@ -11,7 +11,7 @@ plugins {
 version = "1.0"
 
 kotlin {
-    android()
+    androidTarget()
 
     val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget = when {
         System.getenv("SDK_NAME")?.startsWith("iphoneos") == true -> ::iosArm64
@@ -58,12 +58,6 @@ kotlin {
                 implementation(libs.libphonenumber)
             }
         }
-        val androidTest by getting {
-            dependencies {
-                implementation(kotlin("test-junit"))
-                implementation(libs.bundles.android.test.unit)
-            }
-        }
         val iosMain by getting
         val iosTest by getting
     }
@@ -77,6 +71,7 @@ android {
         consumerProguardFiles("consumer-rules.pro")
     }
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    namespace = "io.github.nfdz.cryptool.shared"
 
     lint {
         warningsAsErrors = true

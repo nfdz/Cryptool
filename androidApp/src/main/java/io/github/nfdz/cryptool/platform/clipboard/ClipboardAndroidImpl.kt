@@ -6,7 +6,7 @@ import android.content.Context
 import android.os.Build
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
-import io.github.nfdz.cryptool.R
+import io.github.nfdz.cryptool.ui.R
 import io.github.nfdz.cryptool.ui.extension.showSnackbarAsync
 import io.github.nfdz.cryptool.ui.platform.ClipboardAndroid
 import java.util.concurrent.atomic.AtomicBoolean

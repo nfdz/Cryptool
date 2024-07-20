@@ -5,10 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import io.github.aakira.napier.Napier
-import io.github.nfdz.cryptool.R
 import io.github.nfdz.cryptool.shared.message.viewModel.MessageAction
 import io.github.nfdz.cryptool.shared.message.viewModel.MessageViewModel
 import io.github.nfdz.cryptool.shared.platform.sms.SmsSenderAndroid
+import io.github.nfdz.cryptool.ui.R
 
 object MessageEventBroadcast {
 

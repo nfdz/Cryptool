@@ -9,7 +9,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import io.github.aakira.napier.Napier
-import io.github.nfdz.cryptool.R
+import io.github.nfdz.cryptool.ui.R
 import io.github.nfdz.cryptool.extension.fadeIn
 import io.github.nfdz.cryptool.extension.hasOverlayPermission
 

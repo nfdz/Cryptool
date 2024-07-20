@@ -13,7 +13,7 @@ import io.github.nfdz.cryptool.ui.platform.LegacyPinCodeManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.Random
 
 object LegacyPinCodeManagerImpl : LegacyPinCodeManager {
     override fun askCode(onSuccessListener: () -> Unit, onDeleteListener: () -> Unit, activity: FragmentActivity) {
@@ -154,13 +154,13 @@ class LegacyPinCodeDialog(
 
     private fun askConfirmationToResetPin(onConfirmation: () -> (Unit)) {
         Builder(context)
-            .setTitle(R.string.gatekeeper_delete_code_dialog_title)
-            .setMessage(R.string.gatekeeper_delete_code_dialog_description)
-            .setPositiveButton(R.string.gatekeeper_delete_code_dialog_action) { dialog, _ ->
+            .setTitle(io.github.nfdz.cryptool.ui.R.string.gatekeeper_delete_code_dialog_title)
+            .setMessage(io.github.nfdz.cryptool.ui.R.string.gatekeeper_delete_code_dialog_description)
+            .setPositiveButton(io.github.nfdz.cryptool.ui.R.string.gatekeeper_delete_code_dialog_action) { dialog, _ ->
                 onConfirmation()
                 dialog.dismiss()
             }
-            .setNegativeButton(R.string.dialog_cancel) { dialog, _ ->
+            .setNegativeButton(io.github.nfdz.cryptool.ui.R.string.dialog_cancel) { dialog, _ ->
                 dialog.dismiss()
             }
             .show()
