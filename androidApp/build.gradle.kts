@@ -74,6 +74,7 @@ android {
     lint {
         warningsAsErrors = true
         disable.add("ObsoleteLintCustomCheck")
+        disable.add("AndroidGradlePluginVersion")
     }
     testOptions {
         managedDevices {
