@@ -52,6 +52,7 @@ class MessageViewModelImpl(
                 is MessageAction.UnsetFavorite -> unsetFavorite(action.messageIds)
                 MessageAction.ToggleVisibility -> toggleVisibility(previousState)
                 is MessageAction.Event -> processEvent(action.message)
+                is MessageAction.Search -> processSearch(previousState, action.text)
             }
         }.onFailure {
             Napier.e(tag = tag, message = "processAction: $action", throwable = it)
@@ -196,6 +197,19 @@ class MessageViewModelImpl(
 
     private suspend fun processEvent(message: String) {
         emitSideEffect(MessageEffect.Event(message))
+    }
+
+    private fun processSearch(previousState: MessageState, text: String?) {
+        val result = if (text.isNullOrEmpty()) emptySet()
+        else previousState.messages.filter {
+            it.ownership != MessageOwnership.SYSTEM && it.message.lowercase().contains(text.lowercase())
+        }.map { it.id }.toSet()
+        emitNewState(
+            previousState.copy(
+                searchText = text,
+                searchResultMessageIds = result
+            )
+        )
     }
 
     private fun Collection<Message>.sorted(): List<Message> {

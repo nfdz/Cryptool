@@ -1,6 +1,10 @@
 package io.github.nfdz.cryptool.shared.message.viewModel
 
-import io.github.nfdz.cryptool.shared.core.viewModel.*
+import io.github.nfdz.cryptool.shared.core.viewModel.Action
+import io.github.nfdz.cryptool.shared.core.viewModel.Effect
+import io.github.nfdz.cryptool.shared.core.viewModel.NanoViewModel
+import io.github.nfdz.cryptool.shared.core.viewModel.NanoViewModelBase
+import io.github.nfdz.cryptool.shared.core.viewModel.State
 import io.github.nfdz.cryptool.shared.encryption.entity.Encryption
 import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
 import io.github.nfdz.cryptool.shared.message.entity.Message
@@ -11,10 +15,12 @@ data class MessageState(
     val encryption: Encryption?,
     val messages: List<Message>,
     val selectedMessageIds: Set<String>,
+    val searchResultMessageIds: Set<String>,
+    val searchText: String?,
     val visibility: Boolean,
 ) : State {
     companion object {
-        val empty = MessageState(null, emptyList(), emptySet(), true)
+        val empty = MessageState(null, emptyList(), emptySet(), emptySet(), null, true)
     }
 
     override fun toString(): String {
@@ -24,7 +30,7 @@ data class MessageState(
 
 sealed class MessageAction : Action {
     data class Initialize(val encryptionId: String) : MessageAction()
-    object Close : MessageAction()
+    data object Close : MessageAction()
     data class AcknowledgeUnreadMessages(val encryptionId: String) : MessageAction()
     data class SetSource(val source: MessageSource?) : MessageAction()
     data class ReceiveMessage(val encryptedMessage: String) : MessageAction()
@@ -35,19 +41,21 @@ sealed class MessageAction : Action {
     data class UnsetFavorite(val messageIds: Set<String>) : MessageAction()
     data class Select(val messageId: String) : MessageAction()
     data class Unselect(val messageId: String) : MessageAction()
-    object ToggleVisibility : MessageAction()
-    object UnselectAll : MessageAction()
-    object SelectAll : MessageAction()
+    data object ToggleVisibility : MessageAction()
+    data object UnselectAll : MessageAction()
+    data object SelectAll : MessageAction()
+    data class Search(val text: String?) : MessageAction()
     data class Event(val message: String) : MessageAction()
+
 }
 
 sealed class MessageEffect : Effect {
     data class SetSource(val source: MessageSource?) : MessageEffect()
-    object ReceivedMessage : MessageEffect()
-    object SentMessage : MessageEffect()
-    object RemovedMessage : MessageEffect()
-    object SetFavorite : MessageEffect()
-    object UnsetFavorite : MessageEffect()
+    data object ReceivedMessage : MessageEffect()
+    data object SentMessage : MessageEffect()
+    data object RemovedMessage : MessageEffect()
+    data object SetFavorite : MessageEffect()
+    data object UnsetFavorite : MessageEffect()
     class Error(val message: String, val retry: MessageAction? = null) : MessageEffect()
     class Event(val message: String) : MessageEffect()
 }

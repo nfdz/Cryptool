@@ -35,6 +35,7 @@ android {
         }
     }
     val appCheckNewVersionOnGithub: String by project
+    val appValidateCertificateOnGithub: String by project
     buildTypes {
         release {
             isMinifyEnabled = true
@@ -43,6 +44,7 @@ android {
         }
         forEach {
             it.buildConfigField("Boolean", "CHECK_NEW_VERSION_GITHUB", appCheckNewVersionOnGithub)
+            it.buildConfigField("Boolean", "VALIDATE_CERTIFICATE_GITHUB", appValidateCertificateOnGithub)
         }
     }
     buildFeatures {
