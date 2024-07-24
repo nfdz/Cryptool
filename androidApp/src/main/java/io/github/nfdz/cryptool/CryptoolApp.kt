@@ -82,7 +82,7 @@ class CryptoolApp : Application() {
         single<LegacyPinCodeManager> { LegacyPinCodeManagerImpl }
         single<ClipboardAndroid> { ClipboardAndroidImpl }
         single<ApplicationManager> { ApplicationManagerImpl }
-        single<VersionProvider> { VersionProviderAndroid(get()) }
+        single<VersionProvider> { VersionProviderAndroid(applicationContext, get()) }
         single<ImportFile> { ImportFileAndroid(applicationContext, get(), get()) }
         single<ExportFile> { ExportFileAndroid(applicationContext, get(), get()) }
         single<ExportData> { ExportDataImpl(get(), get(), get()) }

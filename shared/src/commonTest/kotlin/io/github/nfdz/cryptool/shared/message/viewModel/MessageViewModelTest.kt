@@ -48,8 +48,11 @@ class MessageViewModelTest {
         assertEquals(1, messageRepository.getVisibilityCount)
 
         assertEquals(MessageState.empty, statesRecord[0])
-        assertEquals(MessageState(fakeEncryption1, emptyList(), emptySet(), true), statesRecord[1])
-        assertEquals(MessageState(fakeEncryption1, fakeMessageList, emptySet(), true), statesRecord[2])
+        assertEquals(MessageState(fakeEncryption1, emptyList(), emptySet(), emptySet(), null, true), statesRecord[1])
+        assertEquals(
+            MessageState(fakeEncryption1, fakeMessageList, emptySet(), emptySet(), null, true),
+            statesRecord[2]
+        )
     }
 
     @Test

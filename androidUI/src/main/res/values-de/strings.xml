@@ -14,6 +14,10 @@
     <string name="service_permission_error">Der Overlay-Modus kann nicht gestartet werden, da er keine Berechtigung hat</string>
     <string name="service_unexpected_error">Beim Öffnen des Overlay-Modus ist ein Fehler aufgetreten, bitte melden Sie den Fehler</string>
     <string name="input_minimum_length">Mindestlänge beträgt %1$d</string>
+    <string name="version_20_description">• Neue Sprachen unterstützt.
+                                       \n• Neue Konversationssuche.
+                                       \n• Langes SMS-Problem beheben.
+                                       \n• Stabilitätsprobleme beheben.</string>
     <string name="version_19_description">• Neue Hauptmenü-Option, um biometrischen Zugriff zu aktivieren/deaktivieren.
                                        \n• Biometrischer Zugriff reparieren. Möglicherweise müssen Sie ihn erneut aktivieren.</string>
     <string name="version_18_description">• Unterstützen Sie andere Apps, die Daten mit Cryptool teilen.
@@ -96,6 +100,9 @@
     <string name="main_open_overlay_permission_action">Einstellungen</string>
     <string name="main_notify_new_github_version">Auf GitHub ist eine neue Version von Cryptool verfügbar</string>
     <string name="main_notify_new_github_version_download">Herunterladen</string>
+    <string name="main_notify_certificate_unknown">Warnung! Es war nicht möglich, das Signaturzertifikat der App zu überprüfen</string>
+    <string name="main_notify_certificate_invalid_title">Ungültiges App-Zertifikat!</string>
+    <string name="main_notify_certificate_invalid_message">Das Signaturzertifikat der App stimmt nicht mit dem erwarteten überein, dies könnte ein schwerer Sicherheitsbruch sein. Bitte laden Sie die App erneut herunter, um mehr Sicherheit zu erhalten.</string>
     <string name="algorithms_topbar_title">Verschlüsselungsalgorithmen</string>
     <string name="algorithms_see_source_code_action">Den Quellcode ansehen</string>
     <string name="algorithms_introduction">Erfahren Sie mehr darüber, wie die Verschlüsselungsalgorithmen funktionieren. Cryptool verwendet gängige Verschlüsselungsalgorithmen, daher verweisen wir auf die offizielle Dokumentation der einzelnen. Wir möchten die Anzahl der verfügbaren Algorithmen erhöhen, damit Sie verwenden können, was Sie wollen.</string>
@@ -180,11 +187,15 @@
     <string name="encryption_source_file_dialog_input">Datei mit Posteingangsnachrichten (von anderen)</string>
     <string name="encryption_source_file_dialog_output">Datei mit gesendeten Nachrichten (von Ihnen)</string>
     <string name="encryption_source_file_dialog_set">Einstellen</string>
+    <string name="encryption_search_hint">Suchen…</string>
+    <string name="encryption_search_icon_description">Suchen</string>
+    <string name="encryption_cancel_search_icon_description">Suche abbrechen</string>
     <string name="about_topbar_title">Über</string>
     <string name="about_official_website">Offizielle Website</string>
     <string name="about_source_code">Quellcode</string>
     <string name="about_libraries">Softwarebibliotheken</string>
     <string name="about_license">Copyleft Lizenz</string>
+    <string name="about_certificate_unknown">Warnung! Unbekanntes Signaturzertifikat</string>
     <string name="changelog_topbar_title">Änderungsverlauf</string>
     <string name="libraries_topbar_title">Softwarebibliotheken</string>
     <string name="libraries_open_library_icon_description">Offene Webseitenbibliothek öffnen</string>

@@ -52,6 +52,7 @@ private fun MessageListPreview() {
             visibility = true,
             favoritesOnly = false,
             selectedMessageIds = selectedMessageIds,
+            searchResultMessageIds = emptySet(),
             onClick = {},
             onLongClick = {},
             onCopyClick = {},
@@ -64,6 +65,7 @@ fun MessageList(
     modifier: Modifier = Modifier,
     messages: List<Message>,
     selectedMessageIds: Set<String>,
+    searchResultMessageIds: Set<String>?,
     visibility: Boolean,
     favoritesOnly: Boolean,
     onClick: (Message) -> Unit,
@@ -74,7 +76,11 @@ fun MessageList(
         modifier = modifier,
         reverseLayout = true,
     ) {
-        val content = if (favoritesOnly) messages.filter { it.isFavorite } else messages
+        val content = when {
+            favoritesOnly -> messages.filter { it.isFavorite }
+            searchResultMessageIds != null -> messages.filter { searchResultMessageIds.contains(it.id) }
+            else -> messages
+        }
         itemsIndexed(content) { _, message ->
             val onCopyEncryptedClick: () -> Unit = {
                 onCopyClick(message.encryptedMessage)
@@ -92,6 +98,7 @@ fun MessageList(
                     onCopyEncryptedClick = onCopyEncryptedClick,
                     onCopyPlainClick = onCopyPlainClick,
                 )
+
                 MessageOwnership.OTHER -> OtherMessageItem(
                     message,
                     isSelected = selectedMessageIds.contains(message.id),
@@ -101,6 +108,7 @@ fun MessageList(
                     onCopyEncryptedClick = onCopyEncryptedClick,
                     onCopyPlainClick = onCopyPlainClick,
                 )
+
                 MessageOwnership.SYSTEM -> SystemMessageItem(
                     message,
                 )

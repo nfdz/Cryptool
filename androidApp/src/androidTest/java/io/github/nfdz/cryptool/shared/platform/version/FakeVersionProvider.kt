@@ -3,6 +3,7 @@ package io.github.nfdz.cryptool.shared.platform.version
 class FakeVersionProvider(
     private val appVersionAnswer: Int? = null,
     private val storedVersionAnswer: Int? = null,
+    private val appCertificate: String? = null,
 ) : VersionProvider {
 
     override val appVersion: Int
@@ -24,5 +25,11 @@ class FakeVersionProvider(
     override fun setNotifiedRemoteVersion(version: String) {
         TODO("Not yet implemented")
     }
+
+    override suspend fun verifyCertificateRemote(): CertificateState {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getAppCertificate(): String? = appCertificate
 
 }

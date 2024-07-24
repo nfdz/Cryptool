@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.IBinder
 import android.view.*
+import androidx.core.content.ContextCompat
 import io.github.nfdz.cryptool.AppActivity
 import io.github.nfdz.cryptool.R
 import io.github.nfdz.cryptool.extension.fadeOut
@@ -69,7 +70,12 @@ class OverlayBallService : OverlayViewServiceBase() {
 
     override fun onCreate() {
         super.onCreate()
-        registerReceiver(closeReceiver, IntentFilter(closeAction))
+        ContextCompat.registerReceiver(
+            this,
+            closeReceiver,
+            IntentFilter(closeAction),
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
         setupView()
         AppActivity.close(this)
     }

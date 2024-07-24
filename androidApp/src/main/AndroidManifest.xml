@@ -10,6 +10,9 @@
         android:name="android.permission.INTERNET"
         android:required="false" />
     <!-- [SMS_FEATURE_FLAG] -->
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
     <uses-permission
         android:name="android.permission.SEND_SMS"
         android:required="false" />

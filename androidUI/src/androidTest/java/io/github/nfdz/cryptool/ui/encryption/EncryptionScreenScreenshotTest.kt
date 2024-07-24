@@ -64,7 +64,7 @@ class EncryptionScreenScreenshotTest {
         ), Message(
             id = "5",
             encryptionId = "11",
-            message = "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
+            message = "Ut enim ipsum ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
             encryptedMessage = "96596789678967897689",
             timestampInMillis = 5,
             isFavorite = false,
@@ -89,6 +89,8 @@ class EncryptionScreenScreenshotTest {
                         selectedMessageIds = setOf(),
                         encryption = encryption,
                         visibility = true,
+                        searchText = null,
+                        searchResultMessageIds = emptySet(),
                     )
                 )
             }
@@ -112,6 +114,8 @@ class EncryptionScreenScreenshotTest {
                         selectedMessageIds = setOf(),
                         encryption = encryption,
                         visibility = true,
+                        searchText = null,
+                        searchResultMessageIds = emptySet(),
                     )
                 )
             }
@@ -135,6 +139,8 @@ class EncryptionScreenScreenshotTest {
                         selectedMessageIds = selectedMessages,
                         encryption = encryption,
                         visibility = true,
+                        searchText = null,
+                        searchResultMessageIds = emptySet(),
                     )
                 )
             }
@@ -158,6 +164,8 @@ class EncryptionScreenScreenshotTest {
                         selectedMessageIds = selectedMessages,
                         encryption = encryption,
                         visibility = true,
+                        searchText = null,
+                        searchResultMessageIds = emptySet(),
                     )
                 )
             }
@@ -181,6 +189,8 @@ class EncryptionScreenScreenshotTest {
                         selectedMessageIds = setOf(),
                         encryption = encryption.copy(source = null),
                         visibility = true,
+                        searchText = null,
+                        searchResultMessageIds = emptySet(),
                     )
                 )
             }
@@ -204,6 +214,58 @@ class EncryptionScreenScreenshotTest {
                         selectedMessageIds = setOf(),
                         encryption = encryption.copy(source = null),
                         visibility = true,
+                        searchText = null,
+                        searchResultMessageIds = emptySet(),
+                    )
+                )
+            }
+        }.assertSame()
+    }
+
+    @ScreenshotInstrumentation
+    @Test
+    fun lightSearch() {
+        rule.setCompose {
+            TestEntry(colorScheme = LightColorScheme) {
+                EncryptionScreenContent(
+                    snackbar = SnackbarHostState(),
+                    encryptionId = "11",
+                    initialEncryptionName = "Joe",
+                    viewModel = EmptyMessageViewModel,
+                    router = EmptyRouter,
+                    clipboard = EmptyClipboardAndroid,
+                    state = MessageState(
+                        messages = messages,
+                        selectedMessageIds = setOf(),
+                        encryption = encryption,
+                        visibility = true,
+                        searchText = "ipsum",
+                        searchResultMessageIds = setOf("1", "5"),
+                    )
+                )
+            }
+        }.assertSame()
+    }
+
+    @ScreenshotInstrumentation
+    @Test
+    fun darkSearch() {
+        rule.setCompose {
+            TestEntry(colorScheme = DarkColorScheme) {
+                EncryptionScreenContent(
+                    snackbar = SnackbarHostState(),
+                    encryptionId = "11",
+                    initialEncryptionName = "Joe",
+                    viewModel = EmptyMessageViewModel,
+                    router = EmptyRouter,
+                    clipboard = EmptyClipboardAndroid,
+                    state = MessageState(
+                        messages = messages,
+                        selectedMessageIds = setOf(),
+                        encryption = encryption,
+                        visibility = true,
+                        searchText = "ipsum",
+                        searchResultMessageIds = setOf("1", "5"),
                     )
                 )
             }

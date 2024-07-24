@@ -6,7 +6,7 @@ import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import io.github.aakira.napier.Napier
-import io.github.nfdz.cryptool.R
+import io.github.nfdz.cryptool.ui.R
 
 object ShortcutAndroid {
 

@@ -14,6 +14,10 @@
     <string name="service_permission_error">El modo superpuesto no se puede iniciar porque no tiene permiso</string>
     <string name="service_unexpected_error">Hubo un error al abrir el modo superpuesto, por favor reporte el error</string>
     <string name="input_minimum_length">La longitud mínima es %1$d</string>
+    <string name="version_20_description">• Nuevos idiomas soportados.
+                                       \n• Nueva función de búsqueda en conversaciones.
+                                       \n• Solucionar problema al enviar SMS muy largo.
+                                       \n• Corregir problemas de estabilidad.</string>
     <string name="version_19_description">• Nueva opción en el menú principal para activar/desactivar el acceso biométrico.
                                        \n• Corregir el acceso biométrico. Es posible que tengas que activarlo de nuevo.</string>
     <string name="version_18_description">• Soporte para que otras aplicaciones compartan datos con Cryptool.
@@ -97,6 +101,9 @@
     <string name="main_open_overlay_permission_action">Ajustes</string>
     <string name="main_notify_new_github_version">Hay una nueva versión de Cryptool disponible en GitHub</string>
     <string name="main_notify_new_github_version_download">Descargar</string>
+    <string name="main_notify_certificate_unknown">¡Atención! No fue posible verificar el certificado de firma de la aplicación</string>
+    <string name="main_notify_certificate_invalid_title">¡Certificado de la app inválido!</string>
+    <string name="main_notify_certificate_invalid_message">El certificado de firma de la aplicación no coincide con el esperado, esto podría ser una brecha de seguridad importante. Por favor, descarga la aplicación de nuevo para mayor seguridad.</string>
     <string name="algorithms_topbar_title">Algoritmos de cifrado</string>
     <string name="algorithms_see_source_code_action">Ver el código fuente</string>
     <string name="algorithms_introduction">Aprenda más sobre cómo funcionan los algoritmos de cifrado. Cryptool utiliza algoritmos de cifrado comunes, por lo que nos referiremos siempre a la documentación oficial de cada uno. Queremos aumentar el número de algoritmos disponibles para que puedas usar el que quieras.</string>
@@ -181,11 +188,15 @@
     <string name="encryption_source_file_dialog_input">Archivo con mensajes de entrada (de otro)</string>
     <string name="encryption_source_file_dialog_output">Archivo con mensajes de salida (tuyos)</string>
     <string name="encryption_source_file_dialog_set">Configurar</string>
+    <string name="encryption_search_hint">Buscar…</string>
+    <string name="encryption_search_icon_description">Buscar</string>
+    <string name="encryption_cancel_search_icon_description">Cancelar la búsqueda</string>
     <string name="about_topbar_title">Acerca de Cryptool</string>
     <string name="about_official_website">Sitio web oficial</string>
     <string name="about_source_code">Código fuente</string>
     <string name="about_libraries">Librerías</string>
     <string name="about_license">Licencia Copyleft</string>
+    <string name="about_certificate_unknown">¡Atención! Certificado de firma desconocido</string>
     <string name="changelog_topbar_title">Historial de actualizaciones</string>
     <string name="libraries_topbar_title">Librerías</string>
     <string name="libraries_open_library_icon_description">Abrir sitio web oficial de la librería</string>

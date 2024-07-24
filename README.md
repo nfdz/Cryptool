@@ -63,6 +63,10 @@ Google Play does not allow the use of SMS data if it is not selected as the defa
   <a href="https://github.com/nfdz/Cryptool/releases/latest/download/CryptoolApp-release.apk"><img width="250" src=".github/dev/get-it-on-github.png?raw=true" alt="Get it on GitHub"/></a>
 </p>
 
+### Verification
+> Signer certificate SHA-1 digest: e5cb650a27c10826cbfd5699d397630d11691359
+*Verify locally with the following command: `apksigner verify --print-certs ./CryptoolApp-release.apk`*
+
 ## Screenshots
 
 <p align="center">

@@ -1,6 +1,7 @@
 package io.github.nfdz.cryptool.ui.password
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PendingActions
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Dangerous
 import androidx.compose.material.icons.rounded.Login
@@ -47,7 +48,7 @@ fun PasswordScreenBottomBar(
             if (clipboardHasAppData) {
                 IconButton(onClick = onClearClipboard) {
                     Icon(
-                        painter = painterResource(R.drawable.ic_open_overlay),
+                        Icons.Filled.PendingActions,
                         contentDescription = stringResource(R.string.main_bottombar_clear_clipboard_icon_description),
                     )
                 }

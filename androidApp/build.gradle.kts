@@ -8,6 +8,7 @@ plugins {
 }
 
 android {
+    namespace = "io.github.nfdz.cryptool"
     compileSdk = libs.versions.android.compile.sdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.min.sdk.get().toInt()
@@ -34,6 +35,7 @@ android {
         }
     }
     val appCheckNewVersionOnGithub: String by project
+    val appValidateCertificateOnGithub: String by project
     buildTypes {
         release {
             isMinifyEnabled = true
@@ -42,10 +44,12 @@ android {
         }
         forEach {
             it.buildConfigField("Boolean", "CHECK_NEW_VERSION_GITHUB", appCheckNewVersionOnGithub)
+            it.buildConfigField("Boolean", "VALIDATE_CERTIFICATE_GITHUB", appValidateCertificateOnGithub)
         }
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -70,6 +74,7 @@ android {
     lint {
         warningsAsErrors = true
         disable.add("ObsoleteLintCustomCheck")
+        disable.add("AndroidGradlePluginVersion")
     }
     testOptions {
         managedDevices {

@@ -6,8 +6,10 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.compose.rememberNavController
@@ -22,10 +24,16 @@ import io.github.nfdz.cryptool.shared.encryption.viewModel.EncryptionAction
 import io.github.nfdz.cryptool.shared.encryption.viewModel.EncryptionViewModel
 import io.github.nfdz.cryptool.shared.gatekeeper.viewModel.GatekeeperAction
 import io.github.nfdz.cryptool.shared.gatekeeper.viewModel.GatekeeperViewModel
+import io.github.nfdz.cryptool.shared.platform.version.CertificateState
 import io.github.nfdz.cryptool.shared.platform.version.VersionProvider
 import io.github.nfdz.cryptool.ui.AppEntryPoint
+import io.github.nfdz.cryptool.ui.R
 import io.github.nfdz.cryptool.ui.extension.openUrl
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
 
@@ -59,7 +67,12 @@ class AppActivity : FragmentActivity(), CoroutineScope by CoroutineScope(Dispatc
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        registerReceiver(closeReceiver, IntentFilter(closeAction))
+        ContextCompat.registerReceiver(
+            this,
+            closeReceiver,
+            IntentFilter(closeAction),
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
         MessageEventBroadcast.registerReceiver(this, msgEventReceiver)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
@@ -67,7 +80,8 @@ class AppActivity : FragmentActivity(), CoroutineScope by CoroutineScope(Dispatc
         if (!launchShortcutIfNeeded(intent)) {
             closeOverlay()
             updateShortcut()
-            askThis()
+            askToUpdate()
+            verifyCertificate()
             setContent {
                 val navController = rememberNavController()
                 router = RouterApp(navController, this, overlayPermission)
@@ -82,21 +96,21 @@ class AppActivity : FragmentActivity(), CoroutineScope by CoroutineScope(Dispatc
         super.onDestroy()
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         launchShortcutIfNeeded(intent)
         handleShareInputIfNeeded(intent)
     }
 
-    private fun handleShareInputIfNeeded(intent: Intent?) {
-        if (intent?.action != Intent.ACTION_SEND) return
+    private fun handleShareInputIfNeeded(intent: Intent) {
+        if (intent.action != Intent.ACTION_SEND) return
         val text = intent.getStringExtra(Intent.EXTRA_TEXT)?.ifEmpty { null } ?: return
         encryptionViewModel.dispatch(EncryptionAction.AskAboutIncomingData(text))
         router?.popBackStackToRoot()
     }
 
-    private fun launchShortcutIfNeeded(intent: Intent?): Boolean {
-        if (packageName != intent?.`package`) return false
+    private fun launchShortcutIfNeeded(intent: Intent): Boolean {
+        if (packageName != intent.`package`) return false
         return if (ShortcutAndroid.shouldOpen(intent) && hasOverlayPermission()) {
             OverlayBallService.start(this)
             true
@@ -132,7 +146,7 @@ class AppActivity : FragmentActivity(), CoroutineScope by CoroutineScope(Dispatc
         gatekeeperViewModel.dispatch(GatekeeperAction.PushAccessValidity)
     }
 
-    private fun askThis() = launch {
+    private fun askToUpdate() = launch {
         val newVersionToNotify = versionProvider.getRemoteNewVersion() ?: return@launch
         AlertDialog.Builder(this@AppActivity)
             .setTitle(getString(R.string.app_name) + " " + newVersionToNotify)
@@ -144,6 +158,37 @@ class AppActivity : FragmentActivity(), CoroutineScope by CoroutineScope(Dispatc
             }
             .setNegativeButton(R.string.dialog_cancel) { dialog, _ ->
                 versionProvider.setNotifiedRemoteVersion(newVersionToNotify)
+                dialog.dismiss()
+            }
+            .setOnDismissListener {
+                versionProvider.setNotifiedRemoteVersion(newVersionToNotify)
+            }
+            .show()
+    }
+
+    private fun verifyCertificate() = launch {
+        delay(5000)
+        val certificateState = versionProvider.verifyCertificateRemote()
+        when (certificateState) {
+            CertificateState.VALID, CertificateState.IGNORE -> Unit
+            CertificateState.INVALID -> notifyInvalidCertificate()
+            CertificateState.UNKNOWN -> Toast.makeText(
+                this@AppActivity,
+                R.string.main_notify_certificate_unknown,
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    private fun notifyInvalidCertificate() {
+        AlertDialog.Builder(this@AppActivity)
+            .setTitle(R.string.main_notify_certificate_invalid_title)
+            .setMessage(R.string.main_notify_certificate_invalid_message)
+            .setPositiveButton(R.string.main_notify_new_github_version_download) { dialog, _ ->
+                openUrl(AppUrl.downloadGithubLatestVersion)
+                dialog.dismiss()
+            }
+            .setNegativeButton(R.string.dialog_cancel) { dialog, _ ->
                 dialog.dismiss()
             }
             .show()

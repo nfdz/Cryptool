@@ -7,10 +7,10 @@ class FakeSmsSender(
     var sendMessageCount = 0
     var sendMessageArgPhone: String? = null
     var sendMessageArgValue: String? = null
-    override fun sendMessage(phone: String, value: String) {
+    override fun sendMessage(phone: String, encryptedMessage: String) {
         sendMessageCount++
         sendMessageArgPhone = phone
-        sendMessageArgValue = value
+        sendMessageArgValue = encryptedMessage
         sendMessageException?.let { throw it }
     }
 

@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Shader
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
@@ -75,7 +76,12 @@ class OverlayToolService : OverlayComposeViewServiceBase() {
 
     override fun onCreate() {
         super.onCreate()
-        registerReceiver(closeReceiver, IntentFilter(closeAction))
+        ContextCompat.registerReceiver(
+            this,
+            closeReceiver,
+            IntentFilter(closeAction),
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
         MessageEventBroadcast.registerReceiver(this, msgEventReceiver)
         OverlayBallService.close(this)
     }

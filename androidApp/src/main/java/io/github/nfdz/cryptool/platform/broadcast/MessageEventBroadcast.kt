@@ -4,11 +4,12 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import androidx.core.content.ContextCompat
 import io.github.aakira.napier.Napier
-import io.github.nfdz.cryptool.R
 import io.github.nfdz.cryptool.shared.message.viewModel.MessageAction
 import io.github.nfdz.cryptool.shared.message.viewModel.MessageViewModel
 import io.github.nfdz.cryptool.shared.platform.sms.SmsSenderAndroid
+import io.github.nfdz.cryptool.ui.R
 
 object MessageEventBroadcast {
 
@@ -22,11 +23,15 @@ object MessageEventBroadcast {
         MessageEventBroadcastReceiver(messageViewModel)
 
     fun registerReceiver(context: Context, receiver: MessageEventBroadcastReceiver) {
-        context.registerReceiver(receiver, IntentFilter().apply {
-            eventActions.forEach {
-                addAction(it)
-            }
-        })
+        ContextCompat.registerReceiver(
+            context, receiver,
+            IntentFilter().apply {
+                eventActions.forEach {
+                    addAction(it)
+                }
+            },
+            ContextCompat.RECEIVER_NOT_EXPORTED,
+        )
     }
 
     fun unregisterReceiver(context: Context, receiver: MessageEventBroadcastReceiver) {

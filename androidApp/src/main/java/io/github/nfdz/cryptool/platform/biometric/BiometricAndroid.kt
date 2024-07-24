@@ -6,7 +6,6 @@ import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import io.github.aakira.napier.Napier
-import io.github.nfdz.cryptool.R
 import io.github.nfdz.cryptool.shared.platform.biometric.Biometric
 import io.github.nfdz.cryptool.shared.platform.biometric.BiometricContext
 import io.github.nfdz.cryptool.shared.platform.biometric.BiometricException
@@ -68,6 +67,6 @@ class BiometricAndroid : Biometric {
         return BiometricPrompt.PromptInfo.Builder().setAllowedAuthenticators(BIOMETRIC_STRONG)
             .setTitle("Biometric login for my app")
             .setSubtitle("Log in using your biometric credential")
-            .setNegativeButtonText(context.getString(R.string.dialog_cancel)).build()
+            .setNegativeButtonText(context.getString(io.github.nfdz.cryptool.ui.R.string.dialog_cancel)).build()
     }
 }

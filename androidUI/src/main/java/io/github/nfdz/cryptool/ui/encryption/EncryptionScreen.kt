@@ -1,21 +1,54 @@
 package io.github.nfdz.cryptool.ui.encryption
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.rounded.DeleteForever
 import androidx.compose.material.icons.rounded.EditNote
 import androidx.compose.material.icons.rounded.PowerOff
+import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Star
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.nfdz.cryptool.shared.encryption.entity.AlgorithmVersion
@@ -27,11 +60,16 @@ import io.github.nfdz.cryptool.shared.message.viewModel.EmptyMessageViewModel
 import io.github.nfdz.cryptool.shared.message.viewModel.MessageAction
 import io.github.nfdz.cryptool.shared.message.viewModel.MessageState
 import io.github.nfdz.cryptool.shared.message.viewModel.MessageViewModel
-import io.github.nfdz.cryptool.ui.*
+import io.github.nfdz.cryptool.ui.AppMessagesEffect
+import io.github.nfdz.cryptool.ui.AppTheme
+import io.github.nfdz.cryptool.ui.EmptyRouter
 import io.github.nfdz.cryptool.ui.R
+import io.github.nfdz.cryptool.ui.Router
 import io.github.nfdz.cryptool.ui.common.TopAppBarCommon
 import io.github.nfdz.cryptool.ui.platform.ClipboardAndroid
 import io.github.nfdz.cryptool.ui.platform.EmptyClipboardAndroid
+import io.github.nfdz.cryptool.ui.supportAdvancedFeatures
+import io.github.nfdz.cryptool.ui.topAppBar
 import org.koin.core.context.GlobalContext
 
 @Composable
@@ -61,6 +99,54 @@ internal fun EncryptionScreen(
     )
 }
 
+private val previewMessageList = listOf(
+    Message(
+        id = "1",
+        encryptionId = "11",
+        message = "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+        encryptedMessage = "ae42424339fn93555n55",
+        timestampInMillis = 2,
+        isFavorite = true,
+        ownership = MessageOwnership.OTHER,
+    ), Message(
+        id = "3",
+        encryptionId = "11",
+        message = "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+        encryptedMessage = "42482408r2484f282438849f34f349f",
+        timestampInMillis = 3,
+        isFavorite = false,
+        ownership = MessageOwnership.OWN,
+    ), Message(
+        id = "4",
+        encryptionId = "11",
+        message = "'Mark' ➡️ 'Joe'",
+        encryptedMessage = "",
+        timestampInMillis = 4,
+        isFavorite = false,
+        ownership = MessageOwnership.SYSTEM,
+    ), Message(
+        id = "5",
+        encryptionId = "11",
+        message = "Ut enim ad minim ipsum veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
+        encryptedMessage = "96596789678967897689",
+        timestampInMillis = 5,
+        isFavorite = false,
+        ownership = MessageOwnership.OWN,
+    )
+)
+
+private val previewEncryption = Encryption(
+    "11",
+    "Joe",
+    "Pw test",
+    AlgorithmVersion.V2,
+    MessageSource.Manual,
+    false,
+    0,
+    "",
+    0L,
+)
+
 @Composable
 @Preview
 private fun EncryptionScreenPreview() {
@@ -73,54 +159,12 @@ private fun EncryptionScreenPreview() {
             router = EmptyRouter,
             clipboard = EmptyClipboardAndroid,
             state = MessageState(
-                messages = listOf(
-                    Message(
-                        id = "1",
-                        encryptionId = "11",
-                        message = "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-                        encryptedMessage = "ae42424339fn93555n55",
-                        timestampInMillis = 2,
-                        isFavorite = true,
-                        ownership = MessageOwnership.OTHER,
-                    ), Message(
-                        id = "3",
-                        encryptionId = "11",
-                        message = "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-                        encryptedMessage = "42482408r2484f282438849f34f349f",
-                        timestampInMillis = 3,
-                        isFavorite = false,
-                        ownership = MessageOwnership.OWN,
-                    ), Message(
-                        id = "4",
-                        encryptionId = "11",
-                        message = "'Mark' ➡️ 'Joe'",
-                        encryptedMessage = "",
-                        timestampInMillis = 4,
-                        isFavorite = false,
-                        ownership = MessageOwnership.SYSTEM,
-                    ), Message(
-                        id = "5",
-                        encryptionId = "11",
-                        message = "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
-                        encryptedMessage = "96596789678967897689",
-                        timestampInMillis = 5,
-                        isFavorite = false,
-                        ownership = MessageOwnership.OWN,
-                    )
-                ),
+                messages = previewMessageList,
                 selectedMessageIds = setOf(),
-                encryption = Encryption(
-                    "11",
-                    "Joe",
-                    "Pw test",
-                    AlgorithmVersion.V2,
-                    MessageSource.Manual,
-                    false,
-                    0,
-                    "",
-                    0L,
-                ),
+                encryption = previewEncryption,
                 visibility = true,
+                searchText = null,
+                searchResultMessageIds = setOf(),
             )
         )
     }
@@ -138,54 +182,35 @@ private fun EncryptionScreenSelectModePreview() {
             router = EmptyRouter,
             clipboard = EmptyClipboardAndroid,
             state = MessageState(
-                messages = listOf(
-                    Message(
-                        id = "1",
-                        encryptionId = "11",
-                        message = "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-                        encryptedMessage = "ae42424339fn93555n55",
-                        timestampInMillis = 2,
-                        isFavorite = true,
-                        ownership = MessageOwnership.OTHER,
-                    ), Message(
-                        id = "3",
-                        encryptionId = "11",
-                        message = "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-                        encryptedMessage = "42482408r2484f282438849f34f349f",
-                        timestampInMillis = 3,
-                        isFavorite = false,
-                        ownership = MessageOwnership.OWN,
-                    ), Message(
-                        id = "4",
-                        encryptionId = "11",
-                        message = "'Mark' ➡️ 'Joe'",
-                        encryptedMessage = "",
-                        timestampInMillis = 4,
-                        isFavorite = false,
-                        ownership = MessageOwnership.SYSTEM,
-                    ), Message(
-                        id = "5",
-                        encryptionId = "11",
-                        message = "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
-                        encryptedMessage = "96596789678967897689",
-                        timestampInMillis = 5,
-                        isFavorite = false,
-                        ownership = MessageOwnership.OWN,
-                    )
-                ),
+                messages = previewMessageList,
                 selectedMessageIds = setOf("1", "5"),
-                encryption = Encryption(
-                    "11",
-                    "Joe",
-                    "pw test",
-                    AlgorithmVersion.V2,
-                    MessageSource.Manual,
-                    false,
-                    0,
-                    "",
-                    0L,
-                ),
+                encryption = previewEncryption,
                 visibility = true,
+                searchText = null,
+                searchResultMessageIds = setOf(),
+            )
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun EncryptionScreenSearchModePreview() {
+    AppTheme {
+        EncryptionScreenContent(
+            snackbar = SnackbarHostState(),
+            encryptionId = "11",
+            initialEncryptionName = "Joe",
+            viewModel = EmptyMessageViewModel,
+            router = EmptyRouter,
+            clipboard = EmptyClipboardAndroid,
+            state = MessageState(
+                messages = previewMessageList,
+                selectedMessageIds = setOf(),
+                encryption = previewEncryption,
+                visibility = true,
+                searchText = "ipsum",
+                searchResultMessageIds = setOf("1", "5"),
             )
         )
     }
@@ -233,7 +258,8 @@ internal fun EncryptionScreenContent(
     Scaffold(
         snackbarHost = { SnackbarHost(snackbar) },
         topBar = {
-            TopBar(viewModel = viewModel,
+            TopBar(
+                viewModel = viewModel,
                 router = router,
                 state = state,
                 encryptionName = encryptionName,
@@ -244,9 +270,7 @@ internal fun EncryptionScreenContent(
                 onShowEditDialog = {
                     showEditDialog = encryption
                 },
-                onChangeMessageSource = {
-                    viewModel.dispatch(MessageAction.SetSource(null))
-                })
+            )
         },
         content = { padding ->
             if (encryption?.id == encryptionId) {
@@ -270,6 +294,7 @@ internal fun EncryptionScreenContent(
                             .weight(1f),
                             messages = state.messages,
                             selectedMessageIds = state.selectedMessageIds,
+                            searchResultMessageIds = if (state.searchText != null) state.searchResultMessageIds else null,
                             visibility = state.visibility,
                             favoritesOnly = favoritesOnly,
                             onClick = {
@@ -284,7 +309,7 @@ internal fun EncryptionScreenContent(
                                 clipboard.set(context, snackbar, it)
                             })
                         Spacer(modifier = Modifier.height(4.dp))
-                        if (!favoritesOnly) {
+                        if (!favoritesOnly && state.searchText == null) {
                             MessageInput(name = encryptionName, source = source, onReceiveMessage = {
                                 viewModel.dispatch(MessageAction.ReceiveMessage(it))
                             }, onSendMessage = {
@@ -318,21 +343,27 @@ private fun TopBar(
     favoritesOnly: Boolean,
     onToggleFavoritesOnly: () -> Unit,
     onShowEditDialog: () -> Unit,
-    onChangeMessageSource: () -> Unit,
 ) {
-    if (state.selectedMessageIds.isEmpty()) {
-        MainTopBar(
-            viewModel = viewModel,
-            router = router,
-            encryptionName = encryptionName,
-            state = state,
-            favoritesOnly = favoritesOnly,
-            onToggleFavoritesOnly = onToggleFavoritesOnly,
-            onShowEditDialog = onShowEditDialog,
-            onChangeMessageSource = onChangeMessageSource,
-        )
-    } else {
-        SelectModeTopBar(viewModel, router, state)
+    when {
+        state.selectedMessageIds.isNotEmpty() -> {
+            SelectModeTopBar(viewModel, router, state)
+        }
+
+        state.searchText != null -> {
+            SearchModeTopBar(viewModel, state)
+        }
+
+        else -> {
+            MainTopBar(
+                viewModel = viewModel,
+                router = router,
+                encryptionName = encryptionName,
+                state = state,
+                favoritesOnly = favoritesOnly,
+                onToggleFavoritesOnly = onToggleFavoritesOnly,
+                onShowEditDialog = onShowEditDialog,
+            )
+        }
     }
 }
 
@@ -345,7 +376,6 @@ private fun MainTopBar(
     favoritesOnly: Boolean,
     onToggleFavoritesOnly: () -> Unit,
     onShowEditDialog: () -> Unit,
-    onChangeMessageSource: () -> Unit,
 ) {
     TopAppBarCommon(
         router = router,
@@ -360,7 +390,28 @@ private fun MainTopBar(
                     favoritesOnly = favoritesOnly,
                     onToggleFavoritesOnly = onToggleFavoritesOnly,
                     onShowEditDialog = onShowEditDialog,
-                    onChangeMessageSource = onChangeMessageSource,
+                    onSearchMessage = { viewModel.dispatch(MessageAction.Search("")) },
+                    onChangeMessageSource = { viewModel.dispatch(MessageAction.SetSource(null)) },
+                )
+            }
+        },
+    )
+}
+
+@Composable
+private fun SearchModeTopBar(viewModel: MessageViewModel, state: MessageState) {
+    TopAppBar(
+        title = {
+            SearchInputArea(
+                searchText = state.searchText ?: "",
+                onSearch = { viewModel.dispatch(MessageAction.Search(it)) }
+            )
+        },
+        navigationIcon = {
+            IconButton(onClick = { viewModel.dispatch(MessageAction.Search(null)) }) {
+                Icon(
+                    Icons.AutoMirrored.Filled.ArrowBack,
+                    stringResource(R.string.encryption_cancel_search_icon_description)
                 )
             }
         },
@@ -378,7 +429,7 @@ private fun SelectModeTopBar(viewModel: MessageViewModel, router: Router, state:
         },
         navigationIcon = {
             IconButton(onClick = { viewModel.dispatch(MessageAction.UnselectAll) }) {
-                Icon(Icons.Filled.ArrowBack, stringResource(R.string.unselect_all))
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.unselect_all))
             }
         },
         actions = { SelectModeActions(viewModel, router, state) },
@@ -394,6 +445,7 @@ private fun MainActions(
     favoritesOnly: Boolean,
     onToggleFavoritesOnly: () -> Unit,
     onShowEditDialog: () -> Unit,
+    onSearchMessage: () -> Unit,
     onChangeMessageSource: () -> Unit,
 ) {
     if (router.supportAdvancedFeatures()) {
@@ -403,6 +455,9 @@ private fun MainActions(
         IconButton(onClick = onChangeMessageSource) {
             Icon(Icons.Rounded.PowerOff, stringResource(R.string.encryption_change_source_icon_description))
         }
+    }
+    IconButton(onClick = onSearchMessage) {
+        Icon(Icons.Rounded.Search, stringResource(R.string.encryption_search_icon_description))
     }
     IconButton(onClick = onToggleVisibility) {
         if (visibility) {
@@ -498,3 +553,49 @@ private fun SelectModeActions(viewModel: MessageViewModel, router: Router, state
         }
     }
 }
+
+@Composable
+private fun SearchInputArea(searchText: String, onSearch: (String?) -> Unit) {
+    var input by remember { mutableStateOf("") }
+    val focusManager = LocalFocusManager.current
+
+    LaunchedEffect(Unit) {
+        focusManager.moveFocus(FocusDirection.Up)
+    }
+    val handleSearch = {
+        onSearch(input)
+        focusManager.clearFocus()
+    }
+    TextField(
+        modifier = Modifier
+            .background(
+                MaterialTheme.colorScheme.secondary.copy(alpha = 0.08f)
+            )
+            .fillMaxWidth(),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Search,
+            capitalization = KeyboardCapitalization.Sentences,
+        ),
+        colors = TextFieldDefaults.textFieldColors(
+            containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.1f),
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+        ),
+        placeholder = { Text(stringResource(R.string.encryption_search_hint)) },
+        value = input,
+        onValueChange = {
+            input = it
+            onSearch(it)
+        },
+        keyboardActions = KeyboardActions(
+            onSearch = { handleSearch() }
+        ),
+        trailingIcon = {
+            IconButton(onClick = { onSearch(searchText) }) {
+                Icon(Icons.Rounded.Search, stringResource(R.string.encryption_search_icon_description))
+            }
+        },
+    )
+}
+

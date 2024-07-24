@@ -16,6 +16,11 @@
     <string name="service_unexpected_error">There was an error when opening the overlay mode, please report the error</string>
     <string name="input_minimum_length">Minimum length is %1$d</string>
 
+    <string name="version_20_name" translatable="false">3.2.0</string>
+    <string name="version_20_description">• New languages supported.
+                                       \n• New conversation search feature.
+                                       \n• Fix send long SMS issue.
+                                       \n• Fix stability issues.</string>
     <string name="version_19_name" translatable="false">3.1.1</string>
     <string name="version_19_description">• New main menu option to enable/disable biometric access.
                                        \n• Fix biometric access. You may have to enable it again.</string>
@@ -110,6 +115,9 @@
     <string name="main_open_overlay_permission_action">Settings</string>
     <string name="main_notify_new_github_version">There is a new version of Cryptool available on GitHub</string>
     <string name="main_notify_new_github_version_download">Download</string>
+    <string name="main_notify_certificate_unknown">Warning! It was not possible to verify the app\'s signing certificate</string>
+    <string name="main_notify_certificate_invalid_title">Invalid app certificate!</string>
+    <string name="main_notify_certificate_invalid_message">The app\'s signing certificate does not match what is expected, this could be a major security breach. Please download the app again for more security.</string>
 
     <string name="algorithms_topbar_title">Encryption algorithms</string>
     <string name="algorithms_see_source_code_action">See the source code</string>
@@ -198,12 +206,16 @@
     <string name="encryption_source_file_dialog_input">File with inbox messages (from other)</string>
     <string name="encryption_source_file_dialog_output">File with sent messages (from you)</string>
     <string name="encryption_source_file_dialog_set">Set</string>
+    <string name="encryption_search_hint">Search…</string>
+    <string name="encryption_search_icon_description">Search</string>
+    <string name="encryption_cancel_search_icon_description">Cancel search</string>
 
     <string name="about_topbar_title">About</string>
     <string name="about_official_website">Official website</string>
     <string name="about_source_code">Source code</string>
     <string name="about_libraries">Libraries</string>
     <string name="about_license">Copyleft license</string>
+    <string name="about_certificate_unknown">Warning! Unknown signing certificate</string>
     <string name="changelog_topbar_title">Changelog</string>
     <string name="libraries_topbar_title">Libraries</string>
     <string name="libraries_open_library_icon_description">Open official website library</string>

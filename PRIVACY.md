@@ -12,4 +12,4 @@ No use of the internet at all, No logging, No analytics.
 
 If you have any questions about Cryptool’s privacy policy, the data we hold on you, or you would like to exercise one of your data protection rights, please do not hesitate to contact us.
 
-Email us at: cryptool@nfdz.io
+Email us at: cryptool@nfdz.dev
