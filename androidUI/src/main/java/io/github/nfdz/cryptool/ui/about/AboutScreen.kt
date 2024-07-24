@@ -159,7 +159,6 @@ internal fun AboutScreenContent(
                         certificate,
                         style = MaterialTheme.typography.labelMedium.copy(
                             fontFamily = FontFamily.Monospace,
-                            color = MaterialTheme.typography.labelMedium.color.copy(alpha = 0.7f)
                         ),
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth(),
