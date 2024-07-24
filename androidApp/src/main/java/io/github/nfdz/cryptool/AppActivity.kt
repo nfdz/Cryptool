@@ -188,6 +188,9 @@ class AppActivity : FragmentActivity(), CoroutineScope by CoroutineScope(Dispatc
                 openUrl(AppUrl.downloadGithubLatestVersion)
                 dialog.dismiss()
             }
+            .setNegativeButton(R.string.dialog_cancel) { dialog, _ ->
+                dialog.dismiss()
+            }
             .show()
     }
 }

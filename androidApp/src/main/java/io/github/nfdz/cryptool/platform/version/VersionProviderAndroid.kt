@@ -53,7 +53,7 @@ class VersionProviderAndroid(
         if (BuildConfig.VALIDATE_CERTIFICATE_GITHUB) {
             val body = remoteDataDto?.body
             if (body.isNullOrBlank()) return@withContext CertificateState.UNKNOWN
-            val remoteCertificate = Regex(certificateTagRegex).find(body)?.value
+            val remoteCertificate = Regex(certificateTagRegex).find(body)?.groupValues?.last()
             if (remoteCertificate.isNullOrBlank()) return@withContext CertificateState.UNKNOWN
             if (apkCertificate == remoteCertificate) CertificateState.VALID
             else CertificateState.INVALID
