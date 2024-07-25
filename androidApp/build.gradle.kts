@@ -76,6 +76,12 @@ android {
         disable.add("ObsoleteLintCustomCheck")
         disable.add("AndroidGradlePluginVersion")
     }
+    dependenciesInfo {
+        // Disables dependency metadata when building APKs.
+        includeInApk = false
+        // Disables dependency metadata when building Android App Bundles.
+        includeInBundle = false
+    }
     testOptions {
         managedDevices {
             devices {
