@@ -1,6 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
-    <string name="app_name" translatable="false">Cryptool</string>
-
     <string name="app_slogan">İnsanlar için Kriptografi</string>
     <string name="dialog_create">Oluştur</string>
     <string name="dialog_edit">Düzenle</string>
@@ -15,44 +14,33 @@
     <string name="service_permission_error">Üst katman modu izin olmadığı için başlatılamıyor</string>
     <string name="service_unexpected_error">Üst katman modunu açarken bir hata oluştu, lütfen hatayı bildiriniz</string>
     <string name="input_minimum_length">Minimum uzunluk %1$d</string>
-
-    <string name="version_20_name" translatable="false">3.2.0</string>
     <string name="version_20_description">• Yeni diller destekleniyor.
                                        \n• Yeni konuşma arama özelliği.
                                        \n• Uzun SMS gönderme sorunu düzeltildi.
                                        \n• Kararlılık sorunları düzeltildi.</string>
-    <string name="version_19_name" translatable="false">3.1.1</string>
     <string name="version_19_description">• Biyometrik erişimi etkinleştirme/devre dışı bırakma için yeni ana menü seçeneği.
                                        \n• Biyometrik erişim düzeltildi. Yeniden etkinleştirmeniz gerekebilir.</string>
-    <string name="version_18_name" translatable="false">3.1.0</string>
     <string name="version_18_description">• Diğer uygulamaların Cryptool ile veri paylaşımını destekleyin.
                                        \n• Kullanıcı geri bildirimi uygulandı.
                                        \n• Kararlılık sorunları düzeltildi.</string>
-    <string name="version_15_name" translatable="false">3.0.1</string>
     <string name="version_15_description">• Yeni mesaj kaynağı: Yerel Alan Ağı (LAN).
                                        \n• Bazı Android sürümlerinde kararlılık sorunları düzeltildi.</string>
-    <string name="version_10_name" translatable="false">3.0.0</string>
     <string name="version_10_description">• Yeni modern kullanıcı arayüzü.
                                        \n• Yeni kriptografik algoritmalar destekleniyor.
                                        \n• Yeni mesaj kaynakları: Manuel, SMS ve Dosya.
                                        \n• Konuşma olarak birden fazla şifreleme yapılandırması.
                                        \n• Biyometrik kimlik doğrulama desteği.
                                        \n• Geliştirilmiş dışa/içe aktarma özelliği.</string>
-    <string name="version_4_name" translatable="false">2.1.1</string>
     <string name="version_4_description">• Pano temizleme hatası düzeltildi.
                                        \n• Yeni diller destekleniyor.</string>
-    <string name="version_3_name" translatable="false">2.1.0</string>
     <string name="version_3_description">• Karanlık tema özelliği.
                                        \n• Erişim PIN\'ini unut özelliği.
                                        \n• PIN değiştirme özelliği.
                                        \n• Dışa ve içe aktarma özelliği.</string>
-    <string name="version_2_name" translatable="false">2.0.0</string>
     <string name="version_2_description">• Anahtar deposu özelliği.
                                        \n• Erişim PIN\'i özelliği.
                                        \n• Küçük hata düzeltmeleri.</string>
-    <string name="version_1_name" translatable="false">1.0.0</string>
     <string name="version_1_description">• Merhaba, Dünya!</string>
-
     <string name="welcome_main_description">Bu araç, sizin için en önemli olan bilgileri korumanıza yardımcı olmak istiyor. Kapağın altında ne olduğunu gizlemiyoruz, algoritmaları ve veri giriş/çıkışını olduğu gibi gösteriyoruz.\n\nBu, kar amacı gütmeyen açık kaynaklı bir çözüm ve verilerinizle ilgilenmiyoruz. Yine de, size güvenmenizi değil, internet erişimini <b>engellemenizi</b>, kodu <b>gözden geçirmenizi</b> veya uygulamayı kendiniz <b>yapmanızı</b> istiyoruz.\n\nHerhangi bir sorun bulursanız, herhangi bir öneriniz varsa veya işbirliği yapmak isterseniz, bizimle iletişime geçmekten çekinmeyin. Çok minnettar olacağız 🙂</string>
     <string name="welcome_changelog_title">Yenilikler</string>
     <string name="welcome_tutorial_title">Öğretici</string>
@@ -60,7 +48,6 @@
     <string name="welcome_tutorial_message_2">Buraya yazdığınız her şey kriptografik yapılandırma ile şifrelenir</string>
     <string name="welcome_tutorial_message_3">Tüm uygulama verileri şifrelenir ve erişim kodunuzla korunur</string>
     <string name="welcome_tutorial_message_4">Yine de, panoya dikkat etmeyi ve uygulamayı kullanmadığınızda kapatmayı özellikle öneririz</string>
-
     <string name="gatekeeper_open_action">Aç</string>
     <string name="gatekeeper_open_biometrics_icon_description">Açmak için biyometrik kullan</string>
     <string name="gatekeeper_hide_icon_description">Kodu Gizle</string>
@@ -82,7 +69,6 @@
     <string name="change_access_change_action">Değiştir</string>
     <string name="change_access_old_code_error">Geçersiz mevcut erişim kodu</string>
     <string name="change_access_error">Kodu değiştirirken beklenmeyen bir hata oluştu, lütfen her şeyin düzgün olduğundan emin olun ve tekrar deneyin</string>
-
     <string name="password_topbar_title">Şifreler</string>
     <string name="password_empty_label">Şifreniz yok</string>
     <string name="password_new_title">Yeni Şifre</string>
@@ -99,7 +85,6 @@
     <string name="password_delete_dialog_description">Bu şifreyi silmek üzeresiniz. Devam etmek istiyor musunuz?</string>
     <string name="password_delete_dialog_action">Sil</string>
     <string name="password_bottombar_create_icon_description">Yeni bir şifre oluştur</string>
-
     <string name="main_empty_label">Şifrelenmiş konuşmalarınız yok</string>
     <string name="main_encryption_favorite_icon_description">Bu şifrelenmiş konuşma favori</string>
     <string name="main_set_favorites_icon_description">Konuşmaları favori olarak ayarla</string>
@@ -118,13 +103,11 @@
     <string name="main_notify_certificate_unknown">Uyarı! Uygulamanın imzalama sertifikası doğrulanamadı</string>
     <string name="main_notify_certificate_invalid_title">Geçersiz uygulama sertifikası!</string>
     <string name="main_notify_certificate_invalid_message">Uygulamanın imzalama sertifikası beklenenle eşleşmiyor, bu büyük bir güvenlik ihlali olabilir. Daha fazla güvenlik için uygulamayı tekrar indirin.</string>
-
     <string name="algorithms_topbar_title">Şifreleme algoritmaları</string>
     <string name="algorithms_see_source_code_action">Kaynak kodunu görüntüle</string>
     <string name="algorithms_introduction">Şifreleme algoritmalarının nasıl çalıştığı hakkında daha fazla bilgi edinin. Cryptool, yaygın şifreleme algoritmalarını kullanır, bu nedenle her birinin resmi belgelerine atıfta bulunacağız. Kullanabileceğiniz algoritma sayısını artırmak istiyoruz, böylece istediğiniz algoritmayı kullanabilirsiniz.</string>
     <string name="algorithms_v1_description">• İleri Düzey Şifreleme Standardı (AES) spesifikasyonu.\n• Şifre-blok zinciri (CBC) modu.\n• Şifre Tabanlı Anahtar Türetme Fonksiyonu 2 (PBKDF2).\n• Base64 ikili-metin kodlama şemaları.\n\n⚠️Bu kriptografik yapılandırma düşük güvenlik sağlar çünkü şifre türetme kodunda bazı sorunlar vardır.\n\nÇok özel şifre türetme yapılandırması ve tuz hesaplaması nedeniyle bu yapılandırmayı diğer araçlarda kullanmak zordur (imkansız değil).</string>
     <string name="algorithms_v2_description">• İleri Düzey Şifreleme Standardı (AES) 256 spesifikasyonu.\n• Galois/Sayım Modu (GCM) modu.\n• Argon2 Anahtar Türetme Fonksiyonu.\n• Base64 ikili-metin kodlama şemaları.\n\nBu yapılandırmayı diğer araçlarda çok kolay kullanabilirsiniz, bunun için sadece metnin her bir bölümünü nasıl tanıyacağınızı bilmeniz yeterlidir:</string>
-    <string name="algorithms_v2_components" translatable="false">saltBase64.ivBase64.tLen.encryptedTextBase64</string>
     <string name="main_export_dialog_title">Veri Dışa Aktarımı</string>
     <string name="main_export_dialog_action">Dışa Aktar</string>
     <string name="main_import_dialog_title">Veri İçe Aktarımı</string>
@@ -143,7 +126,6 @@
     <string name="import_success_empty_snackbar">İçe aktarılacak bir şey yok</string>
     <string name="import_error_snackbar">İçe aktarma işlemi başarısız oldu, dosya ve kodun doğru olduğundan emin olun, tekrar deneyin ve yine başarısız olursa hatayı bildirin</string>
     <string name="import_success_snackbar" tools:ignore="PluralsCandidate">İçe aktarma başarıyla tamamlandı: %1$d konuşma tanımı, %2$d mesaj ve %3$d şifre</string>
-
     <string name="encryption_new_title">Yeni Şifreli Konuşma</string>
     <string name="encryption_edit_title">Şifreli Konuşmayı Düzenle</string>
     <string name="encryption_name_hint">Ad</string>
@@ -160,11 +142,11 @@
     <string name="encryption_unset_favorites_icon_description">Mesajları Favorilerden Çıkar</string>
     <string name="encryption_delete_messages_icon_description">Mesajları Sil</string>
     <string name="encryption_message_favorite_icon_description">Bu mesaj favori</string>
-    <string name="encryption_receive_message_error">Mesaj alınamadı, şifreyi ve algoritmayı kontrol edin...</string>
+    <string name="encryption_receive_message_error">Mesaj alınamadı, şifreyi ve algoritmayı kontrol edin…</string>
     <string name="encryption_exclusive_source_error">Yapılandırılan kaynak başka bir şifrelemeyle çelişiyor ve bu kaynak buna izin vermiyor.</string>
     <string name="encryption_send_message_file_error">Mesaj yapılandırılan dosya aracılığıyla gönderilemedi.</string>
     <string name="encryption_send_message_lan_error">Mesaj LAN ağı üzerinden gönderilemedi.</string>
-    <string name="encryption_receive_message_lan_error">\'%1$s\' den gelen mesaj alındı ancak işlenemiyor, şifreyi ve algoritmayı kontrol edin...</string>
+    <string name="encryption_receive_message_lan_error">\'%1$s\' den gelen mesaj alındı ancak işlenemiyor, şifreyi ve algoritmayı kontrol edin…</string>
     <string name="encryption_send_message_hint">Mesajınız</string>
     <string name="encryption_send_message_icon_description">Gönder</string>
     <string name="encryption_receive_message_hint">%1$s\' in mesajı</string>
@@ -205,10 +187,9 @@
     <string name="encryption_source_file_dialog_input">Gelen mesajları içeren dosya (başka birinden)</string>
     <string name="encryption_source_file_dialog_output">Gönderilen mesajları içeren dosya (sizden)</string>
     <string name="encryption_source_file_dialog_set">Ayarla</string>
-    <string name="encryption_search_hint">Ara...</string>
+    <string name="encryption_search_hint">Ara…</string>
     <string name="encryption_search_icon_description">Ara</string>
     <string name="encryption_cancel_search_icon_description">Aramayı iptal et</string>
-
     <string name="about_topbar_title">Hakkında</string>
     <string name="about_official_website">Resmi site</string>
     <string name="about_source_code">Kaynak kod</string>
@@ -218,7 +199,6 @@
     <string name="changelog_topbar_title">Değişiklikler</string>
     <string name="libraries_topbar_title">Kütüphaneler</string>
     <string name="libraries_open_library_icon_description">Resmi site kütüphanesini aç</string>
-
     <string name="report_topbar_title">Yardım ve geri bildirim</string>
     <string name="report_help_section">Yardım</string>
     <string name="report_help_open_gh_issue">Bir GitHub sorunu aç</string>
@@ -228,15 +208,12 @@
     <string name="report_feedback_open_gh_issue">Bir GitHub sorunu aç</string>
     <string name="report_feedback_email">Geri bildirimi e-posta ile gönder</string>
     <string name="report_description">Bu uygulamanın geliştirilmesi kar amacı gütmemektedir. Bize birkaç şekilde destek olabilirsiniz. İnceleme bırakarak, projeyi paylaşarak, sorunları bildirerek, geliştirme ve çeviri konusunda yardımcı olarak.</string>
-
     <string name="legacy_migration_topbar_title">Cryptool 3.0\'a Hoş Geldiniz</string>
     <string name="legacy_migration_description">Bu, birçok iyileştirme içeren büyük bir sürümdür: güvenlik düzeltmeleri, modern kullanıcı arayüzü, entegrasyonlar ve daha fazla özellik.</string>
     <string name="legacy_migration_section">Geçiş</string>
     <string name="legacy_migration_migration_details">Verilerinizi yeni sürüme aktarmanız gerekiyor. Endişelenmeyin, bu yıkıcı bir geçiş değil, verilerinizi silmiyorsunuz, bu nedenle bir sorun olursa düşürebilir ve bildirimi yapabilirsiniz.\n\nÖte yandan, içe aktarma işlevi herhangi bir sürümden dosyaları destekler.\n\nGeçişi tamamlamak için yeni bir erişim kodu belirlemeniz gerekecek.</string>
     <string name="legacy_migration_action">Geçişe Başla</string>
-
     <string name="cb_copy_success_snackbar">Başarıyla panoya kopyalandı</string>
     <string name="cb_copy_empty_snackbar">Kopyalanacak metin yok</string>
     <string name="cb_clear_success_snackbar">Pano başarıyla temizlendi</string>
-
 </resources>
