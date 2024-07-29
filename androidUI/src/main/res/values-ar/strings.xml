@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
+    <string name="app_slogan">التشفير للبشر</string>
+    <string name="dialog_create">إنشاء</string>
+    <string name="dialog_edit">تحرير</string>
+    <string name="dialog_cancel">إلغاء</string>
+    <string name="snackbar_retry">أعد المحاولة</string>
+    <string name="select_all">تحديد الكل</string>
+    <string name="unselect_all">إلغاء تحديد الكل</string>
+    <string name="more_options_icon_description">خيارات إضافية</string>
+    <string name="shortcut_title">طبقات التشفير</string>
+    <string name="shortcut_description">فتح التشفير للبشر في وضع التشغيل</string>
+    <string name="unexpected_error">خطأ غير متوقع، يرجى الإبلاغ عن المشكلة إذا كان هناك خطأ</string>
+    <string name="service_permission_error">لا يمكن أن يبدء وضع التشغيل لأنه ليس لديه إذن</string>
+    <string name="service_unexpected_error">حدث خطأ عند فتح وضع الطبقة، يرجى الإبلاغ عن الخطأ</string>
+    <string name="input_minimum_length">الحد الأدنى للطول هو%s</string>
+    <string name="version_20_description">• لغات جديدة مدعومة.
+                                       \n• ميزة البحث في المحادثة.
+                                       \n• إصلاح إرسال مشكلة الرسائل القصيرة الطويلة.
+                                       \n• إصلاح مشاكل الاستقرار.</string>
+    <string name="version_19_description">• خيار جديد في القائمة الرئيسية لتفعيل/تعطيل الوصول البيومتري.\
+                                       \n• إصلاح الوصول البيومتري. قد تحتاج إلى تفعيله مرة أخرى.</string>
+    <string name="version_18_description">• دعم التطبيقات الأخرى التي تشارك البيانات مع Cryptool.
+                                       \n• تنفيذ ملاحظات المستخدم.
+                                       \n• إصلاح مشاكل الاستقرار.</string>
+    <string name="version_15_description">• مصدر رسالة جديد: شبكة المنطقة المحلية (LAN).\
+                                       \n• إصلاح مشكلات الاستقرار في بعض إصدارات أندرويد.</string>
+    <string name="version_10_description">• واجهة جديدة حديثة للمستعملين.
+                                       \n• خوارزميات التشفير الجديدة مدعومة.
+                                       \n• مصادر جديدة للرسائل: دليل، الرسائل القصيرة، والملف.
+                                       \n• تكوينات تشفير متعددة كمحادثات.
+                                       \n• دعم التعرف على القياسات الحيوية.
+                                       \n• تحسين خاصية التصدير/الاستيراد.</string>
+    <string name="version_4_description">• إصلاح خطأ تنظيف الحافظة.
+                                       \n• دعم لغات جديدة.</string>
+    <string name="version_3_description">• ميزة السمة المظلمة.
+                                       \n• ميزة نسيان الوصول PIN.
+                                       \n• ميزة تغيير رقم التعريف الشخصي.
+                                       \n• ميزة التصدير والاستيراد.</string>
+    <string name="version_2_description">• ميزة متجر المفاتيح.
+                                       \n• ميزة PIN الوصول.
+                                       \n• إصلاحات الشوائب طفيفة.</string>
+    <string name="version_1_description">• مرحبا، العالم!</string>
+    <string name="welcome_main_description">هذه الأداة تهدف إلى مساعدتك في حماية المعلومات التي تهمك أكثر. نحن لا نخفي أي شيء يحدث تحت السطح، بل نعرض الخوارزميات وبيانات الإدخال/الإخراج كما هي.\n\nهذا حل مفتوح المصدر غير ربحي ولا نهتم ببياناتك. على أي حال، نحن لا نطلب منك الثقة، بل نطلب منك <b>حظر</b> الوصول إلى الإنترنت، <b>مراجعة</b> الكود، أو حتى <b>بناء</b> التطبيق بنفسك.\n\nإذا وجدت أي مشكلة، أو كان لديك أي اقتراح، أو ترغب في التعاون، فلا تتردد في الاتصال بنا. سنكون ممتنين للغاية 🙂</string>
+    <string name="welcome_changelog_title">ما هو الجديد</string>
+    <string name="welcome_tutorial_title">دليل تعليمي</string>
+    <string name="welcome_tutorial_message_1">مرحبا بك في محادثتك المشفرة الأولى</string>
+    <string name="welcome_tutorial_message_2">كل ما تكتبه هنا مشفرة مع تكوين التشفير</string>
+    <string name="welcome_tutorial_message_3">جميع بيانات التطبيق مشفرة ومحمية مع رمز الوصول الخاص بك</string>
+    <string name="welcome_tutorial_message_4">على الرغم من ذلك، نوصي بتوخي الحذر بشكل خاص مع الحافظة وإيقاف التطبيق عندما لا تستخدمه</string>
+    <string name="gatekeeper_open_action">فتح</string>
+    <string name="gatekeeper_open_biometrics_icon_description">استخدام القياسات الحيوية للفتح</string>
+    <string name="gatekeeper_hide_icon_description">إخفاء الرمز</string>
+    <string name="gatekeeper_show_icon_description">إظهار التعليمات البرمجية</string>
+    <string name="gatekeeper_set_code_label">تعيين رمز للتحكم في الوصول إلى التطبيق</string>
+    <string name="gatekeeper_enable_biometrics">استخدام القياسات الحيوية للفتح:</string>
+    <string name="gatekeeper_set_code_action">تَعيين</string>
+    <string name="gatekeeper_do_not_remember">أنا لا أتذكر</string>
+    <string name="gatekeeper_delete_code_dialog_title">أعد التعيين</string>
+    <string name="gatekeeper_delete_code_dialog_description">أنت على وشك حذف جميع البيانات المخزنة والبدء مرة أخرى من البداية. هل تريد المتابعة؟</string>
+    <string name="gatekeeper_delete_code_dialog_action">حذف</string>
+    <string name="gatekeeper_access_invalid_error">تم رفض الوصول</string>
+    <string name="gatekeeper_access_biometric_too_many_attempts_error">لقد حاولت الوصول إلى العديد من المرات دون نجاح، والآن عليك الانتظار لاستخدام الوصول الحيوي مرة أخرى</string>
+    <string name="change_biometric_topbar_title">تغيير الوصول إلى القياسات الحيوية</string>
+    <string name="change_access_topbar_title">تغيير رمز الوصول</string>
+    <string name="change_access_description">نحن بحاجة إلى إعادة تشفير جميع بياناتك لتغيير رمز الوصول، ونوصي بأن يكون لديك نسخة احتياطية يتم تصديرها مسبقا. قد تستغرق هذه العملية بعض الثواني، يرجى عدم إغلاق الشاشة خلال ذلك الوقت.\n\nإذا كنت تستخدم الوصول إلى القياسات الحيوية، قد يطلب منك استخدامه.\n</string>
+    <string name="change_access_old_code_hint">رمز الوصول الحالي</string>
+    <string name="change_access_new_code_hint">رمز الوصول الجديد</string>
+    <string name="change_access_change_action">تغيير</string>
+    <string name="change_access_old_code_error">رمز الوصول الحالي غير صالح</string>
+    <string name="change_access_error">حدث خطأ غير متوقع في تغيير الرمز ، يرجى التحقق من أن كل شيء على ما يرام، وحاول مرة أخرى</string>
+    <string name="password_topbar_title">كلمة المرور</string>
+    <string name="password_empty_label">ليس لديك كلمات مرور</string>
+    <string name="password_new_title">كلمة المرور الجديدة</string>
+    <string name="password_edit_title">تحرير كلمة المرور</string>
+    <string name="password_hide_icon_description">إخفاء كلمة المرور</string>
+    <string name="password_show_icon_description">عرض كلمة المرور</string>
+    <string name="password_random_icon_description">توليد كلمة مرور عشوائية</string>
+    <string name="password_name_hint">الاسم</string>
+    <string name="password_password_hint">كلمة المرور</string>
+    <string name="password_tags_hint">الكلمات الدلالية (مفصولة بفواصل)</string>
+    <string name="password_copy_icon_description">نسخ كلمة المرور</string>
+    <string name="password_delete_icon_description">حذف كلمة المرور</string>
+    <string name="password_delete_dialog_title">حذف كلمة المرور</string>
+    <string name="password_delete_dialog_description">أنت على وشك حذف رسائل متعددة. هل تريد الاستمرار؟</string>
+    <string name="password_delete_dialog_action">حذف</string>
+    <string name="password_bottombar_create_icon_description">إنشاء كلمة مرور جديدة</string>
+    <string name="main_empty_label">ليس لديك محادثات مشفرة</string>
+    <string name="main_encryption_favorite_icon_description">هذه المحادثة المشفرة مفضلة</string>
+    <string name="main_set_favorites_icon_description">تعيين المحادثات كمفضلة</string>
+    <string name="main_unset_favorites_icon_description">تعيين المحادثات كغير مفضلة</string>
+    <string name="main_delete_icon_description">حذف المحادثة</string>
+    <string name="main_bottombar_finish_app_icon_description">أغلق التطبيق</string>
+    <string name="main_bottombar_open_overlay_icon_description">فتح وضع الطبقة الخلفية</string>
+    <string name="main_bottombar_open_passwords_icon_description">الذهاب إلى كلمات المرور</string>
+    <string name="main_bottombar_clear_clipboard_icon_description">مسح الحافظة</string>
+    <string name="main_bottombar_create_icon_description">إنشاء محادثة مشفرة جديدة</string>
+    <string name="main_bottombar_open_full_icon_description">~فتح في وضع ملء الشاشة</string>
+    <string name="main_open_overlay_permission_error">إذا كنت تريد استخدام وضع الظهور على الشاشة، عليك منح إذن \"العرض فوق التطبيقات الأخرى\".</string>
+    <string name="main_open_overlay_permission_action">الإعدادات</string>
+    <string name="main_notify_new_github_version">هناك إصدار جديد من Cryptool متاح على GitHub</string>
+    <string name="main_notify_new_github_version_download">تحميل</string>
+    <string name="main_notify_certificate_unknown">تحذير! لم يكن من الممكن التحقق من شهادة توقيع التطبيق</string>
+    <string name="main_notify_certificate_invalid_title">شهادة التطبيق غير صالحة!</string>
+    <string name="main_notify_certificate_invalid_message">شهادة توقيع التطبيق لا تتطابق مع ما هو متوقع، قد يكون هذا مخالفة أمنية كبيرة. الرجاء تحميل التطبيق مرة أخرى لمزيد من الأمان.</string>
+    <string name="algorithms_topbar_title">خوارزميات التشفير</string>
+    <string name="algorithms_see_source_code_action">عرض كود المصدر</string>
+    <string name="algorithms_introduction">تعرف على المزيد حول كيفية عمل خوارزميات التشفير. يستخدم Cryptool خوارزميات التشفير الشائعة، لذلك سنقوم بالرجوع إلى الوثائق الرسمية لكل منها. نريد زيادة عدد الخوارزميات المتاحة حتى تتمكن من استخدام ما تريد.</string>
+    <string name="algorithms_v1_description">• مواصفات معيار التشفير المتقدم (AES).\n• وضع سلسلة الكتل العلوية (CBC)\n• وظيفة مفتاح كلمة المرور 2 (PBKDF2).\n• مخططات ترميز base64 ثنائية النص.\n\n⚠️هذا التكوين التشفيري يوفر أمان منخفض لأن رمز اشتقاق كلمة المرور لديه بعض المشاكل.\n\nمن الصعب (ليس من المستحيل) استخدام هذا التكوين في أدوات أخرى بسبب تكوين اشتقاق كلمة المرور وحساب الملح.</string>
+    <string name="algorithms_v2_description">• مواصفات معيار التشفير المتقدم (AES) 256.\n• وضع Galois/Counter Mode (GCM).\n• وظيفة Argon2 Key Dervation Function.\n• مخططات ترميز base64 الثنائية النص.\n\nيمكنك استخدام هذا التكوين في أدوات أخرى بسهولة كبيرة، لهذا تحتاج فقط إلى معرفة كيفية تحديد كل جزء من النص:</string>
+    <string name="main_export_dialog_title">تصدير البيانات</string>
+    <string name="main_export_dialog_action">تصدير</string>
+    <string name="main_import_dialog_title">استيراد البيانات</string>
+    <string name="main_import_dialog_action">إستيراد</string>
+    <string name="main_import_dialog_encryptions">تعريفات المحادثة</string>
+    <string name="main_import_dialog_messages">الرسائل النصية SMS</string>
+    <string name="main_import_dialog_passwords">كلمة المرور</string>
+    <string name="main_import_dialog_code_hint">رمز الحماية</string>
+    <string name="main_import_dialog_code_caption">اتركه فارغاً لاستخدام رمز الوصول الخاص بك</string>
+    <string name="main_import_dialog_hide_code_icon_description">إخفاء الرمز</string>
+    <string name="main_import_dialog_show_code_icon_description">إظهار التعليمات البرمجية</string>
+    <string name="export_in_progress_snackbar">جارٍ التصدير…</string>
+    <string name="export_success_snackbar">انتهت عملية التصدير بنجاح</string>
+    <string name="export_error_snackbar">لقد فشلت عملية التصدير، حاول مرة أخرى، وإذا فشلت مرة أخرى، أبلغ عن الخطأ</string>
+    <string name="import_in_progress_snackbar">جارٍ استيراد…</string>
+    <string name="import_success_empty_snackbar">لا يوجد شيء يمكن استيراده</string>
+    <string name="import_error_snackbar">فشلت عملية الاستيراد، تأكد من أن الملف والكود صحيح، حاول مرة أخرى، وإذا فشلت مرة أخرى، أبلغ عن الخطأ</string>
+    <string name="import_success_snackbar" tools:ignore="PluralsCandidate">انتهى الاستيراد بنجاح: تعاريف المحادثة %1$d و %2$d رسائل و %3$d كلمات مرور</string>
+    <string name="encryption_new_title">إنشاء محادثة مشفرة جديدة</string>
+    <string name="encryption_edit_title">تحرير المحادثة المشفرة</string>
+    <string name="encryption_name_hint">الاسم</string>
+    <string name="encryption_password_hint">كلمة المرور</string>
+    <string name="encryption_hide_password_icon_description">إخفاء كلمة المرور</string>
+    <string name="encryption_show_password_icon_description">إظهار كلمة المرور</string>
+    <string name="encryption_algorithm_label">الخوارزمية:</string>
+    <string name="encryption_change_source_icon_description">تغيير مصدر الرسالة</string>
+    <string name="encryption_hide_messages_icon_description">إخفاء الرسائل</string>
+    <string name="encryption_show_messages_icon_description">عرض الرسائل</string>
+    <string name="encryption_show_favorites_only_icon_description">إظهار الرسائل المفضلة فقط</string>
+    <string name="encryption_show_all_icon_description">إظهار كل الرسائل</string>
+    <string name="encryption_set_favorites_icon_description">تعيين المحادثات كمفضلة</string>
+    <string name="encryption_unset_favorites_icon_description">تعيين الرسائل كغير مفضلة</string>
+    <string name="encryption_delete_messages_icon_description">حذف الرسائل</string>
+    <string name="encryption_message_favorite_icon_description">هذه الرسالة مفضلة</string>
+    <string name="encryption_receive_message_error">لا يمكن تلقي الرسالة، تحقق من كلمة المرور، الخوارزمية…</string>
+    <string name="encryption_exclusive_source_error">المصدر المكون يتعارض مع تشفير آخر، وهذا المصدر لا يسمح بذلك.</string>
+    <string name="encryption_send_message_file_error">لم يكن من الممكن إرسال الرسالة بواسطة المِلَفّ المُعد.</string>
+    <string name="encryption_send_message_lan_error">لم يكن من الممكن إرسال الرسالة عبر شبكة المنطقة المحلية (LAN).</string>
+    <string name="encryption_receive_message_lan_error">تم استلام رسالة من \'%1$s\' ولكن لا يمكن معالجتها، تحقق من كلمة المرور، أو الخوارزمية…</string>
+    <string name="encryption_send_message_hint">رسالتك</string>
+    <string name="encryption_send_message_icon_description">إرسال</string>
+    <string name="encryption_receive_message_hint">%1$s رسالة</string>
+    <string name="encryption_receive_message_icon_description">إستلام</string>
+    <string name="encryption_message_copy_encrypted">نسخ الرسالة المشفرة</string>
+    <string name="encryption_message_copy_plain">نسخ الرسالة</string>
+    <string name="encryption_message_copy_icon_description">نسخ</string>
+    <string name="encryption_source_manual_title">دليل المستخدم</string>
+    <string name="encryption_source_manual_description">تولى إدخال وإخراج الاتصال بنفسك.</string>
+    <string name="encryption_source_lan_title">الشبكة المحلية</string>
+    <string name="encryption_source_lan_description">الاتصال داخل شبكة المنطقة المحلية المتصلة. يتم نسيانها عند إيقاف التطبيق.</string>
+    <string name="encryption_source_file_title">ملفّ</string>
+    <string name="encryption_source_file_description">استخدام ملفين للتواصل. يمكنك المزامنة التلقائية ومشاركة الملفات للتواصل في الوقت الفعلي.</string>
+    <string name="encryption_source_sms_not_available">لا يمكن تقديم هذه الميزة بسبب قيود Google Play. حدد هذا الخيار لمعرفة المزيد.</string>
+    <string name="encryption_source_sms_title">الرسائل النصية القصيرة - SMS</string>
+    <string name="encryption_source_sms_description">استخدم موفر الرسائل القصيرة SMS الخاص بك. يمكن أن يكون لهذا الخيار تكلفة تبعاً للعقد مع موفر الخدمة الخاص بك.</string>
+    <string name="encryption_sms_sent_snackbar">لقد تم إرسال الرسالة</string>
+    <string name="encryption_sms_delivered_snackbar">تم تسليم رسالة نصية قصيرة</string>
+    <string name="encryption_source_lan_dialog_title">مصدر الشبكة المحلية</string>
+    <string name="encryption_source_lan_dialog_you_section">العنوان الخاص بك</string>
+    <string name="encryption_source_lan_dialog_you_port">%1$d (منفذ)</string>
+    <string name="encryption_source_lan_dialog_you_slot">%1$d (منفذ)</string>
+    <string name="encryption_source_lan_dialog_other_section">عنوان الوجهة</string>
+    <string name="encryption_source_lan_dialog_other_address">العنوان</string>
+    <string name="encryption_source_lan_dialog_other_port">منفذ Port</string>
+    <string name="encryption_source_lan_dialog_other_slot">‮فتحة</string>
+    <string name="encryption_source_lan_dialog_qr_mode">رمز الاستجابة السريعة \"QR Code\"</string>
+    <string name="encryption_source_lan_dialog_manual_mode">الوضع اليدوي</string>
+    <string name="encryption_source_lan_dialog_qr_scan">مسح رمز الاستجابة السريعة ضوئيًا</string>
+    <string name="encryption_source_lan_dialog_qr_scan_error">لم يتم العثور على رمز QR يحتوي على تكوين صالح في الصورة</string>
+    <string name="encryption_source_sms_dialog_title">مصدر الرسائل القصيرة (SMS)</string>
+    <string name="encryption_source_sms_dialog_phone">رقم الهاتف</string>
+    <string name="encryption_source_sms_dialog_set">تَعيين</string>
+    <string name="encryption_permission_sms_dialog_title">إذن الرسائل القصيرة</string>
+    <string name="encryption_permission_sms_dialog_content">نحن بحاجة إلى إذن SMS لتشغيل القناة مع مصدر رسالة SMS. يمكنك منح الإذن مع خيار \"أثناء استخدام التطبيق\". إذا كنت لا ترغب في منح هذا الإذن، فسيكون عليك استخدام مصدر رسالة آخر.</string>
+    <string name="encryption_permission_sms_dialog_settings">الإعدادات</string>
+    <string name="encryption_source_file_dialog_title">مصدر الملف</string>
+    <string name="encryption_source_file_dialog_input">مِلَفّ يحتوي على رسائل البريد الوارد (من آخر)</string>
+    <string name="encryption_source_file_dialog_output">مِلَفّ يحتوي على الرسائل المرسلة (منك)</string>
+    <string name="encryption_source_file_dialog_set">تَعيين</string>
+    <string name="encryption_search_hint">بحث…</string>
+    <string name="encryption_search_icon_description">بحث</string>
+    <string name="encryption_cancel_search_icon_description">إلغاء البحث</string>
+    <string name="about_topbar_title">عن البرنامج</string>
+    <string name="about_official_website">اذهب إلى الموقع الرسمي</string>
+    <string name="about_source_code">الشفرة المصدرية</string>
+    <string name="about_libraries">المكتبات</string>
+    <string name="about_license">ترخيص Copyleft</string>
+    <string name="about_certificate_unknown">تحذير! شهادة التوقيع غير معروفة</string>
+    <string name="changelog_topbar_title">سِجل التغييرات</string>
+    <string name="libraries_topbar_title">المكتبات</string>
+    <string name="libraries_open_library_icon_description">فتح المكتبة الرسمية</string>
+    <string name="report_topbar_title">المساعدة والملاحظات</string>
+    <string name="report_help_section">الدعم</string>
+    <string name="report_help_open_gh_issue">فتح مشكلة في GitHub</string>
+    <string name="report_help_email">إرسال المشكلة إلى البريد الإلكتروني</string>
+    <string name="report_feedback_section">التقييم والملاحظات</string>
+    <string name="report_feedback_google_play">اكتب مراجعة Google Play</string>
+    <string name="report_feedback_open_gh_issue">فتح مشكلة في GitHub</string>
+    <string name="report_feedback_email">إرسال رد الفعل بالبريد</string>
+    <string name="report_description">تطوير هذا التطبيق ليس ربحياً. يمكنك دعمنا بعدة طرق. التوقف عن إجراء استعراض، وتقاسم المشروع، ومسائل الإبلاغ، والمساعدة في التطوير والترجمة.</string>
+    <string name="legacy_migration_topbar_title">مرحبا بكم في Cryptool 3.0</string>
+    <string name="legacy_migration_description">وهذا الإصدار كبير مع إدخال تحسينات عديدة عليه: إصلاحات أمنية، وواجهة حديثة للمستعملين، وعمليات التكامل، والمزيد من المميزات.</string>
+    <string name="legacy_migration_section">الترحيل</string>
+    <string name="legacy_migration_migration_details">يجب عليك ترحيل بياناتك إلى الإصدار الجديد. لا تقلق أن هذا ليس ترحيلًا مدمرًا، أنت لا تقوم بحذف بياناتك، حتى تتمكن من خفض التصنيف والإبلاغ عن أي مشكلة إذا حدث خطأ ما.\n\nمن جهة أخرى، وظيفة الاستيراد تدعم الملفات من أي إصدار.\n\nعليك تعيين رمز وصول جديد لإنهاء الترحيل.</string>
+    <string name="legacy_migration_action">بدء الترحيل</string>
+    <string name="cb_copy_success_snackbar">تم النسخ إلى الحافظة بنجاح</string>
+    <string name="cb_copy_empty_snackbar">ليس هناك نص لنسخه</string>
+    <string name="cb_clear_success_snackbar">تم مسح الحافظة بنجاح</string>
+</resources>
