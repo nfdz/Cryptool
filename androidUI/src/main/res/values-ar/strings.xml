@@ -13,7 +13,7 @@
     <string name="unexpected_error">خطأ غير متوقع، يرجى الإبلاغ عن المشكلة إذا كان هناك خطأ</string>
     <string name="service_permission_error">لا يمكن أن يبدء وضع التشغيل لأنه ليس لديه إذن</string>
     <string name="service_unexpected_error">حدث خطأ عند فتح وضع الطبقة، يرجى الإبلاغ عن الخطأ</string>
-    <string name="input_minimum_length">الحد الأدنى للطول هو%s</string>
+    <string name="input_minimum_length">الحد الأدنى للطول هو %1$d</string>
     <string name="version_20_description">• لغات جديدة مدعومة.
                                        \n• ميزة البحث في المحادثة.
                                        \n• إصلاح إرسال مشكلة الرسائل القصيرة الطويلة.
