@@ -2,9 +2,14 @@ package io.github.nfdz.cryptool.ui.common
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.*
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import io.github.nfdz.cryptool.ui.Router
 import io.github.nfdz.cryptool.ui.topAppBar
@@ -19,7 +24,7 @@ fun TopAppBarCommon(
         navigationIcon = {
             if (router != null) {
                 IconButton(onClick = { router.popBackStack() }) {
-                    Icon(Icons.Filled.ArrowBack, "Go back")
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(android.R.string.cancel))
                 }
             }
         },

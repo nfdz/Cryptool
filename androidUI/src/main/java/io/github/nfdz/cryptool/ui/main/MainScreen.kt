@@ -1,15 +1,29 @@
 package io.github.nfdz.cryptool.ui.main
 
 import androidx.activity.compose.BackHandler
-import androidx.biometric.BiometricManager
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.rounded.DeleteForever
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -18,11 +32,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import io.github.nfdz.cryptool.shared.encryption.entity.AlgorithmVersion
 import io.github.nfdz.cryptool.shared.encryption.entity.Encryption
 import io.github.nfdz.cryptool.shared.encryption.entity.MessageSource
-import io.github.nfdz.cryptool.shared.encryption.viewModel.*
+import io.github.nfdz.cryptool.shared.encryption.viewModel.EmptyEncryptionViewModel
+import io.github.nfdz.cryptool.shared.encryption.viewModel.EncryptionAction
+import io.github.nfdz.cryptool.shared.encryption.viewModel.EncryptionEffect
+import io.github.nfdz.cryptool.shared.encryption.viewModel.EncryptionState
+import io.github.nfdz.cryptool.shared.encryption.viewModel.EncryptionViewModel
 import io.github.nfdz.cryptool.shared.message.viewModel.MessageAction
 import io.github.nfdz.cryptool.shared.message.viewModel.MessageViewModel
-import io.github.nfdz.cryptool.ui.*
+import io.github.nfdz.cryptool.ui.AppMessagesEffect
+import io.github.nfdz.cryptool.ui.AppTheme
+import io.github.nfdz.cryptool.ui.EmptyRouter
 import io.github.nfdz.cryptool.ui.R
+import io.github.nfdz.cryptool.ui.Router
 import io.github.nfdz.cryptool.ui.common.TopAppBarCommon
 import io.github.nfdz.cryptool.ui.encryption.CreateEncryptionDialog
 import io.github.nfdz.cryptool.ui.extension.supportBiometrics
@@ -30,6 +51,8 @@ import io.github.nfdz.cryptool.ui.platform.ApplicationManager
 import io.github.nfdz.cryptool.ui.platform.ClipboardAndroid
 import io.github.nfdz.cryptool.ui.platform.EmptyApplicationManager
 import io.github.nfdz.cryptool.ui.platform.EmptyClipboardAndroid
+import io.github.nfdz.cryptool.ui.supportAdvancedFeatures
+import io.github.nfdz.cryptool.ui.topAppBar
 import org.koin.core.context.GlobalContext
 
 @Composable
@@ -277,7 +300,7 @@ private fun SelectModeTopBar(viewModel: EncryptionViewModel, router: Router, sta
         },
         navigationIcon = {
             IconButton(onClick = { viewModel.dispatch(EncryptionAction.UnselectAll) }) {
-                Icon(Icons.Filled.ArrowBack, stringResource(R.string.unselect_all))
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.unselect_all))
             }
         },
         actions = { SelectModeActions(viewModel, router, state) },
@@ -319,7 +342,7 @@ private fun MainActions(router: Router, onExportClick: () -> Unit, onImportClick
                 showMenu = false
             },
         )
-        if(canAuthenticateWithBiometrics) {
+        if (canAuthenticateWithBiometrics) {
             DropdownMenuItem(
                 text = { Text(stringResource(R.string.change_biometric_topbar_title)) },
                 onClick = {
