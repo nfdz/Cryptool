@@ -41,6 +41,10 @@ android {
             isMinifyEnabled = true
             signingConfig = signingConfigs.getByName(if (signingEnabled) "release" else "debug")
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+
+            ndk {
+                debugSymbolLevel = "SYMBOL_TABLE" // FULL
+            }
         }
         forEach {
             it.buildConfigField("Boolean", "CHECK_NEW_VERSION_GITHUB", appCheckNewVersionOnGithub)
