@@ -129,18 +129,18 @@ class VersionProviderAndroid(
         if (signingInfo == null) {
             throw IllegalStateException("No PackageInfo.signingInfo")
         }
-        return if (signingInfo.hasMultipleSigners()) {
-            signatureDigest(signingInfo.apkContentsSigners);
+        return if (signingInfo!!.hasMultipleSigners()) {
+            signatureDigest(signingInfo!!.apkContentsSigners)
         } else {
-            signatureDigest(signingInfo.signingCertificateHistory);
+            signatureDigest(signingInfo!!.signingCertificateHistory)
         }
     }
 
     private fun PackageInfo.getCertificateOld(): List<String> {
-        if (signatures == null || signatures.size == 0 || signatures[0] == null) {
+        if (signatures == null || signatures!!.size == 0 || signatures!![0] == null) {
             throw IllegalStateException("No PackageInfo.signatures")
         }
-        return signatureDigest(signatures)
+        return signatureDigest(signatures!!)
     }
 
     private fun signatureDigest(sig: Signature): String {
