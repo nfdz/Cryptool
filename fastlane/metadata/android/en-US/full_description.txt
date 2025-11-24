@@ -1,0 +1,1 @@
+<p>Cryptography tool application. It makes easy the encryption of text in any place and situation. It has a very useful floating tool mode. It is only about 2 MB. He does not ask for permission or do anything weird.</p>
